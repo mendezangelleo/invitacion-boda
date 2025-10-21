@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nuestra Boda - Anyela & Angel</title>
+    
+    <link rel="icon" href="img/Logo definitivo.png" type="image/png">
+    <link rel="apple-touch-icon" href="img/Logo definitivo.png"> 
+    <link rel="manifest" href="manifest.webmanifest">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@300;700&family=Orbitron:wght@700&family=Playfair+Display:wght@700&family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nuestra Boda - Anyela & Angel</title> <meta property="og:title" content="Nuestra Boda - Anyela & Angel" /> 
+
+    <meta property="og:description" content="¡Estás invitado/a a celebrar nuestro gran día! Confirma tu asistencia y encuentra todos los detalles aquí." /> 
+
+    <meta property="og:image" content="https://TUNOMBREDOMINIO.netlify.app/img/imagen_preview.jpg" /> 
+    <meta property="og:url" content="https://TUNOMBREDOMINIO.netlify.app/" /> 
+    <meta property="og:type" content="website" /> 
+
+    <meta name="twitter:card" content="summary_large_image"> 
+    <meta name="twitter:title" content="Nuestra Boda - Anyela & Angel">
+    <meta name="twitter:description" content="¡Estás invitado/a a celebrar nuestro gran día!">
+    <meta name="twitter:image" content="https://TUNOMBREDOMINIO.netlify.app/img/imagen_preview.jpg">
+    <link rel="icon" href="img/Logo definitivo.png" type="image/png">
+
+    <style>
+        /* --- TU PALETA DE COLORES --- */
+        :root {
+            --color-fondo: #fbf8f2;      /* Fondo beige claro */
+            --color-primario: #5a755a;   /* Verde oscuro principal */
+            --color-secundario: rgb(187, 148, 90); /* Acento dorado */
+            --color-texto: #4a4a4a;      /* Texto oscuro */
+            --color-texto-claro: #fbf8f2;/* Texto claro */
+            --color-lazo: rgb(161, 128, 74);       /* Color para el lazo/cuerda */
+        }
+        /* --- FIN DE TUS COLORES --- */
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Merriweather', serif;
+            background-color: var(--color-fondo);
+            color: var(--color-texto);
+            line-height: 1.6;
+            overflow-x: hidden;
+            perspective: 1000px;
+        }
+        
+        body.no-scroll {
+            overflow: hidden;
+        }
+
+        /* 1. SECCIÓN PORTADA (PASAPORTE) */
+        .passport-cover {
+            height: 100vh;
+            background-color: var(--color-primario);
+            background-image: url('https://www.transparenttextures.com/patterns/world-map.png');
+            background-blend-mode: overlay;
+            background-size: contain;
+            color: var(--color-secundario);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between; 
+            align-items: center;
+            text-align: center;
+            padding: 40px 20px; 
+            
+            transition: transform 1.2s ease-in-out 0.5s, opacity 1s ease-out 0.5s, visibility 1s ease-out 0.5s;
+            
+            visibility: visible;
+            opacity: 1;
+            position: fixed;
+            width: 100%;
+            z-index: 100;
+            transform-origin: left center;
+            position: relative; 
+        }
+        
+        .passport-cover.is-open {
+            transform: rotateY(-90deg) scale(0.9);
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        /* Nombres Portada */
+        .passport-cover .passport-names.top {
+            font-family: 'Dancing Script', cursive; 
+            font-size: 2.5rem; 
+            text-transform: none; 
+            letter-spacing: normal; 
+            padding: 5px 15px; 
+            border-bottom: 1px solid var(--color-secundario); 
+            border-top: 1px solid var(--color-secundario); 
+            position: absolute;
+            top: 40px;
+            left: 50%; 
+            transform: translateX(-50%); 
+            z-index: 30;
+            white-space: nowrap; 
+        }
+
+        /* Contenedor central Portada */
+        .passport-central-content {
+            position: relative; 
+            display: flex; 
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            flex-grow: 1; 
+            width: 100%; 
+            height: 100%; 
+        }
+
+        /* --- ANIMACIÓN DE PULSO PARA EL AVIÓN --- */
+        @keyframes pulse {
+            0% { transform: translate(-50%, -50%) scale(1); filter: drop-shadow(2px 4px 5px rgba(0,0,0,0.3)); }
+            50% { transform: translate(-50%, -50%) scale(1.05); filter: drop-shadow(3px 6px 8px rgba(0,0,0,0.4)); }
+            100% { transform: translate(-50%, -50%) scale(1); filter: drop-shadow(2px 4px 5px rgba(0,0,0,0.3)); }
+        }
+
+        /* --- CAPAS CENTRALES PORTADA --- */
+        .compass-background-svg { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 280px; height: 280px; color: var(--color-secundario); opacity: 0.2; z-index: 5; transition: opacity 0.5s ease; }
+        .twine-wrapper { position: absolute; top: 50%; left: 0; width: 100%; transform: translateY(-50%); z-index: 10; transition: opacity 0.5s ease; padding: 0; } /* Sin padding */
+        .twine-line { width: 100%; height: 2px; background-color: var(--color-lazo); box-shadow: 0 1px 1px rgba(0,0,0,0.2); }
+        .twine-line:first-child { margin-bottom: 5px; }
+        
+        .plane-charm-button { 
+            position: absolute; 
+            top: 50%; 
+            left: 50%; 
+            /* transform está en la animación pulse */
+            z-index: 20; 
+            cursor: pointer; 
+            padding: 10px; 
+            animation: pulse 2s infinite ease-in-out; 
+            -webkit-tap-highlight-color: transparent; 
+        }
+        .plane-charm-button:hover { 
+            transform: translate(-50%, -50%) scale(1.1); 
+            animation-play-state: paused; 
+        }
+        .plane-charm-button .plane-svg { width: 100px; height: 100px; filter: drop-shadow(2px 4px 5px rgba(0,0,0,0.3)); transform-origin: center center; display: block; }
+        
+        .passport-text-group { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 18; display: flex; flex-direction: column; align-items: center; justify-content: center; pointer-events: none; width: 100%; height: 100%; }
+        .passport-text-group .passport-word { font-family: 'Playfair Display', serif; font-size: 2.5rem; text-transform: uppercase; line-height: 1; position: relative; text-align: center; }
+        .passport-text-group .passport-word.top { margin-bottom: 60px; } /* Ajustado */
+        .passport-text-group .passport-word.bottom { margin-top: 60px; } /* Ajustado */
+        .passport-text-group .passport-year { font-family: 'Playfair Display', serif; font-size: 1.2rem; color: var(--color-secundario); position: absolute; top: calc(50% + 95px); left: 50%; transform: translateX(-50%); z-index: 19; } /* Ajustado */
+        /* --- FIN CAPAS PORTADA --- */
+
+        /* --- ANIMACIÓN PORTADA --- */
+        @keyframes flyInHeart {
+            0% { transform: translate(-50%, -50%) rotate(0deg) scale(1); opacity: 1; }
+            25% { transform: translate(-110px, -80px) rotate(-45deg) scale(1.2); }
+            50% { transform: translate(-50px, -140px) rotate(-90deg) scale(1.3); }
+            75% { transform: translate(10px, -80px) rotate(-135deg) scale(1.2); }
+            100% { transform: translate(-50%, -50%) rotate(-180deg) scale(0.5); opacity: 0; }
+        }
+        .plane-charm-button.is-flying { 
+            animation: flyInHeart 1.4s forwards ease-in-out; /* Duración ajustada */
+            animation-name: flyInHeart; 
+            animation-duration: 1.4s; 
+            animation-iteration-count: 1; 
+            animation-fill-mode: forwards;
+        }
+        /* --- FIN ANIMACIÓN --- */
+
+        /* Texto 'scroll' Portada */
+        .passport-cover .scroll-down { position: absolute; bottom: 30px; left: 50%; transform: translateX(-50%); font-size: 1.1rem; letter-spacing: 1px; color: var(--color-secundario); text-transform: uppercase; z-index: 30; }
+        .passport-cover .scroll-down i { display: block; font-size: 1.5rem; margin-top: 10px; }
+        
+        /* Contenedor principal invitación */
+        .invitation-content { display: block; position: relative; z-index: 1; opacity: 0; transition: opacity 1s ease-in-out; } /* Transición más larga */
+        .invitation-content.is-visible { opacity: 1; }
+        .container { max-width: 800px; margin: 0 auto; padding: 20px; text-align: center; }
+
+        /* === AJUSTES DE COLOR PARA TÍTULOS === */
+        h2, h3 { color: var(--color-primario); }
+        p { color: var(--color-texto); } 
+        .intro-section h3 { color: var(--color-primario); font-weight: 300; } 
+        .adventure-text h3 { color: var(--color-primario); }
+        .boarding-pass-card h4 { color: var(--color-primario); }
+        .location-card h3 { color: var(--color-primario); }
+        .rsvp-section h2 { color: var(--color-primario); }
+        .rsvp-section p { color: var(--color-primario); } 
+        .itinerary-section h2 { color: var(--color-primario); }
+        .timeline-content h3 { color: var(--color-primario); }
+        .info-section h2 { color: var(--color-primario); }
+        footer h3 { color: var(--color-secundario); }
+        footer h3:last-child { color: var(--color-texto-claro); }
+        /* === FIN AJUSTES DE COLOR === */
+
+        /* 2. SECCIÓN INTRO */
+        .intro-section { padding: 60px 20px; background-color: var(--color-fondo); }
+        .intro-section .logo { width: 280px; height: 280px; margin: 0 auto 40px auto; background-image: url('img/Logo definitivo.png'); background-size: contain; background-position: center; background-repeat: no-repeat; background-color: #ffffff; border-radius: 50%; border: 6px solid var(--color-secundario); box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+        .intro-section h2 { font-family: 'Dancing Script', cursive; font-size: 3.5rem; margin-bottom: 15px; color: var(--color-primario); font-weight: 700; }
+        .intro-section p { font-size: 1.2rem; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 20px; }
+        
+        /* Cuenta regresiva (CORREGIDO: Estilo borde verde, fondo blanco, texto oscuro) */
+         #countdown {
+             display: flex;
+             justify-content: center;
+             gap: 15px; 
+             font-family: 'Orbitron', sans-serif; 
+             margin-top: 30px; 
+         }
+         #countdown div {
+             background-color: #ffffff; /* Fondo blanco */
+             border: 3px solid var(--color-primario); /* Borde verde */
+             color: var(--color-texto); /* Texto oscuro general */
+             padding: 15px 20px;
+             border-radius: 5px; 
+             text-align: center;
+             min-width: 80px; 
+             box-shadow: 0 2px 5px rgba(0,0,0,0.1); /* Sombra exterior */
+         }
+         #countdown span[id] { 
+             display: block;
+             font-size: 3rem; 
+             line-height: 1.1;
+             letter-spacing: normal; /* Espaciado normal */
+             margin-bottom: 5px; 
+             color: var(--color-texto); /* Asegura color oscuro */
+         }
+         #countdown span:not([id]) { 
+             display: block;
+             font-family: 'Merriweather', serif; 
+             font-size: 0.8rem;
+             text-transform: uppercase;
+             color: var(--color-texto); /* Color oscuro */
+             opacity: 0.7; /* Más tenues */
+         }
+
+        /* --- RESTO DEL CSS --- */
+         .adventure-text { padding: 60px 20px; background-color: rgba(44, 58, 44, 0.05); border-top: 1px solid rgba(44, 58, 44, 0.1); border-bottom: 1px solid rgba(44, 58, 44, 0.1); }
+         .adventure-text p { font-size: 1.2rem; font-weight: 300; }
+         .btn { display: inline-flex; align-items: center; justify-content: center; background-color: var(--color-primario); color: var(--color-texto-claro); padding: 12px 30px; text-decoration: none; border-radius: 5px; font-size: 1.1rem; font-weight: 700; margin-top: 20px; border: 1px solid var(--color-primario); transition: transform 0.2s ease, background-color 0.3s ease, color 0.3s ease; -webkit-tap-highlight-color: transparent;-webkit-tap-highlight-color: transparent; } /* Añadido tap highlight */
+         .btn:hover { transform: scale(1.05); background-color: var(--color-secundario); color: var(--color-primario); border-color: var(--color-secundario); }
+         .btn i { margin-right: 10px; }
+         /* NUEVO: Estado active para botones */
+         .btn:active {
+             transform: scale(0.98); /* Ligeramente más pequeño al presionar */
+             opacity: 0.9; /* Un poco más tenue mientras se presiona */
+         }
+         /* NUEVO: Anular estilos de hover cuando el botón tiene foco pero NO está siendo sobrevolado */
+         .btn:focus:not(:hover) {
+             background-color: var(--color-primario); /* Volver al fondo verde */
+             color: var(--color-texto-claro);    /* Volver al texto claro */
+             border-color: var(--color-primario);  /* Volver al borde verde */
+             transform: none; /* Quitar cualquier transformación de hover/active */
+             /* Opcional: Quitar el contorno de foco predeterminado del navegador si molesta */
+             /* outline: none; */ 
+             /* box-shadow: none; */ /* O quitar alguna sombra específica de foco */
+         }
+
+         .btn i { 
+             margin-right: 10px; 
+         }
+         
+         .boarding-pass { padding: 40px 20px; }
+         .boarding-pass-card { background: #ffffff; border: 1px solid rgba(44, 58, 44, 0.1); border-radius: 15px; max-width: 600px; margin: 20px auto; display: flex; box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
+         .bp-left { flex: 2; padding: 30px; text-align: left; border-right: 2px dashed rgba(90, 117, 90, 0.3); } /* Usando rgba con verde primario */
+         .bp-left p { font-size: 0.9rem; color: var(--color-texto); opacity: 0.8; margin-bottom: 15px; }
+         .bp-left .passenger { font-size: 1.2rem; font-weight: 700; color: var(--color-primario); opacity: 1; } /* Pasajero en verde */
+         .bp-left .flight-details { display: flex; justify-content: space-between; margin-top: 20px; gap: 20px; } /* Añadido gap */
+         .bp-left .flight-details div { line-height: 1.2; }
+         .bp-right { flex: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 20px; }
+         .bp-right .photo { background-image: url('img/20250810_150700.jpg'); width: 120px; height: 120px; border-radius: 10px; background-size: cover; background-position: center; border: 3px solid var(--color-secundario); margin-bottom: 10px; }
+         .bp-right h4 { margin-bottom: 5px; color: var(--color-primario);} 
+         .bp-right p { font-size: 1rem; font-weight: 700; color: var(--color-texto); }
+         .locations { padding: 40px 20px; display: flex; flex-wrap: wrap; justify-content: center; gap: 30px; }
+         .location-card { background: #ffffff; box-shadow: 0 5px 15px rgba(0,0,0,0.05); border-radius: 10px; overflow: hidden; width: 300px; border: 1px solid rgba(44, 58, 44, 0.1); }
+         .location-card img { width: 100%; height: 200px; object-fit: cover; }
+         .location-card .info { padding: 25px; }
+         .location-card p { font-size: 1rem; margin: 10px 0; }
+         .location-card .btn { margin-top: 10px; }
+         .rsvp-section { padding: 60px 20px; background-color: var(--color-secundario); color: var(--color-primario); }
+         .rsvp-section .btn { background-color: var(--color-primario); color: var(--color-texto-claro); border-color: var(--color-primario); }
+         .rsvp-section .btn:hover { background-color: var(--color-fondo); color: var(--color-primario); border-color: var(--color-primario); }
+         .itinerary-section { padding: 60px 20px; text-align: center; }
+         .timeline { position: relative; max-width: 600px; margin: 0 auto; opacity: 0.7; }
+         .timeline::after { content: ''; position: absolute; width: 3px; background-color: var(--color-secundario); top: 0; bottom: 0; left: 50%; margin-left: -1.5px; }
+         .timeline-item { padding: 10px 40px; position: relative; width: 50%; }
+         .timeline-item:nth-child(odd) { left: 0; text-align: right; }
+         .timeline-item:nth-child(even) { left: 50%; text-align: left; }
+         .timeline-item::after { content: '\f073'; font-family: "Font Awesome 6 Free"; font-weight: 900; position: absolute; width: 30px; height: 30px; line-height: 30px; text-align: center; right: -15px; top: 15px; background-color: var(--color-fondo); border: 4px solid var(--color-secundario); color: var(--color-primario); border-radius: 50%; z-index: 1; }
+         .timeline-item:nth-child(even)::after { left: -15px; }
+         .timeline-content { padding: 20px; background-color: rgba(44, 58, 44, 0.05); border-radius: 6px; }
+         .timeline-content p { font-size: 0.9rem; margin: 0; color: var(--color-texto); } 
+         .itinerary-section .notice { margin-top: 30px; font-size: 1.1rem; font-style: italic; color: var(--color-texto); } 
+         .info-section { padding: 60px 20px; background-color: rgba(44, 58, 44, 0.05); border-top: 1px solid rgba(44, 58, 44, 0.1); }
+         .info-section p { font-size: 1.1rem; max-width: 600px; margin: 0 auto 20px auto; line-height: 1.7; color: var(--color-texto); } 
+         .info-section p strong { color: var(--color-primario); } 
+         footer { padding: 40px 20px; background: var(--color-primario); color: var(--color-texto-claro); text-align: center; }
+         footer h3 { font-family: 'Playfair Display', serif; font-size: 2rem; color: var(--color-secundario); }
+         footer h3:last-child { font-size: 1.5rem; color: var(--color-texto-claro); margin-top: 10px; }
+    
+         /* Media Query para Móviles */
+         @media (max-width: 600px) { 
+             .intro-section .logo { width: 200px; height: 200px; margin-bottom: 30px; border-width: 4px; } 
+             .intro-section h2 { font-size: 2.8rem; } 
+             #countdown { gap: 10px; }
+             #countdown div { padding: 10px 12px; min-width: 60px; border-width: 2px; } /* Borde más fino */
+             #countdown span[id] { font-size: 2rem; }
+             #countdown span:not([id]) { font-size: 0.7rem; }
+             .intro-section h3 { font-size: 1.3rem; }
+             .intro-section p { font-size: 1rem; }
+         } 
+    </style>
+</head>
+<body class="no-scroll">
+
+    <header class="passport-cover">
+        
+        <div class="passport-names top">
+            Anyela & Angel
+        </div>
+
+        <div class="passport-central-content">
+            <div class="compass-background-svg">
+                <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
+                    <path d="M50 0 L50 100 M0 50 L100 50 M14.6 14.6 L85.4 85.4 M14.6 85.4 L85.4 14.6 M50 2 A48 48 0 0 1 50 98 A48 48 0 0 1 50 2 z" stroke="currentColor" stroke-width="1.5" fill="none"/>
+                    <path d="M50 6 A44 44 0 0 1 50 94 A44 44 0 0 1 50 6 z" stroke="currentColor" stroke-width="1.5" fill="none"/>
+                    <path d="M50 10 L50 90 M10 50 L90 50 M21.2 21.2 L78.8 78.8 M21.2 78.8 L78.8 21.2" stroke="currentColor" stroke-width="1" fill="none" stroke-dasharray="2 2"/>
+                    <polygon points="50,12 55,50 50,45 45,50" />
+                    <polygon points="50,88 55,50 50,55 45,50" />
+                    <polygon points="12,50 50,55 45,50 50,45" />
+                    <polygon points="88,50 50,55 55,50 50,45" />
+                    <polygon points="25,25 50,47 47,50" stroke="currentColor" stroke-width="1" />
+                    <polygon points="75,25 50,47 53,50" stroke="currentColor" stroke-width="1" />
+                    <polygon points="25,75 50,53 47,50" stroke="currentColor" stroke-width="1" />
+                    <polygon points="75,75 50,53 53,50" stroke="currentColor" stroke-width="1" />
+                    <path d="M50 18 L50 35 M50 65 L50 82 M18 50 L35 50 M65 50 L82 50" stroke="currentColor" stroke-width="1.5"/>
+                    <path d="M29.2 29.2 L40 40 M60 60 L70.8 70.8 M29.2 70.8 L40 60 M60 40 L70.8 29.2" stroke="currentColor" stroke-width="1"/>
+                </svg>
+            </div>
+
+            <div class="twine-wrapper">
+                <div class="twine-line"></div>
+                <div class="twine-line"></div>
+            </div>
+            
+            <div class="plane-charm-button" id="fly-button">
+                <img src="img/airplane-mode-svgrepo-com.svg" alt="Avión Decorativo" class="plane-svg"> 
+            </div>
+
+            <div class="passport-text-group">
+                <div class="passport-word top">WEDDING</div>
+                <div class="passport-word bottom">PASSPORT</div>
+                <div class="passport-year">2026</div> 
+            </div>
+        </div>
+
+        <div class="scroll-down">
+            Pulsa el avión para abordar
+            <i class="fa-solid fa-plane"></i>
+        </div>
+    </header>
+    
+    <main class="invitation-content">
+
+        <section class="intro-section container">
+            <div class="logo"></div>
+            <h3>A la boda de</h3>
+            <h2>Anyela & Angel</h2>
+            <p>Cuenta regresiva para iniciar el embarque</p>
+            
+            <div id="countdown">
+                <div> <span id="days">00</span> <span>Días</span> </div>
+                <div> <span id="hours">00</span> <span>Horas</span> </div>
+                <div> <span id="minutes">00</span> <span>Minutos</span> </div>
+                <div> <span id="seconds">00</span> <span>Segundos</span> </div>
+            </div>
+        </section>
+
+        <section class="adventure-text">
+            <div class="container">
+                <h3>Después de 7 años juntos, comenzamos el mejor viaje de nuestras vidas</h3>
+                <p>Prepara tus maletas y acompáñanos en esta aventura</p>
+            </div>
+        </section>
+
+        <section class="boarding-pass container">
+            <div class="boarding-pass-card">
+                <div class="bp-left">
+                    <h4>Pase de Abordar</h4>
+                    <p>Pasajero:</p>
+                    <p class="passenger" id="guestName">Nuestro Invitado Especial</p>
+                    <p>Evento:</p>
+                    <p class="passenger">Boda Anyela & Angel</p>
+                    <div class="flight-details">
+                        <div> <p>Fecha</p> <p class="passenger">24.07.2026</p> </div>
+                        <div> <p>Puerta</p> <p class="passenger">A&A</p> </div>
+                    </div>
+                </div>
+                <div class="bp-right">
+                    <div class="photo"></div> 
+                    <h4>A&A</h4>
+                    <p>Vuelo N° 2407</p> 
+                </div>
+            </div>
+        </section>
+
+        <section class="locations container">
+            <div class="location-card">
+                <img src="img/capilla.jpg" alt="Capilla">
+                <div class="info">
+                    <h3>Ceremonia</h3>
+                    <p><strong>Parroquia Santa Clara</strong></p>
+                    <p>Av. Gral. Rivera 2369, Montevideo</p>
+                    <p>19:00 HS</p>
+                    <a href="https://www.google.com/maps/dir//Parroquia+Inmaculada+Concepci%C3%B3n+de+Belgrano,+Vuelta+de+Obligado+2042,+C1428+ADF,+Cdad.+Aut%C3%B3noma+de+Buenos+Aires/@-34.5505757,-58.4712192,14z/data=!4m18!1m8!3m7!1s0x95bcb5d3ba958ce5:0x1990a8dc60b9a62f!2sParroquia+Inmaculada+Concepci%C3%B3n+de+Belgrano!8m2!3d-34.5620259!4d-58.455564!15sChdsYSByZWRvbmRhIGlnbGVzaWEgbWFwc1oUIhJsYSByZWRvbmRhIGlnbGVzaWGSAQ9jYXRob2xpY19jaHVyY2iaASRDaGREU1VoTk1HOW5TMFZKUTBGblNVTlNNVFJsYUhCM1JSQUKqAUgQASoLIgdpZ2xlc2lhKA4yHxABIhv8JNql5f9EkS3zJjGS7AP7ZmX7AT2rgs3kGnkyFhACIhJsYSByZWRvbmRhIGlnbGVzaWHgAQD6AQQIABAz!16s%2Fg%2F121dw1wq!4m8!1m0!1m5!1m1!1s0x95bcb5d3ba958ce5:0x1990a8dc60b9a62f!2m2!1d-58.455564!2d-34.5620259!3e3?entry=ttu&g_ep=EgoyMDI1MTAxNC4wIKXMDSoASAFQAw%3D%3D" target="_blank" class="btn">
+                        <i class="fa-solid fa-map-location-dot"></i> Ver Mapa
+                    </a>
+                </div>
+            </div>
+            <div class="location-card">
+                <img src="img/Quinta benavidez.png" alt="Salón de Fiestas">
+                <div class="info">
+                    <h3>Recepción</h3>
+                    <p><strong>Quinta de Benavidez</strong></p>
+                    <p>Mendoza 3499, Benavidez, Provincia de Buenos Aires</p>
+                    <p>21:00 HS</p>
+                    <a href="https://www.google.com/maps/dir//Mendoza+3499,+Benavidez,+Provincia+de+Buenos+Aires/@-34.4166033,-58.7968092,12z/data=!4m8!4m7!1m0!1m5!1m1!1s0x95bca1da3694ac17:0x3f846784fda25fdd!2m2!1d-58.7145527!2d-34.416706?entry=ttu&g_ep=EgoyMDI1MTAxNC4wIKXMDSoASAFQAw%3D%3D" target="_blank" class="btn">
+                        <i class="fa-solid fa-map-location-dot"></i> Ver Mapa
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <section class="rsvp-section">
+            <div class="container">
+                <h2>Confirmar Asistencia</h2>
+                <p>Tu presencia es nuestro mejor regalo, pero necesitamos que nos confirmes tu asiento en este vuelo.</p>
+                <a href="rsvp.html" class="btn" id="btnRSVP">
+                    <i class="fa-solid fa-check-circle"></i> Confirmar aquí
+                </a>
+            </div>
+        </section>
+        
+        <section class="itinerary-section container">
+            <h2>Itinerario de Vuelo</h2>
+            <div class="timeline">
+                <div class="timeline-item"> <div class="timeline-content"> <h3>19:00 - Ceremonia</h3> <p>Inicio del embarque espiritual.</p> </div> </div>
+                <div class="timeline-item"> <div class="timeline-content"> <h3>21:00 - Recepción</h3> <p>Comienza la celebración.</p> </div> </div>
+                <div class="timeline-item"> <div class="timeline-content"> <h3>21:30 - Cena</h3> <p>Servicio a bordo.</p> </div> </div>
+                <div class="timeline-item"> <div class="timeline-content"> <h3>00:00 - ¡Fiesta!</h3> <p>¡A bailar!</p> </div> </div>
+            </div>
+            <p class="notice">(Horarios estimados, sujetos a condiciones de vuelo)</p>
+        </section>
+        
+        <section class="info-section container">
+            <h2>Información de Viaje</h2>
+            <p><strong>Código de Vestimenta:</strong> Elegante. ¡Prepara tu mejor atuendo!</p>
+            <p><strong>Requisitos:</strong> El único requisito indispensable es ¡venir con muchas ganas de celebrar!</p>
+        </section>
+
+    </main>
+    
+    <footer>
+        <div class="container">
+            <h3>¡Gracias por volar con nosotros!</h3>
+            <h3>A&A</h3>
+        </div>
+    </footer>
+
+
+    <script>
+        // SCRIPT DE CUENTA REGRESIVA (Sin cambios)
+        (function() {
+            const weddingDate = new Date("July 24, 2026 18:00:00").getTime(); 
+            const countdownFunction = setInterval(function() {
+                const now = new Date().getTime();
+                const distance = weddingDate - now;
+                const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+                const format = (num) => (num < 10 ? '0' + num : num);
+                if (document.getElementById("days")) {
+                    document.getElementById("days").innerText = format(days);
+                    document.getElementById("hours").innerText = format(hours);
+                    document.getElementById("minutes").innerText = format(minutes);
+                    document.getElementById("seconds").innerText = format(seconds);
+                }
+                if (distance < 0) {
+                    clearInterval(countdownFunction);
+                    if (document.getElementById("countdown")) {
+                        document.getElementById("countdown").innerHTML = "¡Llegó el día!";
+                    }
+                }
+            }, 1000);
+        })();
+
+        
+        // --- SCRIPT PARA PORTADA CON CLICK (Se añade quitar .no-scroll) ---
+        document.addEventListener('DOMContentLoaded', function() {
+            const cover = document.querySelector('.passport-cover');
+            const iconButton = document.getElementById('fly-button'); 
+            const content = document.querySelector('.invitation-content');
+            const compass = document.querySelector('.compass-background-svg');
+            const twine = document.querySelector('.twine-wrapper');
+            const textGroup = document.querySelector('.passport-text-group'); 
+
+            if (iconButton && cover && content && compass && twine && textGroup) {
+                iconButton.addEventListener('click', function() {
+                    // Pausa la animación de pulso al hacer click (si la tienes activa)
+                    iconButton.style.animationPlayState = 'paused'; 
+
+                    iconButton.classList.add('is-flying');
+                    cover.classList.add('is-open'); 
+                    compass.style.opacity = '0';
+                    twine.style.opacity = '0';
+                    textGroup.style.opacity = '0'; 
+                    
+                    // Ajustamos el tiempo para que coincida con las nuevas duraciones
+                    setTimeout(() => { 
+                        cover.style.display = 'none';
+                        content.classList.add('is-visible');
+                        
+                        // Reactiva el scroll del body
+                        document.body.classList.remove('no-scroll'); 
+                        
+                    }, 1800); // Ajustado a 1.8s (0.4s retraso + 1.4s apertura) 
+                });
+            }
+        });
+        // --- FIN SCRIPT DE PORTADA ---
+
+        
+        // --- SCRIPT PARA TOKEN (RSVP Y NOMBRE DE INVITADO) ---
+        (async function() {
+            const qp = new URLSearchParams(location.search);
+            const token = qp.get('t') || '';
+            const rsvpHref = `rsvp.html?t=${encodeURIComponent(token)}`;
+            const rsvpButton = document.getElementById("btnRSVP");
+            if (rsvpButton) { rsvpButton.href = rsvpHref; }
+            if (token) {
+                try {
+                    const res = await fetch('guests.json', { cache: 'default' }); 
+                    if (!res.ok) throw new Error('No se pudo cargar guests.json');
+                    const db = await res.json();
+                    const guest = db[token];
+                    if (guest && guest.names && guest.names.length > 0) {
+                        const formattedName = guest.names.join(' & ');
+                        const guestElement = document.getElementById("guestName");
+                        if (guestElement && formattedName) { guestElement.textContent = formattedName; }
+                    }
+                } catch (error) { console.error("Error al cargar datos de invitado:", error); }
+            }
+        })();
+    </script>
+    
+    <script src="sw.js"></script>
+</body>
+</html>
