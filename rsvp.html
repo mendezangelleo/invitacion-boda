@@ -26,31 +26,25 @@
       margin:0; 
       color:var(--color-texto);
       font-family: 'Roboto', system-ui, -apple-system, Segoe UI, sans-serif;
-      background-color: var(--color-fondo);
       line-height:1.6;
       min-height:100svh;
       display:grid; 
       place-items:center; 
       padding:24px;
-      background-image: url('img/salon.jpg'); 
+      /* --- TU CAMBIO --- */
+      background-image: url('img/vecteezy_ai-generated-eucalyptus-leaves-background-on-white-marble_35463410.jpg'); 
       background-size: cover;
       background-position: center;
       overflow: hidden; 
     }
     
-    body::before {
-        content: '';
-        position: fixed;
-        inset: 0;
-        background: rgba(0, 0, 0, 0.5);
-        backdrop-filter: blur(8px);
-        z-index: 1;
-    }
+    /* El 'body::before' que estaba aquí fue eliminado correctamente */
 
     /* ===== CARD FORM (El Modal) ===== */
     .card{
       width:min(550px, 100%); 
-      background: #ffffff; 
+      /* --- TU CAMBIO --- */
+      background: rgba(255, 255, 255, 0.9); /* Fondo blanco semi-transparente */
       border:1px solid var(--border); 
       border-radius:15px; 
       padding: 32px 36px; 
