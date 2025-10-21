@@ -1,0 +1,459 @@
+<!doctype html>
+<html lang="es">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Confirmar asistencia — Anyela & Angel</title>
+    <meta name="theme-color" content="#5a755a"> 
+    
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Roboto:wght@400;500;700&family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+    <style>
+    /* ===== PALETA ACTUALIZADA ===== */
+    :root {
+        --color-fondo: #fbf8f2;
+        --color-primario: #5a755a; /* Verde principal */
+        --color-secundario: rgb(187, 148, 90); /* Dorado */
+        --color-texto: #4a4a4a;
+        --color-texto-claro: #fbf8f2;
+        --border: rgba(90, 117, 90, 0.2); /* Borde basado en verde */
+    }
+    
+    *{ box-sizing:border-box }
+    
+    body{
+      margin:0; 
+      color:var(--color-texto);
+      font-family: 'Roboto', system-ui, -apple-system, Segoe UI, sans-serif;
+      background-color: var(--color-fondo);
+      line-height:1.6;
+      min-height:100svh;
+      display:grid; 
+      place-items:center; 
+      padding:24px;
+      background-image: url('img/salon.jpg'); 
+      background-size: cover;
+      background-position: center;
+      overflow: hidden; 
+    }
+    
+    body::before {
+        content: '';
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.5);
+        backdrop-filter: blur(8px);
+        z-index: 1;
+    }
+
+    /* ===== CARD FORM (El Modal) ===== */
+    .card{
+      width:min(550px, 100%); 
+      background: #ffffff; 
+      border:1px solid var(--border); 
+      border-radius:15px; 
+      padding: 32px 36px; 
+      box-shadow:0 10px 30px rgba(0,0,0,.15);
+      position: relative; 
+      z-index: 2; 
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+    
+    .modal-close {
+        position: absolute;
+        top: 10px;
+        right: 15px;
+        font-size: 2.5rem;
+        font-weight: 300;
+        font-family: sans-serif;
+        color: var(--color-texto);
+        opacity: 0.4;
+        text-decoration: none;
+        line-height: 1;
+        transition: opacity 0.2s ease;
+    }
+    .modal-close:hover {
+        opacity: 1;
+    }
+    
+    /* MODIFICADO: Estilo H1 con Dancing Script */
+    h1{ 
+        margin:0 0 15px; 
+        font-size: 3rem; 
+        font-family: 'Dancing Script', cursive; /* FUENTE APLICADA */
+        font-weight: 700;
+        color: var(--color-primario);
+        text-align: center;
+        text-transform: none; /* Quitamos uppercase */
+        letter-spacing: normal; /* Quitamos letter-spacing */
+        line-height: 1.2;
+    }
+    .muted{ 
+        color: var(--color-texto); 
+        opacity: 0.8; 
+        text-align: center;
+        margin-bottom: 24px;
+        font-size: 1.1rem;
+    }
+    .form-fields { display: grid; gap: 20px; }
+    .form-group { width: 100%; }
+    label[for], .label-group { 
+      display:block; 
+      margin-bottom: 8px; 
+      font-weight: 700; 
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--color-primario); /* Labels en verde */
+    }
+    input[type="email"], input[type="text"]{
+      width:100%; 
+      padding: 14px; 
+      border-radius: 5px;
+      border:1px solid var(--border); 
+      background:#fff; 
+      color:var(--color-texto);
+      font-family: 'Roboto', system-ui, sans-serif;
+      font-size: 1rem;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    input[type="email"]:focus, input[type="text"]:focus {
+        border-color: var(--color-primario); /* Borde verde al enfocar */
+        box-shadow: 0 0 0 3px rgba(90, 117, 90, 0.1); /* Sombra verde tenue */
+        outline: none;
+    }
+    .names{ display:grid; grid-template-columns: 1fr; gap:.6rem; }
+    .names label{
+      display:flex; gap:.8rem; align-items:center;
+      background: rgba(90, 117, 90, 0.04); /* Fondo verde muy tenue */
+      border:1px solid var(--border); 
+      border-radius: 5px; 
+      padding: 14px;
+      cursor: pointer;
+      transition: background-color 0.2s;
+      font-size: 1rem;
+    }
+    .names label:hover { background: rgba(90, 117, 90, 0.1); }
+    .names input[type="checkbox"] {
+        width: 1.2em;
+        height: 1.2em;
+        accent-color: var(--color-primario); /* Checkbox verde */
+        flex-shrink: 0;
+    }
+    .btns{ 
+        display:flex; 
+        gap:10px; 
+        margin-top:24px; 
+        flex-wrap:wrap;
+        flex-direction: column-reverse; 
+    }
+    button, .btn{
+      font-family: 'Roboto', system-ui, sans-serif;
+      padding:14px 20px; 
+      border-radius:5px; 
+      border: 2px solid var(--color-primario);
+      font-weight: 700; 
+      cursor:pointer; 
+      text-decoration:none; 
+      display:inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      font-size: 1rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      transition: all 0.2s ease;
+      width: 100%; 
+      -webkit-tap-highlight-color: transparent;
+    }
+    .primary{ 
+      background:var(--color-primario); 
+      color:var(--color-texto-claro); 
+    }
+    .primary:hover{ 
+        background:var(--color-secundario); /* Hover dorado */
+        color: var(--color-primario); /* Texto verde */
+        border-color: var(--color-secundario); /* Borde dorado */
+        transform: scale(1.02);
+    }
+    .primary:active {
+            transform: scale(0.98); /* Ligeramente más pequeño al presionar */
+            background: var(--color-secundario); /* Mantenemos el color dorado */
+            opacity: 0.9; /* Un poco más tenue mientras se presiona */
+        }
+    .btn.secondary {
+        background: transparent;
+        color: var(--color-primario);
+        border-color: var(--border);
+    }
+    .btn.secondary:hover {
+        background-color: rgba(90, 117, 90, 0.05); /* Verde muy tenue */
+        border-color: var(--color-primario);
+        transform: scale(1.02);
+    }
+    .btn.secondary:active {
+            transform: scale(0.98);
+            background-color: rgba(90, 117, 90, 0.1); /* Verde más notorio al presionar */
+        }
+    .primary:disabled{ 
+        background: var(--color-primario);
+        opacity:.6; 
+        cursor:default; 
+        transform: none;
+    }
+    #msg {
+        color: var(--color-primario); /* Mensaje en verde */
+        font-weight: 700;
+        font-size: 1.1rem;
+        text-align: center;
+    }
+
+    /* ===== ESTILOS PARA EL MENSAJE DE ÉXITO ===== */
+    #success-wrapper {
+        padding: 20px 0;
+        text-align: center;
+        animation: fadeIn 0.5s ease;
+    }
+    @keyframes fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+    }
+    
+    .success-icon-new {
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        background-color: var(--color-primario); /* Icono verde */
+        color: white;
+        display: grid;
+        place-items: center;
+        font-size: 3.5rem;
+        margin: 0 auto 20px;
+        animation: pop-in 0.5s 0.2s cubic-bezier(0.68, -0.55, 0.27, 1.55) backwards;
+    }
+    @keyframes pop-in {
+        0% { transform: scale(0.5); opacity: 0; }
+        100% { transform: scale(1); opacity: 1; }
+    }
+    
+    #success-wrapper h3 {
+        font-family: 'Playfair Display', serif;
+        font-size: 2rem;
+        color: var(--color-primario); /* Título éxito en verde */
+        margin: 0 0 10px;
+    }
+    
+    #success-wrapper p {
+        font-size: 1.1rem;
+        line-height: 1.6;
+        color: var(--color-texto);
+        margin-bottom: 30px;
+    }
+    
+    #success-wrapper .btns {
+        flex-direction: column; 
+    }
+    
+    #success-wrapper .btn.text-link {
+        background: transparent;
+        border-color: transparent;
+        color: var(--color-texto);
+        opacity: 0.7;
+        text-transform: none;
+        font-weight: 400;
+        font-size: 1rem;
+    }
+    #success-wrapper .btn.text-link:hover {
+        background: transparent;
+        opacity: 1;
+        transform: none;
+        color: var(--color-primario);
+    }
+    /* ===== FIN DE ESTILOS DE ÉXITO ===== */
+
+    </style>
+</head>
+<body>
+
+    <main class="card" role="main">
+        <a href="index.html" class="modal-close" id="modal-close-btn" aria-label="Volver">&times;</a>
+    
+        <div id="form-wrapper">
+            <h1>Anyela & Angel</h1> 
+            <p class="muted">Confirma tu asistencia aquí</p> <form id="form" novalidate>
+              <div class="form-fields">
+                <div class="form-group">
+                    <p id="who" class="label-group"></p>
+                    <div id="names" class="names"></div>
+                </div>
+                <div class="form-group">
+                    <label for="email">TU EMAIL (REQUERIDO)</label>
+                    <input id="email" type="email" required placeholder="tu@correo.com" autocomplete="email" />
+                </div>
+                <div class="form-group">
+                    <label for="song">¿QUÉ CANCIÓN NO PUEDE FALTAR? (OPCIONAL)</label>
+                    <input id="song" type="text" placeholder="Artista – Título" />
+                </div>
+              </div> 
+              <div class="btns">
+                <a class="btn secondary" id="back-btn-form" href="index.html"><i class="fa-solid fa-arrow-left"></i> Volver</a>
+                <button class="primary" type="submit"><i class="fa-solid fa-check-circle"></i> Enviar confirmación</button>
+              </div>
+            </form>
+            <p id="msg" style="margin-top:16px" aria-live="polite"></p>
+        </div>
+
+        <div id="success-wrapper" style="display: none;">
+            <div class="success-icon-new">
+                <i class="fa-solid fa-check"></i>
+            </div>
+            <h3>Confirmación enviada</h3>
+            <p>¡Muchas gracias por ser parte de este momento tan especial!</p>
+            
+            <div class="btns">
+                <a href="assets/Invitacion.ics" class="btn primary" download>
+                    <i class="fa-solid fa-calendar-plus"></i> Agregar al Calendario
+                </a>
+                <a class="btn text-link" id="back-btn-success" href="index.html">
+                    Volver a la invitación
+                </a>
+            </div>
+        </div>
+
+    </main>
+
+
+    <script>
+    // ====== GOOGLE FORM (Tu configuración) ======
+    const FORM_ID = '1FAIpQLScI55PoKtGyNL_bLnmXxTqm7qqP4FgaB-szjos8HyGCq6csSA';
+    const ENTRY = {
+      token:      'entry.1066647005', // Token
+      email:      'entry.1720049127', // Email
+      asistentes: 'entry.43373152',   // Asistentes
+      cancion:    'entry.1414011419', // Canción (opcional)
+    };
+    const FORM_ACTION = `https://docs.google.com/forms/d/e/${FORM_ID}/formResponse`;
+    // ============================================
+
+    const qp = new URLSearchParams(location.search);
+    const token = qp.get('t');
+
+    // Wrappers de estado
+    const formWrapper = document.getElementById('form-wrapper');
+    const successWrapper = document.getElementById('success-wrapper');
+    
+    // Elementos del formulario
+    const whoEl  = document.getElementById('who');
+    const listEl = document.getElementById('names');
+    const formEl = document.getElementById('form');
+    const msgEl  = document.getElementById('msg'); 
+    
+    // Botones de Volver y Cerrar
+    const modalCloseBtn = document.getElementById('modal-close-btn');
+    const backBtnForm = document.getElementById('back-btn-form');
+    const backBtnSuccess = document.getElementById('back-btn-success');
+
+    // Actualizar enlaces de Volver con el token
+    function updateBackLinks() {
+      const backUrl = `index.html?t=${encodeURIComponent(token)}`;
+      if (modalCloseBtn) modalCloseBtn.href = backUrl;
+      if (backBtnForm) backBtnForm.href = backUrl;
+      if (backBtnSuccess) backBtnSuccess.href = backUrl;
+    }
+
+    // Cargar nombres por token
+    async function init(){
+      updateBackLinks(); // Actualizamos links primero
+    
+      if (!token){
+        whoEl.textContent = 'Error: Falta el código de invitado en el link.';
+        formEl.style.display='none';
+        return;
+      }
+      try {
+        const res = await fetch('guests.json', { cache: 'default' }); 
+        const db = await res.json();
+        const g = db[token];
+        if (!g){
+          whoEl.textContent = 'Error: Link de invitación inválido o vencido.';
+          formEl.style.display='none';
+          return;
+        }
+        const names = Array.isArray(g.names) ? g.names : [];
+        
+        whoEl.textContent = 'ASISTENTES DE TU GRUPO:';
+        
+        listEl.innerHTML = names.map(n => `
+          <label>
+            <input type="checkbox" name="asist" value="${n.replace(/"/g,'&quot;')}" checked />
+            <span>${n}</span>
+          </label>
+        `).join('');
+
+        const firstInput = document.querySelector('input[name="asist"]') || document.getElementById('email');
+        firstInput && firstInput.focus();
+        
+      }catch(e){
+        console.error(e);
+        whoEl.textContent = 'Error de conexión. Por favor, revisa tu internet e inténtalo de nuevo.';
+        formEl.style.display='none';
+      }
+    }
+
+    // Envío al Form
+    formEl.addEventListener('submit', async (e)=>{
+      e.preventDefault();
+      const email = document.getElementById('email').value.trim();
+      const song  = document.getElementById('song').value.trim();
+      const selected = [...document.querySelectorAll('input[name="asist"]:checked')].map(x=>x.value);
+
+      if (!navigator.onLine){
+        msgEl.textContent = 'Estás sin conexión. Probá cuando tengas internet.';
+        return;
+      }
+      if (!email){
+        msgEl.textContent = 'Por favor, completa tu email.';
+        document.getElementById('email').focus();
+        return;
+      }
+        if (selected.length===0){
+        msgEl.textContent = 'Debes seleccionar al menos un asistente.';
+        return;
+      }
+
+      const submitBtn = formEl.querySelector('button.primary');
+      submitBtn.disabled = true; 
+      submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> ENVIANDO…';
+
+      const body = new URLSearchParams();
+      body.set(ENTRY.token, token);
+      body.set(ENTRY.email, email);
+      body.set(ENTRY.asistentes, selected.join(', '));
+      if (song) body.set(ENTRY.cancion, song);
+
+      try{
+        await fetch(FORM_ACTION, { method:'POST', mode:'no-cors', body });
+        
+        // Muestra la pantalla de éxito
+        if (formWrapper) formWrapper.style.display = 'none';
+        if (modalCloseBtn) modalCloseBtn.style.display = 'none'; // Oculta la 'X' en éxito
+        if (successWrapper) successWrapper.style.display = 'block';
+
+      }catch(err){
+        console.error(err);
+        msgEl.textContent = 'No se pudo enviar. Probá de nuevo en un momento.';
+        msgEl.style.color = '#c0392b'; 
+      }finally{
+        submitBtn.disabled = false; 
+        submitBtn.innerHTML = '<i class="fa-solid fa-check-circle"></i> Enviar confirmación';
+
+        submitBtn.blur();
+      }
+    });
+
+    init();
+    </script>
+</body>
+</html>
