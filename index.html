@@ -11,20 +11,17 @@
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@300;700&family=Orbitron:wght@700&family=Playfair+Display:wght@700&family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@700&family=Merriweather:wght@300;700&family=Orbitron:wght@700&family=Playfair+Display:wght@700&family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Nuestra Boda - Anyela & Angel</title> <meta property="og:title" content="Nuestra Boda - Anyela & Angel" /> 
-
     <meta property="og:description" content="¡Estás invitado/a a celebrar nuestro gran día! Confirma tu asistencia y encuentra todos los detalles aquí." /> 
-
     <meta property="og:image" content="invitacionboda2407.netlify.app/img/imagen_preview.jpg" /> 
     <meta property="og:url" content="invitacionboda2407.netlify.app/" /> 
     <meta property="og:type" content="website" /> 
-
     <meta name="twitter:card" content="summary_large_image"> 
     <meta name="twitter:title" content="Nuestra Boda - Anyela & Angel">
     <meta name="twitter:description" content="¡Estás invitado/a a celebrar nuestro gran día!">
@@ -94,12 +91,9 @@
             visibility: hidden;
         }
 
-        /* Nombres Portada */
         .passport-cover .passport-names.top {
             font-family: 'Dancing Script', cursive; 
             font-size: 2.5rem; 
-            text-transform: none; 
-            letter-spacing: normal; 
             padding: 5px 15px; 
             border-bottom: 1px solid var(--color-secundario); 
             border-top: 1px solid var(--color-secundario); 
@@ -111,7 +105,6 @@
             white-space: nowrap; 
         }
 
-        /* Contenedor central Portada */
         .passport-central-content {
             position: relative; 
             display: flex; 
@@ -123,14 +116,12 @@
             height: 100%; 
         }
 
-        /* --- ANIMACIÓN DE PULSO PARA EL AVIÓN --- */
         @keyframes pulse {
             0% { transform: translate(-50%, -50%) scale(1); filter: drop-shadow(2px 4px 5px rgba(0,0,0,0.3)); }
             50% { transform: translate(-50%, -50%) scale(1.05); filter: drop-shadow(3px 6px 8px rgba(0,0,0,0.4)); }
             100% { transform: translate(-50%, -50%) scale(1); filter: drop-shadow(2px 4px 5px rgba(0,0,0,0.3)); }
         }
 
-        /* --- CAPAS CENTRALES PORTADA --- */
         .compass-background-svg { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 280px; height: 280px; color: var(--color-secundario); opacity: 0.2; z-index: 5; transition: opacity 0.5s ease; }
         .twine-wrapper { position: absolute; top: 50%; left: 0; width: 100%; transform: translateY(-50%); z-index: 10; transition: opacity 0.5s ease; padding: 0; }
         .twine-line { width: 100%; height: 2px; background-color: var(--color-lazo); box-shadow: 0 1px 1px rgba(0,0,0,0.2); }
@@ -158,7 +149,6 @@
         .passport-text-group .passport-word.bottom { margin-top: 60px; }
         .passport-text-group .passport-year { font-family: 'Playfair Display', serif; font-size: 1.2rem; color: var(--color-secundario); position: absolute; top: calc(50% + 95px); left: 50%; transform: translateX(-50%); z-index: 19; }
         
-        /* --- ANIMACIÓN PORTADA --- */
         @keyframes flyInHeart {
             0% { transform: translate(-50%, -50%) rotate(0deg) scale(1); opacity: 1; }
             25% { transform: translate(-110px, -80px) rotate(-45deg) scale(1.2); }
@@ -168,13 +158,8 @@
         }
         .plane-charm-button.is-flying { 
             animation: flyInHeart 1.4s forwards ease-in-out;
-            animation-name: flyInHeart; 
-            animation-duration: 1.4s; 
-            animation-iteration-count: 1; 
-            animation-fill-mode: forwards;
         }
 
-        /* Texto 'scroll' Portada */
         .passport-cover .scroll-down { position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%); font-size: 1.1rem; letter-spacing: 1px; color: var(--color-secundario); text-transform: uppercase; z-index: 30; }
         .passport-cover .scroll-down i { display: block; font-size: 1.5rem; margin-top: 10px; }
         
@@ -186,13 +171,37 @@
             z-index: 1; 
             opacity: 0; 
             transition: opacity 1s ease-in-out; 
-            /* Agregamos un retraso para que aparezca DESPUÉS del pasaporte */
             transition-delay: 0.5s; 
         }
         .invitation-content.is-visible { 
             opacity: 1; 
         }
-        .container { max-width: 800px; margin: 0 auto; padding: 20px; text-align: center; }
+        .container { 
+            max-width: 800px; 
+            margin: 0 auto; 
+            padding: 20px; 
+            text-align: center; 
+            position: relative;
+            z-index: 1;
+        }
+
+        /* --- FONDO DE IMAGEN PARA SECCIONES --- */
+        .with-image-background {
+            position: relative;
+            background-image: url('img/vecteezy_ai-generated-eucalyptus-leaves-background-on-white-marble_35463410.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed; 
+        }
+        .with-image-background::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-color: rgba(255, 255, 255, 0.7); /* Overlay blanco más transparente */
+            z-index: 0;
+        }
+        /* --- FIN FONDO DE IMAGEN --- */
+
 
         /* === AJUSTES DE COLOR PARA TÍTULOS === */
         h2, h3 { color: var(--color-primario); }
@@ -205,39 +214,42 @@
         .timeline-content h3 { color: var(--color-primario); }
         .info-section h2 { color: var(--color-primario); }
         .travel-info-section h2 { color: var(--color-primario); }
-        footer h3 { color: var(--color-secundario); }
-        footer h3:last-child { color: var(--color-texto-claro); }
+        /* --- CAMBIO: FUENTE FOOTER --- */
+        footer h3 { 
+            font-family: 'Merriweather', serif; /* Cambiado de Playfair */
+            font-size: 1.8rem; /* Ajustado */
+            color: var(--color-secundario); 
+        }
+        footer h3:last-child { 
+            font-family: 'Dancing Script', cursive; /* A&A en cursiva */
+            font-size: 2.2rem; /* Ajustado */
+            color: var(--color-texto-claro); 
+            margin-top: 5px; /* Reducido */
+        }
         /* === FIN AJUSTES DE COLOR === */
 
 
         /* --- INICIO: SECCIONES REESTRUCTURADAS --- */
         
-        /* === CAMBIO 2 (NUEVA SECCIÓN DE LOGO) === */
-        /* Esta es la NUEVA sección para el logo que se queda fijo */
+        /* 1. SECCIÓN DE LOGO (SIN FONDO BLANCO NI SOMBRA) */
         .logo-section {
-            padding: 40px 20px 20px; /* Menos padding abajo */
+            padding: 40px 20px 20px;
             text-align: center;
         }
         .splash-logo {
-            display: inline-block; /* Para centrarlo */
+            display: inline-block;
             width: 80%;
             max-width: 350px;
-            height: 350px; /* 1:1 */
+            height: 350px;
             max-height: 80vw;
             
             border-radius: 50%;
-            background-color: #ffffff; /* Fondo blanco para el círculo */
-            border: 6px solid var(--color-secundario); /* Borde dorado */
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
 
-            /* Solución al centrado */
             background-image: url('img/Logo definitivo.png');
-            background-size: contain; /* Ajusta la imagen DENTRO del div */
-            background-position: center; /* Centra la imagen */
+            background-size: contain; 
+            background-position: center;
             background-repeat: no-repeat;
         }
-        /* === FIN CAMBIO 2 === */
-
 
         /* 2. SECCIÓN VERSÍCULO Y NOMBRES */
         .verse-section {
@@ -250,8 +262,6 @@
             font-style: italic;
             max-width: 500px;
             margin: 0 auto 10px;
-            color: var(--color-texto);
-            opacity: 0.9;
         }
         .verse-section span {
             font-size: 1rem;
@@ -263,16 +273,12 @@
         .verse-section h2 {
             font-family: 'Dancing Script', cursive;
             font-size: 3.5rem;
-            color: var(--color-primario);
             font-weight: 700;
         }
 
-        /* 3. SECCIÓN FRASE BONITA */
+        /* 3. SECCIÓN FRASE BONITA (CON NUEVO FONDO) */
         .phrase-section {
             padding: 40px 20px;
-            background-color: rgba(90, 117, 90, 0.05); 
-            border-top: 1px solid rgba(90, 117, 90, 0.1);
-            border-bottom: 1px solid rgba(90, 117, 90, 0.1);
         }
         .phrase-section p {
             font-size: 1.2rem;
@@ -282,40 +288,33 @@
             line-height: 1.8;
         }
 
-        /* 4. SECCIÓN FECHA */
+        /* 4. SECCIÓN FECHA (FORMATO EXACTO) */
         .date-section {
             padding: 60px 20px;
         }
-        .date-box {
-            display: inline-flex;
-            flex-direction: column;
-            align-items: center;
-            border: 3px solid var(--color-secundario);
-            border-radius: 10px;
-            padding: 20px 40px;
-            background-color: #fff;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
-        }
-        .date-month {
-            font-size: 1.2rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            color: var(--color-texto);
-            opacity: 0.8;
-        }
-        .date-day {
+        .exact-date-format {
             font-family: 'Playfair Display', serif;
-            font-size: 5rem;
-            line-height: 1.1;
             color: var(--color-primario);
+            text-transform: uppercase;
         }
-        .date-weekday-year {
-            font-size: 1.2rem;
+        .exact-date-format .exact-weekday {
+            font-size: 1.8rem;
             font-weight: 700;
-            color: var(--color-secundario);
-            display: flex;
-            gap: 15px;
+            letter-spacing: 2px;
+            margin-bottom: -5px; 
         }
+        .exact-date-format .exact-day {
+            font-size: 6rem;
+            font-weight: 700;
+            line-height: 1;
+        }
+        .exact-date-format .exact-month-year {
+            font-size: 1.8rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            margin-top: -5px; 
+        }
+
 
         /* 5. SECCIÓN CUENTA REGRESIVA */
         .countdown-section {
@@ -342,7 +341,6 @@
              color: var(--color-texto); 
              padding: 15px 20px;
              border-radius: 5px; 
-             text-align: center;
              min-width: 80px; 
              box-shadow: 0 2px 5px rgba(0,0,0,0.1);
          }
@@ -350,20 +348,17 @@
              display: block;
              font-size: 3rem; 
              line-height: 1.1;
-             letter-spacing: normal;
              margin-bottom: 5px; 
-             color: var(--color-texto); 
          }
          #countdown span:not([id]) { 
              display: block;
              font-family: 'Merriweather', serif; 
              font-size: 0.8rem;
              text-transform: uppercase;
-             color: var(--color-texto); 
              opacity: 0.7; 
          }
          
-        /* 7. PASE DE ABORDAR */
+        /* 7. PASE DE ABORDAR (REDISEÑADO) */
          .boarding-pass { 
             padding: 40px 20px; 
             background-color: rgba(90, 117, 90, 0.05);
@@ -387,15 +382,17 @@
          }
          .bp-left p { 
             font-size: 0.9rem; 
-            color: var(--color-texto); 
             opacity: 0.8; 
             margin-bottom: 15px; 
          }
          .bp-left .passenger { 
-            font-size: 1.2rem; 
+            font-family: 'Caveat', cursive;
+            font-size: 1.8rem;
             font-weight: 700; 
             color: var(--color-primario); 
-            opacity: 1; 
+            margin-top: -5px;
+            margin-bottom: 15px;
+            line-height: 1.2;
          }
          .bp-left .flight-details { 
             display: flex; 
@@ -404,30 +401,38 @@
             gap: 20px; 
          }
          .bp-left .flight-details div { line-height: 1.2; }
+         .bp-left .flight-details .passenger {
+             font-family: 'Caveat', cursive;
+             font-size: 1.5rem;
+             margin: 0;
+         }
          .bp-right { 
             flex: 1; 
             display: flex; 
             flex-direction: column; 
-            justify-content: center; 
+            justify-content: space-between; 
             align-items: center; 
-            padding: 20px; 
+            padding: 20px;
+            gap: 10px;
          }
-         .bp-right .photo { 
-            background-image: url('img/20250810_150700.jpg'); 
-            width: 120px; 
-            height: 120px; 
-            border-radius: 10px; 
-            background-size: cover; 
-            background-position: center; 
-            border: 3px solid var(--color-secundario); 
-            margin-bottom: 10px; 
+         .bp-right p.flight-number { 
+             font-family: 'Caveat', cursive;
+             font-size: 1.5rem;
+             font-weight: 700; 
+             margin: 0;
+             color: var(--color-primario);
          }
-         .bp-right h4 { margin-bottom: 5px; color: var(--color-primario);} 
-         .bp-right p { 
-            font-size: 1rem; 
-            font-weight: 700; 
-            color: var(--color-texto); 
+         /* --- CAMBIO: CÓDIGO DE BARRAS MÁS GRANDE --- */
+         .bp-right .fa-barcode {
+            font-size: 8rem; /* Aumentado de 7rem */
+            color: var(--color-texto);
+            opacity: 0.8;
+            margin-bottom: 5px;
+            width: 100%; 
+            line-height: 0.8; 
          }
+         .bp-right h4 { display: none; } 
+         .bp-right .photo { display: none; }
 
         /* 8. SECCIÓN FOTO */
         .photo-section {
@@ -473,29 +478,28 @@
          .location-card-icon .btn { margin-top: 15px; }
 
 
-        /* 10. SECCIÓN ITINERARIO */
+        /* 10. SECCIÓN ITINERARIO (CON NUEVO FONDO) */
          .itinerary-section { 
              padding: 60px 20px; 
              text-align: center; 
-             background-color: rgba(44, 58, 44, 0.05); 
-             border-top: 1px solid rgba(44, 58, 44, 0.1); 
+             border-top: 1px solid rgba(255, 255, 255, 0.2); 
          }
          .timeline { position: relative; max-width: 600px; margin: 40px auto 0; opacity: 0.7; }
          .timeline::after { content: ''; position: absolute; width: 3px; background-color: var(--color-secundario); top: 0; bottom: 0; left: 50%; margin-left: -1.5px; }
          .timeline-item { padding: 10px 40px; position: relative; width: 50%; }
          .timeline-item:nth-child(odd) { left: 0; text-align: right; }
          .timeline-item:nth-child(even) { left: 50%; text-align: left; }
-         .timeline-item::after { content: '\f073'; font-family: "Font Awesome 6 Free"; font-weight: 900; position: absolute; width: 30px; height: 30px; line-height: 30px; text-align: center; right: -15px; top: 15px; background-color: var(--color-fondo); border: 4px solid var(--color-secundario); color: var(--color-primario); border-radius: 50%; z-index: 1; }
+         .timeline-item::after { content: '\f073'; font-family: "Font Awesome 6 Free"; font-weight: 900; position: absolute; width: 30px; height: 30px; line-height: 30px; text-align: center; right: -15px; top: 15px; background-color: #ffffff; border: 4px solid var(--color-secundario); color: var(--color-primario); border-radius: 50%; z-index: 1; }
          .timeline-item:nth-child(even)::after { left: -15px; }
          .timeline-content { padding: 20px; background-color: #ffffff; border-radius: 6px; }
-         .timeline-content p { font-size: 0.9rem; margin: 0; color: var(--color-texto); } 
-         .itinerary-section .notice { margin-top: 30px; font-size: 1.1rem; font-style: italic; color: var(--color-texto); } 
+         .timeline-content p { font-size: 0.9rem; margin: 0; } 
+         .itinerary-section .notice { margin-top: 30px; font-size: 1.1rem; font-style: italic; } 
 
         /* 11. SECCIÓN INFO / DRESS CODE */
          .info-section { 
              padding: 60px 20px; 
          }
-         .info-section p { font-size: 1.1rem; max-width: 600px; margin: 0 auto 20px auto; line-height: 1.7; color: var(--color-texto); } 
+         .info-section p { font-size: 1.1rem; max-width: 600px; margin: 0 auto 20px auto; line-height: 1.7; } 
          .info-section p strong { color: var(--color-primario); } 
 
         
@@ -504,10 +508,6 @@
              padding: 60px 20px; 
              background-color: rgba(90, 117, 90, 0.05); 
              border-top: 1px solid rgba(90, 117, 90, 0.1); 
-             color: var(--color-texto); 
-         }
-         .rsvp-section h2 {
-             color: var(--color-primario); 
          }
          .rsvp-section p { 
              color: var(--color-texto); 
@@ -524,18 +524,16 @@
          }
 
 
-        /* 13. SECCIÓN DATOS IMPORTANTES */
+        /* 13. SECCIÓN DATOS IMPORTANTES (CON NUEVO FONDO) */
         .travel-info-section {
              padding: 60px 20px; 
-             background-color: rgba(44, 58, 44, 0.05); 
-             border-top: 1px solid rgba(44, 58, 44, 0.1);
+             border-top: 1px solid rgba(255, 255, 255, 0.2); 
         }
         .travel-info-section p {
             font-size: 1.1rem; 
             max-width: 600px; 
             margin: 0 auto 20px auto; 
             line-height: 1.7; 
-            color: var(--color-texto);
         }
          
         /* --- FIN NUEVAS SECCIONES --- */
@@ -557,21 +555,25 @@
          
          /* --- FOOTER --- */
          footer { padding: 40px 20px; background: var(--color-primario); color: var(--color-texto-claro); text-align: center; }
-         footer h3 { font-family: 'Playfair Display', serif; font-size: 2rem; color: var(--color-secundario); }
-         footer h3:last-child { font-size: 1.5rem; color: var(--color-texto-claro); margin-top: 10px; }
+         /* footer h3, footer h3:last-child ya están definidos arriba */
     
          /* Media Query para Móviles */
          @media (max-width: 600px) { 
-            /* === CAMBIO 2 (MÓVIL) === */
+            /* --- CAMBIO: TAMAÑO LOGO MÓVIL --- */
             .splash-logo {
-                width: 280px; /* Tamaño fijo más apropiado para móvil */
-                height: 280px;
+                width: 220px; /* Reducido de 280px */
+                height: 220px; /* Reducido de 280px */
             }
-            /* === FIN CAMBIO 2 === */
              
-            .verse-section h2 { font-size: 2.8rem; } 
-            .date-day { font-size: 4rem; }
-            .date-box { padding: 15px 25px; }
+            .exact-date-format .exact-weekday {
+                font-size: 1.2rem;
+            }
+            .exact-date-format .exact-day {
+                font-size: 4rem;
+            }
+            .exact-date-format .exact-month-year {
+                font-size: 1.2rem;
+            }
 
              #countdown { gap: 10px; }
              #countdown div { padding: 10px 12px; min-width: 60px; border-width: 2px; }
@@ -581,7 +583,10 @@
              .boarding-pass-card { flex-direction: column; }
              .bp-left { border-right: none; border-bottom: 2px dashed rgba(90, 117, 90, 0.3); padding: 20px; }
              .bp-right { padding: 20px; }
-             .bp-right .photo { width: 100px; height: 100px; }
+             /* --- CAMBIO: TAMAÑO CÓDIGO BARRAS MÓVIL --- */
+             .bp-right .fa-barcode {
+                 font-size: 7rem; /* Ajustado para móvil */
+             }
          } 
     </style>
 </head>
@@ -614,6 +619,7 @@
         </div>
     </header>
 
+    
     <main class="invitation-content">
 
         <section class="logo-section container">
@@ -626,21 +632,22 @@
             <h2>Anyela & Angel</h2>
         </section>
 
-        <section class="phrase-section container">
-            <p>
-                [Aquí va la frase bonita de 4 renglones que deseen agregar. 
-                Este es un texto de marcador de posición para que puedan 
-                reemplazarlo fácilmente con sus propias palabras llenas de amor.]
-            </p>
+        <section class="phrase-section with-image-background">
+            <div class="container">
+                <p>
+                    [Aquí va la frase bonita de 4 renglones que deseen agregar. 
+                    Este es un texto de marcador de posición para que puedan 
+                    reemplazarlo fácilmente con sus propias palabras llenas de amor.]
+                </p>
+            </div>
         </section>
 
         <section class="date-section container">
-            <div class="date-box">
-                <div class="date-month">Julio</div>
-                <div class="date-day">24</div>
-                <div class="date-weekday-year">
-                    <span>Viernes</span>
-                    <span>2026</span>
+            <div class="exact-date-format">
+                <div class="exact-weekday">VIERNES</div>
+                <div class="exact-day">24</div>
+                <div class="exact-month-year">
+                    <span class="exact-month">JUL</span> / <span class="exact-year">2026</span>
                 </div>
             </div>
         </section>
@@ -662,16 +669,15 @@
                     <p>Pasajero:</p>
                     <p class="passenger" id="guestName">Nuestro Invitado Especial</p>
                     <p>Evento:</p>
-                    <p class="passenger">Boda Anyela & Angel</p>
+                    <p class="passenger">Boda Anyela & Angel</p> 
                     <div class="flight-details">
                         <div> <p>Fecha</p> <p class="passenger">24.07.2026</p> </div>
                         <div> <p>Puerta</p> <p class="passenger">A&A</p> </div>
                     </div>
                 </div>
                 <div class="bp-right">
-                    <div class="photo"></div> 
-                    <h4>A&A</h4>
-                    <p>Vuelo N° 2407</p> 
+                    <p class="flight-number">Vuelo N° 2407</p> 
+                    <i class="fa-solid fa-barcode"></i>
                 </div>
             </div>
         </section>
@@ -707,15 +713,17 @@
             </div>
         </section>
         
-        <section class="itinerary-section container">
-            <h2>Itinerario de Vuelo</h2>
-            <div class="timeline">
-                <div class="timeline-item"> <div class="timeline-content"> <h3>19:00 - Ceremonia</h3> <p>Inicio del embarque espiritual.</p> </div> </div>
-                <div class="timeline-item"> <div class="timeline-content"> <h3>21:00 - Recepción</h3> <p>Comienza la celebración.</p> </div> </div>
-                <div class="timeline-item"> <div class="timeline-content"> <h3>21:30 - Cena</h3> <p>Servicio a bordo.</p> </div> </div>
-                <div class="timeline-item"> <div class="timeline-content"> <h3>00:00 - ¡Fiesta!</h3> <p>¡A bailar!</p> </div> </div>
+        <section class="itinerary-section with-image-background">
+            <div class="container">
+                <h2>Itinerario de Vuelo</h2>
+                <div class="timeline">
+                    <div class="timeline-item"> <div class="timeline-content"> <h3>19:00 - Ceremonia</h3> <p>Inicio del embarque espiritual.</p> </div> </div>
+                    <div class="timeline-item"> <div class="timeline-content"> <h3>21:00 - Recepción</h3> <p>Comienza la celebración.</p> </div> </div>
+                    <div class="timeline-item"> <div class="timeline-content"> <h3>21:30 - Cena</h3> <p>Servicio a bordo.</p> </div> </div>
+                    <div class="timeline-item"> <div class="timeline-content"> <h3>00:00 - ¡Fiesta!</h3> <p>¡A bailar!</p> </div> </div>
+                </div>
+                <p class="notice">(Horarios estimados, sujetos a condiciones de vuelo)</p>
             </div>
-            <p class="notice">(Horarios estimados, sujetos a condiciones de vuelo)</p>
         </section>
         
         <section class="info-section container">
@@ -734,12 +742,14 @@
             </div>
         </section>
         
-        <section class="travel-info-section container">
-            <h2>Datos Importantes</h2>
-            <p>Si vienes del extranjero, ten en cuenta los requisitos de ingreso a Argentina. Puedes consultar la información oficial aquí:</p>
-            <a href="https://www.argentina.gob.ar/interior/migraciones/documentacion-para-ingresar-al-pais-como-turista" target="_blank" class="btn">
-                <i class="fa-solid fa-plane-departure"></i> Ver Requisitos (Migraciones)
-            </a>
+        <section class="travel-info-section with-image-background">
+            <div class="container">
+                <h2>Datos Importantes</h2>
+                <p>Si vienes del extranjero, ten en cuenta los requisitos de ingreso a Argentina. Puedes consultar la información oficial aquí:</p>
+                <a href="https://www.argentina.gob.ar/interior/migraciones/documentacion-para-ingresar-al-pais-como-turista" target="_blank" class="btn">
+                    <i class="fa-solid fa-plane-departure"></i> Ver Requisitos (Migraciones)
+                </a>
+            </div>
         </section>
 
     </main>
@@ -780,7 +790,7 @@
         })();
 
         
-        // --- SCRIPT PARA PORTADA (SIMPLIFICADO) ---
+        // --- SCRIPT PARA PORTADA (Sin cambios) ---
         document.addEventListener('DOMContentLoaded', function() {
             const cover = document.querySelector('.passport-cover');
             const iconButton = document.getElementById('fly-button'); 
@@ -788,12 +798,9 @@
             const compass = document.querySelector('.compass-background-svg');
             const twine = document.querySelector('.twine-wrapper');
             const textGroup = document.querySelector('.passport-text-group'); 
-            
-            // Ya no se necesita la variable 'splash'
 
             if (iconButton && cover && content && compass && twine && textGroup) {
                 iconButton.addEventListener('click', function() {
-                    // Animaciones de la portada (igual que antes)
                     iconButton.style.animationPlayState = 'paused'; 
                     iconButton.classList.add('is-flying');
                     cover.classList.add('is-open'); 
@@ -801,18 +808,11 @@
                     twine.style.opacity = '0';
                     textGroup.style.opacity = '0'; 
                     
-                    // 1. Espera a que la animación del pasaporte termine
                     setTimeout(() => { 
-                        // 2. Oculta el pasaporte
                         cover.style.display = 'none';
-                        
-                        // 3. MUESTRA EL CONTENIDO (que ahora incluye el logo)
                         content.classList.add('is-visible');
-                        
-                        // 4. Reactiva el scroll
                         document.body.classList.remove('no-scroll'); 
-
-                    }, 1800); // Duración animación pasaporte (1.4s + 0.4s delay)
+                    }, 1800);
                 });
             }
         });
