@@ -64,7 +64,7 @@
 
         /* 1. SECCIÓN PORTADA (PASAPORTE) */
         .passport-cover {
-            height: 100vh;
+            height: 100svh; 
             background-color: var(--color-primario);
             background-image: url('https://www.transparenttextures.com/patterns/world-map.png');
             background-blend-mode: overlay;
@@ -75,7 +75,7 @@
             justify-content: space-between; 
             align-items: center;
             text-align: center;
-            padding: 40px 20px; 
+            padding: 20px; 
             
             transition: transform 1.2s ease-in-out 0.5s, opacity 1s ease-out 0.5s, visibility 1s ease-out 0.5s;
             
@@ -104,7 +104,7 @@
             border-bottom: 1px solid var(--color-secundario); 
             border-top: 1px solid var(--color-secundario); 
             position: absolute;
-            top: 40px;
+            top: 25px; 
             left: 50%; 
             transform: translateX(-50%); 
             z-index: 30;
@@ -132,7 +132,7 @@
 
         /* --- CAPAS CENTRALES PORTADA --- */
         .compass-background-svg { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 280px; height: 280px; color: var(--color-secundario); opacity: 0.2; z-index: 5; transition: opacity 0.5s ease; }
-        .twine-wrapper { position: absolute; top: 50%; left: 0; width: 100%; transform: translateY(-50%); z-index: 10; transition: opacity 0.5s ease; padding: 0; } /* Sin padding */
+        .twine-wrapper { position: absolute; top: 50%; left: 0; width: 100%; transform: translateY(-50%); z-index: 10; transition: opacity 0.5s ease; padding: 0; }
         .twine-line { width: 100%; height: 2px; background-color: var(--color-lazo); box-shadow: 0 1px 1px rgba(0,0,0,0.2); }
         .twine-line:first-child { margin-bottom: 5px; }
         
@@ -140,7 +140,6 @@
             position: absolute; 
             top: 50%; 
             left: 50%; 
-            /* transform está en la animación pulse */
             z-index: 20; 
             cursor: pointer; 
             padding: 10px; 
@@ -155,11 +154,10 @@
         
         .passport-text-group { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 18; display: flex; flex-direction: column; align-items: center; justify-content: center; pointer-events: none; width: 100%; height: 100%; }
         .passport-text-group .passport-word { font-family: 'Playfair Display', serif; font-size: 2.5rem; text-transform: uppercase; line-height: 1; position: relative; text-align: center; }
-        .passport-text-group .passport-word.top { margin-bottom: 60px; } /* Ajustado */
-        .passport-text-group .passport-word.bottom { margin-top: 60px; } /* Ajustado */
-        .passport-text-group .passport-year { font-family: 'Playfair Display', serif; font-size: 1.2rem; color: var(--color-secundario); position: absolute; top: calc(50% + 95px); left: 50%; transform: translateX(-50%); z-index: 19; } /* Ajustado */
-        /* --- FIN CAPAS PORTADA --- */
-
+        .passport-text-group .passport-word.top { margin-bottom: 60px; }
+        .passport-text-group .passport-word.bottom { margin-top: 60px; }
+        .passport-text-group .passport-year { font-family: 'Playfair Display', serif; font-size: 1.2rem; color: var(--color-secundario); position: absolute; top: calc(50% + 95px); left: 50%; transform: translateX(-50%); z-index: 19; }
+        
         /* --- ANIMACIÓN PORTADA --- */
         @keyframes flyInHeart {
             0% { transform: translate(-50%, -50%) rotate(0deg) scale(1); opacity: 1; }
@@ -169,226 +167,491 @@
             100% { transform: translate(-50%, -50%) rotate(-180deg) scale(0.5); opacity: 0; }
         }
         .plane-charm-button.is-flying { 
-            animation: flyInHeart 1.4s forwards ease-in-out; /* Duración ajustada */
+            animation: flyInHeart 1.4s forwards ease-in-out;
             animation-name: flyInHeart; 
             animation-duration: 1.4s; 
             animation-iteration-count: 1; 
             animation-fill-mode: forwards;
         }
-        /* --- FIN ANIMACIÓN --- */
 
         /* Texto 'scroll' Portada */
-        .passport-cover .scroll-down { position: absolute; bottom: 30px; left: 50%; transform: translateX(-50%); font-size: 1.1rem; letter-spacing: 1px; color: var(--color-secundario); text-transform: uppercase; z-index: 30; }
+        .passport-cover .scroll-down { position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%); font-size: 1.1rem; letter-spacing: 1px; color: var(--color-secundario); text-transform: uppercase; z-index: 30; }
         .passport-cover .scroll-down i { display: block; font-size: 1.5rem; margin-top: 10px; }
         
+        
         /* Contenedor principal invitación */
-        .invitation-content { display: block; position: relative; z-index: 1; opacity: 0; transition: opacity 1s ease-in-out; } /* Transición más larga */
-        .invitation-content.is-visible { opacity: 1; }
+        .invitation-content { 
+            display: block; 
+            position: relative; 
+            z-index: 1; 
+            opacity: 0; 
+            transition: opacity 1s ease-in-out; 
+            /* Agregamos un retraso para que aparezca DESPUÉS del pasaporte */
+            transition-delay: 0.5s; 
+        }
+        .invitation-content.is-visible { 
+            opacity: 1; 
+        }
         .container { max-width: 800px; margin: 0 auto; padding: 20px; text-align: center; }
 
         /* === AJUSTES DE COLOR PARA TÍTULOS === */
         h2, h3 { color: var(--color-primario); }
         p { color: var(--color-texto); } 
-        .intro-section h3 { color: var(--color-primario); font-weight: 300; } 
-        .adventure-text h3 { color: var(--color-primario); }
         .boarding-pass-card h4 { color: var(--color-primario); }
-        .location-card h3 { color: var(--color-primario); }
+        .location-card-icon h3 { color: var(--color-primario); }
         .rsvp-section h2 { color: var(--color-primario); }
-        .rsvp-section p { color: var(--color-primario); } 
+        .rsvp-section p { color: var(--color-texto); } 
         .itinerary-section h2 { color: var(--color-primario); }
         .timeline-content h3 { color: var(--color-primario); }
         .info-section h2 { color: var(--color-primario); }
+        .travel-info-section h2 { color: var(--color-primario); }
         footer h3 { color: var(--color-secundario); }
         footer h3:last-child { color: var(--color-texto-claro); }
         /* === FIN AJUSTES DE COLOR === */
 
-        /* 2. SECCIÓN INTRO */
-        .intro-section { padding: 60px 20px; background-color: var(--color-fondo); }
-        .intro-section .logo { width: 280px; height: 280px; margin: 0 auto 40px auto; background-image: url('img/Logo definitivo.png'); background-size: contain; background-position: center; background-repeat: no-repeat; background-color: #ffffff; border-radius: 50%; border: 6px solid var(--color-secundario); box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
-        .intro-section h2 { font-family: 'Dancing Script', cursive; font-size: 3.5rem; margin-bottom: 15px; color: var(--color-primario); font-weight: 700; }
-        .intro-section p { font-size: 1.2rem; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 20px; }
+
+        /* --- INICIO: SECCIONES REESTRUCTURADAS --- */
         
-        /* Cuenta regresiva (CORREGIDO: Estilo borde verde, fondo blanco, texto oscuro) */
+        /* === CAMBIO 2 (NUEVA SECCIÓN DE LOGO) === */
+        /* Esta es la NUEVA sección para el logo que se queda fijo */
+        .logo-section {
+            padding: 40px 20px 20px; /* Menos padding abajo */
+            text-align: center;
+        }
+        .splash-logo {
+            display: inline-block; /* Para centrarlo */
+            width: 80%;
+            max-width: 350px;
+            height: 350px; /* 1:1 */
+            max-height: 80vw;
+            
+            border-radius: 50%;
+            background-color: #ffffff; /* Fondo blanco para el círculo */
+            border: 6px solid var(--color-secundario); /* Borde dorado */
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+
+            /* Solución al centrado */
+            background-image: url('img/Logo definitivo.png');
+            background-size: contain; /* Ajusta la imagen DENTRO del div */
+            background-position: center; /* Centra la imagen */
+            background-repeat: no-repeat;
+        }
+        /* === FIN CAMBIO 2 === */
+
+
+        /* 2. SECCIÓN VERSÍCULO Y NOMBRES */
+        .verse-section {
+            padding: 40px 20px 40px;
+            background-color: var(--color-fondo);
+        }
+        .verse-section p {
+            font-family: 'Merriweather', serif;
+            font-size: 1.3rem;
+            font-style: italic;
+            max-width: 500px;
+            margin: 0 auto 10px;
+            color: var(--color-texto);
+            opacity: 0.9;
+        }
+        .verse-section span {
+            font-size: 1rem;
+            color: var(--color-secundario);
+            font-weight: 700;
+            display: block;
+            margin-bottom: 30px;
+        }
+        .verse-section h2 {
+            font-family: 'Dancing Script', cursive;
+            font-size: 3.5rem;
+            color: var(--color-primario);
+            font-weight: 700;
+        }
+
+        /* 3. SECCIÓN FRASE BONITA */
+        .phrase-section {
+            padding: 40px 20px;
+            background-color: rgba(90, 117, 90, 0.05); 
+            border-top: 1px solid rgba(90, 117, 90, 0.1);
+            border-bottom: 1px solid rgba(90, 117, 90, 0.1);
+        }
+        .phrase-section p {
+            font-size: 1.2rem;
+            font-weight: 300;
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.8;
+        }
+
+        /* 4. SECCIÓN FECHA */
+        .date-section {
+            padding: 60px 20px;
+        }
+        .date-box {
+            display: inline-flex;
+            flex-direction: column;
+            align-items: center;
+            border: 3px solid var(--color-secundario);
+            border-radius: 10px;
+            padding: 20px 40px;
+            background-color: #fff;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+        }
+        .date-month {
+            font-size: 1.2rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--color-texto);
+            opacity: 0.8;
+        }
+        .date-day {
+            font-family: 'Playfair Display', serif;
+            font-size: 5rem;
+            line-height: 1.1;
+            color: var(--color-primario);
+        }
+        .date-weekday-year {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--color-secundario);
+            display: flex;
+            gap: 15px;
+        }
+
+        /* 5. SECCIÓN CUENTA REGRESIVA */
+        .countdown-section {
+            padding: 40px 20px 60px;
+            border-top: 1px solid rgba(90, 117, 90, 0.1);
+        }
+        .countdown-section p {
+            font-size: 1.2rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 30px;
+            color: var(--color-primario);
+            font-weight: 700;
+        }
          #countdown {
              display: flex;
              justify-content: center;
              gap: 15px; 
              font-family: 'Orbitron', sans-serif; 
-             margin-top: 30px; 
          }
          #countdown div {
-             background-color: #ffffff; /* Fondo blanco */
-             border: 3px solid var(--color-primario); /* Borde verde */
-             color: var(--color-texto); /* Texto oscuro general */
+             background-color: #ffffff; 
+             border: 3px solid var(--color-primario); 
+             color: var(--color-texto); 
              padding: 15px 20px;
              border-radius: 5px; 
              text-align: center;
              min-width: 80px; 
-             box-shadow: 0 2px 5px rgba(0,0,0,0.1); /* Sombra exterior */
+             box-shadow: 0 2px 5px rgba(0,0,0,0.1);
          }
          #countdown span[id] { 
              display: block;
              font-size: 3rem; 
              line-height: 1.1;
-             letter-spacing: normal; /* Espaciado normal */
+             letter-spacing: normal;
              margin-bottom: 5px; 
-             color: var(--color-texto); /* Asegura color oscuro */
+             color: var(--color-texto); 
          }
          #countdown span:not([id]) { 
              display: block;
              font-family: 'Merriweather', serif; 
              font-size: 0.8rem;
              text-transform: uppercase;
-             color: var(--color-texto); /* Color oscuro */
-             opacity: 0.7; /* Más tenues */
-         }
-
-        /* --- RESTO DEL CSS --- */
-         .adventure-text { padding: 60px 20px; background-color: rgba(44, 58, 44, 0.05); border-top: 1px solid rgba(44, 58, 44, 0.1); border-bottom: 1px solid rgba(44, 58, 44, 0.1); }
-         .adventure-text p { font-size: 1.2rem; font-weight: 300; }
-         .btn { display: inline-flex; align-items: center; justify-content: center; background-color: var(--color-primario); color: var(--color-texto-claro); padding: 12px 30px; text-decoration: none; border-radius: 5px; font-size: 1.1rem; font-weight: 700; margin-top: 20px; border: 1px solid var(--color-primario); transition: transform 0.2s ease, background-color 0.3s ease, color 0.3s ease; -webkit-tap-highlight-color: transparent;-webkit-tap-highlight-color: transparent; } /* Añadido tap highlight */
-         .btn:hover { transform: scale(1.05); background-color: var(--color-secundario); color: var(--color-primario); border-color: var(--color-secundario); }
-         .btn i { margin-right: 10px; }
-         /* NUEVO: Estado active para botones */
-         .btn:active {
-             transform: scale(0.98); /* Ligeramente más pequeño al presionar */
-             opacity: 0.9; /* Un poco más tenue mientras se presiona */
-         }
-         /* NUEVO: Anular estilos de hover cuando el botón tiene foco pero NO está siendo sobrevolado */
-         .btn:focus:not(:hover) {
-             background-color: var(--color-primario); /* Volver al fondo verde */
-             color: var(--color-texto-claro);    /* Volver al texto claro */
-             border-color: var(--color-primario);  /* Volver al borde verde */
-             transform: none; /* Quitar cualquier transformación de hover/active */
-             /* Opcional: Quitar el contorno de foco predeterminado del navegador si molesta */
-             /* outline: none; */ 
-             /* box-shadow: none; */ /* O quitar alguna sombra específica de foco */
-         }
-
-         .btn i { 
-             margin-right: 10px; 
+             color: var(--color-texto); 
+             opacity: 0.7; 
          }
          
-         .boarding-pass { padding: 40px 20px; }
-         .boarding-pass-card { background: #ffffff; border: 1px solid rgba(44, 58, 44, 0.1); border-radius: 15px; max-width: 600px; margin: 20px auto; display: flex; box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
-         .bp-left { flex: 2; padding: 30px; text-align: left; border-right: 2px dashed rgba(90, 117, 90, 0.3); } /* Usando rgba con verde primario */
-         .bp-left p { font-size: 0.9rem; color: var(--color-texto); opacity: 0.8; margin-bottom: 15px; }
-         .bp-left .passenger { font-size: 1.2rem; font-weight: 700; color: var(--color-primario); opacity: 1; } /* Pasajero en verde */
-         .bp-left .flight-details { display: flex; justify-content: space-between; margin-top: 20px; gap: 20px; } /* Añadido gap */
+        /* 7. PASE DE ABORDAR */
+         .boarding-pass { 
+            padding: 40px 20px; 
+            background-color: rgba(90, 117, 90, 0.05);
+            border-top: 1px solid rgba(90, 117, 90, 0.1);
+            border-bottom: 1px solid rgba(90, 117, 90, 0.1);
+         }
+         .boarding-pass-card { 
+            background: #ffffff; 
+            border: 1px solid rgba(44, 58, 44, 0.1); 
+            border-radius: 15px; 
+            max-width: 600px; 
+            margin: 20px auto; 
+            display: flex; 
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05); 
+         }
+         .bp-left { 
+            flex: 2; 
+            padding: 30px; 
+            text-align: left; 
+            border-right: 2px dashed rgba(90, 117, 90, 0.3); 
+         }
+         .bp-left p { 
+            font-size: 0.9rem; 
+            color: var(--color-texto); 
+            opacity: 0.8; 
+            margin-bottom: 15px; 
+         }
+         .bp-left .passenger { 
+            font-size: 1.2rem; 
+            font-weight: 700; 
+            color: var(--color-primario); 
+            opacity: 1; 
+         }
+         .bp-left .flight-details { 
+            display: flex; 
+            justify-content: space-between; 
+            margin-top: 20px; 
+            gap: 20px; 
+         }
          .bp-left .flight-details div { line-height: 1.2; }
-         .bp-right { flex: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 20px; }
-         .bp-right .photo { background-image: url('img/20250810_150700.jpg'); width: 120px; height: 120px; border-radius: 10px; background-size: cover; background-position: center; border: 3px solid var(--color-secundario); margin-bottom: 10px; }
+         .bp-right { 
+            flex: 1; 
+            display: flex; 
+            flex-direction: column; 
+            justify-content: center; 
+            align-items: center; 
+            padding: 20px; 
+         }
+         .bp-right .photo { 
+            background-image: url('img/20250810_150700.jpg'); 
+            width: 120px; 
+            height: 120px; 
+            border-radius: 10px; 
+            background-size: cover; 
+            background-position: center; 
+            border: 3px solid var(--color-secundario); 
+            margin-bottom: 10px; 
+         }
          .bp-right h4 { margin-bottom: 5px; color: var(--color-primario);} 
-         .bp-right p { font-size: 1rem; font-weight: 700; color: var(--color-texto); }
-         .locations { padding: 40px 20px; display: flex; flex-wrap: wrap; justify-content: center; gap: 30px; }
-         .location-card { background: #ffffff; box-shadow: 0 5px 15px rgba(0,0,0,0.05); border-radius: 10px; overflow: hidden; width: 300px; border: 1px solid rgba(44, 58, 44, 0.1); }
-         .location-card img { width: 100%; height: 200px; object-fit: cover; }
-         .location-card .info { padding: 25px; }
-         .location-card p { font-size: 1rem; margin: 10px 0; }
-         .location-card .btn { margin-top: 10px; }
-         .rsvp-section { padding: 60px 20px; background-color: var(--color-secundario); color: var(--color-primario); }
-         .rsvp-section .btn { background-color: var(--color-primario); color: var(--color-texto-claro); border-color: var(--color-primario); }
-         .rsvp-section .btn:hover { background-color: var(--color-fondo); color: var(--color-primario); border-color: var(--color-primario); }
-         .itinerary-section { padding: 60px 20px; text-align: center; }
-         .timeline { position: relative; max-width: 600px; margin: 0 auto; opacity: 0.7; }
+         .bp-right p { 
+            font-size: 1rem; 
+            font-weight: 700; 
+            color: var(--color-texto); 
+         }
+
+        /* 8. SECCIÓN FOTO */
+        .photo-section {
+            padding: 0;
+            max-width: 1000px; 
+        }
+        .couple-photo {
+            width: 100%;
+            height: auto;
+            display: block;
+            max-height: 500px;
+            object-fit: cover;
+            object-position: center 30%; 
+        }
+         
+        /* 9. SECCIÓN UBICACIONES (CON ICONOS) */
+         .locations { 
+            padding: 60px 20px; 
+            display: flex; 
+            flex-wrap: wrap; 
+            justify-content: center; 
+            gap: 30px; 
+         }
+         .location-card-icon { 
+            background: #ffffff; 
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05); 
+            border-radius: 10px; 
+            overflow: hidden; 
+            width: 320px; 
+            border: 1px solid rgba(44, 58, 44, 0.1);
+            padding: 35px 25px;
+         }
+         .location-card-icon .icon-wrapper {
+            font-size: 3rem;
+            color: var(--color-secundario);
+            margin-bottom: 15px;
+         }
+         .location-card-icon h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+         }
+         .location-card-icon p { font-size: 1rem; margin: 10px 0; }
+         .location-card-icon .btn { margin-top: 15px; }
+
+
+        /* 10. SECCIÓN ITINERARIO */
+         .itinerary-section { 
+             padding: 60px 20px; 
+             text-align: center; 
+             background-color: rgba(44, 58, 44, 0.05); 
+             border-top: 1px solid rgba(44, 58, 44, 0.1); 
+         }
+         .timeline { position: relative; max-width: 600px; margin: 40px auto 0; opacity: 0.7; }
          .timeline::after { content: ''; position: absolute; width: 3px; background-color: var(--color-secundario); top: 0; bottom: 0; left: 50%; margin-left: -1.5px; }
          .timeline-item { padding: 10px 40px; position: relative; width: 50%; }
          .timeline-item:nth-child(odd) { left: 0; text-align: right; }
          .timeline-item:nth-child(even) { left: 50%; text-align: left; }
          .timeline-item::after { content: '\f073'; font-family: "Font Awesome 6 Free"; font-weight: 900; position: absolute; width: 30px; height: 30px; line-height: 30px; text-align: center; right: -15px; top: 15px; background-color: var(--color-fondo); border: 4px solid var(--color-secundario); color: var(--color-primario); border-radius: 50%; z-index: 1; }
          .timeline-item:nth-child(even)::after { left: -15px; }
-         .timeline-content { padding: 20px; background-color: rgba(44, 58, 44, 0.05); border-radius: 6px; }
+         .timeline-content { padding: 20px; background-color: #ffffff; border-radius: 6px; }
          .timeline-content p { font-size: 0.9rem; margin: 0; color: var(--color-texto); } 
          .itinerary-section .notice { margin-top: 30px; font-size: 1.1rem; font-style: italic; color: var(--color-texto); } 
-         .info-section { padding: 60px 20px; background-color: rgba(44, 58, 44, 0.05); border-top: 1px solid rgba(44, 58, 44, 0.1); }
+
+        /* 11. SECCIÓN INFO / DRESS CODE */
+         .info-section { 
+             padding: 60px 20px; 
+         }
          .info-section p { font-size: 1.1rem; max-width: 600px; margin: 0 auto 20px auto; line-height: 1.7; color: var(--color-texto); } 
          .info-section p strong { color: var(--color-primario); } 
+
+        
+        /* 12. SECCIÓN RSVP (Color de fondo cambiado) */
+         .rsvp-section { 
+             padding: 60px 20px; 
+             background-color: rgba(90, 117, 90, 0.05); 
+             border-top: 1px solid rgba(90, 117, 90, 0.1); 
+             color: var(--color-texto); 
+         }
+         .rsvp-section h2 {
+             color: var(--color-primario); 
+         }
+         .rsvp-section p { 
+             color: var(--color-texto); 
+         }
+         .rsvp-section .btn { 
+             background-color: var(--color-primario); 
+             color: var(--color-texto-claro); 
+             border-color: var(--color-primario); 
+         }
+         .rsvp-section .btn:hover { 
+             background-color: var(--color-secundario);
+             color: var(--color-primario);
+             border-color: var(--color-secundario);
+         }
+
+
+        /* 13. SECCIÓN DATOS IMPORTANTES */
+        .travel-info-section {
+             padding: 60px 20px; 
+             background-color: rgba(44, 58, 44, 0.05); 
+             border-top: 1px solid rgba(44, 58, 44, 0.1);
+        }
+        .travel-info-section p {
+            font-size: 1.1rem; 
+            max-width: 600px; 
+            margin: 0 auto 20px auto; 
+            line-height: 1.7; 
+            color: var(--color-texto);
+        }
+         
+        /* --- FIN NUEVAS SECCIONES --- */
+
+
+         .btn { display: inline-flex; align-items: center; justify-content: center; background-color: var(--color-primario); color: var(--color-texto-claro); padding: 12px 30px; text-decoration: none; border-radius: 5px; font-size: 1.1rem; font-weight: 700; margin-top: 20px; border: 1px solid var(--color-primario); transition: transform 0.2s ease, background-color 0.3s ease, color 0.3s ease; -webkit-tap-highlight-color: transparent;-webkit-tap-highlight-color: transparent; }
+         .btn:hover { transform: scale(1.05); background-color: var(--color-secundario); color: var(--color-primario); border-color: var(--color-secundario); }
+         .btn i { margin-right: 10px; }
+         .btn:active {
+             transform: scale(0.98); 
+             opacity: 0.9; 
+         }
+         .btn:focus:not(:hover) {
+             background-color: var(--color-primario); 
+             color: var(--color-texto-claro);   
+             border-color: var(--color-primario); 
+             transform: none; 
+         }
+         
+         /* --- FOOTER --- */
          footer { padding: 40px 20px; background: var(--color-primario); color: var(--color-texto-claro); text-align: center; }
          footer h3 { font-family: 'Playfair Display', serif; font-size: 2rem; color: var(--color-secundario); }
          footer h3:last-child { font-size: 1.5rem; color: var(--color-texto-claro); margin-top: 10px; }
     
          /* Media Query para Móviles */
          @media (max-width: 600px) { 
-             .intro-section .logo { width: 200px; height: 200px; margin-bottom: 30px; border-width: 4px; } 
-             .intro-section h2 { font-size: 2.8rem; } 
+            /* === CAMBIO 2 (MÓVIL) === */
+            .splash-logo {
+                width: 280px; /* Tamaño fijo más apropiado para móvil */
+                height: 280px;
+            }
+            /* === FIN CAMBIO 2 === */
+             
+            .verse-section h2 { font-size: 2.8rem; } 
+            .date-day { font-size: 4rem; }
+            .date-box { padding: 15px 25px; }
+
              #countdown { gap: 10px; }
-             #countdown div { padding: 10px 12px; min-width: 60px; border-width: 2px; } /* Borde más fino */
+             #countdown div { padding: 10px 12px; min-width: 60px; border-width: 2px; }
              #countdown span[id] { font-size: 2rem; }
              #countdown span:not([id]) { font-size: 0.7rem; }
-             .intro-section h3 { font-size: 1.3rem; }
-             .intro-section p { font-size: 1rem; }
+             
+             .boarding-pass-card { flex-direction: column; }
+             .bp-left { border-right: none; border-bottom: 2px dashed rgba(90, 117, 90, 0.3); padding: 20px; }
+             .bp-right { padding: 20px; }
+             .bp-right .photo { width: 100px; height: 100px; }
          } 
     </style>
 </head>
 <body class="no-scroll">
 
     <header class="passport-cover">
-        
         <div class="passport-names top">
             Anyela & Angel
         </div>
-
         <div class="passport-central-content">
             <div class="compass-background-svg">
-                <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
-                    <path d="M50 0 L50 100 M0 50 L100 50 M14.6 14.6 L85.4 85.4 M14.6 85.4 L85.4 14.6 M50 2 A48 48 0 0 1 50 98 A48 48 0 0 1 50 2 z" stroke="currentColor" stroke-width="1.5" fill="none"/>
-                    <path d="M50 6 A44 44 0 0 1 50 94 A44 44 0 0 1 50 6 z" stroke="currentColor" stroke-width="1.5" fill="none"/>
-                    <path d="M50 10 L50 90 M10 50 L90 50 M21.2 21.2 L78.8 78.8 M21.2 78.8 L78.8 21.2" stroke="currentColor" stroke-width="1" fill="none" stroke-dasharray="2 2"/>
-                    <polygon points="50,12 55,50 50,45 45,50" />
-                    <polygon points="50,88 55,50 50,55 45,50" />
-                    <polygon points="12,50 50,55 45,50 50,45" />
-                    <polygon points="88,50 50,55 55,50 50,45" />
-                    <polygon points="25,25 50,47 47,50" stroke="currentColor" stroke-width="1" />
-                    <polygon points="75,25 50,47 53,50" stroke="currentColor" stroke-width="1" />
-                    <polygon points="25,75 50,53 47,50" stroke="currentColor" stroke-width="1" />
-                    <polygon points="75,75 50,53 53,50" stroke="currentColor" stroke-width="1" />
-                    <path d="M50 18 L50 35 M50 65 L50 82 M18 50 L35 50 M65 50 L82 50" stroke="currentColor" stroke-width="1.5"/>
-                    <path d="M29.2 29.2 L40 40 M60 60 L70.8 70.8 M29.2 70.8 L40 60 M60 40 L70.8 29.2" stroke="currentColor" stroke-width="1"/>
-                </svg>
+                <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" fill="currentColor"><path d="M50 0 L50 100 M0 50 L100 50 M14.6 14.6 L85.4 85.4 M14.6 85.4 L85.4 14.6 M50 2 A48 48 0 0 1 50 98 A48 48 0 0 1 50 2 z" stroke="currentColor" stroke-width="1.5" fill="none"/><path d="M50 6 A44 44 0 0 1 50 94 A44 44 0 0 1 50 6 z" stroke="currentColor" stroke-width="1.5" fill="none"/><path d="M50 10 L50 90 M10 50 L90 50 M21.2 21.2 L78.8 78.8 M21.2 78.8 L78.8 21.2" stroke="currentColor" stroke-width="1" fill="none" stroke-dasharray="2 2"/><polygon points="50,12 55,50 50,45 45,50" /><polygon points="50,88 55,50 50,55 45,50" /><polygon points="12,50 50,55 45,50 50,45" /><polygon points="88,50 50,55 55,50 50,45" /><polygon points="25,25 50,47 47,50" stroke="currentColor" stroke-width="1" /><polygon points="75,25 50,47 53,50" stroke="currentColor" stroke-width="1" /><polygon points="25,75 50,53 47,50" stroke="currentColor" stroke-width="1" /><polygon points="75,75 50,53 53,50" stroke="currentColor" stroke-width="1" /><path d="M50 18 L50 35 M50 65 L50 82 M18 50 L35 50 M65 50 L82 50" stroke="currentColor" stroke-width="1.5"/><path d="M29.2 29.2 L40 40 M60 60 L70.8 70.8 M29.2 70.8 L40 60 M60 40 L70.8 29.2" stroke="currentColor" stroke-width="1"/></svg>
             </div>
-
             <div class="twine-wrapper">
                 <div class="twine-line"></div>
                 <div class="twine-line"></div>
             </div>
-            
             <div class="plane-charm-button" id="fly-button">
                 <img src="img/airplane-mode-svgrepo-com.svg" alt="Avión Decorativo" class="plane-svg"> 
             </div>
-
             <div class="passport-text-group">
                 <div class="passport-word top">WEDDING</div>
                 <div class="passport-word bottom">PASSPORT</div>
                 <div class="passport-year">2026</div> 
             </div>
         </div>
-
         <div class="scroll-down">
             Pulsa el avión para abordar
             <i class="fa-solid fa-plane"></i>
         </div>
     </header>
-    
+
     <main class="invitation-content">
 
-        <section class="intro-section container">
-            <div class="logo"></div>
-            <h3>A la boda de</h3>
+        <section class="logo-section container">
+            <div class="splash-logo"></div>
+        </section>
+
+        <section class="verse-section container">
+            <p>"Por tanto, lo que Dios ha unido, que ningún ser humano lo separe."</p>
+            <span>Marcos 10:9</span>
             <h2>Anyela & Angel</h2>
+        </section>
+
+        <section class="phrase-section container">
+            <p>
+                [Aquí va la frase bonita de 4 renglones que deseen agregar. 
+                Este es un texto de marcador de posición para que puedan 
+                reemplazarlo fácilmente con sus propias palabras llenas de amor.]
+            </p>
+        </section>
+
+        <section class="date-section container">
+            <div class="date-box">
+                <div class="date-month">Julio</div>
+                <div class="date-day">24</div>
+                <div class="date-weekday-year">
+                    <span>Viernes</span>
+                    <span>2026</span>
+                </div>
+            </div>
+        </section>
+        
+        <section class="countdown-section container">
             <p>Cuenta regresiva para iniciar el embarque</p>
-            
             <div id="countdown">
                 <div> <span id="days">00</span> <span>Días</span> </div>
                 <div> <span id="hours">00</span> <span>Horas</span> </div>
                 <div> <span id="minutes">00</span> <span>Minutos</span> </div>
                 <div> <span id="seconds">00</span> <span>Segundos</span> </div>
-            </div>
-        </section>
-
-        <section class="adventure-text">
-            <div class="container">
-                <h3>Después de 7 años juntos, comenzamos el mejor viaje de nuestras vidas</h3>
-                <p>Prepara tus maletas y acompáñanos en esta aventura</p>
             </div>
         </section>
 
@@ -413,39 +676,33 @@
             </div>
         </section>
 
-        <section class="locations container">
-            <div class="location-card">
-                <img src="img/capilla.jpg" alt="Capilla">
-                <div class="info">
-                    <h3>Ceremonia</h3>
-                    <p><strong>Parroquia Santa Clara</strong></p>
-                    <p>Av. Gral. Rivera 2369, Montevideo</p>
-                    <p>19:00 HS</p>
-                    <a href="https://www.google.com/maps/dir//Parroquia+Inmaculada+Concepci%C3%B3n+de+Belgrano,+Vuelta+de+Obligado+2042,+C1428+ADF,+Cdad.+Aut%C3%B3noma+de+Buenos+Aires/@-34.5505757,-58.4712192,14z/data=!4m18!1m8!3m7!1s0x95bcb5d3ba958ce5:0x1990a8dc60b9a62f!2sParroquia+Inmaculada+Concepci%C3%B3n+de+Belgrano!8m2!3d-34.5620259!4d-58.455564!15sChdsYSByZWRvbmRhIGlnbGVzaWEgbWFwc1oUIhJsYSByZWRvbmRhIGlnbGVzaWGSAQ9jYXRob2xpY19jaHVyY2iaASRDaGREU1VoTk1HOW5TMFZKUTBGblNVTlNNVFJsYUhCM1JSQUKqAUgQASoLIgdpZ2xlc2lhKA4yHxABIhv8JNql5f9EkS3zJjGS7AP7ZmX7AT2rgs3kGnkyFhACIhJsYSByZWRvbmRhIGlnbGVzaWHgAQD6AQQIABAz!16s%2Fg%2F121dw1wq!4m8!1m0!1m5!1m1!1s0x95bcb5d3ba958ce5:0x1990a8dc60b9a62f!2m2!1d-58.455564!2d-34.5620259!3e3?entry=ttu&g_ep=EgoyMDI1MTAxNC4wIKXMDSoASAFQAw%3D%3D" target="_blank" class="btn">
-                        <i class="fa-solid fa-map-location-dot"></i> Ver Mapa
-                    </a>
-                </div>
-            </div>
-            <div class="location-card">
-                <img src="img/Quinta benavidez.png" alt="Salón de Fiestas">
-                <div class="info">
-                    <h3>Recepción</h3>
-                    <p><strong>Quinta de Benavidez</strong></p>
-                    <p>Mendoza 3499, Benavidez, Provincia de Buenos Aires</p>
-                    <p>21:00 HS</p>
-                    <a href="https://www.google.com/maps/dir//Mendoza+3499,+Benavidez,+Provincia+de+Buenos+Aires/@-34.4166033,-58.7968092,12z/data=!4m8!4m7!1m0!1m5!1m1!1s0x95bca1da3694ac17:0x3f846784fda25fdd!2m2!1d-58.7145527!2d-34.416706?entry=ttu&g_ep=EgoyMDI1MTAxNC4wIKXMDSoASAFQAw%3D%3D" target="_blank" class="btn">
-                        <i class="fa-solid fa-map-location-dot"></i> Ver Mapa
-                    </a>
-                </div>
-            </div>
+        <section class="photo-section container">
+            <img src="img/IMG_1939.JPG" alt="Anyela y Angel" class="couple-photo">
         </section>
 
-        <section class="rsvp-section">
-            <div class="container">
-                <h2>Confirmar Asistencia</h2>
-                <p>Tu presencia es nuestro mejor regalo, pero necesitamos que nos confirmes tu asiento en este vuelo.</p>
-                <a href="rsvp.html" class="btn" id="btnRSVP">
-                    <i class="fa-solid fa-check-circle"></i> Confirmar aquí
+        <section class="locations container">
+            <div class="location-card-icon">
+                <div class="icon-wrapper">
+                    <i class="fa-solid fa-church"></i>
+                </div>
+                <h3>Ceremonia</h3>
+                <p><strong>Parroquia Santa Clara</strong></p>
+                <p>Av. Gral. Rivera 2369, Montevideo</p>
+                <p>19:00 HS</p>
+                <a href="https://www.google.com/maps/dir//Parroquia+Inmaculada+Concepci%C3%B3n+de+Belgrano,+Vuelta+de+Obligado+2042,+C1428+ADF,+Cdad.+Aut%C3%B3noma+de+Buenos+Aires/@-34.5505757,-58.4712192,14z/data=!4m18!1m8!3m7!1s0x95bcb5d3ba958ce5:0x1990a8dc60b9a62f!2sParroquia+Inmaculada+Concepci%C3%B3n+de+Belgrano!8m2!3d-34.5620259!4d-58.455564!15sChdsYSByZWRvbmRhIGlnbGVzaWEgbWFwc1oUIhJsYSByZWRvbmRhIGlnbGVzaWGSAQ9jYXRob2xpY19jaHVyY2iaASRDaGREU1VoTk1HOW5TMFZKUTBGblNVTlNNVFJsYUhCM1JSQUKqAUgQASoLIgdpZ2xlc2lhKA4yHxABIhv8JNql5f9EkS3zJjGS7AP7ZmX7AT2rgs3kGnkyFhACIhJsYSByZWRvbmRhIGlnbGVzaWHgAQD6AQQIABAz!16s%2Fg%2F121dw1wq!4m8!1m0!1m5!1m1!1s0x95bcb5d3ba958ce5:0x1990a8dc60b9a62f!2m2!1d-58.455564!2d-34.5620259!3e3?entry=ttu&g_ep=EgoyMDI1MTAxNC4wIKXMDSoASAFQAw%3D%3D" target="_blank" class="btn">
+                    <i class="fa-solid fa-map-location-dot"></i> Ver Mapa
+                </a>
+            </div>
+            <div class="location-card-icon">
+                <div class="icon-wrapper">
+                    <i class="fa-solid fa-glass-cheers"></i>
+                </div>
+                <h3>Recepción</h3>
+                <p><strong>Quinta de Benavidez</strong></p>
+                <p>Mendoza 3499, Benavidez, Provincia de Buenos Aires</p>
+                <p>21:00 HS</p>
+                <a href="https://www.google.com/maps/dir//Mendoza+3499,+Benavidez,+Provincia+de+Buenos+Aires/@-34.4166033,-58.7968092,12z/data=!4m8!4m7!1m0!1m5!1m1!1s0x95bca1da3694ac17:0x3f846784fda25fdd!2m2!1d-58.7145527!2d-34.416706?entry=ttu&g_ep=EgoyMDI1MTAxNC4wIKXMDSoASAFQAw%3D%3D" target="_blank" class="btn">
+                    <i class="fa-solid fa-map-location-dot"></i> Ver Mapa
                 </a>
             </div>
         </section>
@@ -463,8 +720,26 @@
         
         <section class="info-section container">
             <h2>Información de Viaje</h2>
-            <p><strong>Código de Vestimenta:</strong> Elegante. ¡Prepara tu mejor atuendo!</p>
-            <p><strong>Requisitos:</strong> El único requisito indispensable es ¡venir con muchas ganas de celebrar!</p>
+            <p><strong>Código de Vestimenta:</strong> Elegante 👔👗 ¡Prepara tu mejor atuendo!</p>
+            <p><strong>Requisitos:</strong> El único requisito indispensable es ¡venir con muchas ganas de celebrar! 🥳</p>
+        </section>
+
+        <section class="rsvp-section">
+            <div class="container">
+                <h2>Confirmar Asistencia</h2>
+                <p>Tu presencia es nuestro mejor regalo, pero necesitamos que nos confirmes tu asiento en este vuelo.</p>
+                <a href="rsvp.html" class="btn" id="btnRSVP">
+                    <i class="fa-solid fa-check-circle"></i> Confirmar aquí
+                </a>
+            </div>
+        </section>
+        
+        <section class="travel-info-section container">
+            <h2>Datos Importantes</h2>
+            <p>Si vienes del extranjero, ten en cuenta los requisitos de ingreso a Argentina. Puedes consultar la información oficial aquí:</p>
+            <a href="https://www.argentina.gob.ar/interior/migraciones/documentacion-para-ingresar-al-pais-como-turista" target="_blank" class="btn">
+                <i class="fa-solid fa-plane-departure"></i> Ver Requisitos (Migraciones)
+            </a>
         </section>
 
     </main>
@@ -505,7 +780,7 @@
         })();
 
         
-        // --- SCRIPT PARA PORTADA CON CLICK (Se añade quitar .no-scroll) ---
+        // --- SCRIPT PARA PORTADA (SIMPLIFICADO) ---
         document.addEventListener('DOMContentLoaded', function() {
             const cover = document.querySelector('.passport-cover');
             const iconButton = document.getElementById('fly-button'); 
@@ -513,32 +788,34 @@
             const compass = document.querySelector('.compass-background-svg');
             const twine = document.querySelector('.twine-wrapper');
             const textGroup = document.querySelector('.passport-text-group'); 
+            
+            // Ya no se necesita la variable 'splash'
 
             if (iconButton && cover && content && compass && twine && textGroup) {
                 iconButton.addEventListener('click', function() {
-                    // Pausa la animación de pulso al hacer click (si la tienes activa)
+                    // Animaciones de la portada (igual que antes)
                     iconButton.style.animationPlayState = 'paused'; 
-
                     iconButton.classList.add('is-flying');
                     cover.classList.add('is-open'); 
                     compass.style.opacity = '0';
                     twine.style.opacity = '0';
                     textGroup.style.opacity = '0'; 
                     
-                    // Ajustamos el tiempo para que coincida con las nuevas duraciones
+                    // 1. Espera a que la animación del pasaporte termine
                     setTimeout(() => { 
+                        // 2. Oculta el pasaporte
                         cover.style.display = 'none';
+                        
+                        // 3. MUESTRA EL CONTENIDO (que ahora incluye el logo)
                         content.classList.add('is-visible');
                         
-                        // Reactiva el scroll del body
+                        // 4. Reactiva el scroll
                         document.body.classList.remove('no-scroll'); 
-                        
-                    }, 1800); // Ajustado a 1.8s (0.4s retraso + 1.4s apertura) 
+
+                    }, 1800); // Duración animación pasaporte (1.4s + 0.4s delay)
                 });
             }
         });
-        // --- FIN SCRIPT DE PORTADA ---
-
         
         // --- SCRIPT PARA TOKEN (RSVP Y NOMBRE DE INVITADO) ---
         (async function() {
@@ -546,19 +823,28 @@
             const token = qp.get('t') || '';
             const rsvpHref = `rsvp.html?t=${encodeURIComponent(token)}`;
             const rsvpButton = document.getElementById("btnRSVP");
-            if (rsvpButton) { rsvpButton.href = rsvpHref; }
+            
+            if (rsvpButton) { 
+                rsvpButton.href = rsvpHref; 
+            }
+            
             if (token) {
                 try {
                     const res = await fetch('guests.json', { cache: 'default' }); 
                     if (!res.ok) throw new Error('No se pudo cargar guests.json');
                     const db = await res.json();
                     const guest = db[token];
+                    
                     if (guest && guest.names && guest.names.length > 0) {
                         const formattedName = guest.names.join(' & ');
                         const guestElement = document.getElementById("guestName");
-                        if (guestElement && formattedName) { guestElement.textContent = formattedName; }
+                        if (guestElement && formattedName) { 
+                            guestElement.textContent = formattedName; 
+                        }
                     }
-                } catch (error) { console.error("Error al cargar datos de invitado:", error); }
+                } catch (error) { 
+                    console.error("Error al cargar datos de invitado:", error); 
+                }
             }
         })();
     </script>
