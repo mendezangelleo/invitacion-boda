@@ -238,17 +238,16 @@
         }
         .splash-logo {
             display: inline-block;
-            width: 80%;
-            max-width: 350px;
-            height: 350px;
-            max-height: 80vw;
-            
+            width: clamp(240px, 45vw, 420px);
+            aspect-ratio: 1 / 1;
             border-radius: 50%;
-
+            overflow: hidden;
             background-image: url('img/Logo definitivo.png');
-            background-size: contain; 
+            background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
+            background-color: transparent;
+            box-shadow: 0 12px 28px rgba(0, 0, 0, 0.08);
         }
 
         /* 2. SECCIÓN VERSÍCULO Y NOMBRES */
@@ -296,23 +295,49 @@
             font-family: 'Playfair Display', serif;
             color: var(--color-primario);
             text-transform: uppercase;
+            display: inline-flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+            letter-spacing: 0;
         }
-        .exact-date-format .exact-weekday {
-            font-size: 1.8rem;
-            font-weight: 700;
-            letter-spacing: 2px;
-            margin-bottom: -5px; 
+        .exact-date-header,
+        .exact-date-footer {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            width: min(520px, 90vw);
         }
-        .exact-date-format .exact-day {
-            font-size: 6rem;
-            font-weight: 700;
+        .exact-date-header .line,
+        .exact-date-footer .line {
+            flex: 1;
+            height: 1px;
+            background-color: rgba(90, 117, 90, 0.35);
+        }
+        .exact-date-header .exact-month {
+            font-size: clamp(1rem, 2.4vw, 1.4rem);
+            letter-spacing: 0.5rem;
+            font-weight: 600;
+        }
+        .exact-day {
+            font-size: clamp(4rem, 12vw, 6.5rem);
+            font-style: italic;
+            font-weight: 600;
+            letter-spacing: 0.1rem;
+            margin: 0;
             line-height: 1;
         }
-        .exact-date-format .exact-month-year {
-            font-size: 1.8rem;
-            font-weight: 700;
-            letter-spacing: 2px;
-            margin-top: -5px; 
+        .exact-date-footer .footer-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 2rem;
+            width: min(320px, 60vw);
+        }
+        .exact-date-footer .footer-content span {
+            font-size: clamp(0.85rem, 2.2vw, 1.1rem);
+            letter-spacing: 0.35rem;
+            font-weight: 600;
         }
 
 
@@ -329,34 +354,38 @@
             color: var(--color-primario);
             font-weight: 700;
         }
-         #countdown {
-             display: flex;
-             justify-content: center;
-             gap: 15px; 
-             font-family: 'Orbitron', sans-serif; 
-         }
-         #countdown div {
-             background-color: #ffffff; 
-             border: 3px solid var(--color-primario); 
-             color: var(--color-texto); 
-             padding: 15px 20px;
-             border-radius: 5px; 
-             min-width: 80px; 
-             box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-         }
-         #countdown span[id] { 
-             display: block;
-             font-size: 3rem; 
-             line-height: 1.1;
-             margin-bottom: 5px; 
-         }
-         #countdown span:not([id]) { 
-             display: block;
-             font-family: 'Merriweather', serif; 
-             font-size: 0.8rem;
-             text-transform: uppercase;
-             opacity: 0.7; 
-         }
+        #countdown {
+            display: flex;
+            justify-content: center;
+            gap: 18px;
+            flex-wrap: wrap;
+            font-family: 'Orbitron', sans-serif;
+        }
+        #countdown div {
+            background-color: rgba(255, 255, 255, 0.75);
+            border: 1px solid rgba(90, 117, 90, 0.25);
+            color: var(--color-primario);
+            padding: 14px 20px;
+            border-radius: 14px;
+            min-width: 84px;
+            box-shadow: none;
+            backdrop-filter: blur(2px);
+        }
+        #countdown span[id] {
+            display: block;
+            font-size: 2.6rem;
+            line-height: 1.1;
+            margin-bottom: 4px;
+            font-weight: 600;
+        }
+        #countdown span:not([id]) {
+            display: block;
+            font-family: 'Merriweather', serif;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.18rem;
+            opacity: 0.65;
+        }
          
         /* 7. PASE DE ABORDAR (REDISEÑADO) */
          .boarding-pass { 
@@ -366,70 +395,115 @@
             border-bottom: 1px solid rgba(90, 117, 90, 0.1);
          }
          .boarding-pass-card { 
-            background: #ffffff; 
-            border: 1px solid rgba(44, 58, 44, 0.1); 
-            border-radius: 15px; 
-            max-width: 600px; 
+            position: relative;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(240, 244, 240, 0.95));
+            border: 1px solid rgba(44, 58, 44, 0.12); 
+            border-radius: 22px; 
+            max-width: 720px; 
             margin: 20px auto; 
             display: flex; 
-            box-shadow: 0 5px 15px rgba(0,0,0,0.05); 
+            box-shadow: 0 18px 45px rgba(0,0,0,0.08); 
+            overflow: hidden;
          }
+         .boarding-pass-card::before,
+         .boarding-pass-card::after {
+            content: "";
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 24px;
+            height: 24px;
+            background: var(--color-fondo);
+            border: 1px solid rgba(44, 58, 44, 0.12);
+            border-radius: 50%;
+            z-index: 2;
+         }
+         .boarding-pass-card::before { left: -12px; }
+         .boarding-pass-card::after { right: -12px; }
          .bp-left { 
-            flex: 2; 
-            padding: 30px; 
+            flex: 3; 
+            padding: 36px 40px; 
             text-align: left; 
-            border-right: 2px dashed rgba(90, 117, 90, 0.3); 
+            border-right: 2px dashed rgba(90, 117, 90, 0.25); 
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+         }
+         .bp-label {
+            font-size: 0.75rem;
+            letter-spacing: 0.18rem;
+            text-transform: uppercase;
+            color: rgba(74, 74, 74, 0.7);
          }
          .bp-left p { 
-            font-size: 0.9rem; 
-            opacity: 0.8; 
-            margin-bottom: 15px; 
+            margin: 0; 
+            font-size: 0.85rem; 
          }
          .bp-left .passenger { 
             font-family: 'Caveat', cursive;
-            font-size: 1.8rem;
+            font-size: 2rem;
             font-weight: 700; 
             color: var(--color-primario); 
-            margin-top: -5px;
-            margin-bottom: 15px;
             line-height: 1.2;
          }
          .bp-left .flight-details { 
             display: flex; 
             justify-content: space-between; 
-            margin-top: 20px; 
             gap: 20px; 
          }
-         .bp-left .flight-details div { line-height: 1.2; }
+         .bp-left .flight-details > div { 
+            flex: 1; 
+            line-height: 1.2; 
+         }
          .bp-left .flight-details .passenger {
-             font-family: 'Caveat', cursive;
-             font-size: 1.5rem;
-             margin: 0;
+            font-size: 1.6rem;
          }
          .bp-right { 
-            flex: 1; 
+            flex: 1.4; 
             display: flex; 
             flex-direction: column; 
             justify-content: space-between; 
             align-items: center; 
-            padding: 20px;
-            gap: 10px;
+            padding: 36px 30px;
+            gap: 16px;
+            background: rgba(90, 117, 90, 0.06);
          }
-         .bp-right p.flight-number { 
-             font-family: 'Caveat', cursive;
-             font-size: 1.5rem;
-             font-weight: 700; 
-             margin: 0;
-             color: var(--color-primario);
+         .bp-right .flight-number { 
+            font-family: 'Merriweather', serif;
+            font-size: 0.9rem;
+            font-weight: 700; 
+            letter-spacing: 0.25rem; 
+            text-transform: uppercase;
+            margin: 0;
+            color: var(--color-primario);
          }
-         /* --- CAMBIO: CÓDIGO DE BARRAS MÁS GRANDE --- */
-         .bp-right .fa-barcode {
-            font-size: 8rem; /* Aumentado de 7rem */
-            color: var(--color-texto);
-            opacity: 0.8;
-            margin-bottom: 5px;
+         .barcode {
             width: 100%; 
-            line-height: 0.8; 
+            max-width: 260px;
+            height: 96px;
+            background: repeating-linear-gradient(
+                90deg,
+                rgba(44, 58, 44, 0.85) 0px,
+                rgba(44, 58, 44, 0.85) 6px,
+                transparent 6px,
+                transparent 12px
+            );
+            border-radius: 6px;
+            position: relative;
+            overflow: hidden;
+         }
+         .barcode::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: repeating-linear-gradient(
+                90deg,
+                transparent 0px,
+                transparent 18px,
+                rgba(44, 58, 44, 0.55) 18px,
+                rgba(44, 58, 44, 0.55) 22px
+            );
+            opacity: 0.65;
          }
          .bp-right h4 { display: none; } 
          .bp-right .photo { display: none; }
@@ -539,13 +613,21 @@
         /* --- FIN NUEVAS SECCIONES --- */
 
 
-         .btn { display: inline-flex; align-items: center; justify-content: center; background-color: var(--color-primario); color: var(--color-texto-claro); padding: 12px 30px; text-decoration: none; border-radius: 5px; font-size: 1.1rem; font-weight: 700; margin-top: 20px; border: 1px solid var(--color-primario); transition: transform 0.2s ease, background-color 0.3s ease, color 0.3s ease; -webkit-tap-highlight-color: transparent;-webkit-tap-highlight-color: transparent; }
-         .btn:hover { transform: scale(1.05); background-color: var(--color-secundario); color: var(--color-primario); border-color: var(--color-secundario); }
-         .btn i { margin-right: 10px; }
-         .btn:active {
-             transform: scale(0.98); 
-             opacity: 0.9; 
-         }
+        .btn { display: inline-flex; align-items: center; justify-content: center; background-color: var(--color-primario); color: var(--color-texto-claro); padding: 12px 30px; text-decoration: none; border-radius: 5px; font-size: 1.1rem; font-weight: 700; margin-top: 20px; border: 1px solid var(--color-primario); transition: transform 0.2s ease, background-color 0.3s ease, color 0.3s ease; -webkit-tap-highlight-color: transparent;-webkit-tap-highlight-color: transparent; }
+        .btn:hover { transform: scale(1.05); background-color: var(--color-secundario); color: var(--color-primario); border-color: var(--color-secundario); }
+        @media (hover: none) {
+            .btn:hover {
+                transform: none;
+                background-color: var(--color-primario);
+                color: var(--color-texto-claro);
+                border-color: var(--color-primario);
+            }
+        }
+        .btn i { margin-right: 10px; }
+        .btn:active {
+            transform: scale(0.98); 
+            opacity: 0.9; 
+        }
          .btn:focus:not(:hover) {
              background-color: var(--color-primario); 
              color: var(--color-texto-claro);   
@@ -559,34 +641,55 @@
     
          /* Media Query para Móviles */
          @media (max-width: 600px) { 
-            /* --- CAMBIO: TAMAÑO LOGO MÓVIL --- */
             .splash-logo {
-                width: 220px; /* Reducido de 280px */
-                height: 220px; /* Reducido de 280px */
+                width: min(70vw, 280px);
+                box-shadow: 0 8px 22px rgba(0, 0, 0, 0.08);
             }
-             
-            .exact-date-format .exact-weekday {
-                font-size: 1.2rem;
+            .exact-day {
+                font-size: clamp(3.5rem, 18vw, 5rem);
             }
-            .exact-date-format .exact-day {
-                font-size: 4rem;
+            .exact-date-header,
+            .exact-date-footer {
+                width: 100%;
+                gap: 1rem;
             }
-            .exact-date-format .exact-month-year {
-                font-size: 1.2rem;
+            .exact-date-footer .footer-content {
+                width: min(240px, 70vw);
+                gap: 1.2rem;
             }
-
-             #countdown { gap: 10px; }
-             #countdown div { padding: 10px 12px; min-width: 60px; border-width: 2px; }
-             #countdown span[id] { font-size: 2rem; }
-             #countdown span:not([id]) { font-size: 0.7rem; }
-             
-             .boarding-pass-card { flex-direction: column; }
-             .bp-left { border-right: none; border-bottom: 2px dashed rgba(90, 117, 90, 0.3); padding: 20px; }
-             .bp-right { padding: 20px; }
-             /* --- CAMBIO: TAMAÑO CÓDIGO BARRAS MÓVIL --- */
-             .bp-right .fa-barcode {
-                 font-size: 7rem; /* Ajustado para móvil */
-             }
+            #countdown {
+                gap: 12px;
+                flex-wrap: wrap;
+            }
+            #countdown div {
+                padding: 10px 14px;
+                min-width: 64px;
+                flex: 0 1 calc(50% - 12px);
+                max-width: 140px;
+            }
+            #countdown span[id] {
+                font-size: 2rem;
+            }
+            #countdown span:not([id]) {
+                font-size: 0.68rem;
+                letter-spacing: 0.14rem;
+            }
+            .boarding-pass-card { 
+                flex-direction: column; 
+            }
+            .bp-left { 
+                border-right: none; 
+                border-bottom: 2px dashed rgba(90, 117, 90, 0.25); 
+                padding: 28px 24px; 
+            }
+            .bp-right { 
+                width: 100%;
+                padding: 28px 24px; 
+            }
+            .barcode {
+                max-width: 100%;
+                height: 74px;
+            }
          } 
     </style>
 </head>
@@ -644,10 +747,19 @@
 
         <section class="date-section container">
             <div class="exact-date-format">
-                <div class="exact-weekday">VIERNES</div>
+                <div class="exact-date-header">
+                    <span class="line"></span>
+                    <span class="exact-month">JULIO</span>
+                    <span class="line"></span>
+                </div>
                 <div class="exact-day">24</div>
-                <div class="exact-month-year">
-                    <span class="exact-month">JUL</span> / <span class="exact-year">2026</span>
+                <div class="exact-date-footer">
+                    <span class="line"></span>
+                    <div class="footer-content">
+                        <span class="exact-weekday">VIERNES</span>
+                        <span class="exact-year">2026</span>
+                    </div>
+                    <span class="line"></span>
                 </div>
             </div>
         </section>
@@ -666,18 +778,24 @@
             <div class="boarding-pass-card">
                 <div class="bp-left">
                     <h4>Pase de Abordar</h4>
-                    <p>Pasajero:</p>
+                    <p class="bp-label">Pasajero</p>
                     <p class="passenger" id="guestName">Nuestro Invitado Especial</p>
-                    <p>Evento:</p>
+                    <p class="bp-label">Evento</p>
                     <p class="passenger">Boda Anyela & Angel</p> 
                     <div class="flight-details">
-                        <div> <p>Fecha</p> <p class="passenger">24.07.2026</p> </div>
-                        <div> <p>Puerta</p> <p class="passenger">A&A</p> </div>
+                        <div>
+                            <p class="bp-label">Fecha</p>
+                            <p class="passenger">24.07.2026</p>
+                        </div>
+                        <div>
+                            <p class="bp-label">Puerta</p>
+                            <p class="passenger">A&A</p>
+                        </div>
                     </div>
                 </div>
                 <div class="bp-right">
-                    <p class="flight-number">Vuelo N° 2407</p> 
-                    <i class="fa-solid fa-barcode"></i>
+                    <p class="flight-number">Vuelo N&ordm; 2407</p> 
+                    <div class="barcode" role="img" aria-label="Código de barras decorativo"></div>
                 </div>
             </div>
         </section>
@@ -852,3 +970,6 @@
     <script src="sw.js"></script>
 </body>
 </html>
+
+
+
