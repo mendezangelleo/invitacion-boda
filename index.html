@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
@@ -15,9 +15,7 @@
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nuestra Boda - Anyela & Angel</title> <meta property="og:title" content="Nuestra Boda - Anyela & Angel" /> 
+    <meta property="og:title" content="Nuestra Boda - Anyela & Angel" /> 
     <meta property="og:description" content="¡Estás invitado/a a celebrar nuestro gran día! Confirma tu asistencia y encuentra todos los detalles aquí." /> 
     <meta property="og:image" content="invitacionboda2407.netlify.app/img/imagen_preview.jpg" /> 
     <meta property="og:url" content="invitacionboda2407.netlify.app/" /> 
@@ -26,17 +24,21 @@
     <meta name="twitter:title" content="Nuestra Boda - Anyela & Angel">
     <meta name="twitter:description" content="¡Estás invitado/a a celebrar nuestro gran día!">
     <meta name="twitter:image" content="invitacionboda2407.netlify.app/img/imagen_preview.jpg">
-    <link rel="icon" href="img/Logo definitivo.png" type="image/png">
 
     <style>
         /* --- TU PALETA DE COLORES --- */
         :root {
             --color-fondo: #fbf8f2;      /* Fondo beige claro */
-            --color-primario: #5a755a;   /* Verde oscuro principal */
-            --color-secundario: rgb(187, 148, 90); /* Acento dorado */
+            --color-primario: #4A9471;   /* Verde oscuro principal */
+            --color-secundario: #000000; /* Acento negro */
             --color-texto: #4a4a4a;      /* Texto oscuro */
             --color-texto-claro: #fbf8f2;/* Texto claro */
-            --color-lazo: rgb(161, 128, 74);       /* Color para el lazo/cuerda */
+            --color-lazo: #928511;       /* Color para el lazo/cuerda */
+            
+            /* --- NUEVO COLOR --- */
+            --color-verde-pasaporte: #79D1B0; /* Verde claro del pasaporte */
+            --color-avion-claro: #98e8c8; /* Verde aún más claro para el avión */
+            --color-letras-portada: #04251a; /* Color de las letras en la portada */
         }
         /* --- FIN DE TUS COLORES --- */
 
@@ -55,24 +57,25 @@
             perspective: 1000px;
         }
         
-        body.no-scroll {
+        .no-scroll {
             overflow: hidden;
         }
+
+        /* ============================================================
+           CSS DE LA PORTADA (CON ARREGLOS DE LAYOUT Y ESTILO)
+        ============================================================ */
 
         /* 1. SECCIÓN PORTADA (PASAPORTE) */
         .passport-cover {
             height: 100svh; 
-            background-color: var(--color-primario);
-            background-image: url('https://www.transparenttextures.com/patterns/world-map.png');
-            background-blend-mode: overlay;
-            background-size: contain;
+            background-color: var(--color-verde-pasaporte); /* FONDO VERDE CLARO */
             color: var(--color-secundario);
             display: flex;
             flex-direction: column;
-            justify-content: space-between; 
             align-items: center;
             text-align: center;
-            padding: 20px; 
+            
+            border: 3px solid var(--color-primario); /* Borde verde oscuro */
             
             transition: transform 1.2s ease-in-out 0.5s, opacity 1s ease-out 0.5s, visibility 1s ease-out 0.5s;
             
@@ -82,56 +85,122 @@
             width: 100%;
             z-index: 100;
             transform-origin: left center;
-            position: relative; 
         }
-        
         .passport-cover.is-open {
             transform: rotateY(-90deg) scale(0.9);
             opacity: 0;
             visibility: hidden;
         }
 
+        /* 1A. ENCABEZADO (HEADER) */
         .passport-cover .passport-names.top {
-            font-family: 'Dancing Script', cursive; 
-            font-size: 2.5rem; 
-            padding: 5px 15px; 
-            border-bottom: 1px solid var(--color-secundario); 
-            border-top: 1px solid var(--color-secundario); 
-            position: absolute;
-            top: 25px; 
-            left: 50%; 
-            transform: translateX(-50%); 
-            z-index: 30;
-            white-space: nowrap; 
-        }
+    font-family: 'Dancing Script', cursive; 
+    font-size: 2.5rem; 
+    padding: 5px 15px; 
+    position: absolute;
+    top: 25px; 
+    left: 50%; 
+    transform: translateX(-50%); 
+    border-bottom: 3px #0e444073 solid;
+    border-top: 3px #0e444073 solid;
+    width: auto;
+    z-index: 30;
+    white-space: nowrap;
+    
+    /* --- AÑADE ESTA LÍNEA --- */
+    color: var(--color-letras-portada);  
+    /* --- FIN LÍNEA AÑADIDA --- */
+}
 
+        /* 1B. CONTENIDO CENTRAL */
         .passport-central-content {
             position: relative; 
             display: flex; 
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            flex-grow: 1; 
-            width: 100%; 
-            height: 100%; 
+            flex-grow: 1;  
+            width: 100%;   
+            background-color: var(--color-verde-pasaporte); /* Mantenemos el color de fondo */
+            z-index: 5; /* Asegura que esté por encima del borde del cover si fuera necesario */
+            padding-top: clamp(60px, 10vh, 150px); /* Separa la brújula del encabezado */
+            padding-bottom: clamp(40px, 8vh, 120px);
         }
 
+        /* Estilos para el SVG del mapa del mundo (capa inferior) */
+        .world-map-background-svg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 0; /* Por debajo de todo lo demás */
+            pointer-events: none;
+            opacity: 0.15; /* Lo hacemos semitransparente */
+            color: var(--color-primario); /* Color verde oscuro para el mapa */
+            padding: 10px;
+        }
+        .world-map-background-svg svg {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            max-width: 600px;
+            max-height: 600px;
+            margin: auto;
+            display: block;
+        }
+
+        /* Estilos para el SVG de la brújula (capa superior) */
+        .compass-svg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1; /* Detrás del texto y avión, pero encima del mapa de fondo */
+            pointer-events: none;
+            color: var(--color-primario); /* Color verde oscuro para la brújula */
+            padding: 10px; /* Pequeño espacio para que no pegue a los bordes */
+        }
+
+        /* --- ARREGLO PARA PROPORCIÓN DEL SVG DE LA BRÚJULA --- */
+        .compass-svg svg { 
+            width: 100%; 
+            height: 100%; 
+            object-fit: contain; /* Mantiene la proporción */
+            max-width: 500px;    /* Límite en desktop */
+            max-height: 500px;   /* Límite en desktop */
+            margin: auto; 
+            display: block; /* Para asegurar el centrado con margin: auto */
+            opacity: 0.3;
+        }
+        
         @keyframes pulse {
             0% { transform: translate(-50%, -50%) scale(1); filter: drop-shadow(2px 4px 5px rgba(0,0,0,0.3)); }
             50% { transform: translate(-50%, -50%) scale(1.05); filter: drop-shadow(3px 6px 8px rgba(0,0,0,0.4)); }
             100% { transform: translate(-50%, -50%) scale(1); filter: drop-shadow(2px 4px 5px rgba(0,0,0,0.3)); }
         }
 
-        .compass-background-svg { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 280px; height: 280px; color: var(--color-secundario); opacity: 0.2; z-index: 5; transition: opacity 0.5s ease; }
         .twine-wrapper { position: absolute; top: 50%; left: 0; width: 100%; transform: translateY(-50%); z-index: 10; transition: opacity 0.5s ease; padding: 0; }
-        .twine-line { width: 100%; height: 2px; background-color: var(--color-lazo); box-shadow: 0 1px 1px rgba(0,0,0,0.2); }
+        .twine-line { 
+            width: 100%; 
+            height: 3px; 
+            background-color: var(--color-lazo); /* Líneas verdes */
+            box-shadow: 0 1px 1px rgba(0,0,0,0.2); 
+        }
         .twine-line:first-child { margin-bottom: 5px; }
         
         .plane-charm-button { 
             position: absolute; 
             top: 50%; 
             left: 50%; 
-            z-index: 20; 
+            z-index: 20; /* Encima de la brújula y textos */
             cursor: pointer; 
             padding: 10px; 
             animation: pulse 2s infinite ease-in-out; 
@@ -141,13 +210,40 @@
             transform: translate(-50%, -50%) scale(1.1); 
             animation-play-state: paused; 
         }
-        .plane-charm-button .plane-svg { width: 100px; height: 100px; filter: drop-shadow(2px 4px 5px rgba(0,0,0,0.3)); transform-origin: center center; display: block; }
+        .plane-charm-button .plane-svg { 
+            width: 150px; 
+            height: 150px; 
+            filter: drop-shadow(2px 4px 5px rgba(0,0,0,0.3)); 
+            transform-origin: center center; 
+            display: block; 
+            fill: var(--color-letras-portada); /* --- NUEVO COLOR PARA EL AVIÓN --- */
+        }
         
         .passport-text-group { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 18; display: flex; flex-direction: column; align-items: center; justify-content: center; pointer-events: none; width: 100%; height: 100%; }
-        .passport-text-group .passport-word { font-family: 'Playfair Display', serif; font-size: 2.5rem; text-transform: uppercase; line-height: 1; position: relative; text-align: center; }
-        .passport-text-group .passport-word.top { margin-bottom: 60px; }
-        .passport-text-group .passport-word.bottom { margin-top: 60px; }
-        .passport-text-group .passport-year { font-family: 'Playfair Display', serif; font-size: 1.2rem; color: var(--color-secundario); position: absolute; top: calc(50% + 95px); left: 50%; transform: translateX(-50%); z-index: 19; }
+        .passport-text-group .passport-word { 
+            font-family: 'Playfair Display', serif; 
+            font-size: 2.5rem; 
+            text-transform: uppercase; 
+            line-height: 1; 
+            position: relative; 
+            text-align: center; 
+            color: rgb(180, 150, 66); 
+        }
+        /* Ajusta estos márgenes si quieres acercar/alejar los textos de la brújula */
+        .passport-text-group .passport-word.top { margin-bottom: 70px; } 
+        .passport-text-group .passport-word.bottom { margin-top: 70px; }
+        
+        .passport-text-group .passport-year { 
+            font-family: 'Playfair Display', serif; 
+            font-size: 1.2rem; 
+            color: rgb(192, 153, 46);  
+            position: absolute; 
+            /* Ajusta este valor si quieres acercar/alejar el año */
+            top: calc(50% + 180px); 
+            left: 50%; 
+            transform: translateX(-50%); 
+            z-index: 19; 
+        }
         
         @keyframes flyInHeart {
             0% { transform: translate(-50%, -50%) rotate(0deg) scale(1); opacity: 1; }
@@ -160,50 +256,29 @@
             animation: flyInHeart 1.4s forwards ease-in-out;
         }
 
-        .passport-cover .scroll-down { position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%); font-size: 1.1rem; letter-spacing: 1px; color: var(--color-secundario); text-transform: uppercase; z-index: 30; }
+        /* 1C. PIE DE PÁGINA (FOOTER) */
+        .passport-cover .scroll-down { 
+            padding-bottom: 20px; 
+            font-size: 1.1rem; 
+            letter-spacing: 1px; 
+            color: var(--color-letras-portada); /* Ahora coincide con el header */
+            text-transform: uppercase; 
+            z-index: 30; 
+        }
         .passport-cover .scroll-down i { display: block; font-size: 1.5rem; margin-top: 10px; }
         
+        /* ============================================================
+           FIN DE CAMBIOS EN LA PORTADA
+        ============================================================ */
         
+        /* --- Resto del CSS (sin cambios) --- */
+
         /* Contenedor principal invitación */
-        .invitation-content { 
-            display: block; 
-            position: relative; 
-            z-index: 1; 
-            opacity: 0; 
-            transition: opacity 1s ease-in-out; 
-            transition-delay: 0.5s; 
-        }
-        .invitation-content.is-visible { 
-            opacity: 1; 
-        }
-        .container { 
-            max-width: 800px; 
-            margin: 0 auto; 
-            padding: 20px; 
-            text-align: center; 
-            position: relative;
-            z-index: 1;
-        }
-
-        /* --- FONDO DE IMAGEN PARA SECCIONES --- */
-        .with-image-background {
-            position: relative;
-            background-image: url('img/vecteezy_ai-generated-eucalyptus-leaves-background-on-white-marble_35463410.jpg');
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed; 
-        }
-        .with-image-background::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background-color: rgba(255, 255, 255, 0.7); /* Overlay blanco más transparente */
-            z-index: 0;
-        }
-        /* --- FIN FONDO DE IMAGEN --- */
-
-
-        /* === AJUSTES DE COLOR PARA TÍTULOS === */
+        .invitation-content { display: block; position: relative; z-index: 1; opacity: 0; transition: opacity 1s ease-in-out; transition-delay: 0.5s; }
+        .invitation-content.is-visible { opacity: 1; }
+        .container { max-width: 800px; margin: 0 auto; padding: 20px; text-align: center; position: relative; z-index: 1;}
+        .with-image-background {position: relative; background-image: url('img/vecteezy_ai-generated-eucalyptus-leaves-background-on-white-marble_35463410.jpg'); background-size: cover; background-position: center; background-attachment: fixed; }
+        .with-image-background::before {content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-color: rgba(255, 255, 255, 0.7); z-index: 0;}
         h2, h3 { color: var(--color-primario); }
         p { color: var(--color-texto); } 
         .boarding-pass-card h4 { color: var(--color-primario); }
@@ -214,482 +289,99 @@
         .timeline-content h3 { color: var(--color-primario); }
         .info-section h2 { color: var(--color-primario); }
         .travel-info-section h2 { color: var(--color-primario); }
-        /* --- CAMBIO: FUENTE FOOTER --- */
-        footer h3 { 
-            font-family: 'Merriweather', serif; /* Cambiado de Playfair */
-            font-size: 1.8rem; /* Ajustado */
-            color: var(--color-secundario); 
-        }
-        footer h3:last-child { 
-            font-family: 'Dancing Script', cursive; /* A&A en cursiva */
-            font-size: 2.2rem; /* Ajustado */
-            color: var(--color-texto-claro); 
-            margin-top: 5px; /* Reducido */
-        }
-        /* === FIN AJUSTES DE COLOR === */
-
-
-        /* --- INICIO: SECCIONES REESTRUCTURADAS --- */
-        
-        /* 1. SECCIÓN DE LOGO (SIN FONDO BLANCO NI SOMBRA) */
-        .logo-section {
-            padding: 40px 20px 20px;
-            text-align: center;
-        }
-        .splash-logo {
-            display: inline-block;
-            width: clamp(240px, 45vw, 420px);
-            aspect-ratio: 1 / 1;
-            border-radius: 50%;
-            overflow: hidden;
-            background-image: url('img/Logo definitivo.png');
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-            background-color: transparent;
-            box-shadow: 0 12px 28px rgba(0, 0, 0, 0.08);
-        }
-
-        /* 2. SECCIÓN VERSÍCULO Y NOMBRES */
-        .verse-section {
-            padding: 40px 20px 40px;
-            background-color: var(--color-fondo);
-        }
-        .verse-section p {
-            font-family: 'Merriweather', serif;
-            font-size: 1.3rem;
-            font-style: italic;
-            max-width: 500px;
-            margin: 0 auto 10px;
-        }
-        .verse-section span {
-            font-size: 1rem;
-            color: var(--color-secundario);
-            font-weight: 700;
-            display: block;
-            margin-bottom: 30px;
-        }
-        .verse-section h2 {
-            font-family: 'Dancing Script', cursive;
-            font-size: 3.5rem;
-            font-weight: 700;
-        }
-
-        /* 3. SECCIÓN FRASE BONITA (CON NUEVO FONDO) */
-        .phrase-section {
-            padding: 40px 20px;
-        }
-        .phrase-section p {
-            font-size: 1.2rem;
-            font-weight: 300;
-            max-width: 600px;
-            margin: 0 auto;
-            line-height: 1.8;
-        }
-
-        /* 4. SECCIÓN FECHA (FORMATO EXACTO) */
-        .date-section {
-            padding: 60px 20px;
-        }
-        .exact-date-format {
-            font-family: 'Playfair Display', serif;
-            color: var(--color-primario);
-            text-transform: uppercase;
-            display: inline-flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 1rem;
-            letter-spacing: 0;
-        }
-        .exact-date-header,
-        .exact-date-footer {
-            display: flex;
-            align-items: center;
-            gap: 1.5rem;
-            width: min(520px, 90vw);
-        }
-        .exact-date-header .line,
-        .exact-date-footer .line {
-            flex: 1;
-            height: 1px;
-            background-color: rgba(90, 117, 90, 0.35);
-        }
-        .exact-date-header .exact-month {
-            font-size: clamp(1rem, 2.4vw, 1.4rem);
-            letter-spacing: 0.5rem;
-            font-weight: 600;
-        }
-        .exact-day {
-            font-size: clamp(4rem, 12vw, 6.5rem);
-            font-style: italic;
-            font-weight: 600;
-            letter-spacing: 0.1rem;
-            margin: 0;
-            line-height: 1;
-        }
-        .exact-date-footer .footer-content {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            gap: 2rem;
-            width: min(320px, 60vw);
-        }
-        .exact-date-footer .footer-content span {
-            font-size: clamp(0.85rem, 2.2vw, 1.1rem);
-            letter-spacing: 0.35rem;
-            font-weight: 600;
-        }
-
-
-        /* 5. SECCIÓN CUENTA REGRESIVA */
-        .countdown-section {
-            padding: 40px 20px 60px;
-            border-top: 1px solid rgba(90, 117, 90, 0.1);
-        }
-        .countdown-section p {
-            font-size: 1.2rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 30px;
-            color: var(--color-primario);
-            font-weight: 700;
-        }
-        #countdown {
-            display: flex;
-            justify-content: center;
-            gap: 18px;
-            flex-wrap: wrap;
-            font-family: 'Orbitron', sans-serif;
-        }
-        #countdown div {
-            background-color: rgba(255, 255, 255, 0.75);
-            border: 1px solid rgba(90, 117, 90, 0.25);
-            color: var(--color-primario);
-            padding: 14px 20px;
-            border-radius: 14px;
-            min-width: 84px;
-            box-shadow: none;
-            backdrop-filter: blur(2px);
-        }
-        #countdown span[id] {
-            display: block;
-            font-size: 2.6rem;
-            line-height: 1.1;
-            margin-bottom: 4px;
-            font-weight: 600;
-        }
-        #countdown span:not([id]) {
-            display: block;
-            font-family: 'Merriweather', serif;
-            font-size: 0.75rem;
-            text-transform: uppercase;
-            letter-spacing: 0.18rem;
-            opacity: 0.65;
-        }
-         
-        /* 7. PASE DE ABORDAR (REDISEÑADO) */
-         .boarding-pass { 
-            padding: 40px 20px; 
-            background-color: rgba(90, 117, 90, 0.05);
-            border-top: 1px solid rgba(90, 117, 90, 0.1);
-            border-bottom: 1px solid rgba(90, 117, 90, 0.1);
-         }
-         .boarding-pass-card { 
-            position: relative;
-            background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(240, 244, 240, 0.95));
-            border: 1px solid rgba(44, 58, 44, 0.12); 
-            border-radius: 22px; 
-            max-width: 720px; 
-            margin: 20px auto; 
-            display: flex; 
-            box-shadow: 0 18px 45px rgba(0,0,0,0.08); 
-            overflow: hidden;
-         }
-         .boarding-pass-card::before,
-         .boarding-pass-card::after {
-            content: "";
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            width: 24px;
-            height: 24px;
-            background: var(--color-fondo);
-            border: 1px solid rgba(44, 58, 44, 0.12);
-            border-radius: 50%;
-            z-index: 2;
-         }
-         .boarding-pass-card::before { left: -12px; }
-         .boarding-pass-card::after { right: -12px; }
-         .bp-left { 
-            flex: 3; 
-            padding: 36px 40px; 
-            text-align: left; 
-            border-right: 2px dashed rgba(90, 117, 90, 0.25); 
-            display: flex;
-            flex-direction: column;
-            gap: 18px;
-         }
-         .bp-label {
-            font-size: 0.75rem;
-            letter-spacing: 0.18rem;
-            text-transform: uppercase;
-            color: rgba(74, 74, 74, 0.7);
-         }
-         .bp-left p { 
-            margin: 0; 
-            font-size: 0.85rem; 
-         }
-         .bp-left .passenger { 
-            font-family: 'Caveat', cursive;
-            font-size: 2rem;
-            font-weight: 700; 
-            color: var(--color-primario); 
-            line-height: 1.2;
-         }
-         .bp-left .flight-details { 
-            display: flex; 
-            justify-content: space-between; 
-            gap: 20px; 
-         }
-         .bp-left .flight-details > div { 
-            flex: 1; 
-            line-height: 1.2; 
-         }
-         .bp-left .flight-details .passenger {
-            font-size: 1.6rem;
-         }
-         .bp-right { 
-            flex: 1.4; 
-            display: flex; 
-            flex-direction: column; 
-            justify-content: space-between; 
-            align-items: center; 
-            padding: 36px 30px;
-            gap: 16px;
-            background: rgba(90, 117, 90, 0.06);
-         }
-         .bp-right .flight-number { 
-            font-family: 'Merriweather', serif;
-            font-size: 0.9rem;
-            font-weight: 700; 
-            letter-spacing: 0.25rem; 
-            text-transform: uppercase;
-            margin: 0;
-            color: var(--color-primario);
-         }
-         .barcode {
-            width: 100%; 
-            max-width: 260px;
-            height: 96px;
-            background: repeating-linear-gradient(
-                90deg,
-                rgba(44, 58, 44, 0.85) 0px,
-                rgba(44, 58, 44, 0.85) 6px,
-                transparent 6px,
-                transparent 12px
-            );
-            border-radius: 6px;
-            position: relative;
-            overflow: hidden;
-         }
-         .barcode::after {
-            content: "";
-            position: absolute;
-            inset: 0;
-            background: repeating-linear-gradient(
-                90deg,
-                transparent 0px,
-                transparent 18px,
-                rgba(44, 58, 44, 0.55) 18px,
-                rgba(44, 58, 44, 0.55) 22px
-            );
-            opacity: 0.65;
-         }
-         .bp-right h4 { display: none; } 
-         .bp-right .photo { display: none; }
-
-        /* 8. SECCIÓN FOTO */
-        .photo-section {
-            padding: 0;
-            max-width: 1000px; 
-        }
-        .couple-photo {
-            width: 100%;
-            height: auto;
-            display: block;
-            max-height: 500px;
-            object-fit: cover;
-            object-position: center 30%; 
-        }
-         
-        /* 9. SECCIÓN UBICACIONES (CON ICONOS) */
-         .locations { 
-            padding: 60px 20px; 
-            display: flex; 
-            flex-wrap: wrap; 
-            justify-content: center; 
-            gap: 30px; 
-         }
-         .location-card-icon { 
-            background: #ffffff; 
-            box-shadow: 0 5px 15px rgba(0,0,0,0.05); 
-            border-radius: 10px; 
-            overflow: hidden; 
-            width: 320px; 
-            border: 1px solid rgba(44, 58, 44, 0.1);
-            padding: 35px 25px;
-         }
-         .location-card-icon .icon-wrapper {
-            font-size: 3rem;
-            color: var(--color-secundario);
-            margin-bottom: 15px;
-         }
-         .location-card-icon h3 {
-            font-family: 'Playfair Display', serif;
-            font-size: 1.8rem;
-         }
-         .location-card-icon p { font-size: 1rem; margin: 10px 0; }
-         .location-card-icon .btn { margin-top: 15px; }
-
-
-        /* 10. SECCIÓN ITINERARIO (CON NUEVO FONDO) */
-         .itinerary-section { 
-             padding: 60px 20px; 
-             text-align: center; 
-             border-top: 1px solid rgba(255, 255, 255, 0.2); 
-         }
-         .timeline { position: relative; max-width: 600px; margin: 40px auto 0; opacity: 0.7; }
-         .timeline::after { content: ''; position: absolute; width: 3px; background-color: var(--color-secundario); top: 0; bottom: 0; left: 50%; margin-left: -1.5px; }
-         .timeline-item { padding: 10px 40px; position: relative; width: 50%; }
-         .timeline-item:nth-child(odd) { left: 0; text-align: right; }
-         .timeline-item:nth-child(even) { left: 50%; text-align: left; }
-         .timeline-item::after { content: '\f073'; font-family: "Font Awesome 6 Free"; font-weight: 900; position: absolute; width: 30px; height: 30px; line-height: 30px; text-align: center; right: -15px; top: 15px; background-color: #ffffff; border: 4px solid var(--color-secundario); color: var(--color-primario); border-radius: 50%; z-index: 1; }
-         .timeline-item:nth-child(even)::after { left: -15px; }
-         .timeline-content { padding: 20px; background-color: #ffffff; border-radius: 6px; }
-         .timeline-content p { font-size: 0.9rem; margin: 0; } 
-         .itinerary-section .notice { margin-top: 30px; font-size: 1.1rem; font-style: italic; } 
-
-        /* 11. SECCIÓN INFO / DRESS CODE */
-         .info-section { 
-             padding: 60px 20px; 
-         }
-         .info-section p { font-size: 1.1rem; max-width: 600px; margin: 0 auto 20px auto; line-height: 1.7; } 
-         .info-section p strong { color: var(--color-primario); } 
-
-        
-        /* 12. SECCIÓN RSVP (Color de fondo cambiado) */
-         .rsvp-section { 
-             padding: 60px 20px; 
-             background-color: rgba(90, 117, 90, 0.05); 
-             border-top: 1px solid rgba(90, 117, 90, 0.1); 
-         }
-         .rsvp-section p { 
-             color: var(--color-texto); 
-         }
-         .rsvp-section .btn { 
-             background-color: var(--color-primario); 
-             color: var(--color-texto-claro); 
-             border-color: var(--color-primario); 
-         }
-         .rsvp-section .btn:hover { 
-             background-color: var(--color-secundario);
-             color: var(--color-primario);
-             border-color: var(--color-secundario);
-         }
-
-
-        /* 13. SECCIÓN DATOS IMPORTANTES (CON NUEVO FONDO) */
-        .travel-info-section {
-             padding: 60px 20px; 
-             border-top: 1px solid rgba(255, 255, 255, 0.2); 
-        }
-        .travel-info-section p {
-            font-size: 1.1rem; 
-            max-width: 600px; 
-            margin: 0 auto 20px auto; 
-            line-height: 1.7; 
-        }
-         
-        /* --- FIN NUEVAS SECCIONES --- */
-
-
+        footer h3 { font-family: 'Merriweather', serif; font-size: 1.8rem; color: var(--color-secundario); }
+        footer h3:last-child { font-family: 'Dancing Script', cursive; font-size: 2.2rem; color: var(--color-texto-claro); margin-top: 5px; }
+        .logo-section { padding: 40px 20px 20px; text-align: center; }
+        .splash-logo { display: inline-block; width: clamp(240px, 45vw, 420px); aspect-ratio: 1 / 1; border-radius: 50%; overflow: hidden; background-image: url('img/Logo definitivo.png'); background-size: cover; background-position: center; background-repeat: no-repeat; background-color: transparent; box-shadow: 0 12px 28px rgba(0, 0, 0, 0.08);}
+        .verse-section { padding: 40px 20px 40px; background-color: var(--color-fondo);}
+        .verse-section p { font-family: 'Merriweather', serif; font-size: 1.3rem; font-style: italic; max-width: 500px; margin: 0 auto 10px;}
+        .verse-section span { font-size: 1rem; color: var(--color-secundario); font-weight: 700; display: block; margin-bottom: 30px;}
+        .verse-section h2 { font-family: 'Dancing Script', cursive; font-size: 3.5rem; font-weight: 700;}
+        .phrase-section { padding: 40px 20px;}
+        .phrase-section p { font-size: 1.2rem; font-weight: 300; max-width: 600px; margin: 0 auto; line-height: 1.8;}
+        .date-section { padding: 60px 20px;}
+        .exact-date-format { font-family: 'Playfair Display', serif; color: var(--color-primario); text-transform: uppercase; display: inline-flex; flex-direction: column; align-items: center; gap: 1rem; letter-spacing: 0;}
+        .exact-date-header, .exact-date-footer { display: flex; align-items: center; gap: 1.5rem; width: min(520px, 90vw);}
+        .exact-date-header .line, .exact-date-footer .line { flex: 1; height: 1px; background-color: rgba(90, 117, 90, 0.35);}
+        .exact-date-header .exact-month { font-size: clamp(1rem, 2.4vw, 1.4rem); letter-spacing: 0.5rem; font-weight: 600;}
+        .exact-day { font-size: clamp(4rem, 12vw, 6.5rem); font-style: italic; font-weight: 600; letter-spacing: 0.1rem; margin: 0; line-height: 1;}
+        .exact-date-footer .footer-content { display: flex; justify-content: space-between; align-items: center; gap: 2rem; width: min(320px, 60vw);}
+        .exact-date-footer .footer-content span { font-size: clamp(0.85rem, 2.2vw, 1.1rem); letter-spacing: 0.35rem; font-weight: 600;}
+        .countdown-section { padding: 40px 20px 60px; border-top: 1px solid rgba(90, 117, 90, 0.1);}
+        .countdown-section p { font-size: 1.2rem; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 30px; color: var(--color-primario); font-weight: 700;}
+        #countdown { display: flex; justify-content: center; gap: 18px; flex-wrap: wrap; font-family: 'Orbitron', sans-serif;}
+        #countdown div { background-color: rgba(255, 255, 255, 0.75); border: 1px solid rgba(90, 117, 90, 0.25); color: var(--color-primario); padding: 14px 20px; border-radius: 14px; min-width: 84px; box-shadow: none; backdrop-filter: blur(2px);}
+        #countdown span[id] { display: block; font-size: 2.6rem; line-height: 1.1; margin-bottom: 4px; font-weight: 600;}
+        #countdown span:not([id]) { display: block; font-family: 'Merriweather', serif; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.18rem; opacity: 0.65;}
+        .boarding-pass { padding: 40px 20px; background-color: rgba(90, 117, 90, 0.05); border-top: 1px solid rgba(90, 117, 90, 0.1); border-bottom: 1px solid rgba(90, 117, 90, 0.1);}
+        .boarding-pass-card { position: relative; background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(240, 244, 240, 0.95)); border: 1px solid rgba(44, 58, 44, 0.12); border-radius: 22px; max-width: 720px; margin: 20px auto; display: flex; box-shadow: 0 18px 45px rgba(0,0,0,0.08); overflow: hidden;}
+        .boarding-pass-card::before, .boarding-pass-card::after { content: ""; position: absolute; top: 50%; transform: translateY(-50%); width: 24px; height: 24px; background: var(--color-fondo); border: 1px solid rgba(44, 58, 44, 0.12); border-radius: 50%; z-index: 2;}
+        .boarding-pass-card::before { left: -12px; }
+        .boarding-pass-card::after { right: -12px; }
+        .bp-left { flex: 3; padding: 36px 40px; text-align: left; border-right: 2px dashed rgba(90, 117, 90, 0.25); display: flex; flex-direction: column; gap: 18px;}
+        .bp-label { font-size: 0.75rem; letter-spacing: 0.18rem; text-transform: uppercase; color: rgba(74, 74, 74, 0.7);}
+        .bp-left p { margin: 0; font-size: 0.85rem; }
+        .bp-left .passenger { font-family: 'Caveat', cursive; font-size: 2rem; font-weight: 700; color: var(--color-primario); line-height: 1.2;}
+        .bp-left .flight-details { display: flex; justify-content: space-between; gap: 20px; }
+        .bp-left .flight-details > div { flex: 1; line-height: 1.2; }
+        .bp-left .flight-details .passenger { font-size: 1.6rem;}
+        .bp-right { flex: 1.4; display: flex; flex-direction: column; justify-content: space-between; align-items: center; padding: 36px 30px; gap: 16px; background: rgba(90, 117, 90, 0.06);}
+        .bp-right .flight-number { font-family: 'Merriweather', serif; font-size: 0.9rem; font-weight: 700; letter-spacing: 0.25rem; text-transform: uppercase; margin: 0; color: var(--color-primario);}
+        .barcode { width: 100%; max-width: 260px; height: 96px; background: repeating-linear-gradient(90deg, rgba(44, 58, 44, 0.85) 0px, rgba(44, 58, 44, 0.85) 6px, transparent 6px, transparent 12px); border-radius: 6px; position: relative; overflow: hidden;}
+        .barcode::after { content: ""; position: absolute; inset: 0; background: repeating-linear-gradient(90deg, transparent 0px, transparent 18px, rgba(44, 58, 44, 0.55) 18px, rgba(44, 58, 44, 0.55) 22px); opacity: 0.65;}
+        .bp-right h4 { display: none; } 
+        .bp-right .photo { display: none; }
+        .photo-section { padding: 0; max-width: 1000px; }
+        .couple-photo { width: 100%; height: auto; display: block; max-height: 500px; object-fit: cover; object-position: center 30%; }
+        .locations { padding: 60px 20px; display: flex; flex-wrap: wrap; justify-content: center; gap: 30px; }
+        .location-card-icon { background: #ffffff; box-shadow: 0 5px 15px rgba(0,0,0,0.05); border-radius: 10px; overflow: hidden; width: 320px; border: 1px solid rgba(44, 58, 44, 0.1); padding: 35px 25px;}
+        .location-card-icon .icon-wrapper { font-size: 3rem; color: var(--color-secundario); margin-bottom: 15px;}
+        .location-card-icon h3 { font-family: 'Playfair Display', serif; font-size: 1.8rem;}
+        .location-card-icon p { font-size: 1rem; margin: 10px 0; }
+        .location-card-icon .btn { margin-top: 15px; }
+        .itinerary-section { padding: 60px 20px; text-align: center; border-top: 1px solid rgba(255, 255, 255, 0.2); }
+        .timeline { position: relative; max-width: 600px; margin: 40px auto 0; opacity: 0.7; }
+        .timeline::after { content: ''; position: absolute; width: 3px; background-color: var(--color-secundario); top: 0; bottom: 0; left: 50%; margin-left: -1.5px; }
+        .timeline-item { padding: 10px 40px; position: relative; width: 50%; }
+        .timeline-item:nth-child(odd) { left: 0; text-align: right; }
+        .timeline-item:nth-child(even) { left: 50%; text-align: left; }
+        .timeline-item::after { content: '\f073'; font-family: "Font Awesome 6 Free"; font-weight: 900; position: absolute; width: 30px; height: 30px; line-height: 30px; text-align: center; right: -15px; top: 15px; background-color: #ffffff; border: 4px solid var(--color-secundario); color: var(--color-primario); border-radius: 50%; z-index: 1; }
+        .timeline-item:nth-child(even)::after { left: -15px; }
+        .timeline-content { padding: 20px; background-color: #ffffff; border-radius: 6px; }
+        .timeline-content p { font-size: 0.9rem; margin: 0; } 
+        .itinerary-section .notice { margin-top: 30px; font-size: 1.1rem; font-style: italic; } 
+        .info-section { padding: 60px 20px; }
+        .info-section p { font-size: 1.1rem; max-width: 600px; margin: 0 auto 20px auto; line-height: 1.7; } 
+        .info-section p strong { color: var(--color-primario); } 
+        .rsvp-section { padding: 60px 20px; background-color: rgba(90, 117, 90, 0.05); border-top: 1px solid rgba(90, 117, 90, 0.1); }
+        .rsvp-section p { color: var(--color-texto); }
+        .rsvp-section .btn { background-color: var(--color-primario); color: var(--color-texto-claro); border-color: var(--color-primario); }
+        .rsvp-section .btn:hover { background-color: var(--color-secundario); color: var(--color-primario); border-color: var(--color-secundario);}
+        .travel-info-section { padding: 60px 20px; border-top: 1px solid rgba(255, 255, 255, 0.2); }
+        .travel-info-section p { font-size: 1.1rem; max-width: 600px; margin: 0 auto 20px auto; line-height: 1.7; }
         .btn { display: inline-flex; align-items: center; justify-content: center; background-color: var(--color-primario); color: var(--color-texto-claro); padding: 12px 30px; text-decoration: none; border-radius: 5px; font-size: 1.1rem; font-weight: 700; margin-top: 20px; border: 1px solid var(--color-primario); transition: transform 0.2s ease, background-color 0.3s ease, color 0.3s ease; -webkit-tap-highlight-color: transparent;-webkit-tap-highlight-color: transparent; }
         .btn:hover { transform: scale(1.05); background-color: var(--color-secundario); color: var(--color-primario); border-color: var(--color-secundario); }
-        @media (hover: none) {
-            .btn:hover {
-                transform: none;
-                background-color: var(--color-primario);
-                color: var(--color-texto-claro);
-                border-color: var(--color-primario);
-            }
-        }
+        @media (hover: none) {.btn:hover { transform: none; background-color: var(--color-primario); color: var(--color-texto-claro); border-color: var(--color-primario); }}
         .btn i { margin-right: 10px; }
-        .btn:active {
-            transform: scale(0.98); 
-            opacity: 0.9; 
-        }
-         .btn:focus:not(:hover) {
-             background-color: var(--color-primario); 
-             color: var(--color-texto-claro);   
-             border-color: var(--color-primario); 
-             transform: none; 
-         }
-         
-         /* --- FOOTER --- */
+        .btn:active { transform: scale(0.98); opacity: 0.9; }
+         .btn:focus:not(:hover) { background-color: var(--color-primario); color: var(--color-texto-claro); border-color: var(--color-primario); transform: none; }
          footer { padding: 40px 20px; background: var(--color-primario); color: var(--color-texto-claro); text-align: center; }
-         /* footer h3, footer h3:last-child ya están definidos arriba */
-    
+         
          /* Media Query para Móviles */
          @media (max-width: 600px) { 
-            .splash-logo {
-                width: min(70vw, 280px);
-                box-shadow: 0 8px 22px rgba(0, 0, 0, 0.08);
-            }
-            .exact-day {
-                font-size: clamp(3.5rem, 18vw, 5rem);
-            }
-            .exact-date-header,
-            .exact-date-footer {
-                width: 100%;
-                gap: 1rem;
-            }
-            .exact-date-footer .footer-content {
-                width: min(240px, 70vw);
-                gap: 1.2rem;
-            }
-            #countdown {
-                gap: 12px;
-                flex-wrap: wrap;
-            }
-            #countdown div {
-                padding: 10px 14px;
-                min-width: 64px;
-                flex: 0 1 calc(50% - 12px);
-                max-width: 140px;
-            }
-            #countdown span[id] {
-                font-size: 2rem;
-            }
-            #countdown span:not([id]) {
-                font-size: 0.68rem;
-                letter-spacing: 0.14rem;
-            }
-            .boarding-pass-card { 
-                flex-direction: column; 
-            }
-            .bp-left { 
-                border-right: none; 
-                border-bottom: 2px dashed rgba(90, 117, 90, 0.25); 
-                padding: 28px 24px; 
-            }
-            .bp-right { 
-                width: 100%;
-                padding: 28px 24px; 
-            }
-            .barcode {
-                max-width: 100%;
-                height: 74px;
-            }
+             /* Se quita la regla específica para el SVG en móvil para que herede el object-fit:contain */
+             .splash-logo { width: min(70vw, 280px); box-shadow: 0 8px 22px rgba(0, 0, 0, 0.08);}
+             .exact-day { font-size: clamp(3.5rem, 18vw, 5rem);}
+             .exact-date-header, .exact-date-footer { width: 100%; gap: 1rem;}
+             .exact-date-footer .footer-content { width: min(240px, 70vw); gap: 1.2rem;}
+             #countdown { gap: 12px; flex-wrap: wrap;}
+             #countdown div { padding: 10px 14px; min-width: 64px; flex: 0 1 calc(50% - 12px); max-width: 140px;}
+             #countdown span[id] { font-size: 2rem;}
+             #countdown span:not([id]) { font-size: 0.68rem; letter-spacing: 0.14rem;}
+             .boarding-pass-card { flex-direction: column; }
+             .bp-left { border-right: none; border-bottom: 2px dashed rgba(90, 117, 90, 0.25); padding: 28px 24px; }
+             .bp-right { width: 100%; padding: 28px 24px; }
+             .barcode { max-width: 100%; height: 74px;}
          } 
     </style>
 </head>
@@ -700,15 +392,19 @@
             Anyela & Angel
         </div>
         <div class="passport-central-content">
-            <div class="compass-background-svg">
+            <div class="world-map-background-svg">
+    <img src="img/world.svg" alt="Mapa del Mundo"> 
+</div>
+
+            <div class="compass-svg">
                 <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" fill="currentColor"><path d="M50 0 L50 100 M0 50 L100 50 M14.6 14.6 L85.4 85.4 M14.6 85.4 L85.4 14.6 M50 2 A48 48 0 0 1 50 98 A48 48 0 0 1 50 2 z" stroke="currentColor" stroke-width="1.5" fill="none"/><path d="M50 6 A44 44 0 0 1 50 94 A44 44 0 0 1 50 6 z" stroke="currentColor" stroke-width="1.5" fill="none"/><path d="M50 10 L50 90 M10 50 L90 50 M21.2 21.2 L78.8 78.8 M21.2 78.8 L78.8 21.2" stroke="currentColor" stroke-width="1" fill="none" stroke-dasharray="2 2"/><polygon points="50,12 55,50 50,45 45,50" /><polygon points="50,88 55,50 50,55 45,50" /><polygon points="12,50 50,55 45,50 50,45" /><polygon points="88,50 50,55 55,50 50,45" /><polygon points="25,25 50,47 47,50" stroke="currentColor" stroke-width="1" /><polygon points="75,25 50,47 53,50" stroke="currentColor" stroke-width="1" /><polygon points="25,75 50,53 47,50" stroke="currentColor" stroke-width="1" /><polygon points="75,75 50,53 53,50" stroke="currentColor" stroke-width="1" /><path d="M50 18 L50 35 M50 65 L50 82 M18 50 L35 50 M65 50 L82 50" stroke="currentColor" stroke-width="1.5"/><path d="M29.2 29.2 L40 40 M60 60 L70.8 70.8 M29.2 70.8 L40 60 M60 40 L70.8 29.2" stroke="currentColor" stroke-width="1"/></svg>
-            </div>
             <div class="twine-wrapper">
                 <div class="twine-line"></div>
                 <div class="twine-line"></div>
             </div>
+            </div>
             <div class="plane-charm-button" id="fly-button">
-                <img src="img/airplane-mode-svgrepo-com.svg" alt="Avión Decorativo" class="plane-svg"> 
+                <img src="img/airplane-travel-heart-svgrepo-com.svg" alt="Avión Decorativo" class="plane-svg"> 
             </div>
             <div class="passport-text-group">
                 <div class="passport-word top">WEDDING</div>
@@ -724,7 +420,6 @@
 
     
     <main class="invitation-content">
-
         <section class="logo-section container">
             <div class="splash-logo"></div>
         </section>
@@ -794,7 +489,7 @@
                     </div>
                 </div>
                 <div class="bp-right">
-                    <p class="flight-number">Vuelo N&ordm; 2407</p> 
+                    <p class="flight-number">Vuelo Nº 2407</p> 
                     <div class="barcode" role="img" aria-label="Código de barras decorativo"></div>
                 </div>
             </div>
@@ -908,32 +603,49 @@
         })();
 
         
-        // --- SCRIPT PARA PORTADA (Sin cambios) ---
-        document.addEventListener('DOMContentLoaded', function() {
-            const cover = document.querySelector('.passport-cover');
-            const iconButton = document.getElementById('fly-button'); 
-            const content = document.querySelector('.invitation-content');
-            const compass = document.querySelector('.compass-background-svg');
-            const twine = document.querySelector('.twine-wrapper');
-            const textGroup = document.querySelector('.passport-text-group'); 
+        /* ============================================================
+           SCRIPT DE LA PORTADA (ARREGLADO)
+        ============================================================ */
+        document.addEventListener('DOMContentLoaded', function() {
+            const cover = document.querySelector('.passport-cover');
+            const iconButton = document.getElementById('fly-button'); 
+            const content = document.querySelector('.invitation-content');
+            const twine = document.querySelector('.twine-wrapper');
+            const textGroup = document.querySelector('.passport-text-group'); 
+            const compassSVG = document.querySelector('.compass-svg'); 
+            const worldMapBackgroundSVG = document.querySelector('.world-map-background-svg');
 
-            if (iconButton && cover && content && compass && twine && textGroup) {
-                iconButton.addEventListener('click', function() {
-                    iconButton.style.animationPlayState = 'paused'; 
-                    iconButton.classList.add('is-flying');
-                    cover.classList.add('is-open'); 
-                    compass.style.opacity = '0';
-                    twine.style.opacity = '0';
-                    textGroup.style.opacity = '0'; 
-                    
-                    setTimeout(() => { 
-                        cover.style.display = 'none';
-                        content.classList.add('is-visible');
-                        document.body.classList.remove('no-scroll'); 
-                    }, 1800);
-                });
-            }
-        });
+            // --- LÍNEA NUEVA ---
+            // Añade 'no-scroll' también al <html>
+            document.documentElement.classList.add('no-scroll');
+
+
+            if (iconButton && cover && content && twine && textGroup && compassSVG && worldMapBackgroundSVG) { 
+                iconButton.addEventListener('click', function() {
+                    iconButton.style.animationPlayState = 'paused'; 
+                    iconButton.classList.add('is-flying');
+                    cover.classList.add('is-open'); 
+                    twine.style.opacity = '0';
+                    textGroup.style.opacity = '0'; 
+                    compassSVG.style.opacity = '0'; 
+                    worldMapBackgroundSVG.style.opacity = '0'; 
+                    
+                    setTimeout(() => { 
+                        cover.style.display = 'none';
+                        content.classList.add('is-visible');
+
+                        // --- LÍNEA MODIFICADA ---
+                        // Quita la clase del <body>
+                        document.body.classList.remove('no-scroll'); 
+
+                        // --- LÍNEA NUEVA ---
+                        // Quita la clase también del <html>
+                        document.documentElement.classList.remove('no-scroll'); 
+
+                    }, 1800);
+                });
+            }
+        });
         
         // --- SCRIPT PARA TOKEN (RSVP Y NOMBRE DE INVITADO) ---
         (async function() {
@@ -970,6 +682,3 @@
     <script src="sw.js"></script>
 </body>
 </html>
-
-
-
