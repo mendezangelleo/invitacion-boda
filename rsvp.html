@@ -265,6 +265,22 @@
         transform: none;
         color: var(--color-primario);
     }
+
+    /* Badge contador sutil junto al título */
+.label-group .count-badge{
+  display: inline-block;
+  margin-left: 8px;
+  padding: 3px 8px;
+  font-size: .75rem;
+  line-height: 1;
+  border-radius: 999px;
+  background: rgba(90,117,90,.10);
+  color: var(--color-primario);
+  border: 1px solid rgba(90,117,90,.25);
+  vertical-align: middle;
+  font-weight: 700;
+}
+
     /* ===== FIN DE ESTILOS DE ÉXITO ===== */
 
     </style>
@@ -448,6 +464,67 @@
     });
 
     init();
+
+    // Actualiza el badge "seleccionados/total"
+function updateCountBadge(total){
+  const whoEl = document.getElementById('who');
+  const selectedCount = [...document.querySelectorAll('input[name="asist"]:checked')].length;
+  if (whoEl){
+    whoEl.innerHTML = `ASISTENTES DE TU GRUPO: <span class="count-badge">${selectedCount} / ${total}</span>`;
+  }
+}
+
+// Cargar nombres por token
+async function init(){
+  updateBackLinks(); // Actualizamos links primero
+
+  if (!token){
+    whoEl.textContent = 'Error: Falta el código de invitado en el link.';
+    formEl.style.display='none';
+    return;
+  }
+  try {
+    const res = await fetch('guests.json', { cache: 'default' }); 
+    const db = await res.json();
+    const g = db[token];
+    if (!g){
+      whoEl.textContent = 'Error: Link de invitación inválido o vencido.';
+      formEl.style.display='none';
+      return;
+    }
+
+    // Normalizamos: array o string con comas
+    const names = Array.isArray(g.names) ? g.names : String(g.names||'').split(',').map(n=>n.trim()).filter(Boolean);
+
+    // Render checkboxes
+    listEl.innerHTML = names.map(n => `
+      <label>
+        <input type="checkbox" name="asist" value="${n.replace(/"/g,'&quot;')}" checked />
+        <span>${n}</span>
+      </label>
+    `).join('');
+
+    // Badge inicial (todos marcados al inicio)
+    updateCountBadge(names.length);
+
+    // Actualiza el badge al marcar/desmarcar
+    listEl.addEventListener('change', (e)=>{
+      if (e.target && e.target.matches('input[name="asist"]')){
+        updateCountBadge(names.length);
+      }
+    });
+
+    // Enfocar primer input
+    const firstInput = document.querySelector('input[name="asist"]') || document.getElementById('email');
+    firstInput && firstInput.focus();
+
+  }catch(e){
+    console.error(e);
+    whoEl.textContent = 'Error de conexión. Por favor, revisa tu internet e inténtalo de nuevo.';
+    formEl.style.display='none';
+  }
+}
+
     </script>
 </body>
 </html>
