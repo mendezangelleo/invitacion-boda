@@ -43,14 +43,26 @@
 
       --header-height:100px;
     }
+
+    /* ====== RESET SUAVE + ANTI-OVERFLOW ====== */
     *{margin:0;padding:0;box-sizing:border-box}
+    html, body{width:100%; max-width:100%; overflow-x:hidden}
+    img, svg, video{display:block; max-width:100%; height:auto}
+
     body{
       font-family:var(--font-body);
       background:var(--color-fondo);
       color:var(--color-letras-portada);
-      line-height:1.6; overflow-x:hidden; perspective:1000px;
+      line-height:1.6;
+      perspective:1000px;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
     }
     .no-scroll{overflow:hidden}
+
+    /* Evita que el layout “salte” por la aparición del scrollbar */
+    html{ scrollbar-gutter: stable both-edges; }
+    @supports not (scrollbar-gutter: stable){ body{ overflow-y:scroll; } }
 
     /* ==================== PORTADA ==================== */
     .passport-cover{
@@ -59,6 +71,8 @@
       border:3px solid var(--color-letras-portada);
       transition:transform 1.2s ease-in-out .5s,opacity 1s ease-out .5s,visibility 1s ease-out .5s;
       visibility:visible; opacity:1; position:fixed; inset:0; z-index:100; transform-origin:left center;
+      backface-visibility:hidden; transform-style:preserve-3d; will-change:transform;
+      max-width:100vw; overflow-x:hidden;
     }
     .passport-cover.is-open{transform:rotateY(-90deg) scale(.9); opacity:0; visibility:hidden}
 
@@ -75,9 +89,9 @@
     }
     .world-map-background-svg,.compass-svg{position:absolute; inset:0; pointer-events:none; color:var(--color-letras-portada)}
     .world-map-background-svg{z-index:0; opacity:.15}
-    .world-map-background-svg img{width:100%; height:100%; object-fit:cover; display:block}
+    .world-map-background-svg img{width:100%; height:100%; object-fit:cover}
     .compass-svg{display:flex; justify-content:center; align-items:center; z-index:1; padding:10px}
-    .compass-svg svg{width:100%; height:100%; object-fit:contain; max-width:500px; max-height:500px; margin:auto; display:block; opacity:.1}
+    .compass-svg svg{width:100%; height:100%; object-fit:contain; max-width:500px; max-height:500px; margin:auto; opacity:.1}
 
     @keyframes pulse{0%{transform:translate(-50%,-50%) scale(1)}50%{transform:translate(-50%,-50%) scale(1.05)}100%{transform:translate(-50%,-50%) scale(1)}}
     .twine-wrapper{position:absolute; top:50%; left:0; width:100%; transform:translateY(-50%); z-index:10; transition:opacity .5s ease}
@@ -109,26 +123,34 @@
     .passport-cover .scroll-down i{display:block; font-size:1.5rem; margin-top:10px}
 
     /* ==================== INTERIOR ==================== */
-    .invitation-content{display:block; position:relative; z-index:1; opacity:0; transition:opacity 1s ease-in-out .5s; padding-top:var(--header-height)}
+    .invitation-content{display:block; position:relative; z-index:1; opacity:0; transition:opacity 1s ease-in-out .5s; padding-top:var(--header-height); max-width:100vw; overflow-x:hidden}
     .invitation-content.is-visible{opacity:1}
 
     .container{max-width:800px; margin:0 auto; padding:20px; text-align:center; position:relative; z-index:1}
 
+    /* --- Header (vidrio translúcido) --- */
     .site-header{
-      position:fixed; top:0; left:0; width:100%; height:var(--header-height); background:var(--color-fondo);
-      display:flex; justify-content:center; align-items:center; box-shadow:0 2px 10px rgba(0,0,0,.05);
-      z-index:1000; opacity:0; visibility:hidden; transition:opacity 1s ease-in-out .5s;
+      position:fixed; top:0; left:0; width:100%; height:var(--header-height);
+      display:flex; justify-content:center; align-items:center; z-index:1000;
+      background:rgba(153,188,133,0.05);
+      backdrop-filter:blur(6px); -webkit-backdrop-filter:blur(6px);
+      border-bottom:1px solid rgba(153,188,133,0.15);
+      box-shadow:0 4px 12px rgba(0,0,0,.05);
+      opacity:0; visibility:hidden; pointer-events:none;
+      transition:opacity .35s ease, visibility .35s ease, background-color .25s ease;
+      max-width:100vw; overflow-x:hidden;
     }
-    .site-header.is-visible{opacity:1; visibility:visible}
-    .site-header .header-logo{height:calc(var(--header-height) - 20px); width:calc(var(--header-height) - 20px); border-radius:50%; object-fit:cover; box-shadow:0 2px 5px rgba(0,0,0,.1)}
-
-    .with-image-background{position:relative; background-image:url('img/vecteezy_ai-generated-eucalyptus-leaves-background-on-white-marble_35463410.jpg'); background-size:cover; background-position:center; background-attachment:fixed}
-    .with-image-background::before{content:''; position:absolute; inset:0; background-color:rgba(255,255,255,.7); z-index:0}
+    .site-header.is-visible{opacity:1; visibility:visible; pointer-events:auto}
+    .site-header .header-logo{
+      height:calc(var(--header-height) - 20px);
+      width:calc(var(--header-height) - 20px);
+      border-radius:50%; object-fit:cover; box-shadow:0 2px 5px rgba(0,0,0,0.15);
+    }
 
     h1,h2,h3{font-family:var(--font-display); font-weight:600; color:var(--color-letras-portada); letter-spacing:.02em}
     p{font-family:var(--font-body); color:var(--color-letras-portada)}
 
-    .hero-photo{width:100%; height:70vh; max-height:500px; object-fit:cover; object-position:center 30%; display:block}
+    .hero-photo{width:100%; height:70vh; max-height:500px; object-fit:cover; object-position:center 30%}
 
     .intro-text-section{padding:40px 20px}
     .intro-text-section .frase-1{font-size:1.05rem; font-style:italic; color:var(--color-lazo); margin-bottom:15px}
@@ -138,42 +160,99 @@
     }
     .intro-text-section .frase-2{font-size:1.05rem; max-width:600px; margin:0 auto; line-height:1.7}
 
-    /* ===== Banner de fecha ===== */
+    /* ===== Banner de fecha: centrado perfecto ===== */
     .date-banner{
-      position:relative; overflow:hidden; background:var(--color-verde-pasaporte); color:var(--color-texto-claro);
-      padding:10px 20px; display:flex; flex-direction:column; align-items:center; gap:15px;
+      background:var(--color-verde-pasaporte);
+      color:var(--color-texto-claro);
+      padding-block:clamp(4px, 1vw, 10px);
+      display:block;
     }
-    .month-arc{width:72%; height:5px}
+    .date-banner .date-inner{
+      width:min(760px, 92vw);
+      margin:0 auto;
+      display:grid;
+      row-gap:clamp(12px, 3vw, 24px);
+      justify-items:center;
+      transform: translateY(-14px);
+    }
+    .month-arc{
+      width:100%;
+      height:clamp(26px,7vw,60px);
+      transform: translateY(2px);
+    }
     .month-arc text{
-      font-family:var(--font-display); font-weight:600; text-transform:uppercase; letter-spacing:.36rem;
-      fill:var(--color-texto-claro); font-size:20px;
+      font-family:var(--font-display);
+      font-weight:600;
+      text-transform:uppercase;
+      letter-spacing:clamp(.18rem,.8vw,.36rem);
+      fill:var(--color-texto-claro);
+      font-size:clamp(14px,4.6vw,20px);
     }
-    .center-row{display:flex; align-items:center; justify-content:center; gap:28px; transform:translateX(-12px)}
-    .day{font-family:var(--font-display); font-weight:700; font-size:clamp(5rem, 12vw, 6.4rem); letter-spacing:.02em; margin:0; color:var(--color-texto-claro)}
-    .side-label{display:flex; flex-direction:column; align-items:center; gap:6px; transform:translateY(12px)}
-    .side-label .line{width:80px; height:1px; background:var(--color-texto-claro); opacity:.75}
-    .side-label .txt{font-family:var(--font-display); text-transform:uppercase; letter-spacing:.32rem; font-size:1.05rem; font-weight:600}
-
-    @media (min-width:600px){
-      .date-banner{gap:40px}
-      .month-arc{height:60px}
+    .center-row{
+      display:grid;
+      grid-template-columns:1fr auto 1fr;
+      align-items:center;
+      justify-items:center;
+      gap:clamp(16px,4vw,28px);
+      transform:none;
     }
+    .day{
+      font-family:var(--font-display); font-weight:700;
+      font-size:clamp(3.6rem,12vw,6.4rem);
+      letter-spacing:.02em; margin:0; line-height:1; white-space:nowrap;
+      color:var(--color-texto-claro);
+    }
+    .side-label{
+      display:flex; flex-direction:column; align-items:center;
+      gap:clamp(4px,1.2vw,8px);
+      transform:translateY(12px);
+      min-width:clamp(92px,22vw,160px);
+    }
+    .side-label .line{width:clamp(64px,18vw,120px); height:1px; background:var(--color-texto-claro); opacity:.75}
+    .side-label .txt{
+      font-family:var(--font-display); text-transform:uppercase;
+      letter-spacing:clamp(.12rem,.8vw,.32rem);
+      font-size:clamp(.85rem,2.6vw,1.05rem); font-weight:600; white-space:nowrap;
+    }
+    @media (max-width:380px){ .side-label{ min-width:clamp(84px,24vw,140px); } }
 
     /* ===== Cuenta regresiva ===== */
-    .countdown-section p{font-family:var(--font-display); font-size:1rem; text-transform:capitalize; letter-spacing:1px; margin-bottom:25px; font-weight:600}
-    #countdown{display:grid !important; grid-template-columns:repeat(4,1fr); gap:12px}
+    .countdown-section p{
+      font-family:var(--font-display); font-size:1rem; text-transform:capitalize;
+      letter-spacing:1px; margin-bottom:25px; font-weight:600; text-align:center;
+    }
+    #countdown{
+      display:flex; justify-content:center; align-items:stretch;
+      flex-wrap:nowrap; gap:clamp(8px, 1.8vw, 16px);
+      max-width:95vw; margin:0 auto; overflow-x:hidden;
+    }
     #countdown div{
-      min-height:84px; padding:12px 10px; border-radius:12px; background:var(--color-fondo);
+      flex:1 1 auto; width:auto;
+      min-width:clamp(70px, 18vw, 110px);
+      max-width:clamp(80px, 20vw, 130px);
+      min-height:clamp(70px, 9vw, 90px);
+      padding:clamp(8px, 1.2vw, 12px) clamp(6px, 1.4vw, 10px);
+      border-radius:12px; background:var(--color-fondo);
       border:1px solid rgba(121,209,176,.15); box-shadow:0 2px 6px rgba(0,0,0,.06);
       display:grid; grid-template-rows:auto auto; place-items:center; text-align:center;
     }
-    #countdown div span[id]{font-family:var(--font-display); font-size:1.9rem; line-height:1; display:block; margin-bottom:4px; letter-spacing:.5px}
-    #countdown div span:not([id]){font-family:var(--font-display); font-size:.85rem; font-weight:600; text-transform:uppercase; letter-spacing:.1em; opacity:.8}
-    @media (max-width:360px){
-      #countdown{gap:8px}
-      #countdown div{min-height:72px; padding:10px 8px}
-      #countdown div span[id]{font-size:1.5rem}
-      #countdown div span:not([id]){font-size:.8rem}
+    #countdown div span[id]{
+      font-family:var(--font-display);
+      font-size:clamp(1.2rem, 2.4vw, 1.9rem);
+      line-height:1; display:block; margin-bottom:4px; letter-spacing:.5px;
+      color:var(--color-letras-portada);
+    }
+    #countdown div span:not([id]){
+      font-family:var(--font-display);
+      font-size:clamp(.7rem, 1.5vw, .9rem);
+      font-weight:600; text-transform:uppercase; letter-spacing:.08em;
+      opacity:.8; white-space:nowrap;
+    }
+    @media (max-width:390px){
+      #countdown{ gap:clamp(6px, 1.2vw, 10px); }
+      #countdown div{ min-width:clamp(64px, 19vw, 90px); padding:clamp(6px, 1vw, 8px) clamp(5px, 1vw, 8px); }
+      #countdown div span[id]{ font-size:clamp(1.1rem, 2vw, 1.5rem); }
+      #countdown div span:not([id]){ font-size:clamp(.65rem, 1.2vw, .8rem); }
     }
 
     /* ===== Boarding pass ===== */
@@ -189,11 +268,17 @@
     }
     .bpv-header{padding:10px 20px; font-family:var(--font-display); font-weight:700; letter-spacing:1px; font-size:.9rem; text-align:center}
     .bpv-dashed-line{border-top:2px dashed rgba(121,209,176,.4)}
-    .bpv-title{display:flex; align-items:center; gap:12px; padding:20px}
-    .bpv-title-text{flex:1; min-width:0}
-    .bpv-title-text h3{margin:0 0 6px; font-family:var(--font-display); font-weight:700; font-size:clamp(1.1rem, 3.2vw, 1.35rem); white-space:nowrap; letter-spacing:.5px; line-height:1.2}
-    .bpv-title-text span{font-family:var(--font-display); font-size:1rem; font-weight:600; opacity:.95}
-    .bpv-plane-icon{font-size:2rem}
+    .bpv-title{display:flex; align-items:center; gap:12px; padding:20px; flex-wrap:nowrap}
+    .bpv-title-text{flex:1 1 auto; min-width:0}
+    .bpv-title-text h3{
+      margin:0 0 6px; font-family:var(--font-display); font-weight:700;
+      white-space:normal; overflow-wrap:anywhere; hyphens:auto;
+      letter-spacing:.5px; line-height:1.2; font-size:clamp(1rem, 4.2vw, 1.35rem);
+    }
+    .bpv-title-text span{font-family:var(--font-display); font-size:clamp(.95rem, 3.6vw, 1rem); font-weight:600; opacity:.95}
+    .bpv-plane-icon{flex:0 0 auto; font-size:clamp(1.4rem, 6vw, 2rem); line-height:1}
+    @media (max-width:390px){ .bpv-title{gap:8px; padding:16px} .bpv-title-text h3{margin-bottom:4px} }
+    @media (max-width:340px){ .bpv-title{flex-wrap:wrap; align-items:flex-start} .bpv-plane-icon{order:2; width:100%; text-align:right} }
 
     .bpv-names{
       display:grid; grid-template-columns:1fr auto 1fr; align-items:center; gap:8px;
@@ -211,7 +296,6 @@
       color:var(--color-letras-portada); font-family:var(--font-display); font-style:italic; font-size:1.25rem; line-height:1.35;
       text-align:left; word-break:break-word; box-sizing:border-box;
     }
-
     .label .count-badge{display:inline-block; margin-left:8px; padding:2px 8px; font-size:.7rem; line-height:1; border-radius:999px; background:rgba(121,209,176,.18); border:1px solid rgba(121,209,176,.35)}
 
     .bpv-pairs{position:relative; display:grid; grid-template-columns:1fr 1fr; gap:18px}
@@ -234,51 +318,138 @@
       background:repeating-linear-gradient(90deg, transparent 0, transparent 18px, rgba(4,37,26,.55) 18px, rgba(4,37,26,.55) 22px);
     }
 
-    /* ===== Ubicaciones ===== */
-    .locations{padding:60px 20px; display:flex; flex-wrap:wrap; justify-content:center; gap:30px}
+    /* ===== Ubicaciones (GRID robusto) ===== */
+    .locations{
+      padding:60px 20px;
+      display:grid;
+      grid-template-columns:repeat(auto-fit, minmax(280px, 1fr));
+      gap:30px;
+      justify-items:center;
+      align-items:start;
+    }
     .location-card-icon{
-      background:#fff; box-shadow:0 5px 15px rgba(0,0,0,.05); border-radius:10px; overflow:hidden; width:320px;
-      border:1px solid rgba(121,209,176,.2); padding:35px 25px;
+      background:#fff; box-shadow:0 5px 15px rgba(0,0,0,.05);
+      border-radius:10px; overflow:hidden;
+      width:100%; max-width:320px;
+      border:1px solid rgba(121,209,176,.2);
+      padding:35px 25px;
+      display:flex; flex-direction:column; align-items:center; text-align:center;
+      margin:0 auto;
     }
-    /* Íconos (Lordicon) centrados y uniformes */
-    .location-card-icon .icon-wrapper{display:flex; align-items:center; justify-content:center; margin-bottom:15px}
-    .location-card-icon lord-icon{width:80px; height:80px; filter:drop-shadow(0 2px 4px rgba(0,0,0,.1))}
-    @media (max-width:420px){.location-card-icon lord-icon{width:70px; height:70px}}
-
-    .location-card-icon h3{font-family:var(--font-display); font-weight:700; font-size:1.8rem}
-
-    /* Hora + HS */
-    .location-card-icon .location-time{
-      display:inline-flex; align-items:baseline; justify-content:center; gap:8px;
-      margin:10px 0; white-space:nowrap; font-variant-numeric:tabular-nums;
+    .icon-wrapper{ display:grid; place-items:center; width:100%; height:92px; margin-bottom:16px; line-height:0; }
+    .icon-wrapper lord-icon,.icon-wrapper svg,.icon-wrapper img{
+      display:block; width:clamp(64px, 9vw, 80px); height:clamp(64px, 9vw, 80px);
+      aspect-ratio:1/1; margin:0 auto; transform:none !important; filter:drop-shadow(0 2px 4px rgba(0,0,0,.10)); vertical-align:middle;
     }
+    lord-icon{max-width:100%}
+    .location-card-icon h3{ margin:4px 0 6px; font-family:var(--font-display); font-weight:700; font-size:1.8rem; }
+    .location-card-icon .location-time{ display:inline-flex; align-items:baseline; justify-content:center; gap:8px; margin:8px 0 12px; white-space:nowrap; font-variant-numeric:tabular-nums; }
     .location-card-icon .location-time .time{font-family:var(--font-display); font-size:2.1rem; line-height:1}
     .location-card-icon .location-time .suffix{font-size:.9rem; letter-spacing:.14em; opacity:.85; line-height:1; transform:translateY(-2px)}
-
     .location-card-icon p{font-size:1rem; margin:10px 0}
+    .location-card-icon .btn{width:100%; max-width:260px}
+    .btn i{margin-right:10px; line-height:0; font-size:1em}
+    @media (max-width:480px){ .icon-wrapper{height:84px} .icon-wrapper lord-icon,.icon-wrapper svg,.icon-wrapper img{width:68px; height:68px} .location-card-icon{padding:28px 22px} }
+    @media (max-width:360px){ .icon-wrapper{height:76px} .icon-wrapper lord-icon,.icon-wrapper svg,.icon-wrapper img{width:62px; height:62px} .location-card-icon h3{font-size:1.6rem} }
 
-    /* ===== Itinerario ===== */
-    .itinerary-section{padding:60px 20px; text-align:center}
-    .timeline{position:relative; max-width:600px; margin:40px auto 0}
-    .timeline::before{content:''; position:absolute; width:3px; background-color:rgba(146,133,17,.3); top:0; bottom:0; left:50%; margin-left:-1.5px}
-    .timeline::after{content:''; position:absolute; width:3px; background-color:var(--color-lazo); top:0; bottom:0; left:50%; margin-left:-1.5px; height:0; transition:height 1.5s ease-out; z-index:1}
-    .timeline.is-visible::after{height:100%}
-    .timeline-item{padding:10px 40px; position:relative; width:50%}
-    .timeline-item:nth-child(odd){left:0; text-align:right}
-    .timeline-item:nth-child(even){left:50%; text-align:left}
-    .timeline-item::after{
-      font-family:"Font Awesome 6 Free"; font-weight:900; position:absolute; width:30px; height:30px; line-height:30px; text-align:center; top:15px;
-      background:#fff; border:4px solid var(--color-lazo); color:var(--color-letras-portada); border-radius:50%; z-index:2;
-    }
-    .timeline-item:nth-child(odd)::after{right:-15px}
-    .timeline-item:nth-child(even)::after{left:-15px}
-    .timeline-item.icon-church::after{content:'\f51d'}
-    .timeline-item.icon-cheers::after{content:'\f79f'}
-    .timeline-item.icon-music::after{content:'\f001'}
-    .timeline-item.icon-moon::after{content:'\f186'}
-    .timeline-content{padding:20px; background:#fff; border-radius:6px}
-    .timeline-content p{font-size:.95rem; margin:0}
-    .itinerary-section .notice{margin-top:30px; font-size:1.05rem; font-style:italic}
+   /* ===== Itinerario (mobile-first centrado) ===== */
+.itinerary-section{
+  padding:60px 20px; text-align:center;
+}
+
+.timeline{
+  position:relative;
+  max-width:800px;
+  margin:40px auto 0;
+}
+
+/* Eje vertical SIEMPRE al centro */
+.timeline::before{
+  content:'';
+  position:absolute;
+  inset:0 auto 0 50%;
+  width:3px;
+  transform:translateX(-50%);
+  background-color:rgba(146,133,17,.30);
+  z-index:0;                 /* detrás de las tarjetas */
+}
+
+/* Progreso animado */
+.timeline::after{
+  content:'';
+  position:absolute;
+  top:0; bottom:0; left:50%;
+  width:3px; transform:translateX(-50%);
+  background:var(--color-olive);
+  height:0; transition:height 1.5s ease-out;
+  z-index:0;                 /* detrás de las tarjetas */
+}
+.timeline.is-visible::after{ height:100%; }
+
+/* Items: 1 columna centrada (mobile) */
+.timeline-item{
+  position:relative;
+  width:100%;
+  left:0;
+  padding:26px 0;
+  text-align:center;
+}
+
+/* “Bala” con ícono centrada sobre el eje */
+.timeline-item::after{
+  font-family:"Font Awesome 6 Free"; font-weight:900;
+  content:'';
+  position:absolute; top:15px; left:50%;
+  width:34px; height:34px; line-height:34px; text-align:center;
+  transform:translateX(-50%);
+  background:#fff;
+  border:4px solid var(--color-olive);
+  color:var(--color-olive);
+  border-radius:50%;
+  z-index:2;                 /* por encima del eje */
+}
+.timeline-item.icon-church::after{ content:'\f51d'; }
+.timeline-item.icon-cheers::after{ content:'\f79f'; }
+.timeline-item.icon-music::after{  content:'\f001'; }
+.timeline-item.icon-moon::after{   content:'\f186'; }
+
+/* Tarjeta centrada y con ancho controlado */
+.timeline-content{
+  width:min(560px, 86vw);
+  margin:0 auto;
+  padding:20px;
+  background:#fff;
+  border-radius:10px;
+  box-shadow:0 3px 10px rgba(0,0,0,.06);
+  position:relative;
+  z-index:1;                 /* por encima del eje */
+  text-align:left;
+}
+
+/* ===== Desktop (alternado) ===== */
+@media (min-width: 700px){
+  .timeline{ max-width:700px; }
+
+  .timeline-item{
+    width:50%;
+    padding:10px 40px;
+  }
+  .timeline-item:nth-child(odd){ left:0;   text-align:right; }
+  .timeline-item:nth-child(even){ left:50%; text-align:left;  }
+
+  /* Reubicar la bala a los costados del eje */
+  .timeline-item:nth-child(odd)::after{
+    left:auto; right:-17px; transform:none;
+  }
+  .timeline-item:nth-child(even)::after{
+    left:-17px; transform:none;
+  }
+
+  /* Las tarjetas vuelven a ocupar su ancho natural */
+  .timeline-content{
+    width:auto; margin:0;
+  }
+}
 
     /* ===== Info / RSVP / Viajeros / Galería ===== */
     .info-section{padding:60px 20px}
@@ -286,16 +457,19 @@
     .info-section p strong{color:var(--color-letras-portada)}
 
     .rsvp-section{padding:60px 20px; background:rgba(121,209,176,.05); border-top:1px solid rgba(121,209,176,.15)}
+    .rsvp-section .container{ display:flex; justify-content:center; align-items:center; }
     .rsvp-section .btn{background:var(--color-verde-pasaporte); color:var(--color-letras-portada); border-color:var(--color-verde-pasaporte)}
     .rsvp-section .btn:hover{background:var(--color-lazo); color:var(--color-letras-portada); border-color:var(--color-lazo)}
 
     .travel-info-section{padding:60px 20px}
     .travel-info-section h2{font-family:var(--font-display); font-weight:700; font-size:2.2rem}
     .travel-info-section p{font-size:1.05rem; max-width:600px; margin:0 auto 20px; line-height:1.7}
+    .travel-info-section .container{ display:flex; justify-content:center; align-items:center; }
 
     .photo-gallery-section{padding:40px 0; background:var(--color-fondo)}
     .photo-gallery-section h2{font-family:var(--font-display); font-weight:700; font-size:2.2rem; text-align:center; margin-bottom:30px}
-    .gallery-scroll-container{display:flex; overflow-x:auto; gap:15px; padding:10px 20px; scroll-snap-type:x mandatory; -webkit-overflow-scrolling:touch}
+    .gallery-scroll-container{display:flex; overflow-x:auto; gap:15px; padding:10px 20px; scroll-snap-type:x mandatory; -webkit-overflow-scrolling:touch; scrollbar-width:none}
+    .gallery-scroll-container::-webkit-scrollbar{display:none}
     .gallery-scroll-container img{width:80%; max-width:350px; flex-shrink:0; border-radius:10px; scroll-snap-align:center; box-shadow:0 5px 15px rgba(0,0,0,.08)}
 
     /* Botones */
@@ -305,7 +479,6 @@
       border:1px solid var(--color-verde-pasaporte); transition:transform .2s, background-color .3s, color .3s, border-color .3s;
     }
     .btn:hover{transform:scale(1.05); background:var(--color-lazo); color:var(--color-letras-portada); border-color:var(--color-lazo)}
-    .btn i{margin-right:10px}
     .btn:active{transform:scale(.98); opacity:.9}
     @media (hover:none){.btn:hover{transform:none}}
 
@@ -313,23 +486,74 @@
     footer{padding:40px 20px; background:var(--color-verde-pasaporte); color:var(--color-letras-portada); text-align:center}
     footer h3{font-family:var(--font-display); font-weight:700; font-size:1.5rem; color:var(--color-lazo); margin-bottom:10px}
     footer .footer-thanks{font-family:var(--font-script); font-weight:700; font-size:2.2rem; color:var(--color-letras-portada); margin-bottom:20px}
-    footer .footer-logo{height:100px; width:auto; opacity:.9}
-
-    /* Mobile timeline */
-    @media (max-width:600px){
-      .passport-text-group .passport-word{font-size:2rem}
-      .passport-text-group .passport-word.top{margin-bottom:50px}
-      .passport-text-group .passport-word.bottom{margin-top:50px}
-      .plane-charm-button .plane-svg{width:100px; height:100px}
-      .passport-text-group .passport-year{top:calc(50% + 120px)}
-
-      .hero-photo{height:60vh}
-
-      .timeline::before,.timeline::after{left:15px}
-      .timeline-item{width:100%; padding-left:55px; padding-right:10px}
-      .timeline-item:nth-child(odd),.timeline-item:nth-child(even){left:0; text-align:left}
-      .timeline-item::after{left:0}
+    footer .footer-logo{
+      display:block; height:100px; width:100px; margin:16px auto 0;
+      border-radius:50%; object-fit:cover; box-shadow:0 2px 5px rgba(0,0,0,0.15);
     }
+
+    /* ====== OVERRIDES: paleta alternativa del interior ====== */
+    .invitation-content,.site-header,footer,.locations,.itinerary-section,.info-section,.rsvp-section,.travel-info-section,.photo-gallery-section{
+      --font-display:'Playfair Display', serif;
+      --font-body:'Montserrat', sans-serif;
+      --color-cream:#FAF8F1;
+      --color-beige:#EAE0D5;
+      --color-olive:#556B2F;
+      --color-eucalyptus:#A9C4A4;
+      --color-text-dark:#3a3a3a;
+      --color-fondo:var(--color-cream);
+      --color-letras-portada:var(--color-text-dark);
+      --color-verde-pasaporte:var(--color-eucalyptus);
+      --border-suave:rgba(85,107,47,0.18);
+    }
+    .hero-photo{object-position:center 30%}
+    .intro-text-section .frase-1{color:var(--color-olive)}
+    .intro-text-section .nuestros-nombres{color:var(--color-olive)}
+    .intro-text-section .frase-2{color:var(--color-text-dark)}
+
+    .date-banner{background:var(--color-beige); color:var(--color-text-dark)}
+    .date-banner .day{color:var(--color-olive)}
+    .date-banner .side-label .line{background:var(--color-olive); opacity:.35}
+    .date-banner .side-label .txt{color:var(--color-text-dark)}
+    .month-arc text{fill:var(--color-olive)}
+
+    .countdown-section p{color:var(--color-text-dark)}
+    #countdown div{background:var(--color-beige); border:1px solid rgba(85,107,47,.15)}
+    #countdown div span[id]{color:var(--color-olive)}
+    #countdown div span:not([id]){color:var(--color-text-dark); opacity:.9}
+
+    .boarding-pass-section{background:rgba(169,196,164,.06); border-top:1px solid rgba(169,196,164,.15); border-bottom:1px solid rgba(169,196,164,.15)}
+    .boarding-pass-vertical{background:#fff; border:1px solid rgba(85,107,47,.18)}
+    .bpv-dashed-line{border-top:2px dashed rgba(85,107,47,.30)}
+    .bpv-header{color:var(--color-text-dark)}
+    .bpv-names{background:var(--color-eucalyptus)}
+    .bpv-info > .bpv-field .label{color:rgba(58,58,58,.8)}
+    .bpv-info > .bpv-field .value{background:rgba(169,196,164,.12); border:1px solid var(--border-suave); color:var(--color-text-dark)}
+    .bpv-pairs .bpv-field .value{background:rgba(169,196,164,.12); border:1px solid var(--border-suave); color:var(--color-text-dark)}
+    .barcode{background:repeating-linear-gradient(90deg, rgba(58,58,58,.9), rgba(58,58,58,.9) 6px, transparent 6px, transparent 12px)}
+    .barcode::after{background:repeating-linear-gradient(90deg, transparent 0, transparent 18px, rgba(58,58,58,.55) 18px, rgba(58,58,58,.55) 22px)}
+
+    .location-card-icon{background:#fff; border:1px solid rgba(85,107,47,.18); box-shadow:0 5px 15px rgba(0,0,0,.05)}
+    .location-card-icon h3{color:var(--color-olive)}
+    .location-card-icon .location-time .time{color:var(--color-olive)}
+    .location-card-icon p{color:var(--color-text-dark)}
+
+    .timeline::before{background-color:rgba(146,133,17,.25)}
+    .timeline::after{background-color:var(--color-olive)}
+    .timeline-item::after{border-color:var(--color-olive); color:var(--color-olive)}
+
+    .info-section p strong{color:var(--color-olive)}
+    .rsvp-section{background:var(--color-beige); border-top:1px solid rgba(169,196,164,.25)}
+    .travel-info-section h2, .info-section h2{color:var(--color-olive)}
+
+    .btn{background:var(--color-olive); color:#fff; border-color:var(--color-olive)}
+    .btn:hover{background:var(--color-eucalyptus); color:var(--color-olive); border-color:var(--color-eucalyptus)}
+
+    .photo-gallery-section{background:var(--color-cream)}
+    .photo-gallery-section h2{color:var(--color-olive)}
+
+    footer{background:var(--color-beige); color:var(--color-olive)}
+    footer h3{color:var(--color-olive)}
+    footer .footer-thanks{color:var(--color-olive)}
   </style>
 </head>
 <body class="no-scroll">
@@ -341,7 +565,7 @@
     <div class="passport-central-content">
       <div class="world-map-background-svg"><img src="img/world.svg" alt="Mapa del Mundo"></div>
       <div class="compass-svg">
-        <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
+        <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" fill="currentColor" aria-hidden="true">
           <path d="M50 0 L50 100 M0 50 L100 50 M14.6 14.6 L85.4 85.4 M14.6 85.4 L85.4 14.6 M50 2 A48 48 0 0 1 50 98 A48 48 0 0 1 50 2 z" stroke="currentColor" stroke-width="1.5" fill="none"/>
           <path d="M50 6 A44 44 0 0 1 50 94 A44 44 0 0 1 50 6 z" stroke="currentColor" stroke-width="1.5" fill="none"/>
           <path d="M50 10 L50 90 M10 50 L90 50 M21.2 21.2 L78.8 78.8 M21.2 78.8 L78.8 21.2" stroke="currentColor" stroke-width="1" fill="none" stroke-dasharray="2 2"/>
@@ -370,7 +594,7 @@
       </div>
     </div>
 
-    <div class="scroll-down">Pulsa el avión para abordar <i class="fa-solid fa-plane"></i></div>
+    <div class="scroll-down">Pulsa el avión para abordar <i class="fa-solid fa-plane" aria-hidden="true"></i></div>
   </header>
 
   <!-- Header interior -->
@@ -390,20 +614,21 @@
       </section>
 
       <div class="date-banner">
-        <div class="month-arc" aria-hidden="true">
-          <svg viewBox="0 0 300 100" xmlns="http://www.w3.org/2000/svg">
-            <defs><path id="monthArcPath" d="M24,100 A160,160 0 0 1 276,100"></path></defs>
-            <text><textPath href="#monthArcPath" startOffset="52%" text-anchor="middle">JULIO</textPath></text>
-          </svg>
-        </div>
-
-        <div class="center-row">
-          <div class="side-label">
-            <div class="line"></div><span class="txt">VIERNES</span><div class="line"></div>
+        <div class="date-inner">
+          <div class="month-arc" aria-hidden="true">
+            <svg viewBox="0 0 300 100" xmlns="http://www.w3.org/2000/svg">
+              <defs><path id="monthArcPath" d="M24,100 A160,160 0 0 1 276,100"></path></defs>
+              <text><textPath href="#monthArcPath" startOffset="50%" text-anchor="middle">JULIO</textPath></text>
+            </svg>
           </div>
-          <div class="day">24</div>
-          <div class="side-label">
-            <div class="line"></div><span class="txt">2026</span><div class="line"></div>
+          <div class="center-row">
+            <div class="side-label">
+              <div class="line"></div><span class="txt">VIERNES</span><div class="line"></div>
+            </div>
+            <div class="day">24</div>
+            <div class="side-label">
+              <div class="line"></div><span class="txt">2026</span><div class="line"></div>
+            </div>
           </div>
         </div>
       </div>
@@ -478,50 +703,26 @@
 
       <!-- Ubicaciones -->
       <section class="locations container">
-        <!-- Card 1: Ceremonia -->
         <div class="location-card-icon">
           <div class="icon-wrapper">
-            <lord-icon
-              src="https://cdn.lordicon.com/fshosubk.json"
-              trigger="loop"
-              delay="2000"
-              colors="primary:#a0a046,secondary:#a0a046"
-              aria-hidden="true">
-            </lord-icon>
+            <lord-icon src="https://cdn.lordicon.com/fshosubk.json" trigger="loop" delay="2000" colors="primary:#99BC85,secondary:#99BC85" aria-hidden="true"></lord-icon>
           </div>
-
           <h3>Ceremonia</h3>
-          <p class="location-time">
-            <span class="time">17:00</span><span class="suffix">HS</span>
-          </p>
+          <p class="location-time"><span class="time">17:00</span><span class="suffix">HS</span></p>
           <p><strong>Parroquia Nuestra Señora de Coromoto</strong></p>
           <p>Av. Urdaneta 747</p>
-          <a href="https://maps.app.goo.gl/gD98v1e4P8NZnAnz8" target="_blank" class="btn">
-            <i class="fa-solid fa-map-location-dot"></i> Ver Ubicación
-          </a>
+          <a href="https://maps.app.goo.gl/gD98v1e4P8NZnAnz8" target="_blank" class="btn"><i class="fa-solid fa-map-location-dot" aria-hidden="true"></i> Ver Ubicación</a>
         </div>
 
-        <!-- Card 2: Celebración -->
         <div class="location-card-icon">
           <div class="icon-wrapper">
-            <lord-icon
-              src="https://cdn.lordicon.com/ohcuigqh.json"
-              trigger="loop"
-              delay="2000"
-              colors="primary:#a0a046,secondary:#a0a046"
-              aria-hidden="true">
-            </lord-icon>
+            <lord-icon src="https://cdn.lordicon.com/ohcuigqh.json" trigger="loop" delay="2000" colors="primary:#99BC85,secondary:#99BC85" aria-hidden="true"></lord-icon>
           </div>
-
           <h3>Celebración</h3>
-          <p class="location-time">
-            <span class="time">21:00</span><span class="suffix">HS</span>
-          </p>
+          <p class="location-time"><span class="time">21:00</span><span class="suffix">HS</span></p>
           <p><strong>Quinta Benavidez</strong></p>
           <p>Mendoza 3499, Benavidez, Provincia de Buenos Aires</p>
-          <a href="https://maps.app.goo.gl/uLqPq7iJzYGK8tDPA" target="_blank" class="btn">
-            <i class="fa-solid fa-map-location-dot"></i> Ver Ubicación
-          </a>
+          <a href="https://maps.app.goo.gl/uLqPq7iJzYGK8tDPA" target="_blank" class="btn"><i class="fa-solid fa-map-location-dot" aria-hidden="true"></i> Ver Ubicación</a>
         </div>
       </section>
 
@@ -531,7 +732,7 @@
           <div class="timeline" id="timeline">
             <div class="timeline-item icon-church"><div class="timeline-content"><h3>17:00 - Ceremonia</h3><p>Inicio del embarque espiritual.</p></div></div>
             <div class="timeline-item icon-cheers"><div class="timeline-content"><h3>21:00 - Recepción</h3><p>Comienza la celebración.</p></div></div>
-            <div class="timeline-item icon-music"><div class="timeline-content"><h3>22:00 - Bailes</h3><p>¡A bailar!</p></div></div>
+            <div class="timeline-item icon-music"><div class="timeline-content"><h3>22:00 - Baile</h3><p>¡A bailar!</p></div></div>
             <div class="timeline-item icon-moon"><div class="timeline-content"><h3>05:00 - Despedida</h3><p>Fin del vuelo.</p></div></div>
           </div>
           <p class="notice">(Horarios estimados, sujetos a condiciones de vuelo)</p>
@@ -539,88 +740,56 @@
       </section>
 
       <section class="info-section container">
-  <div class="icon-wrapper">
-    <lord-icon
-      src="https://cdn.lordicon.com/hrjifpbq.json"
-      trigger="loop"
-      delay="2000"
-      colors="primary:#a0a046,secondary:#a0a046"
-      aria-hidden="true">
-    </lord-icon>
-  </div>
-
-  <h2>Información de Viaje</h2>
-
-  <p><strong>Código de Vestimenta:</strong> Elegante 👔👗 ¡Prepara tu mejor atuendo!</p>
-  <p><strong>Requisitos:</strong> El único requisito indispensable es ¡venir con muchas ganas de celebrar! 🥳</p>
-</section>
-
+        <div class="icon-wrapper">
+          <lord-icon src="https://cdn.lordicon.com/hrjifpbq.json" trigger="loop" delay="2000" colors="primary:#99BC85,secondary:#99BC85" aria-hidden="true"></lord-icon>
+        </div>
+        <h2>Información de Viaje</h2>
+        <p><strong>Código de Vestimenta:</strong> Elegante 👔👗 ¡Prepara tu mejor atuendo!</p>
+        <p><strong>Requisitos:</strong> El único requisito indispensable es ¡venir con muchas ganas de celebrar! 🥳</p>
+      </section>
 
       <section class="rsvp-section">
         <div class="container">
           <div class="location-card-icon">
-      <div class="icon-wrapper">
-        <lord-icon
-          src="https://cdn.lordicon.com/fsstjlds.json"
-          trigger="loop"
-          delay="2000"
-          colors="primary:#a0a046,secondary:#a0a046"
-          aria-hidden="true">
-        </lord-icon>
-      </div>
-          <h2>Confirmar Asistencia</h2>
-        <p>Tu presencia es nuestro mejor regalo, pero necesitamos que nos confirmes tu asiento en este vuelo.</p>
-          <a href="rsvp.html" class="btn" id="btnRSVP"><i class="fa-solid fa-check-circle"></i> Confirmar aquí</a>
+            <div class="icon-wrapper">
+              <lord-icon src="https://cdn.lordicon.com/fsstjlds.json" trigger="loop" delay="2000" colors="primary:#99BC85,secondary:#99BC85" aria-hidden="true"></lord-icon>
+            </div>
+            <h2>Confirmar Asistencia</h2>
+            <p>Tu presencia es nuestro mejor regalo, pero necesitamos que nos confirmes tu asiento en este vuelo.</p>
+            <a href="rsvp.html" class="btn" id="btnRSVP"><i class="fa-solid fa-check-circle" aria-hidden="true"></i> Confirmar aquí</a>
+          </div>
         </div>
       </section>
 
       <section class="travel-info-section with-image-background">
-  <div class="container">
-    <div class="location-card-icon">
-      <div class="icon-wrapper">
-        <lord-icon
-          src="https://cdn.lordicon.com/lltgvngb.json"
-          trigger="loop"
-          delay="2000"
-          colors="primary:#a0a046,secondary:#a0a046"
-          aria-hidden="true">
-        </lord-icon>
-      </div>
-
-      <h2>Si vienes del extranjero</h2>
-      <p>Estos son los requisitos para ingresar al país. Puedes consultar la información oficial aquí:</p>
-      <a href="https://www.argentina.gob.ar/interior/migraciones/documentacion-para-ingresar-al-pais-como-turista"
-         target="_blank" class="btn">
-        <i class="fa-solid fa-plane-departure"></i> Ver Requisitos (Migraciones)
-      </a>
-    </div>
-  </div>
-</section>
-
+        <div class="container">
+          <div class="location-card-icon">
+            <div class="icon-wrapper">
+              <lord-icon src="https://cdn.lordicon.com/lltgvngb.json" trigger="loop" delay="2000" colors="primary:#99BC85,secondary:#99BC85" aria-hidden="true"></lord-icon>
+            </div>
+            <h2>Si vienes del extranjero</h2>
+            <p>Estos son los requisitos para ingresar al país. Puedes consultar la información oficial aquí:</p>
+            <a href="https://www.argentina.gob.ar/interior/migraciones/documentacion-para-ingresar-al-pais-como-turista" target="_blank" class="btn">
+              <i class="fa-solid fa-plane-departure" aria-hidden="true"></i> Ver Requisitos (Migraciones)
+            </a>
+          </div>
+        </div>
+      </section>
 
       <section class="photo-gallery-section">
-  <div class="container">
-    <div class="icon-wrapper">
-      <lord-icon
-        src="https://cdn.lordicon.com/ijsqrapz.json"
-        trigger="loop"
-        delay="2000"
-        colors="primary:#a0a046,secondary:#a0a046"
-        aria-hidden="true">
-      </lord-icon>
-    </div>
-
-    <h2>Galería</h2>
-
-    <div class="gallery-scroll-container">
-      <img src="img/IMG_1939.JPG" alt="Foto 1">
-      <img src="img/20250810_150700.jpg" alt="Foto 2">
-      <img src="img/20251015_210918.jpg" alt="Foto 3">
-      <img src="img/IMG_2130.jpg" alt="Foto 4">
-    </div>
-  </div>
-</section>
-
+        <div class="container">
+          <div class="icon-wrapper">
+            <lord-icon src="https://cdn.lordicon.com/ijsqrapz.json" trigger="loop" delay="2000" colors="primary:#99BC85,secondary:#99BC85" aria-hidden="true"></lord-icon>
+          </div>
+          <h2>Galería</h2>
+          <div class="gallery-scroll-container">
+            <img src="img/IMG_1939.JPG" alt="Foto 1">
+            <img src="img/20250810_150700.jpg" alt="Foto 2">
+            <img src="img/20251015_210918.jpg" alt="Foto 3">
+            <img src="img/IMG_2130.jpg" alt="Foto 4">
+          </div>
+        </div>
+      </section>
     </main>
 
     <footer>
@@ -644,12 +813,8 @@
         const h = Math.floor((dist%86400000)/3600000);
         const m = Math.floor((dist%3600000)/60000);
         const s = Math.floor((dist%60000)/1000);
-        if (document.getElementById("days")){
-          document.getElementById("days").innerText = pad(d);
-          document.getElementById("hours").innerText = pad(h);
-          document.getElementById("minutes").innerText = pad(m);
-          document.getElementById("seconds").innerText = pad(s);
-        }
+        const el = id => document.getElementById(id);
+        if (el("days")){ el("days").innerText = pad(d); el("hours").innerText = pad(h); el("minutes").innerText = pad(m); el("seconds").innerText = pad(s); }
         if (dist < 0){
           clearInterval(timer);
           const c = document.getElementById("countdown");
@@ -721,14 +886,10 @@
         const count = names.length || 1;
 
         const guestElement = document.getElementById("guestNameBP");
-        if (guestElement && names.length){
-          guestElement.innerHTML = names.join("<br>");
-        }
+        if (guestElement && names.length){ guestElement.innerHTML = names.join("<br>"); }
 
         const label = document.getElementById("passengerLabel");
-        if (label){
-          label.innerHTML = `Pasajero(s) <span class="count-badge">${count}</span>`;
-        }
+        if (label){ label.innerHTML = `Pasajero(s) <span class="count-badge">${count}</span>`; }
 
         sessionStorage.setItem("guestData", JSON.stringify({ token, names, count }));
       }catch(err){
