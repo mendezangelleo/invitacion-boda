@@ -376,32 +376,52 @@
       background:#fff center/cover no-repeat; background-image:url('img/Logo definitivo.png');
       border:3px solid rgba(121,209,176,.35); box-shadow:0 6px 18px rgba(0,0,0,.15); transform:rotate(2.5deg); z-index:2;
     }
-    .bpv-header{
-      padding:10px 20px; 
-      font-family:var(--font-titles); /* THEME: cambiado de --font-display */
-      font-weight:700; 
-      letter-spacing:1px; 
-      font-size:.9rem; 
-      text-align:center;
-      color: var(--color-olive); /* THEME: Añadido */
-    }
-    .bpv-dashed-line{
-      border-top:2px dashed rgba(85,107,47,.30); /* THEME: cambiado de rgba(121,209,176,.4) */
-    }
-    .bpv-title{display:flex; align-items:center; gap:12px; padding:20px; flex-wrap:nowrap}
-    .bpv-title-text{flex:1 1 auto; min-width:0}
-    .bpv-title-text h3{
-      margin:0 0 6px; 
-      font-family:var(--font-titles); /* THEME: cambiado de --font-display */
-      font-weight:700;
-      white-space:normal; overflow-wrap:anywhere; hyphens:auto;
-      letter-spacing:.5px; line-height:1.2; font-size:clamp(1rem, 4.2vw, 1.35rem);
-      color: var(--color-olive); /* THEME: Añadido */
-    }
+    .bpv-header {
+    /* El segundo valor (20px) controla la izquierda y derecha */
+    padding: 10px 16px; 
+    margin: 0 0 6px;
+    font-family: var(--font-display);
+    font-weight: 700;
+    letter-spacing: .5px;
+    line-height: 1.2;
+    font-size: clamp(1rem, 4.2vw, 1.35rem);
+    color: var(--color-olive);
+}
+
+.bpv-dashed-line {
+    border-top: 2px dashed rgba(85, 107, 47, .30);
+}
+
+.bpv-title {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 20px 20px; 
+    flex-wrap: nowrap;
+}
+
+.bpv-title-text {
+    flex: 1 1 auto;
+    min-width: 0;
+    margin-left: 0; 
+}
+
+.bpv-title-text h3 {
+    margin: 0 0 6px;
+    font-family: var(--font-display);
+    font-weight: 700;
+    white-space: normal;
+    overflow-wrap: anywhere;
+    hyphens: auto;
+    letter-spacing: .5px;
+    line-height: 1.2;
+    font-size: clamp(1rem, 4.2vw, 1.35rem);
+    color: var(--color-olive);
+}
     .bpv-title-text span{
       font-family:var(--font-body); /* THEME: cambiado de --font-display */
-      font-size:clamp(.95rem, 3.6vw, 1rem); 
-      font-weight:600; 
+      font-size:clamp(.8rem, 3.6vw, 1rem); 
+      font-weight:700; 
       opacity:.95;
       color: var(--color-text-dark); /* THEME: Añadido */
     }
@@ -430,29 +450,33 @@
     }
     /* Regla del TEMA BODA (bpv-passenger) */
     .bpv-passenger{
-      font-family: var(--font-titles);
+      font-family: var(--font-display);
       color: var(--color-olive);
     }
 
     .bpv-info{padding:22px 20px}
     .bpv-info > .bpv-field{display:grid; grid-template-rows:auto 1fr; margin-bottom:18px}
-    .bpv-info > .bpv-field .label{
-      font-family:var(--font-body); /* THEME: cambiado de --font-display */
-      font-weight:700; 
-      font-size:.85rem; /* THEME: cambiado de .75rem */
-      letter-spacing:.05em; /* THEME: cambiado de .18rem */
-      text-transform:uppercase; 
-      color:var(--color-text-dark); /* THEME: cambiado de rgba(4,37,26,.7) */
-      margin-bottom:6px;
-    }
+    .bpv-info > .bpv-field .label {
+    /* CAMBIO 1: Usar la misma fuente que los títulos para que la negrita sea más gruesa */
+    font-family: var(--font-display); 
+    
+    font-weight: 700; 
+    font-size: .85rem; 
+    letter-spacing: .05em; 
+    text-transform: uppercase; 
+    
+    /* CAMBIO 2: Usar el color Olive (más sólido) en lugar del gris oscuro */
+    color: var(--color-olive); 
+    
+    margin-bottom: 6px;
+}
     .bpv-info > .bpv-field .value{
       padding:12px 14px; 
       border-radius: 8px; /* THEME: cambiado de 10px */
       background: rgba(169,196,164,.08); /* THEME: cambiado de rgba(121,209,176,.08) */
       border: 1px solid rgba(85,107,47,0.18); /* THEME: cambiado de var(--border-suave) */
       color: var(--color-olive); /* THEME: cambiado de --color-letras-portada */
-      font-family: var(--font-titles); /* THEME: cambiado de --font-display */
-      font-style: italic; 
+      font-family: var(--font-display); /* THEME: cambiado de --font-display */
       font-size: 1.25rem; 
       line-height: 1.35;
       text-align: left; 
@@ -466,29 +490,57 @@
     .bpv-pairs{position:relative; display:grid; grid-template-columns:1fr 1fr; gap:18px}
     .bpv-pairs::before{content:""; position:absolute; left:50%; transform:translateX(-.5px); top:0; bottom:0; width:1px; background:rgba(4,37,26,.12)}
     .bpv-pairs .bpv-field{display:grid; grid-template-rows:auto 1fr}
+    /* Esta regla controla los textos SOBRE los recuadros de la cuadrícula */
+.bpv-pairs .bpv-field .label {
+    font-family: var(--font-display);
+    font-weight: 700;
+    
+    /* === AQUÍ ES DONDE MODIFICAS EL TAMAÑO === */
+    font-size: 0.85rem; 
+    /* ========================================= */
+    
+    letter-spacing: .05em;
+    text-transform: uppercase;
+    color: var(--color-olive);
+    margin-bottom: 6px;
+}
     .bpv-pairs .bpv-field .value{
       display:flex; align-items:flex-start; padding:12px 14px; 
       border-radius: 8px; /* THEME: cambiado de 10px */
       background: rgba(169,196,164,.08); /* THEME: cambiado de rgba(121,209,176,.08) */
       border: 1px solid rgba(85,107,47,0.18); /* THEME: cambiado de var(--border-suave) */
       color: var(--color-olive); /* THEME: cambiado de --color-letras-portada */
-      font-family: var(--font-titles); /* THEME: cambiado de --font-display */
-      font-style: italic; font-size: 1.25rem;
+      font-family: var(--font-display); /* THEME: cambiado de --font-display */
+      font-size: 1.25rem;
       font-weight: 500; /* THEME: Añadido */
       letter-spacing: .02em; /* THEME: Añadido */
     }
     @media (max-width:360px){.bpv-pairs::before{display:none}}
 
-    .bpv-barcode-section{padding:20px 20px 30px}
-    .barcode{
-      width:100%; height:96px; border-radius:6px; position:relative; overflow:hidden;
-      background:repeating-linear-gradient(90deg, rgba(4,37,26,.85), rgba(4,37,26,.85) 6px, transparent 6px, transparent 12px);
-    }
-    .barcode::after{
-      content:""; position:absolute; inset:0; opacity:.65;
-      background:repeating-linear-gradient(90deg, transparent 0, transparent 18px, rgba(4,37,26,.55) 18px, rgba(4,37,26,.55) 22px);
-    }
+    /* ===== Sección del Código de Barras Limpio ===== */
+.bpv-barcode-section {
+    padding: 20px 20px 30px;
+}
 
+.barcode {
+    width: 100%;
+    height: 96px;
+    border-radius: 6px;
+    position: relative;
+    overflow: hidden;
+    /* CAMBIO AQUÍ: Usamos el color sólido (rgb) en vez de con transparencia (rgba)
+       y eliminamos la segunda capa compleja. */
+    background: repeating-linear-gradient(
+        90deg, 
+        rgb(4, 37, 26), /* Color verde oscuro sólido */
+        rgb(4, 37, 26) 4px, /* Ancho de la barra */
+        transparent 6px, /* Inicio del espacio */
+        transparent 12px /* Fin del espacio */
+    );
+}
+
+/* IMPORTANTE: ELIMINA el bloque ".barcode::after { ... }" que tenías antes. 
+   Ya no es necesario y es el que causaba el problema visual. */
     /* ===== Ubicaciones (THEME Aplicado) ===== */
     .locations{
       padding:60px 20px;
@@ -522,7 +574,7 @@
     lord-icon{max-width:100%}
     .location-card-icon h3{ 
       margin:4px 0 6px; 
-      font-family:var(--font-titles); /* THEME: cambiado de --font-display */
+      font-family:var(--font-display); /* THEME: cambiado de --font-display */
       font-weight:700; 
       font-size:1.8rem; 
       color: var(--color-olive); /* THEME: Unificado */
@@ -1050,7 +1102,7 @@
               <div class="bpv-pairs">
                 <div class="bpv-field">
                   <span class="label">Desde</span>
-                  <div class="value">Cualquier parte del mundo</div>
+                  <div class="value">Dónde te encuentres</div>
                 </div>
                 <div class="bpv-field">
                   <span class="label">Fecha</span>
@@ -1058,7 +1110,7 @@
                 </div>
                 <div class="bpv-field">
                   <span class="label">Hacia</span>
-                  <div class="value">Buenos Aires, Argentina</div>
+                  <div class="value">BsAs, Argentina</div>
                 </div>
                 <div class="bpv-field">
                   <span class="label">N° Vuelo</span>
