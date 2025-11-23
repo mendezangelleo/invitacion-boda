@@ -539,66 +539,462 @@
     );
 }
 
-/* IMPORTANTE: ELIMINA el bloque ".barcode::after { ... }" que tenías antes. 
-   Ya no es necesario y es el que causaba el problema visual. */
-    /* ===== Ubicaciones (THEME Aplicado) ===== */
-    .locations{
-      padding:60px 20px;
-      display:grid;
-      grid-template-columns:repeat(auto-fit, minmax(280px, 1fr));
-      gap:30px;
-      justify-items:center;
-      align-items:start;
-    }
-    .location-card-icon{
-      background:#faf7f0; 
-      box-shadow:0 5px 15px rgba(0,0,0,.05);
-      border-radius:10px;
-      overflow:hidden;
-      width:100%; max-width:320px;
-      border:1px solid rgba(85,107,47,.18); /* THEME: cambiado de rgba(121,209,176,.2) */
-      padding:35px 25px;
-      display:flex; flex-direction:column; align-items:center; text-align:center;
-      margin:0 auto;
-      position: relative;
-    }
-    .location-card-icon > * {
-      position: relative;
-      z-index: 1;
-    }
-    .icon-wrapper{ display:grid; place-items:center; width:100%; height:92px; margin-bottom:16px; line-height:0; }
-    .icon-wrapper lord-icon,.icon-wrapper svg,.icon-wrapper img{
-      display:block; width:clamp(64px, 9vw, 80px); height:clamp(64px, 9vw, 80px);
-      aspect-ratio:1/1; margin:0 auto; transform:none !important; filter:drop-shadow(0 2px 4px rgba(0,0,0,.10)); vertical-align:middle;
-    }
-    lord-icon{max-width:100%}
-    .location-card-icon h3{ 
-      margin:4px 0 6px; 
-      font-family:var(--font-display); /* THEME: cambiado de --font-display */
-      font-weight:700; 
-      font-size:1.8rem; 
-      color: var(--color-olive); /* THEME: Unificado */
-    }
-    .location-card-icon .location-time{ display:inline-flex; align-items:baseline; justify-content:center; gap:8px; margin:8px 0 12px; white-space:nowrap; font-variant-numeric:tabular-nums; }
-    .location-card-icon .location-time .time{
-      font-family:var(--font-display); /* Mantenemos Playfair aquí, o cambiamos a --font-titles */
-      font-size:2.1rem; 
-      line-height:1;
-      color: var(--color-olive); /* THEME: Añadido */
-    }
-    .location-card-icon .location-time .suffix{font-size:.9rem; letter-spacing:.14em; opacity:.85; line-height:1; transform:translateY(-2px)}
-    .location-card-icon p{
-      font-size:1rem; 
-      margin:10px 0;
-      font-family: var(--font-body); /* THEME: Unificado */
-      color: var(--color-text-dark); /* THEME: Unificado */
-    }
-    .location-card-icon .btn{width:100%; max-width:260px}
-    .btn i{margin-right:10px; line-height:0; font-size:1em}
-    @media (max-width:480px){ .icon-wrapper{height:84px} .icon-wrapper lord-icon,.icon-wrapper svg,.icon-wrapper img{width:68px; height:68px} .location-card-icon{padding:28px 22px} }
-    @media (max-width:360px){ .icon-wrapper{height:76px} .icon-wrapper lord-icon,.icon-wrapper svg,.icon-wrapper img{width:62px; height:62px} .location-card-icon h3{font-size:1.6rem} }
+/* ===== Ubicaciones (THEME Aplicado) ===== */
+.locations{
+  padding:60px 20px;
+  display:grid;
+  grid-template-columns:repeat(auto-fit, minmax(280px, 1fr));
+  gap:30px;
+  justify-items:center;
+  align-items:start;
+}
+
+/* =======================================================
+   ESTILOS MAESTROS — TODAS LAS TARJETAS IGUALES
+   ======================================================= */
+
+/* 1. Caja principal: se aplica a TODAS las tarjetas */
+.location-card-icon,
+.info-card {
+  background:#faf7f0;
+  box-shadow:0 5px 15px rgba(0,0,0,.05);
+  border-radius:10px;
+  border:1px solid rgba(85,107,47,.18);
+
+  padding:35px 25px;
+  width:100%;
+  max-width:320px;
+  margin:0 auto 30px;
+
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  text-align:center;
+  position:relative;
+  overflow:hidden;
+}
+
+.location-card-icon > *,
+.info-card > * {
+  position:relative;
+  z-index:1;
+}
+
+/* 2. Iconos dentro de las tarjetas */
+.icon-wrapper {
+  display:grid;
+  place-items:center;
+  width:100%;
+  height:92px;
+  margin-bottom:8px;
+  line-height:0;
+}
+
+.icon-wrapper lord-icon,
+.icon-wrapper svg,
+.icon-wrapper img {
+  display:block;
+  width:clamp(64px, 9vw, 80px);
+  height:clamp(64px, 9vw, 80px);
+  aspect-ratio:1/1;
+  margin:0 auto;
+  vertical-align:middle;
+}
+
+lord-icon{ max-width:100%; }
+
+/* 3. TÍTULOS — unificados para TODAS las tarjetas */
+.location-card-icon h2,
+.location-card-icon h3,
+.info-card h2,
+.info-card .info-title {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.8rem !important;
+  line-height: 1.2;
+  color: var(--color-olive);
+
+  text-shadow: none !important;
+  filter: none !important;
+  -webkit-text-stroke: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+.info-card h2::before,
+.info-card h2::after,
+.info-card .info-title::before,
+.info-card .info-title::after {
+  display:none !important;
+  content:none !important;
+}
+
+/* =======================================================
+   CÓDIGO DE VESTIMENTA — AJUSTES ESPECÍFICOS
+   (solo afecta a la info-card de vestimenta)
+   ======================================================= */
+
+.info-card .info-kv {
+  width:100%;
+  text-align:center !important;
+  padding:10px 15px;
+  background:transparent !important;
+  border:none !important;
+  box-shadow:none !important;
+
+  font-size:1.2rem;
+  font-family:var(--font-body);
+  color:var(--color-text-dark);
+}
+
+.info-card .info-kv p {
+  margin:0 0 4px 0 !important;
+  line-height:1.1;
+  text-align:center !important;
+  display:block;
+}
+
+/* Botón verde falso de vestimenta */
+.info-card .info-kv small {
+  display:block;
+  max-width:260px;
+  margin:6px auto 0;
+
+  background-color:var(--color-olive);
+  color:#fff;
+  padding:12px 15px;
+  border-radius:5px;
+  border:none;
+  box-shadow:0 4px 6px rgba(0,0,0,0.1);
+
+  font-family:var(--font-body);
+  font-weight:600;
+  font-size:0.9rem;
+  letter-spacing:0.05em;
+  text-align:center;
+  cursor:default;
+}
+
+/* Iconos GIF específicos de vestimenta (traje/vestido) */
+.info-card .icon-wrapper {
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  gap:12px;
+  height:auto;
+  margin-bottom:16px;
+}
+
+.info-card .icon-wrapper img {
+  width:50px;
+  height:50px;
+  margin:0;
+}
+
+/* =======================================================
+   TEXTOS GENERALES DE TARJETAS
+   ======================================================= */
+
+.location-card-icon p,
+.info-card p {
+  font-size:0.83rem;
+  margin:2px 0;
+  line-height:1.4;
+  font-family:var(--font-body);
+  color:var(--color-text-dark);
+}
+
+/* 5. Botones dentro de tarjetas */
+.location-card-icon .btn,
+.info-card .btn {
+  width:100%;
+  max-width:260px;
+  margin-top:12px;
+}
+
+.btn i {
+  margin-right:10px;
+  line-height:0;
+  font-size:1em;
+}
+
+/* 6. Horarios (Ceremonia / Celebración) */
+.location-card-icon .location-time {
+  display:inline-flex;
+  align-items:baseline;
+  justify-content:center;
+  gap:8px;
+  margin:8px 0 12px;
+  white-space:nowrap;
+  font-variant-numeric:tabular-nums;
+}
+
+.location-card-icon .location-time .time {
+  font-family:var(--font-body);
+  font-size:0.83rem;
+  color:var(--color-olive);
+}
+
+.location-card-icon .location-time .suffix {
+  font-size:.8rem;
+  letter-spacing:.14em;
+  opacity:.85;
+  transform:translateY(-1px);
+}
+
+/* =======================================================
+   MEDIA QUERIES DE TARJETAS
+   ======================================================= */
+
+@media (max-width: 480px) {
+  .icon-wrapper { height:84px; }
+  .icon-wrapper lord-icon,
+  .icon-wrapper svg,
+  .icon-wrapper img { width:68px; height:68px; }
+  .location-card-icon,
+  .info-card { padding:28px 22px; }
+}
+
+@media (max-width: 360px) {
+  .icon-wrapper { height:76px; }
+  .icon-wrapper lord-icon,
+  .icon-wrapper svg,
+  .icon-wrapper img { width:62px; height:62px; }
+  .location-card-icon h3,
+  .location-card-icon h2,
+  .info-card h2 { font-size:1.6rem; }
+}
+
+/* ===== Info / RSVP / Viajeros / Galería (THEME Aplicado) ===== */
+
+.info-section{ padding:60px 20px; }
+.info-section p{
+  font-size:1.05rem;
+  max-width:600px;
+  margin:0 auto 20px;
+  line-height:1.7;
+  font-family:var(--font-body);
+  color:var(--color-text-dark);
+}
+.info-section p strong{ color:var(--color-olive); }
+
+.rsvp-section{
+  padding:60px 20px;
+  background:rgba(169,196,164,.06);
+  border-top:1px solid rgba(169,196,164,.15);
+}
+.rsvp-section .container{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+}
+.rsvp-section .btn:hover{
+  background:var(--color-lazo);
+  color:var(--color-letras-portada);
+  border-color:var(--color-lazo);
+}
+
+.travel-info-section{ padding:60px 20px; }
+/* Nota: NO redefinimos h2 aquí para que use el estilo unificado
+   de .location-card-icon h2 (misma fuente/tamaño que las demás) */
+.travel-info-section p{
+  font-size:1.05rem;
+  max-width:600px;
+  margin:0 auto 20px;
+  line-height:1.7;
+  font-family:var(--font-body);
+  color:var(--color-text-dark);
+}
+.travel-info-section .container{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+}
+
+.photo-gallery-section{
+  padding:40px 0;
+  background:var(--color-fondo);
+}
+.photo-gallery-section h2{
+  font-family:var(--font-display);
+  font-weight:700;
+  font-size:2.2rem;
+  text-align:center;
+  margin-bottom:30px;
+  color:var(--color-olive);
+}
+.gallery-scroll-container{
+  display:flex;
+  gap:15px;
+  padding:10px 20px;
+  overflow-x:auto !important;
+  overflow-y:hidden !important;
+  scroll-snap-type:x mandatory;
+  -webkit-overflow-scrolling:touch;
+  scrollbar-width:none;
+  cursor:grab;
+  user-select:none;
+}
+.gallery-scroll-container::-webkit-scrollbar{ display:none; }
+.gallery-scroll-container.dragging{
+  cursor:grabbing;
+  scroll-snap-type:none;
+}
+.gallery-scroll-container img{
+  flex:0 0 auto;
+  width:80%;
+  max-width:350px;
+  border-radius:10px;
+  box-shadow:0 5px 15px rgba(0,0,0,.08);
+  scroll-snap-align:center;
+  pointer-events:none;
+  -webkit-user-drag:none;
+  user-select:none;
+}
+.gallery-scroll-container.dragging img{
+  pointer-events:none;
+  user-select:none;
+}
+
+/* Botones generales (ya los usas en varias secciones) */
+.btn{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  background:var(--color-botones);
+  border-color:var(--color-botones);
+  color:#EBEAE4;
+  padding:10px 18px;
+  text-decoration:none;
+  border-radius:8px;
+  font-size:.95rem;
+  font-weight:700;
+  margin-top:20px;
+  border:1px solid transparent;
+  transition: transform .15s, filter .2s, background-color .2s, border-color .2s;
+}
+.btn:hover{
+  filter:brightness(1.05);
+  transform:translateY(-1px);
+}
+.btn:active{
+  transform:translateY(0);
+  opacity:.9;
+}
+@media (hover:none){ .btn:hover{ transform:none; } }
+
+/* ===== Sección Información de Viaje (THEME Aplicado) ===== */
+/* Usada para la info-card de Código de Vestimenta */
+/* Aquí SOLO afinamos sombra/hover, sin cambiar el ancho base */
+
+.info-section .info-card{
+  /* hereda max-width, padding, etc. del bloque maestro */
+  box-shadow:0 10px 30px rgba(82,126,105,.08);
+  border-radius:10px;
+  transition:transform .3s ease, box-shadow .3s ease;
+}
+.info-section .info-card:hover{
+  transform:translateY(-2px);
+  box-shadow:0 14px 36px rgba(82,126,105,.12);
+}
+.info-section .info-card > *{
+  position:relative;
+  z-index:1;
+}
+
+/* =======================================================
+   NORMALIZACIÓN FINAL DE TARJETAS
+   (poner ESTE bloque al FINAL del <style>)
+   ======================================================= */
+
+/* 1) Todos los recuadros: mismo ancho y padding */
+.locations .location-card-icon,
+.rsvp-section .location-card-icon,
+.travel-info-section .location-card-icon,
+.info-section .info-card {
+  width: 100% !important;
+  max-width: 320px !important;
+  margin: 0 auto 30px !important;
+  padding: 35px 25px !important;
+
+  background: #faf7f0 !important;
+  border-radius: 10px !important;
+  border: 1px solid rgba(85, 107, 47, .18) !important;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, .05) !important;
+
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  text-align: center !important;
+  position: relative !important;
+  overflow: hidden !important;
+}
+
+/* 2) Títulos dentro de las tarjetas: misma fuente/tamaño */
+.locations .location-card-icon h2,
+.locations .location-card-icon h3,
+.rsvp-section .location-card-icon h2,
+.travel-info-section .location-card-icon h2,
+.info-section .info-card h2,
+.info-section .info-card .info-title {
+  font-family: var(--font-display) !important;
+  font-weight: 700 !important;
+  font-size: 1.8rem !important;
+  line-height: 1.2 !important;
+  color: var(--color-olive) !important;
+
+  text-shadow: none !important;
+  filter: none !important;
+  -webkit-text-stroke: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+/* 3) Coctel Elegante: sin pastilla blanca ni bordes extra */
+.info-section .info-card .info-kv,
+.info-section .info-card .info-kv p {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  padding: 10px 15px !important;
+  margin: 0 0 4px 0 !important;
+  line-height: 1.1 !important;
+  text-align: center !important;
+  font-size: 1.1rem !important;
+}
+
+/* 4) Botón verde falso de vestimenta (ajuste final) */
+.info-section .info-card .info-kv small {
+  display: block !important;
+  max-width: 260px !important;
+  margin: 6px auto 0 !important;
+  padding: 12px 15px !important;
+  background-color: var(--color-olive) !important;
+  color: #fff !important;
+  border-radius: 5px !important;
+  border: none !important;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1) !important;
+  font-family: var(--font-body) !important;
+  font-weight: 600 !important;
+  font-size: 0.9rem !important;
+  letter-spacing: 0.05em !important;
+  text-align: center !important;
+  cursor: default !important;
+}
+
+
+
 
     /* ===== Itinerario (THEME Aplicado) ===== */
+    /* Agrega esto para controlar el título "Itinerario de Vuelo" */
+.itinerary-section h2 {
+    font-family: var(--font-display); /* O la fuente que desees */
+    font-size: 1.5rem; /* Tamaño */
+    color: var(--color-olive); /* Color */
+    margin-bottom: 30px; /* Espacio entre el título y la línea de tiempo */
+    font-weight: 400;
+}
+    
     .itinerary-section{ padding:60px 20px; text-align:center; }
     .timeline{
       --dotR: 17px; --axisGap: 10px; --cardPadY: 18px; --cardPadX: 18px; --fill: 0%;
@@ -650,7 +1046,7 @@
     .timeline-content h3{
       white-space:normal; word-break: normal; overflow-wrap: normal; hyphens: none;
       font-size: clamp(1rem, 3.6vw, 1.25rem); line-height:1.2; margin:0 0 .35rem 0;
-      font-family: var(--font-titles); /* THEME: Unificado */
+      font-family: var(--font-display); /* THEME: Unificado */
       color: var(--color-olive); /* THEME: Unificado */
     }
     .timeline-content p {
@@ -688,128 +1084,26 @@
 
     .timeline-item .timeline-content{ transition-delay: calc(var(--i, 0) * 60ms); }
     .timeline-item.is-inview .timeline-content{ transition-delay: calc(var(--i, 0) * 60ms); }
+
+    /* Estilos para la nota al pie del itinerario */
+.notice {
+    display: block; /* Asegura que ocupe el ancho disponible */
+    margin-top: 40px; /* Espacio para separarlo de la línea de tiempo */
+    
+    font-family: var(--font-body);
+    font-size: 0.85rem; /* Un poco más pequeño que el texto normal */
+    font-style: italic; /* Cursiva para denotar que es una nota */
+    
+    color: var(--color-text-dark);
+    opacity: 0.7; /* Un poco transparente para que no robe atención */
+    
+    text-align: center; /* Centrado (aunque el padre ya lo tenga, aseguramos) */
+    letter-spacing: 0.02em;
+}
     @media (prefers-reduced-motion: reduce){
       .timeline-item .timeline-content, .timeline-dot{ transition: none !important; transform: none !important; }
     }
 
-    /* ===== Info / RSVP / Viajeros / Galería (THEME Aplicado) ===== */
-    .info-section{padding:60px 20px}
-    .info-section p{
-      font-size:1.05rem; 
-      max-width:600px; 
-      margin:0 auto 20px; 
-      line-height:1.7;
-      font-family: var(--font-body); /* THEME: Unificado */
-      color: var(--color-text-dark); /* THEME: Unificado */
-    }
-    .info-section p strong{color:var(--color-olive)} /* THEME: cambiado de --color-letras-portada */
-
-    .rsvp-section{
-      padding:60px 20px; 
-      background:rgba(169,196,164,.06); /* THEME: cambiado de rgba(121,209,176,.05) */
-      border-top:1px solid rgba(169,196,164,.15); /* THEME: cambiado de rgba(121,209,176,.15) */
-    }
-    .rsvp-section .container{ display:flex; justify-content:center; align-items:center; }
-    /* Estilo del botón RSVP ahora heredado del .btn unificado */
-    .rsvp-section .btn:hover{ 
-      /* Hover específico del TEMA original (lazo) */
-       background: var(--color-lazo); 
-       color: var(--color-letras-portada); 
-       border-color: var(--color-lazo);
-    }
-
-    .travel-info-section{padding:60px 20px}
-    .travel-info-section h2{
-      font-family:var(--font-titles); /* THEME: cambiado de --font-display */
-      font-weight:700; 
-      font-size:2.2rem;
-      color: var(--color-olive); /* THEME: Unificado */
-    }
-    .travel-info-section p{
-      font-size:1.05rem; 
-      max-width:600px; 
-      margin:0 auto 20px; 
-      line-height:1.7;
-      font-family: var(--font-body); /* THEME: Unificado */
-      color: var(--color-text-dark); /* THEME: Unificado */
-    }
-    .travel-info-section .container{ display:flex; justify-content:center; align-items:center; }
-
-    .photo-gallery-section{
-      padding:40px 0; 
-      background:var(--color-fondo); /* Mantenemos el fondo original, o cambiamos a --color-cream */
-    }
-    .photo-gallery-section h2{
-      font-family:var(--font-titles); /* THEME: cambiado de --font-display */
-      font-weight:700; 
-      font-size:2.2rem; 
-      text-align:center; 
-      margin-bottom:30px;
-      color: var(--color-olive); /* THEME: Unificado */
-    }
-    .gallery-scroll-container{
-      display:flex;
-      gap:15px;
-      padding:10px 20px;
-      overflow-x:auto !important;
-      overflow-y:hidden !important;
-      scroll-snap-type:x mandatory;
-      -webkit-overflow-scrolling:touch;
-      scrollbar-width:none;
-      cursor:grab;
-      user-select:none;
-    }
-    .gallery-scroll-container::-webkit-scrollbar{ display:none; }
-    .gallery-scroll-container.dragging{
-      cursor:grabbing;
-      scroll-snap-type:none;
-    }
-    .gallery-scroll-container img{
-      flex:0 0 auto;
-      width:80%;
-      max-width:350px;
-      border-radius:10px;
-      box-shadow:0 5px 15px rgba(0,0,0,.08);
-      scroll-snap-align:center;
-      pointer-events:none;
-      -webkit-user-drag:none;
-      user-select:none;
-    }
-    .gallery-scroll-container.dragging img{
-      pointer-events: none;
-      user-select: none;
-    }
-
-    /* Botones Generales (THEME Aplicado) */
-    .btn{
-      display:inline-flex; align-items:center; justify-content:center; 
-      background: var(--color-botones); /* THEME: Verde Oscuro */
-      border-color: var(--color-botones); /* THEME: Verde Oscuro */
-      color:#EBEAE4; /* THEME: Blanco */
-      padding:10px 18px; /* THEME: cambiado de 12px 30px */
-      text-decoration:none; 
-      border-radius:8px; /* THEME: cambiado de 5px */
-      font-size:.95rem; /* THEME: cambiado de 1.05rem */
-      font-weight:700; 
-      margin-top:20px;
-      border:1px solid transparent; 
-      transition: transform .15s, filter .2s, background-color .2s, border-color .2s; /* THEME: Transición actualizada */
-    }
-    /* Hover general (THEME Aplicado) */
-    .btn:hover{
-      filter:brightness(1.05); /* THEME: Cambiado de scale+bg */
-      transform:translateY(-1px); /* THEME: Cambiado de scale+bg */
-      /* Opcional: si quieres mantener el hover de lazo dorado: */
-      /* background:var(--color-lazo);  */
-      /* color:var(--color-letras-portada);  */
-      /* border-color:var(--color-lazo); */
-      /* transform:scale(1.05);  */
-    }
-    .btn:active{
-      transform:translateY(0); /* THEME: cambiado de scale(.98) */
-      opacity:.9
-    }
-    @media (hover:none){.btn:hover{transform:none}}
 
     /* ===== Footer refinado y elegante (THEME Aplicado) ===== */
     /* El footer ya usaba la paleta correcta (beige/olive) */
@@ -889,7 +1183,28 @@
       z-index: 1;
     }
     .info-card:hover { transform: translateY(-2px); box-shadow: 0 14px 36px rgba(82,126,105,.12); }
-    .info-card .icon-wrapper { height: 90px; margin: 0 auto 10px; }
+    /* AJUSTES PARA LOS ICONOS GIF DE VESTIMENTA */
+/* Esto se aplicará solo en la tarjeta de vestimenta */
+.info-card .icon-wrapper {
+    display: flex; /* Muestra los iconos uno al lado del otro */
+    justify-content: center;
+    align-items: center;
+    gap: 12px; /* Espacio entre el traje y el vestido */
+    height: auto;
+    margin-bottom: 16px;
+}
+
+.info-card .icon-wrapper img {
+    /* Toma la mitad del tamaño de los lord-icons para que quepan */
+    width: 50px; 
+    height: 50px; 
+    margin: 0;
+    
+    /* Nota: Si los iconos no se ven en color oliva, es porque el GIF no es SVG.
+       El filtro de color CSS no funciona bien en GIFs complejos. 
+       Si quieres un color uniforme, tendrás que exportar estos GIFs en verde oliva.
+       De lo contrario, conservarán sus colores originales (negro/azul). */
+}
     .info-title {
       font-family: var(--font-titles); color: var(--color-olive);
       font-size: clamp(1.6rem, 4.8vw, 2rem); font-weight: 700; margin-bottom: 20px; position: relative;
@@ -917,73 +1232,6 @@
       .info-kv p { padding: 14px 14px; }
     }
 
-    /* ================================
-     * Adornos (Versión Interior con Clip)
-     * ================================ */
-    .con-adornos,
-    .con-adornos-alt {
-      position: relative;
-    }
-
-    .con-adornos::before,
-    .con-adornos::after,
-    .con-adornos-alt::before,
-    .con-adornos-alt::after {
-      content: '';
-      position: absolute;
-      width: 150px;
-      height: 150px;
-      background-size: contain;
-      background-repeat: no-repeat;
-      opacity: 0.9;
-      z-index: 0;
-      pointer-events: none;
-    }
-
-    /* --- JUEGO 1 DE ADORNOS (Clase .con-adornos) --- */
-    .con-adornos::before {
-      background-image: url('img/5392165_1077.svg');
-      top: 0;
-      left: 0;
-      transform: translate(-40%, -40%) rotate(-10deg);
-    }
-    .con-adornos::after {
-      background-image: url('img/5392167_1079.svg');
-      bottom: 0;
-      right: 0;
-      transform: translate(40%, 40%) rotate(10deg);
-    }
-
-    /* --- JUEGO 2 DE ADORNOS (Clase .con-adornos-alt) --- */
-    .con-adornos-alt::before {
-      background-image: url('img/5392161_1073.svg');
-      top: 0;
-      left: 0;
-      transform: translate(-40%, -40%) rotate(-10deg);
-    }
-    .con-adornos-alt::after {
-      background-image: url('img/5392162_1074.svg');
-      bottom: 0;
-      right: 0;
-      transform: translate(40%, 40%) rotate(10deg);
-    }
-
-    /* Ajuste para móviles (aplica a ambos juegos) */
-    @media (max-width: 480px) {
-      .con-adornos::before,
-      .con-adornos::after,
-      .con-adornos-alt::before,
-      .con-adornos-alt::after {
-        width: 110px;
-        height: 110px;
-      }
-    }
-
-    /* Ocultar adornos en Travel Info (porque no tiene fondo blanco) */
-    .travel-info-section .location-card-icon.con-adornos::before,
-    .travel-info-section .location-card-icon.con-adornos::after {
-        display: none;
-    }
 
   </style>
 </head>
@@ -1033,7 +1281,7 @@
 
   <div class="invitation-content">
     <main>
-      <img src="img/IMG-20210924-WA0148.jpg" alt="Anyela y Angel" class="hero-photo">
+      <img src="img/IMG_2975.jpg" alt="Anyela y Angel" class="hero-photo">
 
       <section class="intro-text-section container">
         <p class="frase-1">El vuelo más importante de nuestras vidas está por comenzar</p>
@@ -1135,9 +1383,9 @@
           </div>
           <h3>Ceremonia</h3>
           <p class="location-time"><span class="time">17:00</span><span class="suffix">HS</span></p>
-          <p><strong>Parroquia Nuestra Señora de Coromoto</strong></p>
-          <p>Av. Urdaneta 747</p>
-          <a href="https://maps.app.goo.gl/gD98v1e4P8NZnAnz8" target="_blank" class="btn"><i class="fa-solid fa-map-location-dot" aria-hidden="true"></i> Ver Ubicación</a>
+          <p><strong>Parroquia Santiago Apóstol</strong></p>
+          <p>Tte. Gral. Pablo Ricchieri 3189, CABA</p>
+          <a href="https://www.google.com/maps?sca_esv=3c659fc7041cb947&rlz=1C1SQJL_esCL928CL931&sxsrf=AE3TifMWgZZCRCYX0tnA_kqeM3Bny1Yyfw:1763842563674&uact=5&gs_lp=Egxnd3Mtd2l6LXNlcnAiGXNhbnRpYWdvIGFwb3N0b2wgcGFycm9xdWEyBxAAGIAEGA0yBxAAGIAEGA0yBhAAGA0YHjIGEAAYDRgeMggQABgIGA0YHjIIEAAYCBgNGB4yCBAAGAgYDRgeMggQABgIGA0YHjIIEAAYCBgNGB4yCBAAGAgYDRgeSMoUUMkOWLoScAN4AZABAJgBowGgAYEGqgEDMC42uAEDyAEA-AEBmAIJoALDBsICChAAGLADGNYEGEfCAg0QABiABBiwAxhDGIoFwgIOEAAYsAMY5AIY1gTYAQHCAhMQLhiABBiwAxhDGMgDGIoF2AEBwgIKEAAYgAQYFBiHAsICBRAAGIAEwgIGEAAYFhgemAMAiAYBkAYTugYGCAEQARgJkgcDMy42oAfcLbIHAzAuNrgHpAbCBwUyLTcuMsgHMw&um=1&ie=UTF-8&fb=1&gl=ar&sa=X&geocode=KVPuX2IltLyVMVypLRi6opkS&daddr=Tte.+Gral.+Pablo+Ricchieri+3189,+C1428+Cdad.+Aut%C3%B3noma+de+Buenos+Aires" target="_blank" class="btn"><i class="fa-solid fa-map-location-dot" aria-hidden="true"></i> Ver Ubicación</a>
         </div>
 
         <div class="location-card-icon con-adornos-alt">
@@ -1148,7 +1396,7 @@
           <p class="location-time"><span class="time">21:00</span><span class="suffix">HS</span></p>
           <p><strong>Quinta Benavidez</strong></p>
           <p>Mendoza 3499, Benavidez, Provincia de Buenos Aires</p>
-          <a href="https://maps.app.goo.gl/uLqPq7iJzYGK8tDPA" target="_blank" class="btn"><i class="fa-solid fa-map-location-dot" aria-hidden="true"></i> Ver Ubicación</a>
+          <a href="https://www.google.com/maps/dir//Quinta+de+Benavidez,+Mendoza,+Benavidez,+Buenos+Aires+Province/@-34.416624,-58.7556077,13z/data=!4m8!4m7!1m0!1m5!1m1!1s0x95bca1da3694ac17:0x3f846784fda25fdd!2m2!1d-58.7145527!2d-34.416706?entry=ttu&g_ep=EgoyMDI1MTExNy4wIKXMDSoASAFQAw%3D%3D" target="_blank" class="btn"><i class="fa-solid fa-map-location-dot" aria-hidden="true"></i> Ver Ubicación</a>
         </div>
       </section>
 
@@ -1158,15 +1406,15 @@
           <div class="timeline" id="timeline">
             <div class="timeline-item">
               <span class="timeline-dot"><i class="fa-solid fa-church" aria-hidden="true"></i></span>
-              <div class="timeline-content"><h3>17:00 - Ceremonia</h3><p>El momento mas importante de este viaje.</p></div>
+              <div class="timeline-content"><h3>17:00 - Ceremonia</h3><p>Inicio del viaje</p></div>
             </div>
             <div class="timeline-item">
               <span class="timeline-dot"><i class="fa-solid fa-champagne-glasses" aria-hidden="true"></i></span>
-              <div class="timeline-content"><h3>21:00 - Recepción</h3><p>Comienza la celebración.</p></div>
+              <div class="timeline-content"><h3>21:00 - Recepción</h3><p>Primera escala</p></div>
             </div>
             <div class="timeline-item">
               <span class="timeline-dot"><i class="fa-solid fa-music" aria-hidden="true"></i></span>
-              <div class="timeline-content"><h3>22:00 - Baile</h3><p>¡A bailar!</p></div>
+              <div class="timeline-content"><h3>23:00 - Baile</h3><p>Arribo a destino</p></div>
             </div>
             <div class="timeline-item">
               <span class="timeline-dot"><i class="fa-solid fa-moon" aria-hidden="true"></i></span>
@@ -1177,31 +1425,22 @@
         </div>
       </section>
 
-      <section class="info-section container">
-        <div class="info-card con-adornos">
-          <div class="icon-wrapper">
-            <lord-icon
-              src="https://cdn.lordicon.com/zhiiqoue.json"
-              trigger="loop"
-              delay="2000"
-              colors="primary:#99BC85,secondary:#99BC85" aria-hidden="true">
-            </lord-icon>
-          </div>
-          <h2 class="info-title">Información de Viaje</h2>
-          <div class="info-kv">
-            <p>
-              <strong>Código de Vestimenta</strong>
-              <span>Elegante 💃🕺 </span>
-              <small>¡Prepara tu mejor atuendo!</small>
-            </p>
-            <p>
-              <strong>Requisitos</strong>
-              <span>El único requisito indispensable es ¡venir con muchas ganas de celebrar!</span>
-            </p>
-          </div>
-        </div>
-      </section>
+   <section class="info-section container">
+    <div class="info-card con-adornos">
+      
+      <div class="icon-wrapper">
+        <img src="img/vestido-de-novia.gif" alt="Icono de Traje" class="icon-vestimenta-style">
+      </div>
+      
+      <h2 class="info-title">Código de Vestimenta</h2>
 
+      <div class="info-kv">
+        <p style="font-size: 1.2rem; margin-bottom: 0;">Cóctel Elegante</p> 
+        <small>¡Prepara tu mejor atuendo!</small>
+      </div>
+
+    </div>
+</section>
       <section class="rsvp-section">
         <div class="container">
           <div class="location-card-icon con-adornos-alt">
@@ -1239,7 +1478,7 @@
             <img src="img/IMG_1939.JPG" alt="Foto 1">
             <img src="img/20250810_150700.jpg" alt="Foto 2">
             <img src="img/20251015_210918.jpg" alt="Foto 3">
-            <img src="img/IMG_2130.jpg" alt="Foto 4">
+            <img src="img/IMG_2975.jpg" alt="Foto 4">
           </div>
         </div>
       </section>
