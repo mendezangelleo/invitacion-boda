@@ -1475,6 +1475,40 @@ body.no-scroll{
   box-shadow: inset -6px 0 10px rgba(0,0,0,.18);
 }
 
+/* ===== FIX iOS: que siempre se vea “TOCA PARA ABORDAR” ===== */
+
+/* 1) Usar viewport dinámico + respetar safe-area */
+.passport-cover{
+  height: 100dvh;          /* iOS moderno */
+  min-height: 100vh;       /* fallback */
+  padding-bottom: calc(18px + env(safe-area-inset-bottom));
+}
+
+/* 2) Reservar espacio abajo para el hint (evita que lo tape la imagen) */
+.passport-central-content{
+  padding-bottom: calc(78px + env(safe-area-inset-bottom));
+}
+
+/* 3) Limitar la imagen según el alto real disponible */
+.passport-cover-image{
+  max-height: calc(100dvh - 220px);  /* ajusta si querés más/menos aire */
+}
+
+/* 4) Forzar que el hint quede arriba de todo y centrado */
+.passport-open-hint{
+  left: 0;
+  right: 0;
+  text-align: center;
+  z-index: 50;
+  bottom: calc(14px + env(safe-area-inset-bottom));
+  padding: 0 16px;
+}
+
+/* Fallback si el browser no soporta dvh */
+@supports not (height: 100dvh){
+  .passport-cover{ height: 100vh; }
+  .passport-cover-image{ max-height: calc(100vh - 220px); }
+}
 
 
   </style>
