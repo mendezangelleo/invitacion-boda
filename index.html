@@ -9,6 +9,7 @@
   <link rel="apple-touch-icon" href="img/Logo definitivo.png" />
   <link rel="manifest" href="manifest.webmanifest" />
 
+  <link href="https://fonts.googleapis.com/css2?family=Allura&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Dancing+Script:wght@700&family=Montserrat:wght@400;500;700&display=swap" rel="stylesheet" />
   <script src="https://cdn.lordicon.com/lordicon.js"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
@@ -119,9 +120,9 @@
   right: 0;
   text-align: center;
 
-  font-family: var(--font-display);
-  font-size: 2.1rem;
-  letter-spacing: 2px;
+  font-family: 'Allura', 'Savoye LET', cursive;
+  font-size: clamp(30px, 5.2vw, 38px);
+  letter-spacing: 0.06em;
   color: rgba(4,37,26,.55);
   z-index: 10;
 }
@@ -154,10 +155,10 @@
 .passport-open-hint{
   position: absolute;
   bottom: 28px;
-  letter-spacing: .25em;
+  letter-spacing: .22em;
   font-size: .75rem;
-  font-family: var(--font-display);
-  color: rgba(4,37,26,.45);
+  font-family: 'Playfair Display', serif;
+  color: #2f5f53;  
   text-transform: uppercase;
 }
 
@@ -1298,7 +1299,7 @@ body.no-scroll{
   color: var(--cover-ink) !important;
   font-weight: 700 !important;
   font-size: .82rem !important;
-  letter-spacing: .30em;
+  letter-spacing: .22em;
   opacity: .65;
 }
 
@@ -1385,11 +1386,12 @@ body.no-scroll{
   right: 0;
   text-align: center;
 
-  font-family: var(--font-display);
-  font-size: clamp(1.6rem, 2.6vw, 2.4rem);
-  letter-spacing: .08em;
+  font-family: 'Allura', 'Savoye LET', cursive;
+  font-size: clamp(30px, 5.2vw, 38px);
+  letter-spacing: 0.06em;
   font-weight: 700;
   color: var(--cover-ink);
+  margin-top: 20px;
   text-shadow: 0 1px 0 rgba(255,255,255,.25);
   z-index: 10;
 }
@@ -1427,15 +1429,14 @@ body.no-scroll{
 
 /* Hint abajo */
 .passport-open-hint{
-  letter-spacing: .30em;
-  font-size: .82rem;
-  font-family: var(--font-display);
+  font-family: 'Playfair Display', serif;
+  font-weight: 500;
+  letter-spacing: 0.22em;
   text-transform: uppercase;
-  font-weight: 700;
-  color: var(--cover-ink);
-  opacity: .65;
-  animation: subtleBreath 3.5s ease-in-out infinite;
+  font-size: 12px;
+  color: #2f5f53;
 }
+
 
 @keyframes subtleBreath{
   0%   { opacity: .55; }
@@ -1475,40 +1476,87 @@ body.no-scroll{
   box-shadow: inset -6px 0 10px rgba(0,0,0,.18);
 }
 
-/* ===== FIX iOS: que siempre se vea “TOCA PARA ABORDAR” ===== */
+/* ===== FIX iOS: “TOCA PARA ABORDAR” siempre visible ===== */
 
-/* 1) Usar viewport dinámico + respetar safe-area */
+/* 1) Portada con alto dinámico real (iOS) */
 .passport-cover{
-  height: 100dvh;          /* iOS moderno */
-  min-height: 100vh;       /* fallback */
-  padding-bottom: calc(18px + env(safe-area-inset-bottom));
+  height: 100dvh;        /* iOS moderno */
+  min-height: 100vh;     /* fallback */
 }
 
-/* 2) Reservar espacio abajo para el hint (evita que lo tape la imagen) */
+/* 2) Dejá un “piso” abajo para el hint (la imagen ya no lo tapa) */
 .passport-central-content{
-  padding-bottom: calc(78px + env(safe-area-inset-bottom));
+  padding-bottom: calc(84px + env(safe-area-inset-bottom));
 }
 
-/* 3) Limitar la imagen según el alto real disponible */
-.passport-cover-image{
-  max-height: calc(100dvh - 220px);  /* ajusta si querés más/menos aire */
-}
-
-/* 4) Forzar que el hint quede arriba de todo y centrado */
+/* 3) Hint anclado al borde inferior “seguro” */
 .passport-open-hint{
-  left: 0;
-  right: 0;
-  text-align: center;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: calc(18px + env(safe-area-inset-bottom));
   z-index: 50;
-  bottom: calc(14px + env(safe-area-inset-bottom));
-  padding: 0 16px;
+
+  /* mejora legibilidad si el fondo cambia */
+  padding: 8px 14px;
+  border-radius: 999px;
+  background: rgba(255,255,255,.12);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+
+  /* evita cortes por barras / zoom raro */
+  max-width: calc(100vw - 32px);
+  text-align: center;
+  pointer-events: none; /* el tap sigue siendo en toda la portada */
 }
 
-/* Fallback si el browser no soporta dvh */
-@supports not (height: 100dvh){
-  .passport-cover{ height: 100vh; }
-  .passport-cover-image{ max-height: calc(100vh - 220px); }
+/* 4) La imagen respeta el espacio de abajo */
+.passport-cover-image{
+  max-height: calc(100dvh - 140px - env(safe-area-inset-bottom));
 }
+
+.passport-open-hint{
+  margin-top: -4px;
+}
+
+@media (min-width: 1024px){
+  .passport-cover-image{
+    transform: translateY(-6vh);
+  }
+}
+
+@media (min-width: 1024px){
+  .passport-open-hint{
+    bottom: 5vh;
+  }
+}
+
+.passport-names{
+  position: relative;
+  z-index: 5;
+}
+
+/* ===== FIX FINAL PORTADA: no overlap en desktop ===== */
+
+/* Reservar espacio real arriba para el nombre */
+.passport-central-content{
+  padding-top: clamp(90px, 12vh, 160px) !important; /* <- crea “techo” */
+  padding-bottom: calc(84px + env(safe-area-inset-bottom)) !important; /* ya lo tenías, lo dejamos */
+  gap: 18px !important;
+}
+
+/* Anular el empuje hacia arriba que causa el solape */
+@media (min-width: 1024px){
+  .passport-cover-image{
+    transform: none !important;  /* <- mata el translateY(-6vh) */
+    max-height: calc(100dvh - 240px) !important; /* controla tamaño sin subirla */
+  }
+
+  .passport-names.top{
+    top: 24px !important; /* consistente en desktop */
+  }
+}
+
 
 
   </style>
