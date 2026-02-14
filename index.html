@@ -86,83 +86,6 @@
   body:not(.no-scroll){ overflow-y: scroll; }
 }
 
-   /* =========================
-   PORTADA – SOLO ESTO
-========================= */
-
-.passport-cover{
-  position: fixed;
-  inset: 0;
-  width: 100vw;
-  height: 100vh;
-  background: var(--color-verde-pasaporte);
-  z-index: 2000;
-
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-
-  transition: opacity 1s ease, transform 1s ease, visibility 1s ease;
-}
-
-.passport-cover.is-open{
-  opacity: 0;
-  transform: rotateY(-12deg) scale(0.98);
-  visibility: hidden;
-  pointer-events: none;
-}
-
-.passport-names.top{
-  position: absolute;
-  top: clamp(10px, 2.6vh, 28px);
-  left: 0;
-  right: 0;
-  text-align: center;
-
-  font-family: 'Allura', 'Savoye LET', cursive;
-  font-size: clamp(30px, 5.2vw, 38px);
-  letter-spacing: 0.06em;
-  color: rgba(4,37,26,.55);
-  z-index: 10;
-}
-
-.passport-central-content{
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  height: 100%;
-}
-
-.passport-cover-image{
-  width: min(480px, 88vw);
-  cursor: pointer;
-  user-select: none;
-
-  filter: sepia(0.45) brightness(1.1) contrast(1.1)
-          drop-shadow(0 10px 25px rgba(0,0,0,.18));
-  transition: transform .25s ease, filter .25s ease;
-}
-
-.passport-cover-image:hover{
-  transform: scale(1.02);
-  filter: sepia(0.45) brightness(1.12) contrast(1.12)
-          drop-shadow(0 14px 30px rgba(0,0,0,.22));
-}
-
-/* Texto “toca para abrir” */
-.passport-open-hint{
-  position: absolute;
-  bottom: 28px;
-  letter-spacing: .22em;
-  font-size: .75rem;
-  font-family: 'Playfair Display', serif;
-  color: #2f5f53;  
-  text-transform: uppercase;
-}
-
-
     /* =======================================
      * INTERIOR (TEMA BODA BEIGE/OLIVA)
      * ======================================= */
@@ -1264,113 +1187,45 @@ lord-icon{ max-width:100%; }
       .info-card { padding: 26px 18px; }
       .info-kv p { padding: 14px 14px; }
     }
-/* ===== FIX PORTADA (desktop overlap + no scroll) ===== */
 
-/* 1) Bloqueo de scroll MUY robusto (mouse wheel / trackpad / barras) */
+/* =========================================================
+   PORTADA UNIFICADA (NO TOCA EL INTERIOR)
+   Pegá esto AL FINAL del <style>
+========================================================= */
+
+/* Scroll lock robusto mientras la portada está visible */
 body.no-scroll{
   position: fixed;
   inset: 0;
   width: 100%;
-  height: 100vh;
+  height: 100svh;
   overflow: hidden !important;
 }
 
-/* 2) Nombre arriba: responsive + evita choque con “Wedding Passport” */
-.passport-names.top{
-  color: var(--cover-ink) !important;
-  font-weight: 700 !important;                /* más grueso */
-  font-size: clamp(1.6rem, 2.6vw, 2.4rem) !important;
-  letter-spacing: .08em !important;
-  text-shadow: 0 1px 0 rgba(255,255,255,.25); /* sutil, delicado */
-}
-
-/* 3) La imagen NO puede crecer infinito en desktop */
-.passport-cover-image{
-  width: min(460px, 82vw) !important;
-  max-height: 72vh !important;   /* <- clave para desktop */
-  height: auto;
-  object-fit: contain;
-  display: block;
-  margin: 0 auto;
-}
-
-/* 4) Hint abajo siempre visible y sin provocar scroll */
-.passport-open-hint{
-  color: var(--cover-ink) !important;
-  font-weight: 700 !important;
-  font-size: .82rem !important;
-  letter-spacing: .22em;
-  opacity: .65;
-}
-
-@keyframes subtleBreath {
-  0%   { opacity: .55; }
-  50%  { opacity: .85; }
-  100% { opacity: .55; }
-}
-
-.passport-open-hint{
-  animation: subtleBreath 3.5s ease-in-out infinite;
-}
-
-.passport-cover:active .passport-open-hint{
-  opacity: .9;
-}
-
-.passport-cover:active .passport-cover-image{
-  transform: scale(0.985);
-}
-
-/* =========================
-   Quitar highlight azul al tocar (mobile + desktop)
-========================= */
-
-.passport-cover,
-.passport-cover *{
-  -webkit-tap-highlight-color: transparent; /* Android / iOS */
-  -webkit-touch-callout: none;              /* iOS */
-  user-select: none;                        /* evita selección */
-}
-
-/* Evita focus azul en desktop */
-.passport-cover:focus,
-.passport-cover:active{
-  outline: none;
-}
-
-/* Si Chrome aplica focus-visible */
-.passport-cover:focus-visible{
-  outline: none;
-}
-
-/* =========================================================
-   PORTADA PASAPORTE (AISLADA - NO TOCA EL INTERIOR)
-   Pegar al FINAL del <style>
-========================================================= */
-
-/* Portada full-screen */
+/* Portada full-screen (grid 3 filas: nombre / imagen / hint) */
 .passport-cover{
   position: fixed;
   inset: 0;
   width: 100vw;
-  height: 100vh;
+  height: 100svh;            /* iOS/Android estable */
+  min-height: 100vh;         /* fallback */
   background: var(--color-verde-pasaporte);
   z-index: 2000;
 
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
   align-items: center;
-  justify-content: center;
+  justify-items: center;
 
-  /* ✅ CLAVE para que se note el 3D */
+  padding: 16px 16px calc(16px + env(safe-area-inset-bottom));
+
   transform-origin: left center;
   backface-visibility: hidden;
   will-change: transform, opacity, visibility;
-
   transition: opacity 900ms ease, transform 900ms cubic-bezier(.2,.8,.2,1), visibility 900ms ease;
 }
 
-/* ✅ “Abrir como tapa” */
+/* Animación “abrir tapa” */
 .passport-cover.is-open{
   opacity: 0;
   transform: rotateY(-70deg) translateX(-6vw) scale(0.985);
@@ -1380,39 +1235,35 @@ body.no-scroll{
 
 /* Nombre arriba */
 .passport-names.top{
-  position: absolute;
-  top: clamp(10px, 2.6vh, 28px);
-  left: 0;
-  right: 0;
+  grid-row: 1;
   text-align: center;
-
   font-family: 'Allura', 'Savoye LET', cursive;
-  font-size: clamp(30px, 5.2vw, 38px);
+  font-size: clamp(34px, 6.2vw, 52px); /* <- acá ajustás tamaño */
   letter-spacing: 0.06em;
   font-weight: 700;
   color: var(--cover-ink);
-  margin-top: 20px;
   text-shadow: 0 1px 0 rgba(255,255,255,.25);
+  margin-top: 6px;
   z-index: 10;
 }
 
 /* Centro */
 .passport-central-content{
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  grid-row: 2;
   width: 100%;
   height: 100%;
-  flex-direction: column;
-  gap: 18px;
+  display: grid;
+  place-items: center;
+  overflow: hidden; /* evita que la imagen empuje el hint */
 }
 
-/* Imagen (limitada para desktop) */
+/* Imagen */
 .passport-cover-image{
-  width: min(460px, 82vw);
-  max-height: 72vh;          /* clave para no “romper” desktop */
+  width: min(4200px, 86vw);
+  max-height: 62svh; /* deja espacio real para el hint abajo */
   height: auto;
   object-fit: contain;
+  display: block;
   cursor: pointer;
   user-select: none;
 
@@ -1427,28 +1278,34 @@ body.no-scroll{
           drop-shadow(0 14px 30px rgba(0,0,0,.22));
 }
 
-/* Hint abajo */
+/* Hint abajo SIEMPRE visible */
 .passport-open-hint{
+  grid-row: 3;
+  justify-self: center;
+
   font-family: 'Playfair Display', serif;
-  font-weight: 500;
+  font-weight: 700;
   letter-spacing: 0.22em;
   text-transform: uppercase;
   font-size: 12px;
-  color: #2f5f53;
+  color: var(--cover-ink);
+
+  padding: 10px 16px;
+  border-radius: 999px;
+  background: rgba(255,255,255,.12);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+
+  margin-bottom: 6px;
+  z-index: 50;
+  pointer-events: none; /* el tap sigue siendo en toda la portada */
 }
 
-
-@keyframes subtleBreath{
-  0%   { opacity: .55; }
-  50%  { opacity: .85; }
-  100% { opacity: .55; }
-}
-
-/* Click feedback */
-.passport-cover:active .passport-open-hint{ opacity: .9; }
+/* Feedback al click */
 .passport-cover:active .passport-cover-image{ transform: scale(0.985); }
+.passport-cover:active .passport-open-hint{ opacity: .9; }
 
-/* Quitar highlight azul (mobile/desktop) */
+/* Quitar highlight azul */
 .passport-cover,
 .passport-cover *{
   -webkit-tap-highlight-color: transparent;
@@ -1456,15 +1313,7 @@ body.no-scroll{
   user-select: none;
 }
 
-/* Scroll lock robusto mientras la portada está visible */
-body.no-scroll{
-  position: fixed;
-  inset: 0;
-  width: 100%;
-  height: 100vh;
-  overflow: hidden !important;
-}
-
+/* Lomo del pasaporte (detalle) */
 .passport-cover::before{
   content:"";
   position:absolute;
@@ -1476,106 +1325,50 @@ body.no-scroll{
   box-shadow: inset -6px 0 10px rgba(0,0,0,.18);
 }
 
-/* ===== FIX iOS: “TOCA PARA ABORDAR” siempre visible ===== */
-
-/* 1) Portada con alto dinámico real (iOS) */
-.passport-cover{
-  height: 100dvh;        /* iOS moderno */
-  min-height: 100vh;     /* fallback */
-}
-
-/* 2) Dejá un “piso” abajo para el hint (la imagen ya no lo tapa) */
-.passport-central-content{
-  padding-bottom: calc(84px + env(safe-area-inset-bottom));
-}
-
-/* 3) Hint anclado al borde inferior “seguro” */
-.passport-open-hint{
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-  bottom: calc(18px + env(safe-area-inset-bottom));
-  z-index: 50;
-
-  /* mejora legibilidad si el fondo cambia */
-  padding: 8px 14px;
-  border-radius: 999px;
-  background: rgba(255,255,255,.12);
-  backdrop-filter: blur(4px);
-  -webkit-backdrop-filter: blur(4px);
-
-  /* evita cortes por barras / zoom raro */
-  max-width: calc(100vw - 32px);
-  text-align: center;
-  pointer-events: none; /* el tap sigue siendo en toda la portada */
-}
-
-/* 4) La imagen respeta el espacio de abajo */
-.passport-cover-image{
-  max-height: calc(100dvh - 140px - env(safe-area-inset-bottom));
+/* === EFECTO "TOCA PARA ABORDAR" (suave + elegante) === */
+@keyframes hintBreath {
+  0%   { opacity: .55; transform: translateY(0); }
+  50%  { opacity: .90; transform: translateY(-2px); }
+  100% { opacity: .55; transform: translateY(0); }
 }
 
 .passport-open-hint{
-  margin-top: -4px;
+  animation: hintBreath 2.8s ease-in-out infinite;
+}
+
+/* “brillito” sutil alrededor (opcional pero queda lindo) */
+.passport-open-hint{
+  box-shadow: 0 8px 22px rgba(0,0,0,.10);
+}
+
+/* Cuando se toca, que responda */
+.passport-cover:active .passport-open-hint{
+  animation: none;
+  opacity: 1;
+  transform: translateY(0);
 }
 
 @media (min-width: 1024px){
   .passport-cover-image{
-    transform: translateY(-6vh);
+    width: 420px;
+    max-height: 66svh;
   }
 }
-
-@media (min-width: 1024px){
-  .passport-open-hint{
-    bottom: 5vh;
-  }
-}
-
-.passport-names{
-  position: relative;
-  z-index: 5;
-}
-
-/* ===== FIX FINAL PORTADA: no overlap en desktop ===== */
-
-/* Reservar espacio real arriba para el nombre */
-.passport-central-content{
-  padding-top: clamp(90px, 12vh, 160px) !important; /* <- crea “techo” */
-  padding-bottom: calc(84px + env(safe-area-inset-bottom)) !important; /* ya lo tenías, lo dejamos */
-  gap: 18px !important;
-}
-
-/* Anular el empuje hacia arriba que causa el solape */
-@media (min-width: 1024px){
-  .passport-cover-image{
-    transform: none !important;  /* <- mata el translateY(-6vh) */
-    max-height: calc(100dvh - 240px) !important; /* controla tamaño sin subirla */
-  }
-
-  .passport-names.top{
-    top: 24px !important; /* consistente en desktop */
-  }
-}
-
-
 
   </style>
 </head>
 <body class="no-scroll">
 
-  <header id="passportCover" class="passport-cover" aria-label="Portada Wedding Passport">
-    <div class="passport-names top">Anyela & Angel</div>
+  <div id="passportCover" class="passport-cover">
+  <div class="passport-names top">Anyela &amp; Ángel</div>
 
-    <div class="passport-central-content">
-      <img
-        src="img/Brujula_portada.png"
-        alt="Wedding Passport"
-        class="passport-cover-image"
-        draggable="false"
-      />
-      <div class="passport-open-hint" id="openPassport">TOCA PARA ABORDAR</div>
-    </div>
-  </header>
+  <div class="passport-central-content">
+    <img class="passport-cover-image" src="img/Brujula_portada.png" alt="Wedding Passport" />
+  </div>
+
+  <div class="passport-open-hint">TOCA PARA ABORDAR</div>
+</div>
+
 
   <header class="site-header fixed">
     <img src="img/Logo definitivo.png" alt="Logo A&A" class="header-logo">
