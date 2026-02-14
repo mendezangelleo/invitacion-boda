@@ -38,6 +38,7 @@
       --color-lazo:#928511;
       --color-texto-claro:#ffffff; /* Usado por 'date-banner' antes del override */
       --border-suave:rgba(121,209,176,.25);
+      --cover-ink: #2f5f57; /* verde oscuro del avión */
 
       --font-display:'Goudy Old Style'; /* Usado por 'h1' antes del override */
       --font-script:'Dancing Script', cursive;
@@ -80,72 +81,103 @@
 
     /* Evita que el layout “salte” por la aparición del scrollbar */
     html{ scrollbar-gutter: stable both-edges; }
-    @supports not (scrollbar-gutter: stable){ body{ overflow-y:scroll; } }
+    @supports not (scrollbar-gutter: stable){
+  body:not(.no-scroll){ overflow-y: scroll; }
+}
 
-    /* ==================== PORTADA (TEMA PASAPORTE) ==================== */
-    /* Esta sección SÍ usa la paleta original (verde-pasaporte) */
-    .passport-cover{
-      height:100svh; background:var(--color-verde-pasaporte); color:var(--color-letras-portada);
-      display:flex; flex-direction:column; align-items:center; text-align:center;
-      border:3px solid var(--color-letras-portada);
-      transition:transform 1.2s ease-in-out .5s,opacity 1s ease-out .5s,visibility 1s ease-out .5s;
-      visibility:visible; opacity:1; position:fixed; inset:0; z-index:100; transform-origin:left center;
-      backface-visibility:hidden; transform-style:preserve-3d; will-change:transform;
-      max-width:100vw; overflow-x:hidden;
-    }
-    .passport-cover.is-open{transform:rotateY(-90deg) scale(.9); opacity:0; visibility:hidden}
+   /* =========================
+   PORTADA – SOLO ESTO
+========================= */
 
-    .passport-cover .passport-names.top{
-      font-family:var(--font-script); font-weight:700; font-size:2.6rem; line-height:1.1;
-      padding:5px 15px; position:absolute; top:25px; left:50%; transform:translateX(-50%);
-      border-top:3px #0e444073 solid; border-bottom:3px #0e444073 solid; white-space:nowrap; z-index:30;
-    }
+.passport-cover{
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  background: var(--color-verde-pasaporte);
+  z-index: 2000;
 
-    .passport-central-content{
-      position:relative; display:flex; flex-direction:column; justify-content:center; align-items:center;
-      flex-grow:1; width:100%; background:var(--color-verde-pasaporte); z-index:5;
-      padding-top:clamp(60px,10vh,150px); padding-bottom:clamp(40px,8vh,120px);
-    }
-    .world-map-background-svg,.compass-svg{position:absolute; inset:0; pointer-events:none; color:var(--color-letras-portada)}
-    .world-map-background-svg{z-index:0; opacity:.15}
-    .world-map-background-svg img{width:100%; height:100%; object-fit:cover}
-    .compass-svg{display:flex; justify-content:center; align-items:center; z-index:1; padding:10px}
-    .compass-svg svg{width:100%; height:100%; object-fit:contain; max-width:500px; max-height:500px; margin:auto; opacity:.1}
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 
-    @keyframes pulse{0%{transform:translate(-50%,-50%) scale(1)}50%{transform:translate(-50%,-50%) scale(1.05)}100%{transform:translate(-50%,-50%) scale(1)}}
-    .twine-wrapper{position:absolute; top:50%; left:0; width:100%; transform:translateY(-50%); z-index:10; transition:opacity .5s ease}
-    .twine-line{width:100%; height:3px; background:var(--color-lazo); box-shadow:0 1px 1px rgba(0,0,0,.2)}
-    .twine-line:first-child{margin-bottom:5px}
+  transition: opacity 1s ease, transform 1s ease, visibility 1s ease;
+}
 
-    .plane-charm-button{position:absolute; top:50%; left:50%; z-index:20; cursor:pointer; padding:10px; animation:pulse 2s infinite ease-in-out}
-    .plane-charm-button:hover{transform:translate(-50%,-50%) scale(1.1); animation-play-state:paused}
-    .plane-charm-button .plane-svg{width:150px; height:150px; filter:drop-shadow(2px 4px 5px rgba(0,0,0,.3)); transform-origin:center; display:block; fill:var(--color-letras-portada)}
+.passport-cover.is-open{
+  opacity: 0;
+  transform: rotateY(-12deg) scale(0.98);
+  visibility: hidden;
+  pointer-events: none;
+}
 
-    .passport-text-group{position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); z-index:18; display:flex; flex-direction:column; align-items:center; justify-content:center; pointer-events:none; width:100%; height:100%}
-    .passport-text-group .passport-word{
-      font-family:var(--font-display); font-weight:600; font-size:2.3rem; text-transform:uppercase; line-height:1; text-align:center; color:rgb(180,150,66)
-    }
-    .passport-text-group .passport-word.top{margin-bottom:70px}
-    .passport-text-group .passport-word.bottom{margin-top:70px}
-    .passport-text-group .passport-year{
-      font-family:var(--font-display); font-size:1.2rem; color:rgb(192,153,46);
-      position:absolute; top:calc(50% + 180px); left:50%; transform:translateX(-50%); z-index:19;
-    }
+.passport-names.top{
+  position: absolute;
+  top: clamp(10px, 2.6vh, 28px);
+  left: 0;
+  right: 0;
+  text-align: center;
 
-    @keyframes flyInHeart{
-      0%{transform:translate(-50%,-50%) rotate(0) scale(1); opacity:1}
-      100%{transform:translate(-50%,-50%) rotate(-180deg) scale(.5); opacity:0}
-    }
-    .plane-charm-button.is-flying{animation:flyInHeart 1.4s forwards ease-in-out}
+  font-family: var(--font-display);
+  font-size: 2.1rem;
+  letter-spacing: 2px;
+  color: rgba(4,37,26,.55);
+  z-index: 10;
+}
 
-    .passport-cover .scroll-down{padding-bottom:20px; font-size:1.1rem; letter-spacing:1px; color:var(--color-letras-portada); text-transform:uppercase; z-index:30}
-    .passport-cover .scroll-down i{display:block; font-size:1.5rem; margin-top:10px}
+.passport-central-content{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+}
+
+.passport-cover-image{
+  width: min(480px, 88vw);
+  cursor: pointer;
+  user-select: none;
+
+  filter: sepia(0.45) brightness(1.1) contrast(1.1)
+          drop-shadow(0 10px 25px rgba(0,0,0,.18));
+  transition: transform .25s ease, filter .25s ease;
+}
+
+.passport-cover-image:hover{
+  transform: scale(1.02);
+  filter: sepia(0.45) brightness(1.12) contrast(1.12)
+          drop-shadow(0 14px 30px rgba(0,0,0,.22));
+}
+
+/* Texto “toca para abrir” */
+.passport-open-hint{
+  position: absolute;
+  bottom: 28px;
+  letter-spacing: .25em;
+  font-size: .75rem;
+  font-family: var(--font-display);
+  color: rgba(4,37,26,.45);
+  text-transform: uppercase;
+}
+
 
     /* =======================================
      * INTERIOR (TEMA BODA BEIGE/OLIVA)
      * ======================================= */
-    .invitation-content{display:block; position:relative; z-index:1; opacity:0; transition:opacity 1s ease-in-out .5s; padding-top:var(--header-height); max-width:100vw; overflow-x:hidden}
-    .invitation-content.is-visible{opacity:1}
+    .invitation-content{
+  display:block;
+  position:relative;
+  z-index:1;
+  opacity:0;
+  transition:opacity 500ms ease; /* sin delay */
+  padding-top:var(--header-height);
+  max-width:100vw;
+  overflow-x:hidden;
+}
+
+.invitation-content.is-visible{ opacity:1; }
+
 
     .container{max-width:800px; margin:0 auto; padding:20px; text-align:center; position:relative; z-index:1}
 
@@ -1231,48 +1263,236 @@ lord-icon{ max-width:100%; }
       .info-card { padding: 26px 18px; }
       .info-kv p { padding: 14px 14px; }
     }
+/* ===== FIX PORTADA (desktop overlap + no scroll) ===== */
+
+/* 1) Bloqueo de scroll MUY robusto (mouse wheel / trackpad / barras) */
+body.no-scroll{
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden !important;
+}
+
+/* 2) Nombre arriba: responsive + evita choque con “Wedding Passport” */
+.passport-names.top{
+  color: var(--cover-ink) !important;
+  font-weight: 700 !important;                /* más grueso */
+  font-size: clamp(1.6rem, 2.6vw, 2.4rem) !important;
+  letter-spacing: .08em !important;
+  text-shadow: 0 1px 0 rgba(255,255,255,.25); /* sutil, delicado */
+}
+
+/* 3) La imagen NO puede crecer infinito en desktop */
+.passport-cover-image{
+  width: min(460px, 82vw) !important;
+  max-height: 72vh !important;   /* <- clave para desktop */
+  height: auto;
+  object-fit: contain;
+  display: block;
+  margin: 0 auto;
+}
+
+/* 4) Hint abajo siempre visible y sin provocar scroll */
+.passport-open-hint{
+  color: var(--cover-ink) !important;
+  font-weight: 700 !important;
+  font-size: .82rem !important;
+  letter-spacing: .30em;
+  opacity: .65;
+}
+
+@keyframes subtleBreath {
+  0%   { opacity: .55; }
+  50%  { opacity: .85; }
+  100% { opacity: .55; }
+}
+
+.passport-open-hint{
+  animation: subtleBreath 3.5s ease-in-out infinite;
+}
+
+.passport-cover:active .passport-open-hint{
+  opacity: .9;
+}
+
+.passport-cover:active .passport-cover-image{
+  transform: scale(0.985);
+}
+
+/* =========================
+   Quitar highlight azul al tocar (mobile + desktop)
+========================= */
+
+.passport-cover,
+.passport-cover *{
+  -webkit-tap-highlight-color: transparent; /* Android / iOS */
+  -webkit-touch-callout: none;              /* iOS */
+  user-select: none;                        /* evita selección */
+}
+
+/* Evita focus azul en desktop */
+.passport-cover:focus,
+.passport-cover:active{
+  outline: none;
+}
+
+/* Si Chrome aplica focus-visible */
+.passport-cover:focus-visible{
+  outline: none;
+}
+
+/* =========================================================
+   PORTADA PASAPORTE (AISLADA - NO TOCA EL INTERIOR)
+   Pegar al FINAL del <style>
+========================================================= */
+
+/* Portada full-screen */
+.passport-cover{
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  background: var(--color-verde-pasaporte);
+  z-index: 2000;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  /* ✅ CLAVE para que se note el 3D */
+  transform-origin: left center;
+  backface-visibility: hidden;
+  will-change: transform, opacity, visibility;
+
+  transition: opacity 900ms ease, transform 900ms cubic-bezier(.2,.8,.2,1), visibility 900ms ease;
+}
+
+/* ✅ “Abrir como tapa” */
+.passport-cover.is-open{
+  opacity: 0;
+  transform: rotateY(-70deg) translateX(-6vw) scale(0.985);
+  visibility: hidden;
+  pointer-events: none;
+}
+
+/* Nombre arriba */
+.passport-names.top{
+  position: absolute;
+  top: clamp(10px, 2.6vh, 28px);
+  left: 0;
+  right: 0;
+  text-align: center;
+
+  font-family: var(--font-display);
+  font-size: clamp(1.6rem, 2.6vw, 2.4rem);
+  letter-spacing: .08em;
+  font-weight: 700;
+  color: var(--cover-ink);
+  text-shadow: 0 1px 0 rgba(255,255,255,.25);
+  z-index: 10;
+}
+
+/* Centro */
+.passport-central-content{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  flex-direction: column;
+  gap: 18px;
+}
+
+/* Imagen (limitada para desktop) */
+.passport-cover-image{
+  width: min(460px, 82vw);
+  max-height: 72vh;          /* clave para no “romper” desktop */
+  height: auto;
+  object-fit: contain;
+  cursor: pointer;
+  user-select: none;
+
+  filter: sepia(0.45) brightness(1.1) contrast(1.1)
+          drop-shadow(0 10px 25px rgba(0,0,0,.18));
+  transition: transform .25s ease, filter .25s ease;
+}
+
+.passport-cover-image:hover{
+  transform: scale(1.02);
+  filter: sepia(0.45) brightness(1.12) contrast(1.12)
+          drop-shadow(0 14px 30px rgba(0,0,0,.22));
+}
+
+/* Hint abajo */
+.passport-open-hint{
+  letter-spacing: .30em;
+  font-size: .82rem;
+  font-family: var(--font-display);
+  text-transform: uppercase;
+  font-weight: 700;
+  color: var(--cover-ink);
+  opacity: .65;
+  animation: subtleBreath 3.5s ease-in-out infinite;
+}
+
+@keyframes subtleBreath{
+  0%   { opacity: .55; }
+  50%  { opacity: .85; }
+  100% { opacity: .55; }
+}
+
+/* Click feedback */
+.passport-cover:active .passport-open-hint{ opacity: .9; }
+.passport-cover:active .passport-cover-image{ transform: scale(0.985); }
+
+/* Quitar highlight azul (mobile/desktop) */
+.passport-cover,
+.passport-cover *{
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
+  user-select: none;
+}
+
+/* Scroll lock robusto mientras la portada está visible */
+body.no-scroll{
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden !important;
+}
+
+.passport-cover::before{
+  content:"";
+  position:absolute;
+  left:0;
+  top:0;
+  width:18px;
+  height:100%;
+  background: rgba(4,37,26,.18);
+  box-shadow: inset -6px 0 10px rgba(0,0,0,.18);
+}
+
 
 
   </style>
 </head>
 <body class="no-scroll">
 
-  <header class="passport-cover">
+  <header id="passportCover" class="passport-cover" aria-label="Portada Wedding Passport">
     <div class="passport-names top">Anyela & Angel</div>
 
     <div class="passport-central-content">
-      <div class="world-map-background-svg"><img src="img/world.svg" alt="Mapa del Mundo"></div>
-      <div class="compass-svg">
-        <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" fill="currentColor" aria-hidden="true">
-          <path d="M50 0 L50 100 M0 50 L100 50 M14.6 14.6 L85.4 85.4 M14.6 85.4 L85.4 14.6 M50 2 A48 48 0 0 1 50 98 A48 48 0 0 1 50 2 z" stroke="currentColor" stroke-width="1.5" fill="none"/>
-          <path d="M50 6 A44 44 0 0 1 50 94 A44 44 0 0 1 50 6 z" stroke="currentColor" stroke-width="1.5" fill="none"/>
-          <path d="M50 10 L50 90 M10 50 L90 50 M21.2 21.2 L78.8 78.8 M21.2 78.8 L78.8 21.2" stroke="currentColor" stroke-width="1" fill="none" stroke-dasharray="2 2"/>
-          <polygon points="50,12 55,50 50,45 45,50" />
-          <polygon points="50,88 55,50 50,55 45,50" />
-          <polygon points="12,50 50,55 45,50 50,45" />
-          <polygon points="88,50 50,55 55,50 50,45" />
-          <polygon points="25,25 50,47 47,50" stroke="currentColor" stroke-width="1" />
-          <polygon points="75,25 50,47 53,50" stroke="currentColor" stroke-width="1" />
-          <polygon points="25,75 50,53 47,50" stroke="currentColor" stroke-width="1" />
-          <polygon points="75,75 50,53 53,50" stroke="currentColor" stroke-width="1" />
-          <path d="M50 18 L50 35 M50 65 L50 82 M18 50 L35 50 M65 50 L82 50" stroke="currentColor" stroke-width="1.5"/>
-          <path d="M29.2 29.2 L40 40 M60 60 L70.8 70.8 M29.2 70.8 L40 60 M60 40 L70.8 29.2" stroke="currentColor" stroke-width="1"/>
-        </svg>
-        <div class="twine-wrapper"><div class="twine-line"></div><div class="twine-line"></div></div>
-      </div>
-
-      <div class="plane-charm-button" id="fly-button">
-        <img src="img/airplane-travel-heart-svgrepo-com.svg" alt="Avión Decorativo" class="plane-svg">
-      </div>
-
-      <div class="passport-text-group">
-        <div class="passport-word top">WEDDING</div>
-        <div class="passport-word bottom">PASSPORT</div>
-        <div class="passport-year">2026</div>
-      </div>
+      <img
+        src="img/Brujula_portada.png"
+        alt="Wedding Passport"
+        class="passport-cover-image"
+        draggable="false"
+      />
+      <div class="passport-open-hint" id="openPassport">TOCA PARA ABORDAR</div>
     </div>
-
-    <div class="scroll-down">Pulsa el avión para abordar <i class="fa-solid fa-plane" aria-hidden="true"></i></div>
   </header>
 
   <header class="site-header fixed">
@@ -1344,7 +1564,7 @@ lord-icon{ max-width:100%; }
             <div class="bpv-info">
               <div class="bpv-field">
                 <span class="label" id="passengerLabel">Pasajero(s)</span>
-                <div class="value" id="guestNameBP">Nathaly Rueda & Pedro Rodriguez & Alma Rodriguez Rueda & Franco Rodriguez Rueda</div>
+                <div class="value" id="guestNameBP">Tu nombre</div>
               </div>
 
               <div class="bpv-pairs">
@@ -1522,40 +1742,76 @@ lord-icon{ max-width:100%; }
       const timer = setInterval(tick, 1000); tick();
     })();
 
-    /* ===== Portada: animación de apertura ===== */
-    document.addEventListener('DOMContentLoaded', function(){
-      const cover = document.querySelector('.passport-cover');
-      const iconButton = document.getElementById('fly-button');
-      const content = document.querySelector('.invitation-content');
-      const siteHeader = document.querySelector('.site-header');
-      const twine = document.querySelector('.twine-wrapper');
-      const textGroup = document.querySelector('.passport-text-group');
-      const compassSVG = document.querySelector('.compass-svg');
-      const worldMapBackgroundSVG = document.querySelector('.world-map-background-svg');
+  document.addEventListener('DOMContentLoaded', () => {
+  const cover = document.getElementById('passportCover');
+  const content = document.querySelector('.invitation-content');
+  const siteHeader = document.querySelector('.site-header');
 
-      document.documentElement.classList.add('no-scroll');
+  if (!cover) return;
 
-      if (iconButton && cover && content && twine && textGroup && compassSVG && worldMapBackgroundSVG){
-        iconButton.addEventListener('click', function(){
-          iconButton.style.animationPlayState = 'paused';
-          iconButton.classList.add('is-flying');
-          cover.classList.add('is-open');
-          twine.style.opacity = '0';
-          textGroup.style.opacity = '0';
-          compassSVG.style.opacity = '0';
-          worldMapBackgroundSVG.style.opacity = '0';
+  // Guardar scroll actual y bloquear
+  const savedY = window.scrollY || 0;
+  document.body.classList.add('no-scroll');
+  document.body.style.top = `-${savedY}px`;
+  window.scrollTo(0, 0);
 
-          setTimeout(()=>{
-            cover.style.display='none';
-            content.classList.add('is-visible');
-            siteHeader.classList.add('is-visible');
-            document.body.classList.remove('no-scroll');
-            document.documentElement.classList.remove('no-scroll');
-            document.body.style.perspective = 'none';
-          }, 1800);
-        });
-      }
+  const openPassport = () => {
+    if (cover.classList.contains('is-open')) return;
+
+    // 1) Mostrar interior ya
+    if (content) content.classList.add('is-visible');
+    if (siteHeader) siteHeader.classList.add('is-visible');
+
+    // 2) Abrir cover en el próximo frame
+    requestAnimationFrame(() => {
+      setTimeout(() => cover.classList.add('is-open'), 40);
     });
+
+    // 3) Al terminar transición, ocultar cover y restaurar scroll
+    const onEnd = (e) => {
+      // Asegura que el evento sea del cover y que sea opacity/transform
+      if (e.target !== cover) return;
+      if (e.propertyName !== 'opacity' && e.propertyName !== 'transform') return;
+
+      cover.removeEventListener('transitionend', onEnd);
+      cover.style.display = 'none';
+
+      const y = Math.abs(parseInt(document.body.style.top || '0', 10)) || 0;
+      document.body.classList.remove('no-scroll');
+      document.body.style.top = '';
+      window.scrollTo(0, y);
+    };
+
+    cover.addEventListener('transitionend', onEnd);
+
+    // Fallback por si transitionend no dispara (por bugs o cambios CSS)
+    setTimeout(() => {
+      if (cover.style.display === 'none') return;
+
+      cover.style.display = 'none';
+      const y = Math.abs(parseInt(document.body.style.top || '0', 10)) || 0;
+      document.body.classList.remove('no-scroll');
+      document.body.style.top = '';
+      window.scrollTo(0, y);
+    }, 1100); // un poco más que tu transición (1s)
+  };
+
+  // ✅ ESTO FALTABA: click/tap para abrir
+  cover.addEventListener('click', openPassport);
+
+  // ✅ Accesibilidad: Enter/Espacio
+  cover.setAttribute('tabindex', '0');
+  cover.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      openPassport();
+    }
+  });
+});
+
+
+
+
 
     /* ===== Token + Boarding pass ===== */
     (async function(){
