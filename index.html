@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="color-scheme" content="light">
   <title>Nuestra Boda - Anyela & Angel</title>
 
   <link rel="icon" href="img/Logo definitivo.png" type="image/png" />
@@ -16,16 +17,41 @@
 
   <meta property="og:title" content="Nuestra Boda - Anyela & Angel" />
 <meta property="og:description" content="¡Estás invitado/a a celebrar nuestro gran día! Confirma tu asistencia y encuentra todos los detalles aquí." />
-<meta property="og:image" content="https://www.nuestraboda-anyela-angel.com/img/imagen_preview.png" /> 
+<meta property="og:image" content="https://www.nuestraboda-anyela-angel.com/img/Logo portada.png" /> 
 <meta property="og:url" content="https://www.nuestraboda-anyela-angel.com/" />
 <meta property="og:type" content="website" />
 
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:title" content="Nuestra Boda - Anyela & Angel" />
 <meta name="twitter:description" content="¡Estás invitado/a a celebrar nuestro gran día!" />
-<meta name="twitter:image" content="https://www.nuestraboda-anyela-angel.com/img/imagen_preview.png" />
+<meta name="twitter:image" content="https://www.nuestraboda-anyela-angel.com/img/Logo portada.png" />
+
 
   <style>
+
+    /* ===========================
+   FORZAR COLORES (LIGHT ONLY)
+   =========================== */
+:root { 
+  color-scheme: light; 
+}
+
+/* Evita que algunos navegadores “adapten” colores */
+html, body{
+  background: var(--color-cream);
+}
+
+/* Windows/alto contraste: evita recoloreo automático */
+*{
+  forced-color-adjust: none;
+}
+
+/* Evita ajustes raros de tamaño de texto en iOS/Android */
+html{
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
     /* =================================
      * VARIABLES Y PALETAS DE COLOR
      * ================================= */
@@ -34,7 +60,7 @@
     /* Dejamos los nombres originales para no romper la cascada */
     :root{
       --color-fondo:#FBF8F2; /* Usado por 'body' antes del override */
-      --color-verde-pasaporte:#79D1B0;
+      --color-verde-pasaporte:#A9C4A4;
       --color-letras-portada:#04251A; /* Usado por 'body' antes del override */
       --color-lazo:#928511;
       --color-texto-claro:#ffffff; /* Usado por 'date-banner' antes del override */
