@@ -1,0 +1,25 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Anyela y Angel//Boda//ES
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VEVENT
+UID:boda-anyela-angel-2026@nuestraboda
+DTSTAMP:20260215T183000Z
+DTSTART;TZID=America/Argentina/Buenos_Aires:20260724T170000
+DTEND;TZID=America/Argentina/Buenos_Aires:20260725T050000
+SUMMARY:Anyela & Angel — Boda ✈️
+LOCATION:Parroquia Santiago Apóstol / Quinta Benavidez
+DESCRIPTION:¡Confirmaste tu asiento! Preparate para el vuelo más importante de nuestras vidas.\n\nCeremonia: 17:00 HS\nFiesta: 21:00 HS\n\nDetalles: https://www.nuestraboda-anyela-angel.com/
+URL:https://www.nuestraboda-anyela-angel.com/
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+PRIORITY:5
+CLASS:PUBLIC
+BEGIN:VALARM
+TRIGGER:-PT60M
+ACTION:DISPLAY
+DESCRIPTION:Recordatorio de Boda Anyela & Angel
+END:VALARM
+END:VEVENT
+END:VCALENDAR
