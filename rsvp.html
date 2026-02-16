@@ -1,530 +1,708 @@
 <!doctype html>
 <html lang="es">
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <title>Confirmar asistencia — Anyela & Angel</title>
-    <meta name="theme-color" content="#5a755a"> 
-    
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Roboto:wght@400;500;700&family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Confirmar asistencia — Anyela & Angel</title>
+  <meta name="theme-color" content="#527e69">
 
-    <style>
-    /* ===== PALETA ACTUALIZADA ===== */
-    :root {
-        --color-fondo: #fbf8f2;
-        --color-primario: #5a755a; /* Verde principal */
-        --color-secundario: rgb(187, 148, 90); /* Dorado */
-        --color-texto: #4a4a4a;
-        --color-texto-claro: #fbf8f2;
-        --border: rgba(90, 117, 90, 0.2); /* Borde basado en verde */
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Roboto:wght@400;500;700&family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+  <style>
+    /* ===== PALETA UNIFICADA ===== */
+    :root{
+      --color-fondo:#FAF1E4;
+      --color-primario:#527e69;
+      --color-secundario:#A9C4A4;
+      --color-texto:#344C3D;
+      --color-texto-claro:#FAF1E4;
+      --border:rgba(82,126,105,.2);
+      --shadow:0 10px 30px rgba(0,0,0,.15);
+      --shadow-soft:0 12px 24px rgba(82,126,105,.20);
+      --glass:rgba(255,255,255,.9);
+
+      --danger:#c0392b;
+      --danger-soft:rgba(192,57,43,.16);
+      --success:#2e7d32;
+      --success-soft:rgba(46,125,50,.14);
     }
-    
+
     *{ box-sizing:border-box }
-    
+    html,body{ height:100% }
+
     body{
-      margin:0; 
+      margin:0;
       color:var(--color-texto);
-      font-family: 'Roboto', system-ui, -apple-system, Segoe UI, sans-serif;
+      font-family:'Roboto', system-ui, sans-serif;
       line-height:1.6;
       min-height:100svh;
-      display:grid; 
-      place-items:center; 
+      display:grid;
+      place-items:center;
       padding:24px;
-      /* --- TU CAMBIO --- */
-      background-image: url('img/vecteezy_ai-generated-eucalyptus-leaves-background-on-white-marble_35463410.jpg'); 
-      background-size: cover;
-      background-position: center;
-      overflow: hidden; 
+      background-image:url('img/vecteezy_ai-generated-eucalyptus-leaves-background-on-white-marble_35463410.jpg');
+      background-size:cover;
+      background-position:center;
+      background-attachment:fixed;
+      overflow-x:hidden;
     }
-    
-    /* El 'body::before' que estaba aquí fue eliminado correctamente */
 
-    /* ===== CARD FORM (El Modal) ===== */
     .card{
-      width:min(550px, 100%); 
-      /* --- TU CAMBIO --- */
-      background: rgba(255, 255, 255, 0.9); /* Fondo blanco semi-transparente */
-      border:1px solid var(--border); 
-      border-radius:15px; 
-      padding: 32px 36px; 
-      box-shadow:0 10px 30px rgba(0,0,0,.15);
-      position: relative; 
-      z-index: 2; 
-      max-height: 90vh;
-      overflow-y: auto;
+      width:min(550px, 100%);
+      background:var(--glass);
+      backdrop-filter:blur(10px);
+      -webkit-backdrop-filter:blur(10px);
+      border:1px solid var(--border);
+      border-radius:18px;
+      padding:32px 36px;
+      box-shadow:var(--shadow);
+      position:relative;
+      z-index:2;
+      max-height:95vh;
+      overflow:auto;
+      animation:fadeIn .5s ease;
     }
-    
-    .modal-close {
-        position: absolute;
-        top: 10px;
-        right: 15px;
-        font-size: 2.5rem;
-        font-weight: 300;
-        font-family: sans-serif;
-        color: var(--color-texto);
-        opacity: 0.4;
-        text-decoration: none;
-        line-height: 1;
-        transition: opacity 0.2s ease;
+
+    /* Scrollbar sutil */
+    .card::-webkit-scrollbar{ width:10px }
+    .card::-webkit-scrollbar-thumb{
+      background:rgba(82,126,105,.25);
+      border-radius:999px;
+      border:3px solid rgba(255,255,255,.7);
     }
-    .modal-close:hover {
-        opacity: 1;
+
+    @keyframes fadeIn{
+      from{ opacity:0; transform:translateY(10px) }
+      to{ opacity:1; transform:translateY(0) }
     }
-    
-    /* MODIFICADO: Estilo H1 con Dancing Script */
-    h1{ 
-        margin:0 0 15px; 
-        font-size: 3rem; 
-        font-family: 'Dancing Script', cursive; /* FUENTE APLICADA */
-        font-weight: 700;
-        color: var(--color-primario);
-        text-align: center;
-        text-transform: none; /* Quitamos uppercase */
-        letter-spacing: normal; /* Quitamos letter-spacing */
-        line-height: 1.2;
-    }
-    .muted{ 
-        color: var(--color-texto); 
-        opacity: 0.8; 
-        text-align: center;
-        margin-bottom: 24px;
-        font-size: 1.1rem;
-    }
-    .form-fields { display: grid; gap: 20px; }
-    .form-group { width: 100%; }
-    label[for], .label-group { 
-      display:block; 
-      margin-bottom: 8px; 
-      font-weight: 700; 
-      font-size: 0.8rem;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      color: var(--color-primario); /* Labels en verde */
-    }
-    input[type="email"], input[type="text"]{
-      width:100%; 
-      padding: 14px; 
-      border-radius: 5px;
-      border:1px solid var(--border); 
-      background:#fff; 
+
+    /* ===== CIERRE (X) MEJORADA ===== */
+    .modal-close{
+      position:absolute;
+      top:calc(14px + env(safe-area-inset-top, 0px));
+      right:calc(14px + env(safe-area-inset-right, 0px));
+      width:42px;
+      height:42px;
+      border-radius:999px;
+      display:grid;
+      place-items:center;
+      text-decoration:none;
       color:var(--color-texto);
-      font-family: 'Roboto', system-ui, sans-serif;
-      font-size: 1rem;
-      transition: border-color 0.2s, box-shadow 0.2s;
+      background:rgba(255,255,255,.65);
+      border:1px solid var(--border);
+      box-shadow:0 6px 16px rgba(0,0,0,.08);
+      transition:transform .18s ease, box-shadow .18s ease, background .18s ease, opacity .18s ease;
+      opacity:.85;
+      cursor:pointer;
+      user-select:none;
     }
-    input[type="email"]:focus, input[type="text"]:focus {
-        border-color: var(--color-primario); /* Borde verde al enfocar */
-        box-shadow: 0 0 0 3px rgba(90, 117, 90, 0.1); /* Sombra verde tenue */
-        outline: none;
+    .modal-close span{
+      font-size:1.55rem;
+      line-height:1;
+      font-weight:300;
+      transform:translateY(-1px);
+      display:block;
     }
-    .names{ display:grid; grid-template-columns: 1fr; gap:.6rem; }
-    .names label{
-      display:flex; gap:.8rem; align-items:center;
-      background: rgba(90, 117, 90, 0.04); /* Fondo verde muy tenue */
-      border:1px solid var(--border); 
-      border-radius: 5px; 
-      padding: 14px;
-      cursor: pointer;
-      transition: background-color 0.2s;
-      font-size: 1rem;
+    .modal-close:hover{
+      opacity:1;
+      transform:rotate(6deg) scale(1.06);
+      background:rgba(255,255,255,.9);
+      box-shadow:0 10px 22px rgba(0,0,0,.12);
     }
-    .names label:hover { background: rgba(90, 117, 90, 0.1); }
-    .names input[type="checkbox"] {
-        width: 1.2em;
-        height: 1.2em;
-        accent-color: var(--color-primario); /* Checkbox verde */
-        flex-shrink: 0;
+    .modal-close:active{ transform:rotate(0deg) scale(.98) }
+
+    h1{
+      margin:0 0 10px;
+      font-size:2.8rem;
+      font-family:'Dancing Script', cursive;
+      font-weight:700;
+      color:var(--color-primario);
+      text-align:center;
+      letter-spacing:.2px;
     }
-    .btns{ 
-        display:flex; 
-        gap:10px; 
-        margin-top:24px; 
-        flex-wrap:wrap;
-        flex-direction: column-reverse; 
+
+    .muted{
+      color:var(--color-texto);
+      opacity:.8;
+      text-align:center;
+      margin-bottom:24px;
+      font-size:1.1rem;
     }
-    button, .btn{
-      font-family: 'Roboto', system-ui, sans-serif;
-      padding:14px 20px; 
-      border-radius:5px; 
-      border: 2px solid var(--color-primario);
-      font-weight: 700; 
-      cursor:pointer; 
-      text-decoration:none; 
+
+    .form-fields{ display:grid; gap:20px }
+    .form-group{ width:100% }
+
+    label[for], .label-group{
+      display:block;
+      margin-bottom:8px;
+      font-weight:700;
+      font-size:.8rem;
+      text-transform:uppercase;
+      color:var(--color-primario);
+      letter-spacing:.6px;
+    }
+
+    /* ===== BADGE PASAJEROS ===== */
+    .count-badge{
       display:inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      font-size: 1rem;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      transition: all 0.2s ease;
-      width: 100%; 
-      -webkit-tap-highlight-color: transparent;
-    }
-    .primary{ 
-      background:var(--color-primario); 
-      color:var(--color-texto-claro); 
-    }
-    .primary:hover{ 
-        background:var(--color-secundario); /* Hover dorado */
-        color: var(--color-primario); /* Texto verde */
-        border-color: var(--color-secundario); /* Borde dorado */
-        transform: scale(1.02);
-    }
-    .primary:active {
-            transform: scale(0.98); /* Ligeramente más pequeño al presionar */
-            background: var(--color-secundario); /* Mantenemos el color dorado */
-            opacity: 0.9; /* Un poco más tenue mientras se presiona */
-        }
-    .btn.secondary {
-        background: transparent;
-        color: var(--color-primario);
-        border-color: var(--border);
-    }
-    .btn.secondary:hover {
-        background-color: rgba(90, 117, 90, 0.05); /* Verde muy tenue */
-        border-color: var(--color-primario);
-        transform: scale(1.02);
-    }
-    .btn.secondary:active {
-            transform: scale(0.98);
-            background-color: rgba(90, 117, 90, 0.1); /* Verde más notorio al presionar */
-        }
-    .primary:disabled{ 
-        background: var(--color-primario);
-        opacity:.6; 
-        cursor:default; 
-        transform: none;
-    }
-    #msg {
-        color: var(--color-primario); /* Mensaje en verde */
-        font-weight: 700;
-        font-size: 1.1rem;
-        text-align: center;
+      align-items:center;
+      justify-content:center;
+      gap:6px;
+      padding:4px 10px;
+      border-radius:999px;
+      font-size:.82rem;
+      font-weight:800;
+      background:rgba(82,126,105,.12);
+      color:var(--color-primario);
+      border:1px solid rgba(82,126,105,.25);
     }
 
-    /* ===== ESTILOS PARA EL MENSAJE DE ÉXITO ===== */
-    #success-wrapper {
-        padding: 20px 0;
-        text-align: center;
-        animation: fadeIn 0.5s ease;
+    /* ===== VALIDACIÓN VISUAL (ROJO/VERDE) ===== */
+    .is-invalid{
+      border-color:var(--danger) !important;
+      box-shadow:0 0 0 3px var(--danger-soft) !important;
     }
-    @keyframes fadeIn {
-        from { opacity: 0; }
-        to { opacity: 1; }
+    .is-valid{
+      border-color:var(--success) !important;
+      box-shadow:0 0 0 3px var(--success-soft) !important;
     }
-    
-    .success-icon-new {
-        width: 100px;
-        height: 100px;
-        border-radius: 50%;
-        background-color: var(--color-primario); /* Icono verde */
-        color: white;
-        display: grid;
-        place-items: center;
-        font-size: 3.5rem;
-        margin: 0 auto 20px;
-        animation: pop-in 0.5s 0.2s cubic-bezier(0.68, -0.55, 0.27, 1.55) backwards;
+    .error-block{
+      border:1px solid rgba(192,57,43,.35) !important;
+      box-shadow:0 0 0 3px rgba(192,57,43,.10) !important;
+      background:rgba(192,57,43,.03) !important;
     }
-    @keyframes pop-in {
-        0% { transform: scale(0.5); opacity: 0; }
-        100% { transform: scale(1); opacity: 1; }
-    }
-    
-    #success-wrapper h3 {
-        font-family: 'Playfair Display', serif;
-        font-size: 2rem;
-        color: var(--color-primario); /* Título éxito en verde */
-        margin: 0 0 10px;
-    }
-    
-    #success-wrapper p {
-        font-size: 1.1rem;
-        line-height: 1.6;
-        color: var(--color-texto);
-        margin-bottom: 30px;
-    }
-    
-    #success-wrapper .btns {
-        flex-direction: column; 
-    }
-    
-    #success-wrapper .btn.text-link {
-        background: transparent;
-        border-color: transparent;
-        color: var(--color-texto);
-        opacity: 0.7;
-        text-transform: none;
-        font-weight: 400;
-        font-size: 1rem;
-    }
-    #success-wrapper .btn.text-link:hover {
-        background: transparent;
-        opacity: 1;
-        transform: none;
-        color: var(--color-primario);
+    .hint-error{
+      color:var(--danger);
+      font-weight:600;
     }
 
-    /* Badge contador sutil junto al título */
-.label-group .count-badge{
-  display: inline-block;
-  margin-left: 8px;
-  padding: 3px 8px;
-  font-size: .75rem;
-  line-height: 1;
-  border-radius: 999px;
-  background: rgba(90,117,90,.10);
-  color: var(--color-primario);
-  border: 1px solid rgba(90,117,90,.25);
-  vertical-align: middle;
-  font-weight: 700;
-}
+    /* ===== EMAILS DINÁMICOS (mejor layout + X separada) ===== */
+    #email-container{
+      display:grid;
+      gap:10px;
+      margin-bottom:10px;
+    }
 
-    /* ===== FIN DE ESTILOS DE ÉXITO ===== */
+    .email-row{
+      position:relative;
+      display:flex;
+      align-items:center;
+      animation:slideIn .25s ease;
+    }
 
-    </style>
+    /* dejamos espacio para el botón de remover */
+    .email-row.has-remove .email-input{
+      padding-right:56px; /* espacio para la X */
+    }
+
+    @keyframes slideIn{
+      from{ opacity:0; transform:translateX(-10px) }
+      to{ opacity:1; transform:translateX(0) }
+    }
+
+    .btn-remove-email{
+      position:absolute;
+      right:10px;
+      top:50%;
+      transform:translateY(-50%);
+      background:#f8d7da;
+      color:#c0392b;
+      border:none;
+      width:34px;
+      height:34px;
+      border-radius:999px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      cursor:pointer;
+      transition:.2s;
+      font-size:.9rem;
+      box-shadow:0 6px 16px rgba(192,57,43,.12);
+    }
+    .btn-remove-email:hover{ background:#f1b0b7 }
+
+    .btn-add-email{
+      background:transparent;
+      border:1px dashed var(--color-primario);
+      color:var(--color-primario);
+      padding:10px;
+      border-radius:10px;
+      font-size:.75rem;
+      font-weight:800;
+      cursor:pointer;
+      width:100%;
+      transition:all .2s ease;
+      letter-spacing:.6px;
+      text-transform:uppercase;
+    }
+    .btn-add-email:hover{
+      background:rgba(82,126,105,.06);
+      border-style:solid;
+      transform:translateY(-1px);
+    }
+
+    input[type="text"], input[type="email"]{
+      width:100%;
+      padding:14px;
+      border-radius:10px;
+      border:1px solid var(--border);
+      background:#fff;
+      color:var(--color-texto);
+      font-size:1rem;
+    }
+
+    input:focus{
+      border-color:var(--color-primario);
+      box-shadow:0 0 0 3px rgba(82,126,105,.12);
+      outline:none;
+    }
+
+    /* Autofill (Chrome/WebKit) - mantenemos look limpio */
+    input:-webkit-autofill{
+      -webkit-text-fill-color:var(--color-texto) !important;
+      transition:background-color 9999s ease-in-out 0s;
+      caret-color:var(--color-texto);
+    }
+
+    /* ===== Autofill watcher (Chrome) ===== */
+    @keyframes onAutoFillStart { from {} to {} }
+    input:-webkit-autofill{
+      animation-name:onAutoFillStart;
+      animation-duration:0.01s;
+    }
+
+    .names{ display:grid; grid-template-columns:1fr; gap:.6rem }
+    .names label{
+      display:flex;
+      gap:.8rem;
+      align-items:center;
+      background:rgba(82,126,105,.04);
+      border:1px solid var(--border);
+      border-radius:12px;
+      padding:14px;
+      cursor:pointer;
+      transition:transform .15s ease, background .15s ease;
+    }
+    .names label:hover{
+      background:rgba(82,126,105,.07);
+      transform:translateY(-1px);
+    }
+
+    .btns{
+      display:flex;
+      gap:12px;
+      margin-top:24px;
+      flex-direction:column;
+    }
+
+    button, .btn{
+      padding:14px 20px;
+      border-radius:12px;
+      border:2px solid var(--color-primario);
+      font-weight:800;
+      cursor:pointer;
+      text-decoration:none;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap:10px;
+      font-size:.9rem;
+      text-transform:uppercase;
+      transition:transform .18s ease, opacity .18s ease, box-shadow .18s ease, background .18s ease;
+      width:100%;
+      letter-spacing:.5px;
+    }
+
+    .primary{
+      background:var(--color-primario);
+      color:white;
+      box-shadow:var(--shadow-soft);
+    }
+    .secondary{
+      background:transparent;
+      color:var(--color-primario);
+    }
+
+    .primary:hover, .secondary:hover{
+      transform:translateY(-2px);
+      opacity:.95;
+    }
+    .primary:active, .secondary:active{ transform:translateY(0px) scale(.99) }
+
+    button:disabled{
+      opacity:.7;
+      cursor:not-allowed;
+      transform:none !important;
+    }
+
+    /* ===== LOGO PANTALLAS FINALES ===== */
+    .final-screen-logo{
+      display:block;
+      margin:0 auto 18px;
+      width:150px;
+      height:150px;
+      object-fit:cover;
+      border-radius:50%;
+      background-color:#fff;
+      border:4px solid var(--color-secundario);
+      box-shadow:0 12px 24px rgba(82,126,105,.25), 0 4px 8px rgba(0,0,0,.08) inset;
+      animation:popLogo .6s cubic-bezier(.34,1.56,.64,1) backwards;
+    }
+
+    @keyframes popLogo{
+      0%{ opacity:0; transform:scale(.5) translateY(20px) }
+      100%{ opacity:1; transform:scale(1) translateY(0) }
+    }
+
+    /* ===== ICONO OK/NO (círculo fijo) ===== */
+    .success-icon-new{
+      width:68px;
+      height:68px;
+      border-radius:999px;
+      display:grid;
+      place-items:center;
+      margin:0 auto 14px;
+      color:#fff;
+      box-shadow:0 14px 28px rgba(0,0,0,.16);
+      border:1px solid rgba(255,255,255,.35);
+    }
+    .success-icon-new i{ font-size:1.55rem }
+
+    #success-wrapper{ text-align:center }
+    #success-wrapper h3{
+      margin:10px 0 6px;
+      font-family:'Playfair Display', serif;
+      color:var(--color-primario);
+      font-size:1.55rem;
+    }
+    #success-wrapper p{
+      margin:0 auto 6px;
+      max-width:38ch;
+      opacity:.9;
+    }
+
+    /* ===== VOLVER (más bonito + flecha) ===== */
+    .text-link-elegant{
+      background:transparent;
+      border:none;
+      color:var(--color-primario);
+      text-transform:none;
+      font-weight:600;
+      font-family:'Playfair Display', serif;
+      font-size:1.1rem;
+      padding:10px 8px;
+      width:auto;
+      margin:6px auto 0;
+      letter-spacing:0;
+      gap:10px;
+      position:relative;
+    }
+    .text-link-elegant::after{
+      content:"";
+      position:absolute;
+      left:50%;
+      transform:translateX(-50%);
+      bottom:2px;
+      width:0%;
+      height:2px;
+      background:rgba(82,126,105,.55);
+      border-radius:999px;
+      transition:width .2s ease;
+    }
+    .text-link-elegant:hover{ transform:none; opacity:1 }
+    .text-link-elegant:hover::after{ width:70% }
+
+    @media (max-width:420px){
+      .card{ padding:26px 20px; border-radius:18px }
+      h1{ font-size:2.5rem }
+      .modal-close{ width:40px; height:40px; top:12px; right:12px }
+    }
+  </style>
 </head>
+
 <body>
+  <main class="card">
+    <a href="javascript:void(0)" onclick="regresarAlIndex()" class="modal-close" id="modal-close-btn" aria-label="Cerrar">
+      <span>×</span>
+    </a>
 
-    <main class="card" role="main">
-        <a href="index.html" class="modal-close" id="modal-close-btn" aria-label="Volver">&times;</a>
-    
-        <div id="form-wrapper">
-            <h1>Anyela & Angel</h1> 
-            <p class="muted">Confirma tu asistencia aquí</p> <form id="form" novalidate>
-              <div class="form-fields">
-                <div class="form-group">
-                    <p id="who" class="label-group"></p>
-                    <div id="names" class="names"></div>
-                </div>
-                <div class="form-group">
-                    <label for="email">TU EMAIL (REQUERIDO)</label>
-                    <input id="email" type="email" required placeholder="tu@correo.com" autocomplete="email" />
-                </div>
-                <div class="form-group">
-                    <label for="song">¿QUÉ CANCIÓN NO PUEDE FALTAR? (OPCIONAL)</label>
-                    <input id="song" type="text" placeholder="Artista – Título" />
-                </div>
-              </div> 
-              <div class="btns">
-                <a class="btn secondary" id="back-btn-form" href="index.html"><i class="fa-solid fa-arrow-left"></i> Volver</a>
-                <button class="primary" type="submit"><i class="fa-solid fa-check-circle"></i> Enviar confirmación</button>
+    <div id="decision-wrapper">
+      <h1>Anyela & Angel</h1>
+      <p class="muted">El vuelo más importante de nuestras vidas está por despegar.</p>
+
+      <h2 style="text-align:center; font-family:'Playfair Display', serif; color:var(--color-primario); margin-bottom:20px;">
+        ¿Podrás acompañarnos?
+      </h2>
+
+      <div class="btns">
+        <button class="primary" onclick="handleDecision('YES')">
+          <i class="fa-solid fa-heart"></i> ¡SÍ, AHÍ ESTARÉ!
+        </button>
+
+        <button class="secondary" onclick="handleDecision('NO')">
+          <i class="fa-solid fa-xmark"></i> NO PODRÉ ASISTIR
+        </button>
+      </div>
+    </div>
+
+    <div id="form-wrapper" style="display:none;">
+      <h1>Confirmación</h1>
+      <p class="muted">Registra a los pasajeros de tu grupo</p>
+
+      <form id="form" novalidate>
+        <div class="form-fields">
+          <div class="form-group" id="passengers-block">
+            <p id="who" class="label-group"></p>
+            <div id="names" class="names"></div>
+          </div>
+
+          <div class="form-group">
+            <label>TU EMAIL (REQUERIDO)</label>
+            <div id="email-container">
+              <div class="email-row">
+                <input type="email" class="email-input" placeholder="tu@correo.com" required autocomplete="email">
               </div>
-            </form>
-            <p id="msg" style="margin-top:16px" aria-live="polite"></p>
+            </div>
+
+            <button type="button" id="add-email-btn" class="btn-add-email" onclick="addEmailField()">
+              <i class="fa-solid fa-plus"></i> AGREGAR OTRO EMAIL
+            </button>
+          </div>
+
+          <div class="form-group">
+            <label for="diet">¿RESTRICCIONES ALIMENTARIAS? (OPCIONAL)</label>
+            <input id="diet" type="text" placeholder="Ej: Celíaco, Vegano, Alergias..." maxlength="150">
+          </div>
+
+          <div class="form-group">
+            <label for="song">¿QUÉ CANCIÓN NO PUEDE FALTAR? (OPCIONAL)</label>
+            <input id="song" type="text" placeholder="Artista – Título" maxlength="100">
+          </div>
         </div>
 
-        <div id="success-wrapper" style="display: none;">
-            <div class="success-icon-new">
-                <i class="fa-solid fa-check"></i>
-            </div>
-            <h3>Confirmación enviada</h3>
-            <p>¡Muchas gracias por ser parte de este momento tan especial!</p>
-            
-            <div class="btns">
-                <a href="assets/Invitacion.ics" class="btn primary" download>
-                    <i class="fa-solid fa-calendar-plus"></i> Agregar al Calendario
-                </a>
-                <a class="btn text-link" id="back-btn-success" href="index.html">
-                    Volver a la invitación
-                </a>
-            </div>
+        <div class="btns">
+          <button class="primary" type="submit"><i class="fa-solid fa-check-circle"></i> Enviar confirmación</button>
+          <button type="button" class="secondary" onclick="goBackToDecision()">Atrás</button>
         </div>
+      </form>
 
-    </main>
+      <p id="msg" style="margin-top:16px; text-align:center;"></p>
+    </div>
 
+    <div id="success-wrapper" style="display:none;"></div>
+  </main>
 
-    <script>
-    // ====== GOOGLE FORM (Tu configuración) ======
+<script>
+    // 1. CONFIGURACIÓN Y REFERENCIAS
     const FORM_ID = '1FAIpQLScI55PoKtGyNL_bLnmXxTqm7qqP4FgaB-szjos8HyGCq6csSA';
     const ENTRY = {
-      token:      'entry.1066647005', // Token
-      email:      'entry.1720049127', // Email
-      asistentes: 'entry.43373152',   // Asistentes
-      cancion:    'entry.1414011419', // Canción (opcional)
+        token: 'entry.1066647005',
+        email: 'entry.1720049127',
+        asistentes: 'entry.43373152',
+        diet: 'entry.721847906',
+        cancion: 'entry.1414011419',
     };
     const FORM_ACTION = `https://docs.google.com/forms/d/e/${FORM_ID}/formResponse`;
-    // ============================================
+    const GUESTS_ENDPOINT = 'https://script.google.com/macros/s/AKfycbxwXGm1twFAyPz8C_FM3BH2sN40t85Ib7SnczDOo4hd3fTJveiifHOMrCmJPHXtFhh_Ng/exec';
+
+    const decisionDiv = document.getElementById('decision-wrapper');
+    const formDiv = document.getElementById('form-wrapper');
+    const successDiv = document.getElementById('success-wrapper');
+    const listEl = document.getElementById('names');
+    const msgEl = document.getElementById('msg');
+    const formEl = document.getElementById('form');
+    const passengersBlock = document.getElementById('passengers-block');
 
     const qp = new URLSearchParams(location.search);
-    const token = qp.get('t');
+    const token = (qp.get('t') || sessionStorage.getItem('invite_t') || '').trim();
+    const sig = (qp.get('sig') || sessionStorage.getItem('invite_sig') || '').trim();
 
-    // Wrappers de estado
-    const formWrapper = document.getElementById('form-wrapper');
-    const successWrapper = document.getElementById('success-wrapper');
-    
-    // Elementos del formulario
-    const whoEl  = document.getElementById('who');
-    const listEl = document.getElementById('names');
-    const formEl = document.getElementById('form');
-    const msgEl  = document.getElementById('msg'); 
-    
-    // Botones de Volver y Cerrar
-    const modalCloseBtn = document.getElementById('modal-close-btn');
-    const backBtnForm = document.getElementById('back-btn-form');
-    const backBtnSuccess = document.getElementById('back-btn-success');
+    let totalInGroup = 0;
 
-    // Actualizar enlaces de Volver con el token
-    function updateBackLinks() {
-      const backUrl = `index.html?t=${encodeURIComponent(token)}`;
-      if (modalCloseBtn) modalCloseBtn.href = backUrl;
-      if (backBtnForm) backBtnForm.href = backUrl;
-      if (backBtnSuccess) backBtnSuccess.href = backUrl;
+    if (token) sessionStorage.setItem('invite_t', token);
+    if (sig) sessionStorage.setItem('invite_sig', sig);
+
+    // 2. NAVEGACIÓN Y LIMPIEZA
+    function regresarAlIndex() {
+        const t = sessionStorage.getItem('invite_t') || '';
+        const s = sessionStorage.getItem('invite_sig') || '';
+        window.location.href = `index.html?t=${encodeURIComponent(t)}&sig=${encodeURIComponent(s)}`;
     }
 
-    // Cargar nombres por token
-    async function init(){
-      updateBackLinks(); // Actualizamos links primero
-    
-      if (!token){
-        whoEl.textContent = 'Error: Falta el código de invitado en el link.';
-        formEl.style.display='none';
-        return;
-      }
-      try {
-        const res = await fetch('guests.json', { cache: 'default' }); 
-        const db = await res.json();
-        const g = db[token];
-        if (!g){
-          whoEl.textContent = 'Error: Link de invitación inválido o vencido.';
-          formEl.style.display='none';
-          return;
+    // ESTA FUNCIÓN AHORA LIMPIA TODO (Solución al problema de los campos)
+    function goBackToDecision() {
+        clearMsg();
+        
+        // Reiniciar el formulario (limpia inputs de texto y checkboxes)
+        formEl.reset();
+        
+        // Quitar campos de email extra si existen
+        const emailContainer = document.getElementById('email-container');
+        while (emailContainer.children.length > 1) {
+            emailContainer.lastElementChild.remove();
         }
-        const names = Array.isArray(g.names) ? g.names : [];
-        
-        whoEl.textContent = 'ASISTENTES DE TU GRUPO:';
-        
+        document.getElementById('add-email-btn').style.display = 'block';
+
+        // Quitar clases de validación (rojo/verde)
+        document.querySelectorAll('.is-valid, .is-invalid').forEach(el => {
+            el.classList.remove('is-valid', 'is-invalid');
+        });
+
+        // Volver visualmente a la primera pantalla
+        formDiv.style.display = 'none';
+        successDiv.style.display = 'none';
+        decisionDiv.style.display = 'block';
+    }
+
+    // 3. CARGA DE DATOS
+    (function preLoadData() {
+        const cached = sessionStorage.getItem('guestData');
+        if (cached) {
+            try {
+                const gd = JSON.parse(cached);
+                if (gd.token === token) {
+                    renderGuestList(gd.names);
+                    return;
+                }
+            } catch(e){}
+        }
+        if (token && sig) {
+            fetch(`${GUESTS_ENDPOINT}?t=${encodeURIComponent(token)}&sig=${encodeURIComponent(sig)}`)
+                .then(r => r.json())
+                .then(data => {
+                    if (data.ok) {
+                        sessionStorage.setItem('guestData', JSON.stringify({token, names: data.names}));
+                        renderGuestList(data.names);
+                    }
+                });
+        }
+    })();
+
+    function renderGuestList(names) {
+        if (!listEl) return;
+        totalInGroup = names.length;
         listEl.innerHTML = names.map(n => `
-          <label>
-            <input type="checkbox" name="asist" value="${n.replace(/"/g,'&quot;')}" checked />
-            <span>${n}</span>
-          </label>
+            <label>
+                <input type="checkbox" name="asist" value="${String(n).replace(/"/g,'&quot;')}" checked />
+                <span>${n}</span>
+            </label>
         `).join('');
-
-        const firstInput = document.querySelector('input[name="asist"]') || document.getElementById('email');
-        firstInput && firstInput.focus();
-        
-      }catch(e){
-        console.error(e);
-        whoEl.textContent = 'Error de conexión. Por favor, revisa tu internet e inténtalo de nuevo.';
-        formEl.style.display='none';
-      }
+        updateCountBadge();
     }
 
-    // Envío al Form
-    formEl.addEventListener('submit', async (e)=>{
-      e.preventDefault();
-      const email = document.getElementById('email').value.trim();
-      const song  = document.getElementById('song').value.trim();
-      const selected = [...document.querySelectorAll('input[name="asist"]:checked')].map(x=>x.value);
+    // 4. MANEJO DE BOTONES (SI / NO)
+    async function handleDecision(choice) {
+        if (!token) return alert("Falta el código de invitado.");
 
-      if (!navigator.onLine){
-        msgEl.textContent = 'Estás sin conexión. Probá cuando tengas internet.';
-        return;
-      }
-      if (!email){
-        msgEl.textContent = 'Por favor, completa tu email.';
-        document.getElementById('email').focus();
-        return;
-      }
-        if (selected.length===0){
-        msgEl.textContent = 'Debes seleccionar al menos un asistente.';
-        return;
-      }
-
-      const submitBtn = formEl.querySelector('button.primary');
-      submitBtn.disabled = true; 
-      submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> ENVIANDO…';
-
-      const body = new URLSearchParams();
-      body.set(ENTRY.token, token);
-      body.set(ENTRY.email, email);
-      body.set(ENTRY.asistentes, selected.join(', '));
-      if (song) body.set(ENTRY.cancion, song);
-
-      try{
-        await fetch(FORM_ACTION, { method:'POST', mode:'no-cors', body });
-        
-        // Muestra la pantalla de éxito
-        if (formWrapper) formWrapper.style.display = 'none';
-        if (modalCloseBtn) modalCloseBtn.style.display = 'none'; // Oculta la 'X' en éxito
-        if (successWrapper) successWrapper.style.display = 'block';
-
-      }catch(err){
-        console.error(err);
-        msgEl.textContent = 'No se pudo enviar. Probá de nuevo en un momento.';
-        msgEl.style.color = '#c0392b'; 
-      }finally{
-        submitBtn.disabled = false; 
-        submitBtn.innerHTML = '<i class="fa-solid fa-check-circle"></i> Enviar confirmación';
-
-        submitBtn.blur();
-      }
-    });
-
-    init();
-
-    // Actualiza el badge "seleccionados/total"
-function updateCountBadge(total){
-  const whoEl = document.getElementById('who');
-  const selectedCount = [...document.querySelectorAll('input[name="asist"]:checked')].length;
-  if (whoEl){
-    whoEl.innerHTML = `ASISTENTES DE TU GRUPO: <span class="count-badge">${selectedCount} / ${total}</span>`;
-  }
-}
-
-// Cargar nombres por token
-async function init(){
-  updateBackLinks(); // Actualizamos links primero
-
-  if (!token){
-    whoEl.textContent = 'Error: Falta el código de invitado en el link.';
-    formEl.style.display='none';
-    return;
-  }
-  try {
-    const res = await fetch('guests.json', { cache: 'default' }); 
-    const db = await res.json();
-    const g = db[token];
-    if (!g){
-      whoEl.textContent = 'Error: Link de invitación inválido o vencido.';
-      formEl.style.display='none';
-      return;
+        if (choice === 'YES') {
+            decisionDiv.style.display = 'none';
+            formDiv.style.display = 'block';
+            // Los nombres ya fueron cargados por preLoadData
+        } else {
+            // Acción para el NO
+            showFinalScreen('NO');
+            const body = new URLSearchParams();
+            body.set(ENTRY.token, token);
+            body.set(ENTRY.asistentes, 'DECLINÓ INVITACIÓN');
+            body.set(ENTRY.email, 'no-asiste@boda.com');
+            fetch(FORM_ACTION, { method: 'POST', mode: 'no-cors', body });
+        }
     }
 
-    // Normalizamos: array o string con comas
-    const names = Array.isArray(g.names) ? g.names : String(g.names||'').split(',').map(n=>n.trim()).filter(Boolean);
+    // 5. VALIDACIONES Y ENVÍO
+    function updateCountBadge() {
+        const selected = document.querySelectorAll('input[name="asist"]:checked').length;
+        const badgeEl = document.getElementById('who');
+        if (badgeEl) badgeEl.innerHTML = `PASAJEROS: <span class="count-badge">${selected} / ${totalInGroup}</span>`;
+    }
 
-    // Render checkboxes
-    listEl.innerHTML = names.map(n => `
-      <label>
-        <input type="checkbox" name="asist" value="${n.replace(/"/g,'&quot;')}" checked />
-        <span>${n}</span>
-      </label>
-    `).join('');
+    function isEmailValid(v) { return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i.test(v); }
 
-    // Badge inicial (todos marcados al inicio)
-    updateCountBadge(names.length);
+    formEl.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        clearMsg();
 
-    // Actualiza el badge al marcar/desmarcar
-    listEl.addEventListener('change', (e)=>{
-      if (e.target && e.target.matches('input[name="asist"]')){
-        updateCountBadge(names.length);
-      }
+        const emailInputs = document.querySelectorAll('.email-input');
+        const selectedNames = [...document.querySelectorAll('input[name="asist"]:checked')].map(i => i.value);
+
+        let emailsOk = true;
+        emailInputs.forEach(i => {
+            const val = i.value.trim();
+            if (!isEmailValid(val)) {
+                i.classList.add('is-invalid');
+                emailsOk = false;
+            } else {
+                i.classList.remove('is-invalid');
+                i.classList.add('is-valid');
+            }
+        });
+
+        if (!emailsOk) { msgEl.textContent = 'Ingresa un email válido.'; return; }
+        if (selectedNames.length === 0) {
+            msgEl.textContent = 'Selecciona al menos un pasajero.';
+            passengersBlock.classList.add('error-block');
+            return;
+        }
+
+        const submitBtn = formEl.querySelector('button.primary');
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = '<i class="fa-solid fa-plane fa-spin"></i> ENVIANDO...';
+
+        const body = new URLSearchParams();
+        body.set(ENTRY.token, token);
+        body.set(ENTRY.email, [...emailInputs].map(i => i.value).join(', '));
+        body.set(ENTRY.asistentes, selectedNames.join(', '));
+        body.set(ENTRY.diet, document.getElementById('diet').value.trim());
+        body.set(ENTRY.cancion, document.getElementById('song').value.trim());
+
+        try {
+            await fetch(FORM_ACTION, { method: 'POST', mode: 'no-cors', body });
+            showFinalScreen('YES');
+        } catch (err) {
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = '<i class="fa-solid fa-check-circle"></i> Enviar confirmación';
+            msgEl.textContent = 'Error al enviar. Reintenta.';
+        }
     });
 
-    // Enfocar primer input
-    const firstInput = document.querySelector('input[name="asist"]') || document.getElementById('email');
-    firstInput && firstInput.focus();
+    // 6. PANTALLAS FINALES
+    function showFinalScreen(type) {
+        decisionDiv.style.display = 'none';
+        formDiv.style.display = 'none';
+        successDiv.style.display = 'block';
 
-  }catch(e){
-    console.error(e);
-    whoEl.textContent = 'Error de conexión. Por favor, revisa tu internet e inténtalo de nuevo.';
-    formEl.style.display='none';
-  }
-}
+        const isYes = (type === 'YES');
+        const logoPath = 'img/Logo definitivo.png';
 
-    </script>
+        successDiv.innerHTML = `
+            <img src="${logoPath}" alt="Logo A&A" class="final-screen-logo">
+            <div class="success-icon-new" style="background-color: ${isYes ? 'var(--color-primario)' : '#c0392b'};">
+                <i class="fa-solid ${isYes ? 'fa-check' : 'fa-plane-slash'}"></i>
+            </div>
+            <h3>${isYes ? '¡Vuelo Confirmado!' : 'Te extrañaremos'}</h3>
+            <p>${isYes ? 'Tu confirmación ha sido registrada. Te enviamos los detalles y el pase de abordar a tu email.' : 'Qué pena que no puedas acompañarnos en este viaje, pero agradecemos mucho que nos hayas avisado.'}</p>
+            <div class="btns">
+                <button class="btn secondary text-link-elegant" onclick="regresarAlIndex()">
+                    <i class="fa-solid fa-arrow-left"></i> Volver a la invitación
+                </button>
+            </div>
+        `;
+    }
+
+    function addEmailField() {
+        const container = document.getElementById('email-container');
+        if (container.querySelectorAll('.email-row').length >= 3) return;
+        const div = document.createElement('div');
+        div.className = 'email-row has-remove';
+        div.innerHTML = `<input type="email" class="email-input" placeholder="otro@correo.com" required>
+                         <button type="button" class="btn-remove-email" onclick="this.parentElement.remove()">×</button>`;
+        container.appendChild(div);
+    }
+
+    function clearMsg() { 
+        msgEl.textContent = ''; 
+        if(passengersBlock) passengersBlock.classList.remove('error-block');
+    }
+</script>
 </body>
 </html>

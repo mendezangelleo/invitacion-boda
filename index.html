@@ -36,9 +36,9 @@
   color-scheme: light; 
 }
 
-/* Evita que algunos navegadores “adapten” colores */
-html, body{
-  background: var(--color-cream);
+/* 1. CAMBIO CLAVE: El fondo inicial DEBE ser el verde del pasaporte */
+html, body {
+  background-color: #79D1B0 !important; /* El color de tu variable --color-verde-pasaporte */
 }
 
 /* Windows/alto contraste: evita recoloreo automático */
@@ -60,7 +60,7 @@ html{
     /* Dejamos los nombres originales para no romper la cascada */
     :root{
       --color-fondo:#FBF8F2; /* Usado por 'body' antes del override */
-      --color-verde-pasaporte:#A9C4A4;
+      --color-verde-pasaporte:#79D1B0;
       --color-letras-portada:#04251A; /* Usado por 'body' antes del override */
       --color-lazo:#928511;
       --color-texto-claro:#ffffff; /* Usado por 'date-banner' antes del override */
@@ -341,6 +341,8 @@ html{
 
     /* ===== Boarding pass (THEME Aplicado) ===== */
     .boarding-pass-section{
+      position: relative;
+      padding-top: 60px;
       padding:40px 20px; 
       background:rgba(169,196,164,.06); /* THEME: cambiado de rgba(121,209,176,.05) */
       border-top:1px solid rgba(169,196,164,.15); /* THEME: cambiado de rgba(121,209,176,.15) */
@@ -352,7 +354,19 @@ html{
       border:1px solid rgba(85,107,47,.18); /* THEME: cambiado de rgba(121,209,176,.2) */
       border-radius:20px;
       max-width:min(92vw,460px); margin:20px auto; box-shadow:0 18px 45px rgba(0,0,0,.08); overflow:hidden; text-align:left;
+      z-index: 2;
+      
     }
+    .bp-floral-top {
+    position: absolute;
+    top: -20px;         /* Sube un poco para entrar en el área roja que marcaste */
+    left: 50%;
+    transform: translateX(-50%);
+    width: 280px;       /* Ajusta el tamaño para que se vea bien */
+    z-index: 0;         /* Detrás del ticket (el ticket debe tener z-index mayor) */
+    opacity: 0.9;       /* Que se note bien */
+    pointer-events: none;
+}
     .bpv-logo{
       position:absolute; top:10px; right:10px; width:56px; height:56px; border-radius:50%;
       background:#fff center/cover no-repeat; background-image:url('img/Logo definitivo.png');
@@ -410,6 +424,15 @@ html{
     .bpv-plane-icon{flex:0 0 auto; font-size:clamp(1.4rem, 6vw, 2rem); line-height:1}
     @media (max-width:390px){ .bpv-title{gap:8px; padding:16px} .bpv-title-text h3{margin-bottom:4px} }
     @media (max-width:340px){ .bpv-title{flex-wrap:wrap; align-items:flex-start} .bpv-plane-icon{order:2; width:100%; text-align:right} }
+    @media (max-width: 480px) {
+    .boarding-pass-section .container {
+        padding-top: 50px;
+    }
+    .bp-floral-top {
+        width: 200px;   /* Un poco más chica en celulares */
+        top: -10px;
+    }
+    }
 
     .bpv-names{
       display:grid; grid-template-columns:1fr auto 1fr; align-items:center; gap:8px;
@@ -762,7 +785,7 @@ lord-icon{ max-width:100%; }
 
 .rsvp-section{
   padding:60px 20px;
-  background:rgba(169,196,164,.06);
+  background:rgba(169,196,164,.03);
   border-top:1px solid rgba(169,196,164,.15);
 }
 .rsvp-section .container{
@@ -795,7 +818,7 @@ lord-icon{ max-width:100%; }
 
 .photo-gallery-section{
   padding:40px 0;
-  background:var(--color-fondo);
+  background:rgba(250,241,228,.55);
 }
 .photo-gallery-section h2{
   font-family:var(--font-display);
@@ -822,16 +845,44 @@ lord-icon{ max-width:100%; }
   cursor:grabbing;
   scroll-snap-type:none;
 }
-.gallery-scroll-container img{
-  flex:0 0 auto;
-  width:80%;
-  max-width:350px;
-  border-radius:10px;
-  box-shadow:0 5px 15px rgba(0,0,0,.08);
-  scroll-snap-align:center;
-  pointer-events:none;
-  -webkit-user-drag:none;
-  user-select:none;
+/* =======================================================
+   CORRECCIÓN DE GALERÍA (NO MÁS FOTOS ESTIRADAS)
+   ======================================================= */
+.gallery-scroll-container img {
+    flex: 0 0 auto;
+    /* Mantenemos el ancho base que ya tenías para que se vea bien en móvil */
+    width: 80%;
+    max-width: 350px;
+
+    /* --- AQUÍ ESTÁ LA MAGIA --- */
+    /* 1. Definimos una forma estándar para todas (Retrato 4:5) */
+    aspect-ratio: 4 / 5; 
+    
+    /* 2. 'cover' asegura que la imagen llene el espacio SIN deformarse.
+          Recortará los excesos si es necesario. */
+    object-fit: cover;
+    
+    /* 3. Aseguramos que el centro de la foto sea el foco principal */
+    object-position: center;
+    /* --------------------------- */
+
+    border-radius: 10px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.12); /* Un poco más de sombra para que resalten */
+    scroll-snap-align: center;
+    
+    /* Evita que el usuario arrastre la imagen "fantasma" */
+    pointer-events: none;
+    -webkit-user-drag: none;
+    user-select: none;
+    
+    background-color: #e0e0e0; /* Un fondo gris pálido por si la imagen tarda en cargar */
+}
+
+/* Ajuste opcional para pantallas muy pequeñas si las ves muy altas */
+@media (max-width: 360px) {
+    .gallery-scroll-container img {
+        aspect-ratio: 3 / 4; /* Un poco menos altas en celulares muy chicos */
+    }
 }
 .gallery-scroll-container.dragging img{
   pointer-events:none;
@@ -1087,66 +1138,61 @@ lord-icon{ max-width:100%; }
     }
 
 
-    /* ===== Footer refinado y elegante (THEME Aplicado) ===== */
-    /* El footer ya usaba la paleta correcta (beige/olive) */
-    .footer-refined {
-      background: var(--color-beige);
-      color: var(--color-olive);
-      text-align: center;
-      padding: 32px 20px 28px;
-      border-top: 1px solid rgba(82,126,105,.15);
-      box-shadow: inset 0 4px 10px rgba(0,0,0,.02);
-    }
-    .footer-thanks {
-      font-family: var(--font-body);
-      font-style: normal !important;
-      font-size: 1rem;
-      font-weight: 500;
-      color: var(--color-olive); /* THEME: cambiado de rgba(82,126,105,.85) */
-      margin-bottom: 8px;
-      letter-spacing: 0.02em;
-    }
-    .footer-wait{
-      font-family: var(--font-titles);
-      font-style: normal;
-      font-size: clamp(2rem, 5vw, 2.5rem);
-      font-weight: 600;
-      color: var(--color-olive);
-      line-height: 1.25;
-      letter-spacing: 0.04em;
-      display: inline-block;
-      white-space: nowrap;
-      overflow: hidden;
-      vertical-align: bottom;
-    }
-    .footer-wait.typing{
-      border-right: 3px solid var(--color-olive);
-      animation: blink .9s step-end infinite alternate;
-    }
-    @keyframes blink { 50% { border-color: transparent; } }
-    .footer-wait.done{
-      border-right: none;
-      animation: none;
-    }
-    .footer-logo {
-      display: block;
-      width: 100px;
-      height: 100px;
-      margin: 0 auto;
-      border-radius: 50%;
-      object-fit: cover;
-      box-shadow: 0 4px 8px rgba(0,0,0,.08);
-      border: 2px solid rgba(82,126,105,.25);
-      transition: transform .3s ease, box-shadow .3s ease;
-    }
-    .footer-logo:hover {
-      transform: scale(1.06);
-      box-shadow: 0 6px 12px rgba(0,0,0,.12);
-    }
-    @media (max-width: 420px){
-      .footer-refined { padding: 26px 14px 22px; }
-      .footer-logo { width: 80px; height: 80px; }
-    }
+    /* =======================================================
+   FOOTER REFINADO (GLASS EFFECT)
+   ======================================================= */
+.footer-refined {
+    /* Quitamos el beige sólido por un crema translúcido */
+    background: rgba(250, 241, 228, 0.7) !important; 
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    
+    color: var(--color-olive);
+    text-align: center;
+    padding: 60px 20px 40px; /* Damos más aire (padding) arriba */
+    
+    /* Borde superior muy fino */
+    border-top: 1px solid rgba(82, 126, 105, 0.1);
+    position: relative;
+    z-index: 5;
+}
+
+.footer-thanks {
+    font-family: var(--font-body);
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--color-text-dark);
+    margin-bottom: 10px;
+    letter-spacing: 0.05em;
+    opacity: 0.8;
+}
+
+.footer-wait {
+    font-family: var(--font-titles);
+    font-size: clamp(2.5rem, 6vw, 3.5rem); /* Lo hacemos un poco más grande */
+    color: var(--color-olive);
+    margin: 15px 0 30px;
+    display: block;
+}
+
+/* El logo como "Sello Final" */
+.footer-logo {
+    display: block;
+    width: 120px; /* Un poco más grande para cerrar con impacto */
+    height: 120px;
+    margin: 0 auto;
+    border-radius: 50%;
+    object-fit: cover;
+    
+    /* Sombra para que parezca un sello real sobre el mármol */
+    box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+    border: 3px solid #fff; /* Marco blanco limpio */
+    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.footer-logo:hover {
+    transform: scale(1.1) rotate(5deg);
+}
 
     /* ===== Sección Información de Viaje (THEME Aplicado) ===== */
     /* Esta sección ya usaba la paleta correcta */
@@ -1389,7 +1435,31 @@ body.no-scroll{
 
 .passport-open-hint{ white-space: nowrap; }
 
+@media (forced-colors: active) {
+  * { forced-color-adjust: none; }
+}
 
+
+/* 2. El body no debe tener imagen al cargar */
+body {
+  margin: 0;
+  color: var(--color-text-dark);
+  font-family: var(--font-body);
+  line-height: 1.6;
+  min-height: 100vh;
+  background-image: none; /* Sin imagen al inicio */
+  transition: background-color 0.5s ease;
+}
+
+/* 3. Esta clase la activaremos al abrir el pasaporte */
+body.bg-marble-active {
+  background-color: var(--color-cream) !important;
+  background-image: url('img/vecteezy_ai-generated-eucalyptus-leaves-background-on-white-marble_35463410.jpg') !important;
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+}
 
   </style>
 </head>
@@ -1408,7 +1478,10 @@ body.no-scroll{
       window.visualViewport.addEventListener('resize', setVVH);
       window.visualViewport.addEventListener('scroll', setVVH);
     }
+    
   })();
+
+  
 </script>
 
 <body class="no-scroll">
@@ -1417,7 +1490,7 @@ body.no-scroll{
   <div class="passport-names top">Anyela &amp; Ángel</div>
 
   <div class="passport-central-content">
-    <img class="passport-cover-image" src="img/Brujula_portada.png" alt="Wedding Passport" />
+    <img class="passport-cover-image" src="img/Brujula_portada3.png" alt="Wedding Passport" />
   </div>
 
   <div class="passport-open-hint">TOCA PARA ABORDAR</div>
@@ -1425,10 +1498,12 @@ body.no-scroll{
 
 
   <header class="site-header fixed">
+    <div class="header-logo-wrapper">
     <img src="img/Logo definitivo.png" alt="Logo A&A" class="header-logo">
+    </div>
   </header>
 
-  <div class="invitation-content">
+  <div class="invitation-content has-florals">
     <main>
       <img src="img/IMG_2975.jpg" alt="Anyela y Angel" class="hero-photo">
 
@@ -1526,28 +1601,31 @@ body.no-scroll{
       </section>
 
       <section class="locations container">
-        <div class="location-card-icon con-adornos">
-          <div class="icon-wrapper">
-            <lord-icon src="https://cdn.lordicon.com/fshosubk.json" trigger="loop" delay="2000" colors="primary:#99BC85,secondary:#99BC85" aria-hidden="true"></lord-icon>
-          </div>
-          <h3>Ceremonia</h3>
-          <p class="location-time"><span class="time">17:00</span><span class="suffix">HS</span></p>
-          <p><strong>Parroquia Santiago Apóstol</strong></p>
-          <p>Tte. Gral. Pablo Ricchieri 3189, CABA</p>
-          <a href="https://www.google.com/maps?sca_esv=3c659fc7041cb947&rlz=1C1SQJL_esCL928CL931&sxsrf=AE3TifMWgZZCRCYX0tnA_kqeM3Bny1Yyfw:1763842563674&uact=5&gs_lp=Egxnd3Mtd2l6LXNlcnAiGXNhbnRpYWdvIGFwb3N0b2wgcGFycm9xdWEyBxAAGIAEGA0yBxAAGIAEGA0yBhAAGA0YHjIGEAAYDRgeMggQABgIGA0YHjIIEAAYCBgNGB4yCBAAGAgYDRgeMggQABgIGA0YHjIIEAAYCBgNGB4yCBAAGAgYDRgeSMoUUMkOWLoScAN4AZABAJgBowGgAYEGqgEDMC42uAEDyAEA-AEBmAIJoALDBsICChAAGLADGNYEGEfCAg0QABiABBiwAxhDGIoFwgIOEAAYsAMY5AIY1gTYAQHCAhMQLhiABBiwAxhDGMgDGIoF2AEBwgIKEAAYgAQYFBiHAsICBRAAGIAEwgIGEAAYFhgemAMAiAYBkAYTugYGCAEQARgJkgcDMy42oAfcLbIHAzAuNrgHpAbCBwUyLTcuMsgHMw&um=1&ie=UTF-8&fb=1&gl=ar&sa=X&geocode=KVPuX2IltLyVMVypLRi6opkS&daddr=Tte.+Gral.+Pablo+Ricchieri+3189,+C1428+Cdad.+Aut%C3%B3noma+de+Buenos+Aires" target="_blank" class="btn"><i class="fa-solid fa-map-location-dot" aria-hidden="true"></i> Ver Ubicación</a>
-        </div>
-
-        <div class="location-card-icon con-adornos-alt">
-          <div class="icon-wrapper">
-            <lord-icon src="https://cdn.lordicon.com/ohcuigqh.json" trigger="loop" delay="2000" colors="primary:#99BC85,secondary:#99BC85" aria-hidden="true"></lord-icon>
-          </div>
-          <h3>Celebración</h3>
-          <p class="location-time"><span class="time">21:00</span><span class="suffix">HS</span></p>
-          <p><strong>Quinta Benavidez</strong></p>
-          <p>Mendoza 3499, Benavidez, Provincia de Buenos Aires</p>
-          <a href="https://www.google.com/maps/dir//Quinta+de+Benavidez,+Mendoza,+Benavidez,+Buenos+Aires+Province/@-34.416624,-58.7556077,13z/data=!4m8!4m7!1m0!1m5!1m1!1s0x95bca1da3694ac17:0x3f846784fda25fdd!2m2!1d-58.7145527!2d-34.416706?entry=ttu&g_ep=EgoyMDI1MTExNy4wIKXMDSoASAFQAw%3D%3D" target="_blank" class="btn"><i class="fa-solid fa-map-location-dot" aria-hidden="true"></i> Ver Ubicación</a>
-        </div>
-      </section>
+  <div class="location-card-icon con-adornos">
+    <div class="icon-wrapper">
+      <lord-icon src="https://cdn.lordicon.com/fshosubk.json" trigger="loop" delay="2000" colors="primary:#99BC85,secondary:#99BC85" aria-hidden="true"></lord-icon>
+    </div>
+    <h3>Ceremonia</h3>
+    <p class="location-time"><span class="time">17:00</span><span class="suffix">HS</span></p>
+    <p><strong>Parroquia Santiago Apóstol</strong></p>
+    <p>Tte. Gral. Pablo Ricchieri 3189, CABA</p>
+    <a href="https://www.google.com/maps?sca_esv=3c659fc7041cb947&rlz=1C1SQJL_esCL928CL931&sxsrf=AE3TifMWgZZCRCYX0tnA_kqeM3Bny1Yyfw:1763842563674&uact=5&gs_lp=Egxnd3Mtd2l6LXNlcnAiGXNhbnRpYWdvIGFwb3N0b2wgcGFycm9xdWEyBxAAGIAEGA0yBxAAGIAEGA0yBhAAGA0YHjIGEAAYDRgeMggQABgIGA0YHjIIEAAYCBgNGB4yCBAAGAgYDRgeMggQABgIGA0YHjIIEAAYCBgNGB4yCBAAGAgYDRgeSMoUUMkOWLoScAN4AZABAJgBowGgAYEGqgEDMC42uAEDyAEA-AEBmAIJoALDBsICChAAGLADGNYEGEfCAg0QABiABBiwAxhDGIoFwgIOEAAYsAMY5AIY1gTYAQHCAhMQLhiABBiwAxhDGMgDGIoF2AEBwgIKEAAYgAQYFBiHAsICBRAAGIAEwgIGEAAYFhgemAMAiAYBkAYTugYGCAEQARgJkgcDMy42oAfcLbIHAzAuNrgHpAbCBwUyLTcuMsgHMw&um=1&ie=UTF-8&fb=1&gl=ar&sa=X&geocode=KVPuX2IltLyVMVypLRi6opkS&daddr=Tte.+Gral.+Pablo+Ricchieri+3189,+C1428+Cdad.+Aut%C3%B3noma+de+Buenos+Aires" target="_blank" class="btn">
+      <i class="fa-solid fa-map-location-dot" aria-hidden="true"></i> Ver Ubicación
+    </a>
+  </div>
+  <div class="location-card-icon con-adornos-alt">
+    <div class="icon-wrapper">
+      <lord-icon src="https://cdn.lordicon.com/ohcuigqh.json" trigger="loop" delay="2000" colors="primary:#99BC85,secondary:#99BC85" aria-hidden="true"></lord-icon>
+    </div>
+    <h3>Celebración</h3>
+    <p class="location-time"><span class="time">21:00</span><span class="suffix">HS</span></p>
+    <p><strong>Quinta Benavidez</strong></p>
+    <p>Mendoza 3499, Benavidez, Provincia de Buenos Aires</p>
+    <a href="https://www.google.com/maps/dir//Quinta+de+Benavidez,+Mendoza,+Benavidez,+Buenos+Aires+Province/@-34.416624,-58.7556077,13z/data=!4m8!4m7!1m0!1m5!1m1!1s0x95bca1da3694ac17:0x3f846784fda25fdd!2m2!1d-58.7145527!2d-34.416706?entry=ttu&g_ep=EgoyMDI1MTExNy4wIKXMDSoASAFQAw%3D%3D" target="_blank" class="btn">
+      <i class="fa-solid fa-map-location-dot" aria-hidden="true"></i> Ver Ubicación
+    </a>
+  </div>
+</section>
 
       <section class="itinerary-section with-image-background">
         <div class="container">
@@ -1574,31 +1652,43 @@ body.no-scroll{
         </div>
       </section>
 
-   <section class="info-section container">
-    <div class="info-card con-adornos">
-      
-      <div class="icon-wrapper">
-        <img src="img/vestido-de-novia.gif" alt="Icono de Traje" class="icon-vestimenta-style">
-      </div>
-      
-      <h2 class="info-title">Código de Vestimenta</h2>
-
-      <div class="info-kv">
-        <p style="font-size: 1.2rem; margin-bottom: 0;">Cóctel Elegante</p> 
-        <small>¡Prepara tu mejor atuendo!</small>
-      </div>
-
+  <section class="info-section container">
+  <div class="info-card con-adornos">
+    
+    <div class="icon-wrapper">
+      <img 
+        width="64" 
+        height="64" 
+        src="img/image_dresscode.png" 
+        alt="Dress Code"
+      />
     </div>
+    
+    <h2 class="info-title">Código de Vestimenta</h2>
+
+    <div class="info-kv">
+      <p style="font-size: 1.2rem; margin-bottom: 0;">Cóctel Elegante</p> 
+      <small>¡Prepara tu mejor atuendo!</small>
+    </div>
+
+  </div>
 </section>
       <section class="rsvp-section">
         <div class="container">
           <div class="location-card-icon con-adornos-alt">
-            <div class="icon-wrapper">
-              <lord-icon src="https://cdn.lordicon.com/fsstjlds.json" trigger="loop" delay="2000" colors="primary:#99BC85,secondary:#99BC85" aria-hidden="true"></lord-icon>
-            </div>
+           <div class="icon-wrapper">
+  <img 
+    width="64" 
+    height="64" 
+    src="img/rsvp-icon.png"  alt="Confirmar Asistencia"
+  />
+</div>
             <h2>Confirmar Asistencia</h2>
             <p>Tu presencia es nuestro mejor regalo, pero necesitamos que nos confirmes tu asiento en este vuelo.</p>
-            <a href="rsvp.html" class="btn" id="btnRSVP"><i class="fa-solid fa-check-circle" aria-hidden="true"></i> Confirmar aquí</a>
+           <a href="rsvp.html" class="btn" id="btnRSVP">
+  <i class="fa-solid fa-check-circle" aria-hidden="true"></i> Confirmar aquí
+</a>
+
           </div>
         </div>
       </section>
@@ -1624,25 +1714,98 @@ body.no-scroll{
           </div>
           <h2>Bitácora de vuelo</h2>
           <div class="gallery-scroll-container">
-            <img src="img/IMG_1939.JPG" alt="Foto 1">
-            <img src="img/20250810_150700.jpg" alt="Foto 2">
-            <img src="img/20251015_210918.jpg" alt="Foto 3">
-            <img src="img/IMG_2975.jpg" alt="Foto 4">
+            <img src="img/IMG_1939.JPG" alt="Foto 1" loading="lazy" decoding="async">
+            <img src="img/20250810_150700.jpg" alt="Foto 2" loading="lazy" decoding="async">
+            <img src="img/20251015_210918.jpg" alt="Foto 3" loading="lazy" decoding="async">
+            <img src="img/IMG_2975.jpg" alt="Foto 4" loading="lazy" decoding="async">
           </div>
         </div>
       </section>
     </main>
 
     <footer class="footer-refined">
-      <div class="container">
-        <p class="footer-thanks">¡Gracias por ser parte de nuestro gran día!</p>
-        <h2 class="footer-wait">Te esperamos</h2>
-        <img src="img/Logo definitivo.png" alt="Logo A&A" class="footer-logo">
-      </div>
-    </footer>
+  <div class="container">
+    <p class="footer-thanks">¡Gracias por ser parte de nuestro gran día!</p>
+    
+    <h2 class="footer-wait">Te esperamos</h2>
+    
+    <img src="img/Logo definitivo.png" alt="Logo A&A" class="footer-logo">
+    
+    <p style="margin-top: 25px; font-size: 0.75rem; opacity: 0.5; letter-spacing: 2px;">
+      24 . 07 . 2026
+    </p>
+  </div>
+</footer>
   </div>
 
   <script>
+
+  // 1. Función de pintado única y robusta
+function paintBoardingPassFromSession() {
+    const guestElement = document.getElementById("guestNameBP");
+    const label = document.getElementById("passengerLabel");
+    const raw = sessionStorage.getItem("guestData");
+    
+    if (!raw) return false;
+
+    try {
+        const gd = JSON.parse(raw);
+        // Validamos que los datos correspondan al token actual en la URL (si lo hay)
+        const qp = new URLSearchParams(location.search);
+        const urlToken = qp.get('t');
+        if (urlToken && gd.token !== urlToken) return false;
+
+        const names = Array.isArray(gd.names) ? gd.names : [];
+        if (guestElement && names.length) {
+            guestElement.innerHTML = names.join("<br>");
+            if (label) label.innerHTML = `Pasajero(s) <span class="count-badge">${names.length}</span>`;
+            return true;
+        }
+    } catch (e) { console.error("Error al pintar:", e); }
+    return false;
+}
+
+// 2. Control de carga inicial e inter-páginas
+(async function init() {
+    const qp = new URLSearchParams(location.search);
+    // UNIFICACIÓN: Usamos siempre 'invite_t' e 'invite_sig'
+    const t = (qp.get("t") || sessionStorage.getItem('invite_t') || "").trim();
+    const sig = (qp.get("sig") || sessionStorage.getItem('invite_sig') || "").trim();
+
+    if (t) sessionStorage.setItem('invite_t', t);
+    if (sig) sessionStorage.setItem('invite_sig', sig);
+
+    // Pintar inmediatamente desde cache
+    paintBoardingPassFromSession();
+
+    // Actualizar link del botón RSVP con los parámetros
+    const btn = document.getElementById("btnRSVP");
+    if (btn) btn.href = `rsvp.html?t=${encodeURIComponent(t)}&sig=${encodeURIComponent(sig)}`;
+
+    if (!t || !sig) return;
+
+    // Solo fetch si no hay datos o el token es distinto
+    const cached = sessionStorage.getItem('guestData');
+    if (cached) {
+        try { if (JSON.parse(cached).token === t) return; } catch(e){}
+    }
+
+    try {
+        const GUESTS_ENDPOINT = 'https://script.google.com/macros/s/AKfycbxwXGm1twFAyPz8C_FM3BH2sN40t85Ib7SnczDOo4hd3fTJveiifHOMrCmJPHXtFhh_Ng/exec';
+        const res = await fetch(`${GUESTS_ENDPOINT}?t=${encodeURIComponent(t)}&sig=${encodeURIComponent(sig)}`);
+        const data = await res.json();
+        if (data.ok) {
+            sessionStorage.setItem("guestData", JSON.stringify({ token: t, names: data.names }));
+            paintBoardingPassFromSession();
+        }
+    } catch (err) { console.error(err); }
+})();
+
+// Forzar repintado al volver con la "X" (Soluciona el problema 1)
+window.addEventListener('pageshow', (event) => {
+    // Si viene de caché (botón atrás), forzamos el pintado
+    paintBoardingPassFromSession();
+});
     /* ... (Todo el JavaScript permanece igual) ... */
      /* ===== Cuenta regresiva (17:00) ===== */
     (function(){
@@ -1676,6 +1839,9 @@ body.no-scroll{
   const content = document.querySelector('.invitation-content');
   const siteHeader = document.querySelector('.site-header');
 
+  // Pintar instantáneo si ya hay datos
+paintBoardingPassFromSession();
+
   if (!cover) return;
 
   // Guardar scroll actual y bloquear
@@ -1685,16 +1851,20 @@ body.no-scroll{
   window.scrollTo(0, 0);
 
   const openPassport = () => {
-    if (cover.classList.contains('is-open')) return;
+  if (cover.classList.contains('is-open')) return;
 
-    // 1) Mostrar interior ya
-    if (content) content.classList.add('is-visible');
-    if (siteHeader) siteHeader.classList.add('is-visible');
+  paintBoardingPassFromSession();
 
-    // 2) Abrir cover en el próximo frame
-    requestAnimationFrame(() => {
-      setTimeout(() => cover.classList.add('is-open'), 40);
-    });
+  // AGREGAR ESTO: Cambia el fondo de verde a mármol/beige al instante
+  document.body.classList.add('bg-marble-active');
+
+  if (content) content.classList.add('has-florals');
+  if (content) content.classList.add('is-visible');
+  if (siteHeader) siteHeader.classList.add('is-visible');
+
+  requestAnimationFrame(() => {
+    setTimeout(() => cover.classList.add('is-open'), 40);
+  });
 
     // 3) Al terminar transición, ocultar cover y restaurar scroll
     const onEnd = (e) => {
@@ -1737,48 +1907,6 @@ body.no-scroll{
     }
   });
 });
-
-
-
-
-
-    /* ===== Token + Boarding pass ===== */
-    (async function(){
-      const qp = new URLSearchParams(location.search);
-      const token = qp.get("t") || "";
-      const rsvpHref = `rsvp.html?t=${encodeURIComponent(token)}`;
-      const rsvpButton = document.getElementById("btnRSVP");
-      if (rsvpButton) rsvpButton.href = rsvpHref;
-
-      const toNameArray = (names) => {
-        if (!names) return [];
-        const arr = Array.isArray(names) ? names : String(names).split(",");
-        return arr.map(n=>n.replace(/&/g,"").trim()).filter(n=>n.length>0);
-      };
-
-      if (!token) return;
-
-      try{
-        const res = await fetch("guests.json", { cache:"default" });
-        if (!res.ok) throw new Error("No se pudo cargar guests.json");
-        const db = await res.json();
-        const guest = db[token];
-        if (!guest) return;
-
-        const names = toNameArray(guest.names);
-        const count = names.length || 1;
-
-        const guestElement = document.getElementById("guestNameBP");
-        if (guestElement && names.length){ guestElement.innerHTML = names.join("<br>"); }
-
-        const label = document.getElementById("passengerLabel");
-        if (label){ label.innerHTML = `Pasajero(s) <span class="count-badge">${count}</span>`; }
-
-        sessionStorage.setItem("guestData", JSON.stringify({ token, names, count }));
-      }catch(err){
-        console.error("Error al cargar datos de invitado:", err);
-      }
-    })();
 
     /* ===== Timeline: progreso + reveal ===== */
     (function(){
@@ -1984,7 +2112,13 @@ body.no-scroll{
     });
   </script>
 
+  <script>
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('/sw.js').catch(console.error);
+    });
+  }
+</script>
 
-  <script src="sw.js"></script>
 </body>
 </html>
