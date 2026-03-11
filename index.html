@@ -1,1466 +1,1850 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="es">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="color-scheme" content="light">
-  <title>Nuestra Boda - Anyela & Angel</title>
+  <title>Nuestra Boda - Anyela & Ángel</title>
 
-  <link rel="icon" href="img/Logo definitivo.png" type="image/png" />
-  <link rel="apple-touch-icon" href="img/Logo definitivo.png" />
+  <link rel="icon" href="img/Logo_definitivo_redondo.png" type="image/png" />
+  <link rel="apple-touch-icon" href="img/Logo_definitivo_redondo.png" />
   <link rel="manifest" href="manifest.webmanifest" />
 
   <link href="https://fonts.googleapis.com/css2?family=Allura&display=swap" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Dancing+Script:wght@700&family=Montserrat:wght@400;500;700&display=swap" rel="stylesheet" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Dancing+Script:wght@700&family=Montserrat:wght@400;500;700&display=swap"
+    rel="stylesheet" />
   <script src="https://cdn.lordicon.com/lordicon.js"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
 
-  <meta property="og:title" content="Nuestra Boda - Anyela & Angel" />
-<meta property="og:description" content="¡Estás invitado/a a celebrar nuestro gran día! Confirma tu asistencia y encuentra todos los detalles aquí." />
-<meta property="og:image" content="https://www.nuestraboda-anyela-angel.com/img/portada.png" /> 
-<meta property="og:url" content="https://www.nuestraboda-anyela-angel.com/" />
-<meta property="og:type" content="website" />
+  <meta property="og:title" content="Nuestra Boda - Anyela & Ángel" />
+  <meta property="og:description"
+    content="¡Estás invitado/a a celebrar nuestro gran día! Confirma tu asistencia y encuentra todos los detalles aquí." />
+  <meta property="og:image" content="https://www.nuestraboda-anyela-angel.com/img/portada.png" />
+  <meta property="og:url" content="https://www.nuestraboda-anyela-angel.com/" />
+  <meta property="og:type" content="website" />
 
-<meta name="twitter:card" content="summary_large_image" />
-<meta name="twitter:title" content="Nuestra Boda - Anyela & Angel" />
-<meta name="twitter:description" content="¡Estás invitado/a a celebrar nuestro gran día!" />
-<meta name="twitter:image" content="https://www.nuestraboda-anyela-angel.com/img/portada.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Nuestra Boda - Anyela & Ángel" />
+  <meta name="twitter:description" content="¡Estás invitado/a a celebrar nuestro gran día!" />
+  <meta name="twitter:image" content="https://www.nuestraboda-anyela-angel.com/img/img/portada.png" />
 
 
   <style>
-
-    /* ===========================
-   FORZAR COLORES (LIGHT ONLY)
-   =========================== */
-:root { 
-  color-scheme: light; 
-}
-
-/* 1. CAMBIO CLAVE: El fondo inicial DEBE ser el verde del pasaporte */
-html, body {
-  background-color: #79D1B0 !important; /* El color de tu variable --color-verde-pasaporte */
-}
-
-/* Windows/alto contraste: evita recoloreo automático */
-*{
-  forced-color-adjust: none;
-}
-
-/* Evita ajustes raros de tamaño de texto en iOS/Android */
-html{
-  -webkit-text-size-adjust: 100%;
-  text-size-adjust: 100%;
-}
+    :root {
+      color-scheme: light;
+    }
 
     /* =================================
-     * VARIABLES Y PALETAS DE COLOR
-     * ================================= */
+   * VARIABLES Y PALETAS DE COLOR
+   * ================================= */
+    :root {
+      --color-fondo: #FBF8F2;
+      --color-verde-pasaporte: #79D1B0;
+      --color-letras-portada: #04251A;
+      --color-lazo: #928511;
+      --color-texto-claro: #ffffff;
+      --border-suave: rgba(121, 209, 176, .25);
+      --cover-ink: #2f5f57;
 
-    /* --- PALETA 1 - PORTADA (Pasaporte Verde) --- */
-    /* Dejamos los nombres originales para no romper la cascada */
-    :root{
-      --color-fondo:#FBF8F2; /* Usado por 'body' antes del override */
-      --color-verde-pasaporte:#79D1B0;
-      --color-letras-portada:#04251A; /* Usado por 'body' antes del override */
-      --color-lazo:#928511;
-      --color-texto-claro:#ffffff; /* Usado por 'date-banner' antes del override */
-      --border-suave:rgba(121,209,176,.25);
-      --cover-ink: #2f5f57; /* verde oscuro del avión */
+      --font-display: 'Goudy Old Style';
+      --font-script: 'Dancing Script', cursive;
+      --font-body: 'Montserrat', system-ui, -apple-system, 'Segoe UI', sans-serif;
 
-      --font-display:'Goudy Old Style'; /* Usado por 'h1' antes del override */
-      --font-script:'Dancing Script', cursive;
-      --font-body:'Montserrat', system-ui, -apple-system, 'Segoe UI', sans-serif;
-
-      --header-height:100px;
+      --header-height: 100px;
     }
 
-    /* --- PALETA 2 - INTERIOR (Boda Beige/Oliva) --- */
-    /* Estas son las variables del "THEME UNIFICADO" */
-    :root{
-      --color-cream:#FAF1E4;
-      --color-beige:#A9C4A4;
-      --color-olive:#527e69;
-      --color-botones:#527e69; 
-      --color-eucalyptus:#A9C4A4;
-      --color-text-dark:#344C3D;
-      
+    :root {
+      --color-cream: #FAF1E4;
+      --color-beige: #A9C4A4;
+      --color-olive: #527e69;
+      --color-botones: #527e69;
+      --color-eucalyptus: #A9C4A4;
+      --color-text-dark: #344C3D;
+
       --font-titles: 'Dancing Script', cursive;
-      /* Redefinición de --font-body para el tema de Boda */
-      --font-body: 'Montserrat', sans-serif; 
+      --font-body: 'Montserrat', sans-serif;
     }
 
-
-    /* ====== RESET SUAVE + ANTI-OVERFLOW ====== */
-    *{margin:0;padding:0;box-sizing:border-box}
-    html, body{width:100%; max-width:100%; overflow-x:hidden}
-    img, svg, video{display:block; max-width:100%; height:auto}
-
-    body{
-      font-family:var(--font-body); /* THEME: Usa la nueva fuente --font-body */
-      background:var(--color-cream); /* THEME: Usa el fondo --color-cream */
-      color:var(--color-text-dark); /* THEME: Usa el texto --color-text-dark */
-      line-height:1.6;
-      perspective:1000px;
-      -webkit-font-smoothing:antialiased;
-      -moz-osx-font-smoothing:grayscale;
+    /* ===== RESET SUAVE + ANTI-OVERFLOW ===== */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      forced-color-adjust: none;
     }
-    .no-scroll{overflow:hidden}
 
-    /* Evita que el layout “salte” por la aparición del scrollbar */
-    html{ scrollbar-gutter: stable both-edges; }
-    @supports not (scrollbar-gutter: stable){
-  body:not(.no-scroll){ overflow-y: scroll; }
-}
+    html {
+      -webkit-text-size-adjust: 100%;
+      text-size-adjust: 100%;
+      scrollbar-gutter: stable both-edges;
+    }
+
+    html,
+    body {
+      width: 100%;
+      max-width: 100%;
+      overflow-x: hidden;
+      margin: 0;
+      padding: 0;
+    }
+
+    img,
+    svg,
+    video {
+      display: block;
+      max-width: 100%;
+      height: auto;
+    }
+
+    body {
+      margin: 0;
+      font-family: var(--font-body);
+      color: var(--color-text-dark);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      background: transparent;
+      position: relative;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      background-image: url('img/vecteezy_ai-generated-eucalyptus-leaves-background-on-white-marble_35463410.jpg');
+      background-position: center top;
+      background-size: cover;
+      background-repeat: no-repeat;
+      pointer-events: none;
+      transform: translateZ(0);
+      -webkit-transform: translateZ(0);
+      will-change: transform;
+    }
+
+    .site-header,
+    .invitation-content,
+    .passport-cover {
+      position: relative;
+      z-index: 1;
+    }
+
+    .no-scroll {
+      overflow: hidden;
+    }
+
+    @supports not (scrollbar-gutter: stable) {
+      body:not(.no-scroll) {
+        overflow-y: scroll;
+      }
+    }
 
     /* =======================================
-     * INTERIOR (TEMA BODA BEIGE/OLIVA)
-     * ======================================= */
-    .invitation-content{
-  display:block;
-  position:relative;
-  z-index:1;
-  opacity:0;
-  transition:opacity 500ms ease; /* sin delay */
-  padding-top:var(--header-height);
-  max-width:100vw;
-  overflow-x:hidden;
-}
-
-.invitation-content.is-visible{ opacity:1; }
-
-
-    .container{max-width:800px; margin:0 auto; padding:20px; text-align:center; position:relative; z-index:1}
-
-    /* --- Header (vidrio translúcido) --- */
-    /* Esta sección ya usaba colores derivados correctos */
-    .site-header{
-      position:fixed; top:0; left:0; width:100%; height:var(--header-height);
-      display:flex; justify-content:center; align-items:center; z-index:1000;
-      background:rgba(153,188,133,0.05);
-      backdrop-filter:blur(6px); -webkit-backdrop-filter:blur(6px);
-      border-bottom:1px solid rgba(153,188,133,0.15);
-      box-shadow:0 4px 12px rgba(0,0,0,.05);
-      opacity:0; visibility:hidden; pointer-events:none;
-      transition: opacity .25s ease, transform .25s ease, visibility .25s ease;
-      will-change: opacity, transform, visibility;
-      max-width:100vw; overflow-x:hidden;
+   * INTERIOR (TEMA BODA BEIGE/OLIVA)
+   * ======================================= */
+    .invitation-content {
+      display: block;
+      position: relative;
+      z-index: 1;
+      opacity: 1;
+      transition: opacity 500ms ease;
+      padding-top: var(--header-height);
+      max-width: 100vw;
+      overflow-x: hidden;
     }
 
-    .site-header.is-hidden{
+    .invitation-content.is-visible {
+      opacity: 1;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+      text-align: center;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* --- Header --- */
+    .site-header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: var(--header-height);
+
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      z-index: 1000;
+
+      /* efecto vidrio */
+      background: rgba(250, 241, 228, 0.45);
+      backdrop-filter: blur(14px) saturate(140%);
+      -webkit-backdrop-filter: blur(12px) saturate(120%);
+
+      border-bottom: 1px solid rgba(82, 126, 105, 0.15);
+
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+
+      transition: opacity .25s ease, transform .25s ease, visibility .25s ease;
+
       opacity: 0;
-      transform: translateY(-10px);
       visibility: hidden;
       pointer-events: none;
     }
 
-    .site-header.is-visible{opacity:1; visibility:visible; pointer-events:auto}
-    .site-header .header-logo{
-      height:calc(var(--header-height) - 20px);
-      width:calc(var(--header-height) - 20px);
-      border-radius:50%; object-fit:cover; box-shadow:0 2px 5px rgba(0,0,0,0.15);
+    .site-header.is-hidden {
+      opacity: 0;
+      transform: translateY(-15px);
+      visibility: hidden;
+      pointer-events: none;
     }
 
-    /* --- Estilos de Texto Base (THEME) --- */
-    /* Definición original sobreescrita por el TEMA BODA */
-    h1,h2,h3{
-      font-family: var(--font-titles); /* THEME */
-      color: var(--color-olive); /* THEME */
-      font-weight: 700; /* THEME */
-      letter-spacing:.02em;
+    .site-header.is-visible {
+      opacity: 1;
+      visibility: visible;
+      pointer-events: auto;
+      transform: translateY(0);
     }
-    
-    /* Nueva regla del TEMA BODA */
-    p, li{
+
+    .site-header .header-logo {
+      height: calc(var(--header-height) - 20px);
+      width: calc(var(--header-height) - 20px);
+      border-radius: 50%;
+      object-fit: cover;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+    }
+
+    .site-header::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 50%;
+
+      background: linear-gradient(to bottom,
+          rgba(255, 255, 255, 0.6),
+          rgba(255, 255, 255, 0));
+
+      pointer-events: none;
+    }
+
+    /* --- Textos base --- */
+    h1,
+    h2,
+    h3 {
+      font-family: var(--font-titles);
+      color: var(--color-olive);
+      font-weight: 700;
+      letter-spacing: .02em;
+    }
+
+    p,
+    li {
       font-family: var(--font-body);
       color: var(--color-text-dark);
     }
-    /* Regla 'p' original (ahora redundante, pero la dejamos por si acaso) */
-    p{font-family:var(--font-body); color:var(--color-text-dark)} /* THEME: Actualizado color */
 
-    .hero-photo{width:100%; height:70vh; max-height:500px; object-fit:cover; object-position:center 30%}
-
-    .intro-text-section{padding:40px 20px}
-    .intro-text-section .frase-1{
-      font-size:0.8rem; 
-      font-style:italic; 
-      color:var(--color-text-dark); /* THEME: cambiado de --color-lazo */
-      margin-bottom:15px;
-      font-family: var(--font-body); /* THEME: Asegura fuente body */
-    }
-    .intro-text-section .nuestros-nombres{
-      font-family:var(--font-titles); /* THEME: cambiado de --font-script */
-      font-weight:700; 
-      font-size:clamp(3rem, 7vw, 3.8rem);
-      color:var(--color-olive); /* THEME: cambiado de --color-letras-portada */
-      margin-bottom:15px; 
-      letter-spacing:.01em; 
-      line-height:1.15;
-    }
-    .intro-text-section .frase-2{
-      font-size:0.8rem;
-      max-width:600px; 
-      margin:0 auto; 
-      line-height:1.7;
-      font-family: var(--font-body); /* THEME: Asegura fuente body */
-      color: var(--color-text-dark); /* THEME: Asegura color texto */
+    p {
+      font-family: var(--font-body);
+      color: var(--color-text-dark);
     }
 
-    /* ===== Banner de fecha: centrado perfecto (THEME Aplicado) ===== */
-    .date-banner{
-      background:var(--color-beige); /* THEME: cambiado de --color-verde-pasaporte */
-      color:var(--color-text-dark); /* THEME: cambiado de --color-texto-claro */
-      padding-block:clamp(4px, 1vw, 10px);
-      display:block;
+    .hero-photo {
+      width: 100%;
+      height: 70vh;
+      max-height: 500px;
+      object-fit: cover;
+      object-position: center 30%;
     }
-    .date-banner .date-inner{
-      width:min(760px, 92vw);
-      margin:0 auto;
-      display:grid;
-      row-gap:clamp(12px, 3vw, 24px);
-      justify-items:center;
+
+    .intro-text-section {
+      padding: 40px 20px;
+    }
+
+    .intro-text-section .frase-1 {
+      font-size: 0.8rem;
+      font-style: italic;
+      color: var(--color-text-dark);
+      margin-bottom: 15px;
+      font-family: var(--font-body);
+    }
+
+    .intro-text-section .nuestros-nombres {
+      font-family: var(--font-titles);
+      font-weight: 700;
+      font-size: clamp(3rem, 7vw, 3.8rem);
+      color: var(--color-olive);
+      margin-bottom: 15px;
+      letter-spacing: .01em;
+      line-height: 1.15;
+    }
+
+    .intro-text-section .frase-2 {
+      font-size: 0.8rem;
+      max-width: 600px;
+      margin: 0 auto;
+      line-height: 1.7;
+      font-family: var(--font-body);
+      color: var(--color-text-dark);
+    }
+
+    /* ===== Banner de fecha ===== */
+    .date-banner {
+      background: var(--color-beige);
+      color: var(--color-text-dark);
+      padding-block: clamp(4px, 1vw, 10px);
+      display: block;
+    }
+
+    .date-banner .date-inner {
+      width: min(760px, 92vw);
+      margin: 0 auto;
+      display: grid;
+      row-gap: clamp(12px, 3vw, 24px);
+      justify-items: center;
       transform: translateY(-14px);
     }
-    .month-arc{
-      width:100%;
-      height:clamp(26px,7vw,60px);
+
+    .month-arc {
+      width: 100%;
+      height: clamp(26px, 7vw, 60px);
       transform: translateY(0.5px);
       margin-bottom: 15px;
     }
-    .month-arc text{
-      font-family:var(--font-display); /* Mantenemos Playfair aquí, o cambiamos a --font-titles si se prefiere */
-      font-weight:550;
-      text-transform:uppercase;
-      letter-spacing:clamp(.18rem,.8vw,.36rem);
-      fill:var(--color-text-dark); /* THEME: cambiado de --color-texto-claro */
-      font-size:clamp(14px,4.6vw,20px);
+
+    .month-arc text {
+      font-family: var(--font-display);
+      font-weight: 550;
+      text-transform: uppercase;
+      letter-spacing: clamp(.18rem, .8vw, .36rem);
+      fill: var(--color-text-dark);
+      font-size: clamp(14px, 4.6vw, 20px);
     }
-    .center-row{
-      display:grid;
-      grid-template-columns:1fr auto 1fr;
-      align-items:center;
-      justify-items:center;
-      gap:clamp(16px,4vw,28px);
-      transform:none;
+
+    .center-row {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      align-items: center;
+      justify-items: center;
+      gap: clamp(16px, 4vw, 28px);
+      transform: none;
     }
-    .day{
-      font-family:var(--font-display); /* Mantenemos Playfair aquí, o cambiamos a --font-titles */
-      font-weight:700;
-      font-size:clamp(3.6rem,12vw,6.4rem);
-      letter-spacing:.02em; margin:0; line-height:1; white-space:nowrap;
-      color:var(--color-text-dark); /* THEME: cambiado de --color-texto-claro */
+
+    .day {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: clamp(3.6rem, 12vw, 6.4rem);
+      letter-spacing: .02em;
+      margin: 0;
+      line-height: 1;
+      white-space: nowrap;
+      color: var(--color-text-dark);
     }
+
     .side-label {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  /* Este 'gap' ahora es la única fuente de espaciado vertical.
-    Controla el espacio entre (linea) -> (texto) -> (linea).
-  */
-  gap: clamp(4px, 1.2vw, 8px);
-  transform: translateY(-1px);
-  min-width: clamp(92px, 22vw, 160px);
-}
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: clamp(4px, 1.2vw, 8px);
+      transform: translateY(-1px);
+      min-width: clamp(92px, 22vw, 160px);
+    }
 
-.side-label .line {
-  width: clamp(64px, 18vw, 120px); 
-  height: 1px; 
-  background: var(--color-text-dark);
-  opacity: 0.50;
-  /* BORRAMOS los 'margin-top' y 'margin-bottom'
-    para dejar que 'gap' haga todo el trabajo.
-  */
-}
+    .side-label .line {
+      width: clamp(64px, 18vw, 120px);
+      height: 1px;
+      background: var(--color-text-dark);
+      opacity: 0.50;
+    }
 
-.side-label .txt {
-  font-family: var(--font-display);
-  text-transform: uppercase;
-  /* BORRAMOS 'margin: center;' porque no es válido.
-    El 'align-items: center' del padre (.side-label)
-    ya se encarga de centrar el texto horizontalmente.
-  */
-  letter-spacing: clamp(.12rem, .8vw, .32rem);
-  font-size: clamp(.85rem, 2.6vw, 1.05rem);
-  font-weight: 600;
-  white-space: nowrap;
-}
+    .side-label .txt {
+      font-family: var(--font-display);
+      text-transform: uppercase;
+      letter-spacing: clamp(.12rem, .8vw, .32rem);
+      font-size: clamp(.85rem, 2.6vw, 1.05rem);
+      font-weight: 600;
+      white-space: nowrap;
+    }
 
-@media (max-width: 380px) {
-  .side-label {
-    min-width: clamp(84px, 24vw, 140px);
-  }
-}
+    @media (max-width: 380px) {
+      .side-label {
+        min-width: clamp(84px, 24vw, 140px);
+      }
+    }
 
-    /* ===== Cuenta regresiva (THEME Aplicado) ===== */
-    .countdown-section p{
-      font-size:0.8rem;
-      max-width:600px; 
+    /* ===== Cuenta regresiva ===== */
+    .countdown-section p {
+      font-size: 0.8rem;
+      max-width: 600px;
       text-align: center;
       margin: 0 auto 25px;
-      margin-bottom:25px;
-      line-height:1.7;
-      font-family: var(--font-body); /* THEME: Asegura fuente body */
-      color: var(--color-text-dark); /* THEME: Asegura color texto */
-    }
-    #countdown{
-      display:flex; justify-content:center; align-items:stretch;
-      flex-wrap:nowrap; gap:clamp(8px, 1.8vw, 16px);
-      max-width:95vw; margin:0 auto; overflow-x:hidden;
-    }
-    #countdown div{
-      flex:1 1 auto; width:auto;
-      min-width:clamp(70px, 18vw, 110px);
-      max-width:clamp(80px, 20vw, 130px);
-      min-height:clamp(70px, 9vw, 90px);
-      padding:clamp(8px, 1.2vw, 12px) clamp(6px, 1.4vw, 10px);
-      border-radius:12px; 
-      background:var(--color-beige); /* THEME: cambiado de --color-fondo */
-      border:1px solid rgba(85,107,47,.15); /* THEME: cambiado de rgba(121,209,176,.15) */
-      box-shadow:0 2px 6px rgba(0,0,0,.06);
-      display:grid; grid-template-rows:auto auto; place-items:center; text-align:center;
-    }
-    #countdown div span[id]{
-      font-family:var(--font-display); /* Mantenemos Playfair aquí, o cambiamos a --font-titles */
-      font-size:clamp(1.2rem, 2.4vw, 1.9rem);
-      line-height:1; display:block; margin-bottom:4px; letter-spacing:.5px;
-      color:var(--color-text-dark); /* THEME: cambiado de --color-letras-portada */
-    }
-    #countdown div span:not([id]){
-      font-family:var(--font-display); /* Mantenemos Playfair aquí, o cambiamos a --font-body */
-      font-size:clamp(.7rem, 1.5vw, .9rem);
-      font-weight:600; text-transform:capitalize; letter-spacing:0.15em;
-      opacity:1; /* THEME: cambiado de .8 */
-      white-space:nowrap;
-      color: var(--color-text-dark); /* THEME: Añadido */
-    }
-    @media (max-width:390px){
-      #countdown{ gap:clamp(6px, 1.2vw, 10px); }
-      #countdown div{ min-width:clamp(64px, 19vw, 90px); padding:clamp(6px, 1vw, 8px) clamp(5px, 1vw, 8px); }
-      #countdown div span[id]{ font-size:clamp(1.1rem, 2vw, 1.5rem); }
-      #countdown div span:not([id]){ font-size:clamp(.65rem, 1.2vw, .8rem); }
+      line-height: 1.7;
+      font-family: var(--font-body);
+      color: var(--color-text-dark);
     }
 
-    /* ===== Boarding pass (THEME Aplicado) ===== */
-    .boarding-pass-section{
+    #countdown {
+      display: flex;
+      justify-content: center;
+      align-items: stretch;
+      flex-wrap: nowrap;
+      gap: clamp(8px, 1.8vw, 16px);
+      max-width: 95vw;
+      margin: 0 auto;
+      overflow-x: hidden;
+    }
+
+    #countdown div {
+      flex: 1 1 auto;
+      width: auto;
+      min-width: clamp(70px, 18vw, 110px);
+      max-width: clamp(80px, 20vw, 130px);
+      min-height: clamp(70px, 9vw, 90px);
+      padding: clamp(8px, 1.2vw, 12px) clamp(6px, 1.4vw, 10px);
+      border-radius: 12px;
+      background: var(--color-beige);
+      border: 1px solid rgba(85, 107, 47, .15);
+      box-shadow: 0 2px 6px rgba(0, 0, 0, .06);
+      display: grid;
+      grid-template-rows: auto auto;
+      place-items: center;
+      text-align: center;
+    }
+
+    #countdown div span[id] {
+      font-family: var(--font-display);
+      font-size: clamp(1.2rem, 2.4vw, 1.9rem);
+      line-height: 1;
+      display: block;
+      margin-bottom: 4px;
+      letter-spacing: .5px;
+      color: var(--color-text-dark);
+    }
+
+    #countdown div span:not([id]) {
+      font-family: var(--font-display);
+      font-size: clamp(.7rem, 1.5vw, .9rem);
+      font-weight: 600;
+      text-transform: capitalize;
+      letter-spacing: 0.15em;
+      opacity: 1;
+      white-space: nowrap;
+      color: var(--color-text-dark);
+    }
+
+    @media (max-width:390px) {
+      #countdown {
+        gap: clamp(6px, 1.2vw, 10px);
+      }
+
+      #countdown div {
+        min-width: clamp(64px, 19vw, 90px);
+        padding: clamp(6px, 1vw, 8px) clamp(5px, 1vw, 8px);
+      }
+
+      #countdown div span[id] {
+        font-size: clamp(1.1rem, 2vw, 1.5rem);
+      }
+
+      #countdown div span:not([id]) {
+        font-size: clamp(.65rem, 1.2vw, .8rem);
+      }
+    }
+
+    /* ===== Boarding pass ===== */
+    .boarding-pass-section {
       position: relative;
       padding-top: 60px;
-      padding:40px 20px; 
-      background:rgba(169,196,164,.06); /* THEME: cambiado de rgba(121,209,176,.05) */
-      border-top:1px solid rgba(169,196,164,.15); /* THEME: cambiado de rgba(121,209,176,.15) */
-      border-bottom:1px solid rgba(169,196,164,.15); /* THEME: cambiado de rgba(121,209,176,.15) */
+      padding: 40px 20px;
+      background: transparent;
+      border-top: 1px solid rgba(169, 196, 164, .10);
+      border-bottom: 1px solid rgba(169, 196, 164, .10);
     }
-    .boarding-pass-vertical{
-      position:relative; 
-      background:#faf7f0; 
-      border:1px solid rgba(85,107,47,.18); /* THEME: cambiado de rgba(121,209,176,.2) */
-      border-radius:20px;
-      max-width:min(92vw,460px); margin:20px auto; box-shadow:0 18px 45px rgba(0,0,0,.08); overflow:hidden; text-align:left;
+
+    .boarding-pass-vertical {
+      position: relative;
+      background: #faf7f0;
+      border: 1px solid rgba(85, 107, 47, .18);
+      border-radius: 20px;
+      max-width: min(92vw, 460px);
+      margin: 20px auto;
+      box-shadow: 0 18px 45px rgba(0, 0, 0, .08);
+      overflow: hidden;
+      text-align: left;
       z-index: 2;
-      
     }
+
     .bp-floral-top {
-    position: absolute;
-    top: -20px;         /* Sube un poco para entrar en el área roja que marcaste */
-    left: 50%;
-    transform: translateX(-50%);
-    width: 280px;       /* Ajusta el tamaño para que se vea bien */
-    z-index: 0;         /* Detrás del ticket (el ticket debe tener z-index mayor) */
-    opacity: 0.9;       /* Que se note bien */
-    pointer-events: none;
-}
-    .bpv-logo{
-      position:absolute; top:10px; right:10px; width:56px; height:56px; border-radius:50%;
-      background:#fff center/cover no-repeat; background-image:url('img/Logo definitivo.png');
-      border:3px solid rgba(121,209,176,.35); box-shadow:0 6px 18px rgba(0,0,0,.15); transform:rotate(2.5deg); z-index:2;
+      position: absolute;
+      top: -20px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 280px;
+      z-index: 0;
+      opacity: 0.9;
+      pointer-events: none;
     }
+
+    .bpv-logo {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      background: #fff center/cover no-repeat;
+      background-image: url('img/Logo definitivo.png');
+      border: 3px solid rgba(121, 209, 176, .35);
+      box-shadow: 0 6px 18px rgba(0, 0, 0, .15);
+      transform: rotate(2.5deg);
+      z-index: 2;
+    }
+
     .bpv-header {
-    /* El segundo valor (20px) controla la izquierda y derecha */
-    padding: 10px 16px; 
-    margin: 0 0 6px;
-    font-family: var(--font-display);
-    font-weight: 700;
-    letter-spacing: .5px;
-    line-height: 1.2;
-    font-size: clamp(1rem, 4.2vw, 1.35rem);
-    color: var(--color-olive);
-}
-
-.bpv-dashed-line {
-    border-top: 2px dashed rgba(85, 107, 47, .30);
-}
-
-.bpv-title {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    padding: 20px 20px; 
-    flex-wrap: nowrap;
-}
-
-.bpv-title-text {
-    flex: 1 1 auto;
-    min-width: 0;
-    margin-left: 0; 
-}
-
-.bpv-title-text h3 {
-    margin: 0 0 6px;
-    font-family: var(--font-display);
-    font-weight: 700;
-    white-space: normal;
-    overflow-wrap: anywhere;
-    hyphens: auto;
-    letter-spacing: .5px;
-    line-height: 1.2;
-    font-size: clamp(1rem, 4.2vw, 1.35rem);
-    color: var(--color-olive);
-}
-    .bpv-title-text span{
-      font-family:var(--font-body); /* THEME: cambiado de --font-display */
-      font-size:clamp(.8rem, 3.6vw, 1rem); 
-      font-weight:700; 
-      opacity:.95;
-      color: var(--color-text-dark); /* THEME: Añadido */
+      padding: 10px 16px;
+      margin: 0 0 6px;
+      font-family: var(--font-display);
+      font-weight: 700;
+      letter-spacing: .5px;
+      line-height: 1.2;
+      font-size: clamp(1rem, 4.2vw, 1.35rem);
+      color: var(--color-olive);
     }
-    .bpv-plane-icon{flex:0 0 auto; font-size:clamp(1.4rem, 6vw, 2rem); line-height:1}
-    @media (max-width:390px){ .bpv-title{gap:8px; padding:16px} .bpv-title-text h3{margin-bottom:4px} }
-    @media (max-width:340px){ .bpv-title{flex-wrap:wrap; align-items:flex-start} .bpv-plane-icon{order:2; width:100%; text-align:right} }
+
+    .bpv-dashed-line {
+      border-top: 2px dashed rgba(85, 107, 47, .30);
+    }
+
+    .bpv-title {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 20px 20px;
+      flex-wrap: nowrap;
+    }
+
+    .bpv-title-text {
+      flex: 1 1 auto;
+      min-width: 0;
+      margin-left: 0;
+    }
+
+    .bpv-title-text h3 {
+      margin: 0 0 6px;
+      font-family: var(--font-display);
+      font-weight: 700;
+      white-space: normal;
+      overflow-wrap: anywhere;
+      hyphens: auto;
+      letter-spacing: .5px;
+      line-height: 1.2;
+      font-size: clamp(1rem, 4.2vw, 1.35rem);
+      color: var(--color-olive);
+    }
+
+    .bpv-title-text span {
+      font-family: var(--font-body);
+      font-size: clamp(.8rem, 3.6vw, 1rem);
+      font-weight: 700;
+      opacity: .95;
+      color: var(--color-text-dark);
+    }
+
+    .bpv-plane-icon {
+      flex: 0 0 auto;
+      font-size: clamp(1.4rem, 6vw, 2rem);
+      line-height: 1;
+    }
+
+    @media (max-width:390px) {
+      .bpv-title {
+        gap: 8px;
+        padding: 16px;
+      }
+
+      .bpv-title-text h3 {
+        margin-bottom: 4px;
+      }
+    }
+
+    @media (max-width:340px) {
+      .bpv-title {
+        flex-wrap: wrap;
+        align-items: flex-start;
+      }
+
+      .bpv-plane-icon {
+        order: 2;
+        width: 100%;
+        text-align: right;
+      }
+    }
+
     @media (max-width: 480px) {
-    .boarding-pass-section .container {
+      .boarding-pass-section .container {
         padding-top: 50px;
-    }
-    .bp-floral-top {
-        width: 200px;   /* Un poco más chica en celulares */
+      }
+
+      .bp-floral-top {
+        width: 200px;
         top: -10px;
-    }
+      }
     }
 
-    .bpv-names{
-      display:grid; grid-template-columns:1fr auto 1fr; align-items:center; gap:8px;
-      background:var(--color-eucalyptus); /* THEME: cambiado de --color-verde-pasaporte */
-      text-align:center; padding:24px 20px;
-      font-family: var(--font-titles); /* THEME: Añadido */
-      color: var(--color-olive); /* THEME: Añadido */
+    .bpv-names {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      align-items: center;
+      gap: 8px;
+      background: var(--color-eucalyptus);
+      text-align: center;
+      padding: 24px 20px;
+      font-family: var(--font-titles);
+      color: var(--color-olive);
     }
-    .bpv-names .name-left h4,.bpv-names .name-right h4{
-      font-family:var(--font-script); /* Mantenido script original */
-      font-weight:700; font-size:2rem; margin:0; line-height:1.1
+
+    .bpv-names .name-left h4,
+    .bpv-names .name-right h4 {
+      font-family: var(--font-script);
+      font-weight: 700;
+      font-size: 2rem;
+      margin: 0;
+      line-height: 1.1;
     }
-    .bpv-names .name-left span,.bpv-names .name-right span{
-      font-family:var(--font-script); /* Mantenido script original */
-      font-weight:600; font-size:1rem; opacity:.9
+
+    .bpv-names .name-left span,
+    .bpv-names .name-right span {
+      font-family: var(--font-script);
+      font-weight: 600;
+      font-size: 1rem;
+      opacity: .9;
     }
-    .bpv-names .amp{
-      font-family:var(--font-script); /* Mantenido script original */
-      font-size:2rem; line-height:1; padding:0 6px
+
+    .bpv-names .amp {
+      font-family: var(--font-script);
+      font-size: 2rem;
+      line-height: 1;
+      padding: 0 6px;
     }
-    /* Regla del TEMA BODA (bpv-passenger) */
-    .bpv-passenger{
+
+    .bpv-passenger {
       font-family: var(--font-display);
       color: var(--color-olive);
     }
 
-    .bpv-info{padding:22px 20px}
-    .bpv-info > .bpv-field{display:grid; grid-template-rows:auto 1fr; margin-bottom:18px}
-    .bpv-info > .bpv-field .label {
-    /* CAMBIO 1: Usar la misma fuente que los títulos para que la negrita sea más gruesa */
-    font-family: var(--font-display); 
-    
-    font-weight: 700; 
-    font-size: .85rem; 
-    letter-spacing: .05em; 
-    text-transform: uppercase; 
-    
-    /* CAMBIO 2: Usar el color Olive (más sólido) en lugar del gris oscuro */
-    color: var(--color-olive); 
-    
-    margin-bottom: 6px;
-}
-    .bpv-info > .bpv-field .value{
-      padding:12px 14px; 
-      border-radius: 8px; /* THEME: cambiado de 10px */
-      background: rgba(169,196,164,.08); /* THEME: cambiado de rgba(121,209,176,.08) */
-      border: 1px solid rgba(85,107,47,0.18); /* THEME: cambiado de var(--border-suave) */
-      color: var(--color-olive); /* THEME: cambiado de --color-letras-portada */
-      font-family: var(--font-display); /* THEME: cambiado de --font-display */
-      font-size: 1.25rem; 
-      line-height: 1.35;
-      text-align: left; 
-      word-break: break-word; 
-      box-sizing: border-box;
-      font-weight: 500; /* THEME: Añadido */
-      letter-spacing: .02em; /* THEME: Añadido */
+    .bpv-info {
+      padding: 22px 20px;
     }
-    .label .count-badge{display:inline-block; margin-left:8px; padding:2px 8px; font-size:.7rem; line-height:1; border-radius:999px; background:rgba(121,209,176,.18); border:1px solid rgba(121,209,176,.35)}
 
-    .bpv-pairs{position:relative; display:grid; grid-template-columns:1fr 1fr; gap:18px}
-    .bpv-pairs::before{content:""; position:absolute; left:50%; transform:translateX(-.5px); top:0; bottom:0; width:1px; background:rgba(4,37,26,.12)}
-    .bpv-pairs .bpv-field{display:grid; grid-template-rows:auto 1fr}
-    /* Esta regla controla los textos SOBRE los recuadros de la cuadrícula */
-.bpv-pairs .bpv-field .label {
-    font-family: var(--font-display);
-    font-weight: 700;
-    
-    /* === AQUÍ ES DONDE MODIFICAS EL TAMAÑO === */
-    font-size: 0.85rem; 
-    /* ========================================= */
-    
-    letter-spacing: .05em;
-    text-transform: uppercase;
-    color: var(--color-olive);
-    margin-bottom: 6px;
-}
-    .bpv-pairs .bpv-field .value{
-      display:flex; align-items:flex-start; padding:12px 14px; 
-      border-radius: 8px; /* THEME: cambiado de 10px */
-      background: rgba(169,196,164,.08); /* THEME: cambiado de rgba(121,209,176,.08) */
-      border: 1px solid rgba(85,107,47,0.18); /* THEME: cambiado de var(--border-suave) */
-      color: var(--color-olive); /* THEME: cambiado de --color-letras-portada */
-      font-family: var(--font-display); /* THEME: cambiado de --font-display */
+    .bpv-info>.bpv-field {
+      display: grid;
+      grid-template-rows: auto 1fr;
+      margin-bottom: 18px;
+    }
+
+    .bpv-info>.bpv-field .label {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: .85rem;
+      letter-spacing: .05em;
+      text-transform: uppercase;
+      color: var(--color-olive);
+      margin-bottom: 6px;
+    }
+
+    .bpv-info>.bpv-field .value {
+      padding: 12px 14px;
+      border-radius: 8px;
+      background: rgba(169, 196, 164, .08);
+      border: 1px solid rgba(85, 107, 47, 0.18);
+      color: var(--color-olive);
+      font-family: var(--font-display);
       font-size: 1.25rem;
-      font-weight: 500; /* THEME: Añadido */
-      letter-spacing: .02em; /* THEME: Añadido */
+      line-height: 1.35;
+      text-align: left;
+      word-break: break-word;
+      box-sizing: border-box;
+      font-weight: 500;
+      letter-spacing: .02em;
     }
-    @media (max-width:360px){.bpv-pairs::before{display:none}}
 
-    /* ===== Sección del Código de Barras Limpio ===== */
-.bpv-barcode-section {
-    padding: 20px 20px 30px;
-}
-
-.barcode {
-    width: 100%;
-    height: 96px;
-    border-radius: 6px;
-    position: relative;
-    overflow: hidden;
-    /* CAMBIO AQUÍ: Usamos el color sólido (rgb) en vez de con transparencia (rgba)
-       y eliminamos la segunda capa compleja. */
-    background: repeating-linear-gradient(
-        90deg, 
-        rgb(4, 37, 26), /* Color verde oscuro sólido */
-        rgb(4, 37, 26) 4px, /* Ancho de la barra */
-        transparent 6px, /* Inicio del espacio */
-        transparent 12px /* Fin del espacio */
-    );
-}
-
-/* ===== Ubicaciones (THEME Aplicado) ===== */
-.locations{
-  padding:60px 20px;
-  display:grid;
-  grid-template-columns:repeat(auto-fit, minmax(280px, 1fr));
-  gap:30px;
-  justify-items:center;
-  align-items:start;
-}
-
-/* =======================================================
-   ESTILOS MAESTROS — TODAS LAS TARJETAS IGUALES
-   ======================================================= */
-
-/* 1. Caja principal: se aplica a TODAS las tarjetas */
-.location-card-icon,
-.info-card {
-  background:#faf7f0;
-  box-shadow:0 5px 15px rgba(0,0,0,.05);
-  border-radius:10px;
-  border:1px solid rgba(85,107,47,.18);
-
-  padding:35px 25px;
-  width:100%;
-  max-width:320px;
-  margin:0 auto 30px;
-
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  text-align:center;
-  position:relative;
-  overflow:hidden;
-}
-
-.location-card-icon > *,
-.info-card > * {
-  position:relative;
-  z-index:1;
-}
-
-/* 2. Iconos dentro de las tarjetas */
-.icon-wrapper {
-  display:grid;
-  place-items:center;
-  width:100%;
-  height:92px;
-  margin-bottom:8px;
-  line-height:0;
-}
-
-.icon-wrapper lord-icon,
-.icon-wrapper svg,
-.icon-wrapper img {
-  display:block;
-  width:clamp(64px, 9vw, 80px);
-  height:clamp(64px, 9vw, 80px);
-  aspect-ratio:1/1;
-  margin:0 auto;
-  vertical-align:middle;
-}
-
-lord-icon{ max-width:100%; }
-
-/* 3. TÍTULOS — unificados para TODAS las tarjetas */
-.location-card-icon h2,
-.location-card-icon h3,
-.info-card h2,
-.info-card .info-title {
-  font-family: var(--font-display);
-  font-weight: 700;
-  font-size: 1.8rem !important;
-  line-height: 1.2;
-  color: var(--color-olive);
-
-  text-shadow: none !important;
-  filter: none !important;
-  -webkit-text-stroke: 0 !important;
-  background: transparent !important;
-  box-shadow: none !important;
-}
-
-.info-card h2::before,
-.info-card h2::after,
-.info-card .info-title::before,
-.info-card .info-title::after {
-  display:none !important;
-  content:none !important;
-}
-
-/* =======================================================
-   CÓDIGO DE VESTIMENTA — AJUSTES ESPECÍFICOS
-   (solo afecta a la info-card de vestimenta)
-   ======================================================= */
-
-.info-card .info-kv {
-  width:100%;
-  text-align:center !important;
-  padding:10px 15px;
-  background:transparent !important;
-  border:none !important;
-  box-shadow:none !important;
-
-  font-size:1.2rem;
-  font-family:var(--font-body);
-  color:var(--color-text-dark);
-}
-
-.info-card .info-kv p {
-  margin:0 0 4px 0 !important;
-  line-height:1.1;
-  text-align:center !important;
-  display:block;
-}
-
-/* Botón verde falso de vestimenta */
-.info-card .info-kv small {
-  display:block;
-  max-width:260px;
-  margin:6px auto 0;
-
-  background-color:var(--color-olive);
-  color:#fff;
-  padding:12px 15px;
-  border-radius:5px;
-  border:none;
-  box-shadow:0 4px 6px rgba(0,0,0,0.1);
-
-  font-family:var(--font-body);
-  font-weight:600;
-  font-size:0.9rem;
-  letter-spacing:0.05em;
-  text-align:center;
-  cursor:default;
-}
-
-/* Iconos GIF específicos de vestimenta (traje/vestido) */
-.info-card .icon-wrapper {
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  gap:12px;
-  height:auto;
-  margin-bottom:16px;
-}
-
-.info-card .icon-wrapper img {
-  width:50px;
-  height:50px;
-  margin:0;
-}
-
-/* =======================================================
-   TEXTOS GENERALES DE TARJETAS
-   ======================================================= */
-
-.location-card-icon p,
-.info-card p {
-  font-size:0.83rem;
-  margin:2px 0;
-  line-height:1.4;
-  font-family:var(--font-body);
-  color:var(--color-text-dark);
-}
-
-/* 5. Botones dentro de tarjetas */
-.location-card-icon .btn,
-.info-card .btn {
-  width:100%;
-  max-width:260px;
-  margin-top:12px;
-}
-
-.btn i {
-  margin-right:10px;
-  line-height:0;
-  font-size:1em;
-}
-
-/* 6. Horarios (Ceremonia / Celebración) */
-.location-card-icon .location-time {
-  display:inline-flex;
-  align-items:baseline;
-  justify-content:center;
-  gap:8px;
-  margin:8px 0 12px;
-  white-space:nowrap;
-  font-variant-numeric:tabular-nums;
-}
-
-.location-card-icon .location-time .time {
-  font-family:var(--font-body);
-  font-size:0.83rem;
-  color:var(--color-olive);
-}
-
-.location-card-icon .location-time .suffix {
-  font-size:.8rem;
-  letter-spacing:.14em;
-  opacity:.85;
-  transform:translateY(-1px);
-}
-
-/* =======================================================
-   MEDIA QUERIES DE TARJETAS
-   ======================================================= */
-
-@media (max-width: 480px) {
-  .icon-wrapper { height:84px; }
-  .icon-wrapper lord-icon,
-  .icon-wrapper svg,
-  .icon-wrapper img { width:68px; height:68px; }
-  .location-card-icon,
-  .info-card { padding:28px 22px; }
-}
-
-@media (max-width: 360px) {
-  .icon-wrapper { height:76px; }
-  .icon-wrapper lord-icon,
-  .icon-wrapper svg,
-  .icon-wrapper img { width:62px; height:62px; }
-  .location-card-icon h3,
-  .location-card-icon h2,
-  .info-card h2 { font-size:1.6rem; }
-}
-
-/* ===== Info / RSVP / Viajeros / Galería (THEME Aplicado) ===== */
-
-.info-section{ padding:60px 20px; }
-.info-section p{
-  font-size:1.05rem;
-  max-width:600px;
-  margin:0 auto 20px;
-  line-height:1.7;
-  font-family:var(--font-body);
-  color:var(--color-text-dark);
-}
-.info-section p strong{ color:var(--color-olive); }
-
-.rsvp-section{
-  padding:60px 20px;
-  background:rgba(169,196,164,.03);
-  border-top:1px solid rgba(169,196,164,.15);
-}
-.rsvp-section .container{
-  display:flex;
-  justify-content:center;
-  align-items:center;
-}
-.rsvp-section .btn:hover{
-  background:var(--color-lazo);
-  color:var(--color-letras-portada);
-  border-color:var(--color-lazo);
-}
-
-.travel-info-section{ padding:60px 20px; }
-/* Nota: NO redefinimos h2 aquí para que use el estilo unificado
-   de .location-card-icon h2 (misma fuente/tamaño que las demás) */
-.travel-info-section p{
-  font-size:1.05rem;
-  max-width:600px;
-  margin:0 auto 20px;
-  line-height:1.7;
-  font-family:var(--font-body);
-  color:var(--color-text-dark);
-}
-.travel-info-section .container{
-  display:flex;
-  justify-content:center;
-  align-items:center;
-}
-
-.photo-gallery-section{
-  padding:40px 0;
-  background:rgba(250,241,228,.55);
-}
-.photo-gallery-section h2{
-  font-family:var(--font-display);
-  font-weight:700;
-  font-size:2.2rem;
-  text-align:center;
-  margin-bottom:30px;
-  color:var(--color-olive);
-}
-.gallery-scroll-container{
-  display:flex;
-  gap:15px;
-  padding:10px 20px;
-  overflow-x:auto !important;
-  overflow-y:hidden !important;
-  scroll-snap-type:x mandatory;
-  -webkit-overflow-scrolling:touch;
-  scrollbar-width:none;
-  cursor:grab;
-  user-select:none;
-}
-.gallery-scroll-container::-webkit-scrollbar{ display:none; }
-.gallery-scroll-container.dragging{
-  cursor:grabbing;
-  scroll-snap-type:none;
-}
-/* =======================================================
-   CORRECCIÓN DE GALERÍA (NO MÁS FOTOS ESTIRADAS)
-   ======================================================= */
-.gallery-scroll-container img {
-    flex: 0 0 auto;
-    /* Mantenemos el ancho base que ya tenías para que se vea bien en móvil */
-    width: 80%;
-    max-width: 350px;
-
-    /* --- AQUÍ ESTÁ LA MAGIA --- */
-    /* 1. Definimos una forma estándar para todas (Retrato 4:5) */
-    aspect-ratio: 4 / 5; 
-    
-    /* 2. 'cover' asegura que la imagen llene el espacio SIN deformarse.
-          Recortará los excesos si es necesario. */
-    object-fit: cover;
-    
-    /* 3. Aseguramos que el centro de la foto sea el foco principal */
-    object-position: center;
-    /* --------------------------- */
-
-    border-radius: 10px;
-    box-shadow: 0 8px 20px rgba(0,0,0,0.12); /* Un poco más de sombra para que resalten */
-    scroll-snap-align: center;
-    
-    /* Evita que el usuario arrastre la imagen "fantasma" */
-    pointer-events: none;
-    -webkit-user-drag: none;
-    user-select: none;
-    
-    background-color: #e0e0e0; /* Un fondo gris pálido por si la imagen tarda en cargar */
-}
-
-/* Ajuste opcional para pantallas muy pequeñas si las ves muy altas */
-@media (max-width: 360px) {
-    .gallery-scroll-container img {
-        aspect-ratio: 3 / 4; /* Un poco menos altas en celulares muy chicos */
+    .label .count-badge {
+      display: inline-block;
+      margin-left: 8px;
+      padding: 2px 8px;
+      font-size: .7rem;
+      line-height: 1;
+      border-radius: 999px;
+      background: rgba(121, 209, 176, .18);
+      border: 1px solid rgba(121, 209, 176, .35);
     }
-}
-.gallery-scroll-container.dragging img{
-  pointer-events:none;
-  user-select:none;
-}
 
-/* Botones generales (ya los usas en varias secciones) */
-.btn{
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-  background:var(--color-botones);
-  border-color:var(--color-botones);
-  color:#EBEAE4;
-  padding:10px 18px;
-  text-decoration:none;
-  border-radius:8px;
-  font-size:.95rem;
-  font-weight:700;
-  margin-top:20px;
-  border:1px solid transparent;
-  transition: transform .15s, filter .2s, background-color .2s, border-color .2s;
-}
-.btn:hover{
-  filter:brightness(1.05);
-  transform:translateY(-1px);
-}
-.btn:active{
-  transform:translateY(0);
-  opacity:.9;
-}
-@media (hover:none){ .btn:hover{ transform:none; } }
-
-/* ===== Sección Información de Viaje (THEME Aplicado) ===== */
-/* Usada para la info-card de Código de Vestimenta */
-/* Aquí SOLO afinamos sombra/hover, sin cambiar el ancho base */
-
-.info-section .info-card{
-  /* hereda max-width, padding, etc. del bloque maestro */
-  box-shadow:0 10px 30px rgba(82,126,105,.08);
-  border-radius:10px;
-  transition:transform .3s ease, box-shadow .3s ease;
-}
-.info-section .info-card:hover{
-  transform:translateY(-2px);
-  box-shadow:0 14px 36px rgba(82,126,105,.12);
-}
-.info-section .info-card > *{
-  position:relative;
-  z-index:1;
-}
-
-/* =======================================================
-   NORMALIZACIÓN FINAL DE TARJETAS
-   (poner ESTE bloque al FINAL del <style>)
-   ======================================================= */
-
-/* 1) Todos los recuadros: mismo ancho y padding */
-.locations .location-card-icon,
-.rsvp-section .location-card-icon,
-.travel-info-section .location-card-icon,
-.info-section .info-card {
-  width: 100% !important;
-  max-width: 320px !important;
-  margin: 0 auto 30px !important;
-  padding: 35px 25px !important;
-
-  background: #faf7f0 !important;
-  border-radius: 10px !important;
-  border: 1px solid rgba(85, 107, 47, .18) !important;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, .05) !important;
-
-  display: flex !important;
-  flex-direction: column !important;
-  align-items: center !important;
-  text-align: center !important;
-  position: relative !important;
-  overflow: hidden !important;
-}
-
-/* 2) Títulos dentro de las tarjetas: misma fuente/tamaño */
-.locations .location-card-icon h2,
-.locations .location-card-icon h3,
-.rsvp-section .location-card-icon h2,
-.travel-info-section .location-card-icon h2,
-.info-section .info-card h2,
-.info-section .info-card .info-title {
-  font-family: var(--font-display) !important;
-  font-weight: 700 !important;
-  font-size: 1.8rem !important;
-  line-height: 1.2 !important;
-  color: var(--color-olive) !important;
-
-  text-shadow: none !important;
-  filter: none !important;
-  -webkit-text-stroke: 0 !important;
-  background: transparent !important;
-  box-shadow: none !important;
-}
-
-/* 3) Coctel Elegante: sin pastilla blanca ni bordes extra */
-.info-section .info-card .info-kv,
-.info-section .info-card .info-kv p {
-  background: transparent !important;
-  border: none !important;
-  box-shadow: none !important;
-  padding: 10px 15px !important;
-  margin: 0 0 4px 0 !important;
-  line-height: 1.1 !important;
-  text-align: center !important;
-  font-size: 1.1rem !important;
-}
-
-/* 4) Botón verde falso de vestimenta (ajuste final) */
-.info-section .info-card .info-kv small {
-  display: block !important;
-  max-width: 260px !important;
-  margin: 6px auto 0 !important;
-  padding: 12px 15px !important;
-  background-color: var(--color-olive) !important;
-  color: #fff !important;
-  border-radius: 5px !important;
-  border: none !important;
-  box-shadow: 0 4px 6px rgba(0,0,0,0.1) !important;
-  font-family: var(--font-body) !important;
-  font-weight: 600 !important;
-  font-size: 0.9rem !important;
-  letter-spacing: 0.05em !important;
-  text-align: center !important;
-  cursor: default !important;
-}
-
-
-
-
-    /* ===== Itinerario (THEME Aplicado) ===== */
-    /* Agrega esto para controlar el título "Itinerario de Vuelo" */
-.itinerary-section h2 {
-    font-family: var(--font-display); /* O la fuente que desees */
-    font-size: 1.5rem; /* Tamaño */
-    color: var(--color-olive); /* Color */
-    margin-bottom: 30px; /* Espacio entre el título y la línea de tiempo */
-    font-weight: 400;
-}
-    
-    .itinerary-section{ padding:60px 20px; text-align:center; }
-    .timeline{
-      --dotR: 17px; --axisGap: 10px; --cardPadY: 18px; --cardPadX: 18px; --fill: 0%;
-      position:relative; max-width:760px; margin:40px auto 0;
+    .bpv-pairs {
+      position: relative;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
     }
-    .timeline::before{
-      content:""; position:absolute; top:0; bottom:0; left:50%;
-      width:3px; transform:translateX(-50%); 
-      background-color:rgba(146,133,17,.25); /* THEME: cambiado de .30 */
-      z-index:0;
-    }
-    .timeline::after{
-      content:""; position:absolute; top:0; left:50%;
-      width:3px; transform:translateX(-50%); 
-      background:var(--color-olive); /* THEME: Unificado */
-      height: var(--fill); transition: height .12s linear; will-change: height; z-index:0;
-    }
-    .timeline-item{ position:relative; width:50%; padding:22px 8px; }
-    .timeline-item:nth-child(odd){  left:0;   text-align:right; }
-    .timeline-item:nth-child(even){ left:50%; text-align:left;  }
 
-    .timeline-dot{
-      position: absolute; top: 14px;
-      width: calc(var(--dotR) * 2); height: calc(var(--dotR) * 2);
+    .bpv-pairs::before {
+      content: "";
+      position: absolute;
+      left: 50%;
+      transform: translateX(-.5px);
+      top: 0;
+      bottom: 0;
+      width: 1px;
+      background: rgba(4, 37, 26, .12);
+    }
+
+    .bpv-pairs .bpv-field {
+      display: grid;
+      grid-template-rows: auto 1fr;
+    }
+
+    .bpv-pairs .bpv-field .label {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 0.85rem;
+      letter-spacing: .05em;
+      text-transform: uppercase;
+      color: var(--color-olive);
+      margin-bottom: 6px;
+    }
+
+    .bpv-pairs .bpv-field .value {
+      display: flex;
+      align-items: flex-start;
+      padding: 12px 14px;
+      border-radius: 8px;
+      background: rgba(169, 196, 164, .08);
+      border: 1px solid rgba(85, 107, 47, 0.18);
+      color: var(--color-olive);
+      font-family: var(--font-display);
+      font-size: 1.25rem;
+      font-weight: 500;
+      letter-spacing: .02em;
+    }
+
+    @media (max-width:360px) {
+      .bpv-pairs::before {
+        display: none;
+      }
+    }
+
+    .bpv-barcode-section {
+      padding: 20px 20px 30px;
+    }
+
+    .barcode {
+      width: 100%;
+      height: 96px;
+      border-radius: 6px;
+      position: relative;
+      overflow: hidden;
+      background: repeating-linear-gradient(90deg,
+          rgb(4, 37, 26),
+          rgb(4, 37, 26) 4px,
+          transparent 6px,
+          transparent 12px);
+    }
+
+    /* ===== Ubicaciones ===== */
+    .locations {
+      padding: 60px 20px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 30px;
+      justify-items: center;
+      align-items: stretch;
+    }
+
+    /* ===== Tarjetas ===== */
+    .location-card-icon,
+    .info-card {
+      background: #faf7f0;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, .05);
+      border-radius: 10px;
+      border: 1px solid rgba(85, 107, 47, .18);
+      padding: 35px 25px;
+      width: 100%;
+      max-width: 320px;
+      margin: 0 auto 30px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      height: 100%;
+    }
+
+    .location-card-icon>*,
+    .info-card>* {
+      position: relative;
+      z-index: 1;
+    }
+
+    .icon-wrapper {
+      display: grid;
+      place-items: center;
+      width: 100%;
+      height: 92px;
+      margin-bottom: 8px;
+      line-height: 0;
+    }
+
+    .icon-wrapper lord-icon,
+    .icon-wrapper svg,
+    .icon-wrapper img {
+      display: block;
+      width: clamp(64px, 9vw, 80px);
+      height: clamp(64px, 9vw, 80px);
+      aspect-ratio: 1/1;
+      margin: 0 auto;
+      vertical-align: middle;
+    }
+
+    lord-icon {
+      max-width: 100%;
+    }
+
+    .location-card-icon h2,
+    .location-card-icon h3,
+    .info-card h2,
+    .info-card .info-title {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 1.8rem !important;
+      line-height: 1.2;
+      color: var(--color-olive);
+      text-shadow: none !important;
+      filter: none !important;
+      -webkit-text-stroke: 0 !important;
+      background: transparent !important;
+      box-shadow: none !important;
+    }
+
+    .info-card h2::before,
+    .info-card h2::after,
+    .info-card .info-title::before,
+    .info-card .info-title::after {
+      display: none !important;
+      content: none !important;
+    }
+
+    .info-card .info-kv {
+      width: 100%;
+      text-align: center !important;
+      padding: 4px 8px;
+      background: transparent !important;
+      border: none !important;
+      box-shadow: none !important;
+      font-size: 1.2rem;
+      font-family: var(--font-body);
+      color: var(--color-text-dark);
+    }
+
+    .info-card .info-kv p {
+      margin: 0 0 4px 0 !important;
+      line-height: 1.1;
+      text-align: center !important;
+      display: block;
+    }
+
+    .info-card .info-kv small {
+      display: block;
+      max-width: 220px;
+      margin: 6px auto 0;
+      background-color: var(--color-olive);
+      color: #fff;
+      padding: 10px 12px;
+      border-radius: 5px;
+      border: none;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      font-family: var(--font-body);
+      font-weight: 600;
+      font-size: 0.9rem;
+      letter-spacing: 0.05em;
+      text-align: center;
+      cursor: default;
+    }
+
+    .info-card .icon-wrapper {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 12px;
+      height: auto;
+      margin-bottom: 16px;
+    }
+
+    .info-card .icon-wrapper img {
+      width: 50px;
+      height: 50px;
+      margin: 0;
+    }
+
+    .location-card-icon p,
+    .info-card p {
+      font-size: 0.83rem;
+      margin: 2px 0;
+      line-height: 1.4;
+      font-family: var(--font-body);
+      color: var(--color-text-dark);
+    }
+
+    .location-card-icon .btn,
+    .info-card .btn {
+      width: 100%;
+      max-width: 260px;
+      margin-top: auto;
+    }
+
+    .location-card-icon p:last-of-type {
+      margin-bottom: 18px;
+    }
+
+    .btn i {
+      margin-right: 10px;
+      line-height: 0;
+      font-size: 1em;
+    }
+
+    .location-card-icon .location-time {
+      display: inline-flex;
+      align-items: baseline;
+      justify-content: center;
+      gap: 8px;
+      margin: 8px 0 12px;
+      white-space: nowrap;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .location-card-icon .location-time .time {
+      font-family: var(--font-body);
+      font-size: 0.83rem;
+      color: var(--color-olive);
+    }
+
+    .location-card-icon .location-time .suffix {
+      font-size: .8rem;
+      letter-spacing: .14em;
+      opacity: .85;
+      transform: translateY(-1px);
+    }
+
+    @media (max-width: 480px) {
+      .icon-wrapper {
+        height: 84px;
+      }
+
+      .icon-wrapper lord-icon,
+      .icon-wrapper svg,
+      .icon-wrapper img {
+        width: 68px;
+        height: 68px;
+      }
+
+      .location-card-icon,
+      .info-card {
+        padding: 28px 22px;
+      }
+    }
+
+    @media (max-width: 360px) {
+      .icon-wrapper {
+        height: 76px;
+      }
+
+      .icon-wrapper lord-icon,
+      .icon-wrapper svg,
+      .icon-wrapper img {
+        width: 62px;
+        height: 62px;
+      }
+
+      .location-card-icon h3,
+      .location-card-icon h2,
+      .info-card h2 {
+        font-size: 1.6rem;
+      }
+    }
+
+    /* ===== Secciones ===== */
+    .info-section {
+      padding: 60px 20px;
+      background: transparent;
+    }
+
+    .info-section p {
+      font-size: 1.05rem;
+      max-width: 600px;
+      margin: 0 auto 20px;
+      line-height: 1.7;
+      font-family: var(--font-body);
+      color: var(--color-text-dark);
+    }
+
+    .info-section p strong {
+      color: var(--color-olive);
+    }
+
+    .rsvp-section {
+      padding: 60px 20px;
+      background: transparent;
+      border-top: 1px solid rgba(169, 196, 164, .10);
+    }
+
+    .rsvp-section .container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .rsvp-section .btn:hover {
+      background: var(--color-lazo);
+      color: var(--color-letras-portada);
+      border-color: var(--color-lazo);
+    }
+
+    .travel-info-section {
+      padding: 60px 20px;
+      background: transparent;
+    }
+
+    .travel-info-section p {
+      font-size: 1.05rem;
+      max-width: 600px;
+      margin: 0 auto 20px;
+      line-height: 1.7;
+      font-family: var(--font-body);
+      color: var(--color-text-dark);
+    }
+
+    .travel-info-section .container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .photo-gallery-section {
+      padding: 40px 0;
+      background: transparent;
+    }
+
+    .photo-gallery-section h2 {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 2.2rem;
+      text-align: center;
+      margin-bottom: 30px;
+      color: var(--color-olive);
+    }
+
+    /* ===== Galería ===== */
+    .gallery-wrapper {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+
+    .gallery-scroll-container {
+      display: flex;
+      gap: 14px;
+      width: 100%;
+      padding: 10px 12px;
+      overflow-x: auto;
+      overflow-y: hidden;
+      scroll-snap-type: x mandatory;
+      scroll-behavior: auto;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+      overscroll-behavior-x: contain;
+      touch-action: pan-x;
+    }
+
+    .gallery-scroll-container::-webkit-scrollbar {
+      display: none;
+    }
+
+    .gallery-item {
+      flex: 0 0 82%;
+      width: 82%;
+      max-width: 340px;
+      min-width: 260px;
+      scroll-snap-align: center;
+      scroll-snap-stop: always;
+      border-radius: 12px;
+      overflow: hidden;
+      background: #f1f1f1;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+    }
+
+    .gallery-item img {
+      display: block;
+      width: 100%;
+      aspect-ratio: 4 / 5;
+      object-fit: cover;
+      object-position: center;
+      background-color: #e0e0e0;
+      backface-visibility: hidden;
+      transform: translateZ(0);
+    }
+
+    .gallery-arrow {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 3;
+      width: 40px;
+      height: 40px;
+      border: 0;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.82);
+      backdrop-filter: blur(8px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, .15);
+      font-size: 28px;
+      line-height: 1;
+      color: #6f8f62;
+      cursor: pointer;
+    }
+
+    .gallery-arrow-left {
+      left: 6px;
+    }
+
+    .gallery-arrow-right {
+      right: 6px;
+    }
+
+    .gallery-arrow:active {
+      transform: translateY(-50%) scale(0.96);
+    }
+
+    @media (max-width: 768px) {
+      .gallery-arrow {
+        width: 36px;
+        height: 36px;
+        font-size: 24px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .gallery-item {
+        flex: 0 0 82%;
+        min-width: 240px;
+      }
+    }
+
+    @media (max-width: 360px) {
+      .gallery-item img {
+        aspect-ratio: 3 / 4;
+      }
+    }
+
+    .gallery-wrapper::before,
+    .gallery-wrapper::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      width: 32px;
+      z-index: 2;
+      pointer-events: none;
+    }
+
+    .gallery-wrapper::before {
+      left: 0;
+      background: linear-gradient(to right, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0));
+    }
+
+    .gallery-wrapper::after {
+      right: 0;
+      background: linear-gradient(to left, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0));
+    }
+
+    /* ===== Botones ===== */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--color-botones);
+      border-color: var(--color-botones);
+      color: #EBEAE4;
+      padding: 10px 18px;
+      text-decoration: none;
+      border-radius: 8px;
+      font-size: .95rem;
+      font-weight: 700;
+      margin-top: 20px;
+      border: 1px solid transparent;
+      transition: transform .15s, filter .2s, background-color .2s, border-color .2s;
+    }
+
+    .btn:hover {
+      filter: brightness(1.05);
+      transform: translateY(-1px);
+    }
+
+    .btn:active {
+      transform: translateY(0);
+      opacity: .9;
+    }
+
+    @media (hover:none) {
+      .btn:hover {
+        transform: none;
+      }
+    }
+
+    /* ===== Itinerario ===== */
+    .itinerary-section {
+      padding: 60px 20px;
+      text-align: center;
+      background: transparent;
+    }
+
+    .itinerary-section h2 {
+      font-family: var(--font-display);
+      font-size: 1.5rem;
+      color: var(--color-olive);
+      margin-bottom: 30px;
+      font-weight: 400;
+    }
+
+    .timeline {
+      --dotR: 17px;
+      --axisGap: 10px;
+      --cardPadY: 18px;
+      --cardPadX: 18px;
+      --fill: 0%;
+      position: relative;
+      max-width: 760px;
+      margin: 40px auto 0;
+    }
+
+    .timeline::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 50%;
+      width: 3px;
+      transform: translateX(-50%);
+      background-color: rgba(146, 133, 17, .25);
+      z-index: 0;
+    }
+
+    .timeline::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 50%;
+      width: 3px;
+      transform: translateX(-50%);
+      background: var(--color-olive);
+      height: var(--fill);
+      transition: height .12s linear;
+      will-change: height;
+      z-index: 0;
+    }
+
+    .timeline-item {
+      position: relative;
+      width: 50%;
+      padding: 22px 8px;
+    }
+
+    .timeline-item:nth-child(odd) {
+      left: 0;
+      text-align: right;
+    }
+
+    .timeline-item:nth-child(even) {
+      left: 50%;
+      text-align: left;
+    }
+
+    .timeline-dot {
+      position: absolute;
+      top: 14px;
+      width: calc(var(--dotR) * 2);
+      height: calc(var(--dotR) * 2);
       border-radius: 50%;
       background: #faf7f0;
-      border: 4px solid var(--color-olive); /* THEME: Unificado */
-      display: grid; place-items: center;
+      border: 4px solid var(--color-olive);
+      display: grid;
+      place-items: center;
       z-index: 2;
-      box-shadow: 0 0 0 0 rgba(85,107,47,0);
+      box-shadow: 0 0 0 0 rgba(85, 107, 47, 0);
       transform: scale(.85);
       transition: transform .35s ease, box-shadow .35s ease;
     }
-    .timeline-item:nth-child(odd)  .timeline-dot{ right: calc(var(--dotR) * -1); }
-    .timeline-item:nth-child(even) .timeline-dot{ left:  calc(var(--dotR) * -1);  }
-    .timeline-dot i{
+
+    .timeline-item:nth-child(odd) .timeline-dot {
+      right: calc(var(--dotR) * -1);
+    }
+
+    .timeline-item:nth-child(even) .timeline-dot {
+      left: calc(var(--dotR) * -1);
+    }
+
+    .timeline-dot i {
       font-size: calc(var(--dotR) * 1.05);
-      color: var(--color-olive); /* THEME: Unificado */
+      color: var(--color-olive);
     }
 
-    .timeline-content{
-      margin:0; padding:var(--cardPadY) var(--cardPadX); background:#faf7f0; border-radius:10px;
-      box-shadow:0 3px 10px rgba(0,0,0,.06); position:relative; z-index:1; text-align:left;
-      word-break:normal; hyphens:none; overflow-wrap: normal;
+    .timeline-content {
+      margin: 0;
+      padding: var(--cardPadY) var(--cardPadX);
+      background: #faf7f0;
+      border-radius: 10px;
+      box-shadow: 0 3px 10px rgba(0, 0, 0, .06);
+      position: relative;
+      z-index: 1;
+      text-align: left;
+      word-break: normal;
+      hyphens: none;
+      overflow-wrap: normal;
     }
-    .timeline-item:nth-child(odd)  .timeline-content{ margin-right: calc(var(--dotR) + var(--axisGap)); }
-    .timeline-item:nth-child(even) .timeline-content{ margin-left:  calc(var(--dotR) + var(--axisGap)); }
 
-    .timeline-content h3{
-      white-space:normal; word-break: normal; overflow-wrap: normal; hyphens: none;
-      font-size: clamp(1rem, 3.6vw, 1.25rem); line-height:1.2; margin:0 0 .35rem 0;
-      font-family: var(--font-display); /* THEME: Unificado */
-      color: var(--color-olive); /* THEME: Unificado */
+    .timeline-item:nth-child(odd) .timeline-content {
+      margin-right: calc(var(--dotR) + var(--axisGap));
     }
+
+    .timeline-item:nth-child(even) .timeline-content {
+      margin-left: calc(var(--dotR) + var(--axisGap));
+    }
+
+    .timeline-content h3 {
+      white-space: normal;
+      word-break: normal;
+      overflow-wrap: normal;
+      hyphens: none;
+      font-size: clamp(1rem, 3.6vw, 1.25rem);
+      line-height: 1.2;
+      margin: 0 0 .35rem 0;
+      font-family: var(--font-display);
+      color: var(--color-olive);
+    }
+
     .timeline-content p {
-      font-family: var(--font-body); /* THEME: Unificado */
-      color: var(--color-text-dark); /* THEME: Unificado */
+      font-family: var(--font-body);
+      color: var(--color-text-dark);
     }
 
-    @media (max-width: 420px){
-      .timeline{ --dotR: 15px; --axisGap: 8px; --cardPadY: 14px; --cardPadX: 14px; }
-      .timeline-item{ padding:18px 6px; }
-      .timeline-content{ font-size: clamp(.9rem, 3.2vw, 1rem); }
-      .timeline-content h3{ font-size: clamp(.95rem, 4.2vw, 1.1rem); }
-      .timeline-content p{ font-size: clamp(.85rem, 3vw, .95rem); }
-    }
-    @media (max-width: 340px){
-      .timeline{ --dotR: 14px; --axisGap: 6px; --cardPadY: 12px; --cardPadX: 12px; }
-      .timeline-item{ padding:14px 4px; }
-    }
-    @media (max-width: 380px){
-      .timeline-content h3{ font-size: clamp(.95rem, 4vw, 1.1rem); }
+    @media (max-width: 420px) {
+      .timeline {
+        --dotR: 15px;
+        --axisGap: 8px;
+        --cardPadY: 14px;
+        --cardPadX: 14px;
+      }
+
+      .timeline-item {
+        padding: 18px 6px;
+      }
+
+      .timeline-content {
+        font-size: clamp(.9rem, 3.2vw, 1rem);
+      }
+
+      .timeline-content h3 {
+        font-size: clamp(.95rem, 4.2vw, 1.1rem);
+      }
+
+      .timeline-content p {
+        font-size: clamp(.85rem, 3vw, .95rem);
+      }
     }
 
-    .timeline-item .timeline-content{
-      opacity: 0; transform: translateY(14px) scale(.98);
-      transition: opacity .45s ease, transform .45s cubic-bezier(.2,.7,.2,1); will-change: opacity, transform;
-    }
-    .timeline-item:nth-child(odd)  .timeline-content{ transform: translate(-14px, 14px) scale(.98); }
-    .timeline-item:nth-child(even) .timeline-content{ transform: translate( 14px, 14px) scale(.98); }
-    .timeline-item.is-inview .timeline-content{ opacity: 1; transform: translate(0,0) scale(1); }
+    @media (max-width: 340px) {
+      .timeline {
+        --dotR: 14px;
+        --axisGap: 6px;
+        --cardPadY: 12px;
+        --cardPadX: 12px;
+      }
 
-    .timeline-item.is-inview .timeline-dot{
+      .timeline-item {
+        padding: 14px 4px;
+      }
+    }
+
+    @media (max-width: 380px) {
+      .timeline-content h3 {
+        font-size: clamp(.95rem, 4vw, 1.1rem);
+      }
+    }
+
+    .timeline-item .timeline-content {
+      opacity: 0;
+      transform: translateY(14px) scale(.98);
+      transition: opacity .45s ease, transform .45s cubic-bezier(.2, .7, .2, 1);
+      will-change: opacity, transform;
+    }
+
+    .timeline-item:nth-child(odd) .timeline-content {
+      transform: translate(-14px, 14px) scale(.98);
+    }
+
+    .timeline-item:nth-child(even) .timeline-content {
+      transform: translate(14px, 14px) scale(.98);
+    }
+
+    .timeline-item.is-inview .timeline-content {
+      opacity: 1;
+      transform: translate(0, 0) scale(1);
+    }
+
+    .timeline-item.is-inview .timeline-dot {
       transform: scale(1);
-      box-shadow: 0 0 0 6px rgba(85,107,47,.08);
+      box-shadow: 0 0 0 6px rgba(85, 107, 47, .08);
     }
 
-    .timeline-item .timeline-content{ transition-delay: calc(var(--i, 0) * 60ms); }
-    .timeline-item.is-inview .timeline-content{ transition-delay: calc(var(--i, 0) * 60ms); }
-
-    /* Estilos para la nota al pie del itinerario */
-.notice {
-    display: block; /* Asegura que ocupe el ancho disponible */
-    margin-top: 40px; /* Espacio para separarlo de la línea de tiempo */
-    
-    font-family: var(--font-body);
-    font-size: 0.85rem; /* Un poco más pequeño que el texto normal */
-    font-style: italic; /* Cursiva para denotar que es una nota */
-    
-    color: var(--color-text-dark);
-    opacity: 0.7; /* Un poco transparente para que no robe atención */
-    
-    text-align: center; /* Centrado (aunque el padre ya lo tenga, aseguramos) */
-    letter-spacing: 0.02em;
-}
-    @media (prefers-reduced-motion: reduce){
-      .timeline-item .timeline-content, .timeline-dot{ transition: none !important; transform: none !important; }
+    .timeline-item .timeline-content,
+    .timeline-item.is-inview .timeline-content {
+      transition-delay: calc(var(--i, 0) * 60ms);
     }
 
+    .notice {
+      display: block;
+      margin-top: 40px;
+      font-family: var(--font-body);
+      font-size: 0.85rem;
+      font-style: italic;
+      color: var(--color-text-dark);
+      opacity: 0.7;
+      text-align: center;
+      letter-spacing: 0.02em;
+    }
 
-    /* =======================================================
-   FOOTER REFINADO (GLASS EFFECT)
-   ======================================================= */
-.footer-refined {
-    /* Quitamos el beige sólido por un crema translúcido */
-    background: rgba(250, 241, 228, 0.7) !important; 
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-    
-    color: var(--color-olive);
-    text-align: center;
-    padding: 60px 20px 40px; /* Damos más aire (padding) arriba */
-    
-    /* Borde superior muy fino */
-    border-top: 1px solid rgba(82, 126, 105, 0.1);
-    position: relative;
-    z-index: 5;
-}
+    @media (prefers-reduced-motion: reduce) {
 
-.footer-thanks {
-    font-family: var(--font-body);
-    font-size: 1rem;
-    font-weight: 500;
-    color: var(--color-text-dark);
-    margin-bottom: 10px;
-    letter-spacing: 0.05em;
-    opacity: 0.8;
-}
+      .timeline-item .timeline-content,
+      .timeline-dot {
+        transition: none !important;
+        transform: none !important;
+      }
+    }
 
-.footer-wait {
-    font-family: var(--font-titles);
-    font-size: clamp(2.5rem, 6vw, 3.5rem); /* Lo hacemos un poco más grande */
-    color: var(--color-olive);
-    margin: 15px 0 30px;
-    display: block;
-}
+    /* ===== Footer ===== */
+    .footer-refined {
+      background: rgba(250, 241, 228, 0.25) !important;
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      color: var(--color-olive);
+      text-align: center;
+      padding: 60px 20px 40px;
+      border-top: 1px solid rgba(82, 126, 105, 0.1);
+      position: relative;
+      z-index: 5;
+    }
 
-/* El logo como "Sello Final" */
-.footer-logo {
-    display: block;
-    width: 120px; /* Un poco más grande para cerrar con impacto */
-    height: 120px;
-    margin: 0 auto;
-    border-radius: 50%;
-    object-fit: cover;
-    
-    /* Sombra para que parezca un sello real sobre el mármol */
-    box-shadow: 0 8px 20px rgba(0,0,0,0.1);
-    border: 3px solid #fff; /* Marco blanco limpio */
-    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-}
+    .footer-thanks {
+      font-family: var(--font-body);
+      font-size: 1rem;
+      font-weight: 500;
+      color: var(--color-text-dark);
+      margin-bottom: 10px;
+      letter-spacing: 0.05em;
+      opacity: 0.8;
+    }
 
-.footer-logo:hover {
-    transform: scale(1.1) rotate(5deg);
-}
+    .footer-wait {
+      font-family: var(--font-titles);
+      font-size: clamp(2.5rem, 6vw, 3.5rem);
+      color: var(--color-olive);
+      margin: 15px 0 30px;
+      display: block;
+    }
 
-    /* ===== Sección Información de Viaje (THEME Aplicado) ===== */
-    /* Esta sección ya usaba la paleta correcta */
-    .info-section { padding: 60px 20px; }
+    .footer-logo {
+      display: block;
+      width: 120px;
+      height: 120px;
+      margin: 0 auto;
+      border-radius: 50%;
+      object-fit: cover;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+      border: 3px solid #fff;
+      transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    .footer-logo:hover {
+      transform: scale(1.1) rotate(5deg);
+    }
+
+    /* ===== Info card refinamientos ===== */
+    .info-section .info-card {
+      box-shadow: 0 10px 30px rgba(82, 126, 105, .08);
+      border-radius: 10px;
+      transition: transform .3s ease, box-shadow .3s ease;
+    }
+
+    .info-section .info-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 14px 36px rgba(82, 126, 105, .12);
+    }
+
+    .info-section .info-card>* {
+      position: relative;
+      z-index: 1;
+    }
+
     .info-card {
-      max-width: 680px; margin: 0 auto; background:#faf7f0;
-      border: 1px solid var(--border-suave); /* Usa el border-suave original */
-      border-radius: 18px; padding: 32px 26px;
-      box-shadow: 0 10px 30px rgba(82,126,105,.08); text-align: center;
+      max-width: 320px;
+      margin: 0 auto 30px;
+      background: #faf7f0;
+      border: 1px solid rgba(85, 107, 47, .18);
+      border-radius: 10px;
+      padding: 28px 22px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, .05);
+      text-align: center;
       transition: transform .3s ease, box-shadow .3s ease;
       position: relative;
       overflow: hidden;
     }
-    .info-card > * {
+
+    .info-card>* {
       position: relative;
       z-index: 1;
     }
-    .info-card:hover { transform: translateY(-2px); box-shadow: 0 14px 36px rgba(82,126,105,.12); }
-    /* AJUSTES PARA LOS ICONOS GIF DE VESTIMENTA */
-/* Esto se aplicará solo en la tarjeta de vestimenta */
-.info-card .icon-wrapper {
-    display: flex; /* Muestra los iconos uno al lado del otro */
-    justify-content: center;
-    align-items: center;
-    gap: 12px; /* Espacio entre el traje y el vestido */
-    height: auto;
-    margin-bottom: 16px;
-}
 
-.info-card .icon-wrapper img {
-    /* Toma la mitad del tamaño de los lord-icons para que quepan */
-    width: 50px; 
-    height: 50px; 
-    margin: 0;
-    
-    /* Nota: Si los iconos no se ven en color oliva, es porque el GIF no es SVG.
-       El filtro de color CSS no funciona bien en GIFs complejos. 
-       Si quieres un color uniforme, tendrás que exportar estos GIFs en verde oliva.
-       De lo contrario, conservarán sus colores originales (negro/azul). */
-}
+    .info-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 14px 36px rgba(82, 126, 105, .12);
+    }
+
     .info-title {
-      font-family: var(--font-titles); color: var(--color-olive);
-      font-size: clamp(1.6rem, 4.8vw, 2rem); font-weight: 700; margin-bottom: 20px; position: relative;
+      font-family: var(--font-titles);
+      color: var(--color-olive);
+      font-size: clamp(1.6rem, 4.8vw, 2rem);
+      font-weight: 700;
+      margin-bottom: 20px;
+      position: relative;
     }
+
     .info-title::after {
-      content: ""; display: block; width: 100px; height: 2px; margin: 10px auto 0;
-      background: linear-gradient(90deg, transparent, rgba(82,126,105,.4), transparent);
+      content: "";
+      display: block;
+      width: 100px;
+      height: 2px;
+      margin: 10px auto 0;
+      background: linear-gradient(90deg, transparent, rgba(82, 126, 105, .4), transparent);
     }
+
     .info-kv {
-      text-align: left; margin: 0 auto; max-width: 560px; display: grid; gap: 18px;
+      text-align: left;
+      margin: 0 auto;
+      max-width: 560px;
+      display: grid;
+      gap: 18px;
     }
+
     .info-kv p {
-      margin: 0; padding: 16px 18px; border: 1px solid rgba(82,126,105,.18);
-      border-radius: 14px; background: rgba(169,196,164,.06);
+      margin: 0;
+      padding: 16px 18px;
+      border: 1px solid rgba(82, 126, 105, .18);
+      border-radius: 14px;
+      background: rgba(169, 196, 164, .06);
       transition: background .3s ease, transform .25s ease;
     }
-    .info-kv p:hover { background: rgba(169,196,164,.12); transform: translateY(-1px); }
+
+    .info-kv p:hover {
+      background: rgba(169, 196, 164, .12);
+      transform: translateY(-1px);
+    }
+
     .info-kv p strong {
-      display: block; font-family: var(--font-body); text-transform: uppercase;
-      letter-spacing: .08em; font-size: .85rem; color: var(--color-olive); margin-bottom: 5px;
+      display: block;
+      font-family: var(--font-body);
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      font-size: .85rem;
+      color: var(--color-olive);
+      margin-bottom: 5px;
     }
-    .info-kv p span { display: block; font-family: var(--font-body); color: var(--color-text-dark); line-height: 1.6; }
-    @media (max-width: 380px){
-      .info-card { padding: 26px 18px; }
-      .info-kv p { padding: 14px 14px; }
+
+    .info-kv p span {
+      display: block;
+      font-family: var(--font-body);
+      color: var(--color-text-dark);
+      line-height: 1.6;
     }
 
-/* ===========================
-   PORTADA (FIX definitivo)
-   - Hint SIEMPRE visible
-   - No queda debajo de barras nativas (Android/iOS/Chrome/Safari)
-   =========================== */
+    @media (max-width: 380px) {
+      .info-card {
+        padding: 26px 18px;
+      }
 
-body.no-scroll{
-  position: fixed;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  overflow: hidden !important;
-}
+      .info-kv p {
+        padding: 14px 14px;
+      }
+    }
 
-/* Usamos --vvh (set por JS) como fuente real de alto visible */
-.passport-cover{
-  position: fixed;
-  inset: 0;
-  width: 100vw;
-  height: calc(var(--vvh, 1vh) * 100);
-  background: var(--color-verde-pasaporte);
-  z-index: 2000;
+    /* ===== PORTADA ===== */
+    html.no-scroll,
+    body.no-scroll {
+      overflow: hidden !important;
+      height: 100dvh;
+      touch-action: none;
+    }
 
-  display: grid;
-  grid-template-rows: auto 1fr auto;
-  justify-items: center;
-  align-items: center;
+    .passport-cover {
+      position: fixed;
+      inset: 0;
+      width: 100vw;
+      height: calc(var(--vvh, 1vh) * 100);
+      background: var(--color-verde-pasaporte);
+      z-index: 2000;
+      display: grid;
+      grid-template-rows: auto 1fr auto;
+      justify-items: center;
+      align-items: center;
+      padding: 16px 16px calc(16px + env(safe-area-inset-bottom)) 16px;
+      transform-origin: left center;
+      backface-visibility: hidden;
+      -webkit-backface-visibility: hidden;
+      transition: transform 900ms cubic-bezier(.2, .8, .2, 1), visibility 0s linear 900ms;
+      visibility: visible;
+      opacity: 1;
+      touch-action: manipulation;
+      pointer-events: auto;
+    }
 
-  /* Importante: padding inferior real (safe-area + aire) */
-  padding:
-    16px
-    16px
-    calc(16px + env(safe-area-inset-bottom))
-    16px;
+    .passport-cover.is-open {
+      transform: rotateY(-78deg) translateX(-14vw);
+      visibility: hidden;
+      pointer-events: none;
+    }
 
-  transform-origin: left center;
-  backface-visibility: hidden;
-  transition: opacity 900ms ease, transform 900ms cubic-bezier(.2,.8,.2,1), visibility 900ms ease;
-}
+    .passport-names.top {
+      grid-row: 1;
+      text-align: center;
+      font-family: 'Allura', 'Savoye LET', cursive;
+      font-size: clamp(34px, 6.2vw, 52px);
+      letter-spacing: 0.06em;
+      font-weight: 700;
+      color: var(--cover-ink);
+      text-shadow: 0 1px 0 rgba(255, 255, 255, .25);
+      margin-top: 6px;
+      z-index: 10;
+    }
 
-/* OJO: will-change SOLO cuando abre (evita bugs raros con “fixed/viewport”) */
-.passport-cover.is-opening{
-  will-change: transform, opacity, visibility;
-}
+    .passport-central-content {
+      grid-row: 2;
+      width: 100%;
+      height: 100%;
+      display: grid;
+      place-items: center;
+      overflow: hidden;
+    }
 
-.passport-cover.is-open{
-  opacity: 0;
-  transform: rotateY(-70deg) translateX(-6vw) scale(0.985);
-  visibility: hidden;
-  pointer-events: none;
-}
+    .passport-cover-image {
+      width: min(460px, 88vw);
+      max-height: calc((var(--vvh, 1vh) * 100) - 220px - env(safe-area-inset-bottom));
+      height: auto;
+      object-fit: contain;
+      display: block;
+      user-select: none;
+      cursor: pointer;
+      filter: sepia(0.45) brightness(1.1) contrast(1.1) drop-shadow(0 10px 25px rgba(0, 0, 0, .18));
+    }
 
-.passport-names.top{
-  grid-row: 1;
-  text-align: center;
-  font-family: 'Allura', 'Savoye LET', cursive;
-  font-size: clamp(34px, 6.2vw, 52px);
-  letter-spacing: 0.06em;
-  font-weight: 700;
-  color: var(--cover-ink);
-  text-shadow: 0 1px 0 rgba(255,255,255,.25);
-  margin-top: 6px;
-  z-index: 10;
-}
+    .passport-open-hint {
+      grid-row: 3;
+      justify-self: center;
+      align-self: end;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      font-family: 'Playfair Display', serif;
+      font-weight: 800;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      font-size: 12px;
+      color: var(--cover-ink);
+      padding: 10px 16px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, .22);
+      border: 1px solid rgba(255, 255, 255, .28);
+      box-shadow: 0 10px 24px rgba(0, 0, 0, .12);
+      margin-bottom: 6px;
+      pointer-events: none;
+      animation: subtleBreath 3.2s ease-in-out infinite;
+    }
 
-.passport-central-content{
-  grid-row: 2;
-  width: 100%;
-  height: 100%;
-  display: grid;
-  place-items: center;
-  overflow: hidden;
-}
+    @keyframes subtleBreath {
+      0% {
+        opacity: .55;
+        transform: translateY(0);
+      }
 
-/* Reservamos espacio para el hint abajo sí o sí */
-.passport-cover-image{
-  width: min(460px, 88vw);
-  max-height: calc((var(--vvh, 1vh) * 100) - 220px - env(safe-area-inset-bottom));
-  height: auto;
-  object-fit: contain;
-  display: block;
-  user-select: none;
-  cursor: pointer;
+      50% {
+        opacity: .95;
+        transform: translateY(-1px);
+      }
 
-  filter: sepia(0.45) brightness(1.1) contrast(1.1)
-          drop-shadow(0 10px 25px rgba(0,0,0,.18));
-}
+      100% {
+        opacity: .55;
+        transform: translateY(0);
+      }
+    }
 
-/* Hint en la fila 3: centrado real */
-.passport-open-hint{
-  grid-row: 3;
-  justify-self: center;
-  align-self: end;
+    .passport-cover:active .passport-open-hint {
+      animation: none;
+      opacity: 1;
+      transform: translateY(0);
+    }
 
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
+    .passport-cover:active .passport-cover-image {
+      transform: scale(0.985);
+    }
 
-  font-family: 'Playfair Display', serif;
-  font-weight: 800;
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
-  font-size: 12px;
-  color: var(--cover-ink);
+    .passport-cover,
+    .passport-cover * {
+      -webkit-tap-highlight-color: transparent;
+      -webkit-touch-callout: none;
+      user-select: none;
+    }
 
-  padding: 10px 16px;
-  border-radius: 999px;
+    .passport-cover::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 18px;
+      height: 100%;
+      background: rgba(4, 37, 26, .18);
+      box-shadow: inset -6px 0 10px rgba(0, 0, 0, .18);
+    }
 
-  background: rgba(255,255,255,.22);
-  border: 1px solid rgba(255,255,255,.28);
-  box-shadow: 0 10px 24px rgba(0,0,0,.12);
+    @media (min-width: 1024px) {
+      .passport-cover-image {
+        width: 420px;
+        max-height: calc((var(--vvh, 1vh) * 100) - 240px);
+      }
 
-  margin-bottom: 6px;
-  pointer-events: none;
+      .passport-open-hint {
+        font-size: 12px;
+      }
+    }
 
-  /* Animación */
-  animation: subtleBreath 3.2s ease-in-out infinite;
-}
+    .passport-open-hint * {
+      text-align: center !important;
+    }
 
-@keyframes subtleBreath{
-  0%   { opacity: .55; transform: translateY(0); }
-  50%  { opacity: .95; transform: translateY(-1px); }
-  100% { opacity: .55; transform: translateY(0); }
-}
+    .passport-open-hint {
+      white-space: nowrap;
+    }
 
-/* Feedback al tap */
-.passport-cover:active .passport-open-hint{
-  animation: none;
-  opacity: 1;
-  transform: translateY(0);
-}
-.passport-cover:active .passport-cover-image{
-  transform: scale(0.985);
-}
+    @media (forced-colors: active) {
+      * {
+        forced-color-adjust: none;
+      }
+    }
 
-/* Quitar highlight azul */
-.passport-cover,
-.passport-cover *{
-  -webkit-tap-highlight-color: transparent;
-  -webkit-touch-callout: none;
-  user-select: none;
-}
+    .travel-modal {
+      position: fixed;
+      inset: 0;
+      z-index: 3000;
+      display: none;
+      align-items: center;
+      justify-content: center;
+    }
 
-/* Lomo */
-.passport-cover::before{
-  content:"";
-  position:absolute;
-  left:0;
-  top:0;
-  width:18px;
-  height:100%;
-  background: rgba(4,37,26,.18);
-  box-shadow: inset -6px 0 10px rgba(0,0,0,.18);
-}
+    .travel-modal.active {
+      display: flex;
+    }
 
-/* Desktop: no “mini hint” y todo centrado */
-@media (min-width: 1024px){
-  .passport-cover-image{
-    width: 420px;
-    max-height: calc((var(--vvh, 1vh) * 100) - 240px);
-  }
-  .passport-open-hint{
-    font-size: 12px;
-  }
-}
+    .travel-modal-backdrop {
+      position: absolute;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.45);
+      backdrop-filter: blur(6px);
+    }
 
+    .travel-modal-content {
+      position: relative;
+      background: rgba(250, 247, 240, 0.95);
+      border-radius: 18px;
+      padding: 30px 26px;
+      width: min(90vw, 520px);
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.2);
+      border: 1px solid rgba(82, 126, 105, 0.15);
+      z-index: 2;
+    }
 
-/* ✅ por si algún CSS global mete cosas raras */
-.passport-open-hint *{
-  text-align: center !important;
-}
+    .travel-modal-content h2 {
+      font-family: var(--font-titles);
+      color: var(--color-olive);
+      font-size: clamp(2rem, 4vw, 2.5rem);
+      line-height: 1.15;
+      margin-bottom: 18px;
+    }
 
-.passport-open-hint{ white-space: nowrap; }
+    .travel-modal-content p {
+      font-size: .9rem;
+      margin-bottom: 14px;
+    }
 
-@media (forced-colors: active) {
-  * { forced-color-adjust: none; }
-}
+    .travel-modal-content ul {
+      margin-left: 18px;
+      margin-bottom: 16px;
+    }
 
+    .travel-modal-content li {
+      margin-bottom: 6px;
+    }
 
-/* 2. El body no debe tener imagen al cargar */
-body {
-  margin: 0;
-  color: var(--color-text-dark);
-  font-family: var(--font-body);
-  line-height: 1.6;
-  min-height: 100vh;
-  background-image: none; /* Sin imagen al inicio */
-  transition: background-color 0.5s ease;
-}
+    .travel-modal-close {
+      position: absolute;
+      top: 10px;
+      right: 14px;
+      font-size: 28px;
+      border: none;
+      background: none;
+      cursor: pointer;
+      color: var(--color-olive);
+    }
 
-/* 3. Esta clase la activaremos al abrir el pasaporte */
-body.bg-marble-active {
-  background-color: var(--color-cream) !important;
-  background-image: url('img/vecteezy_ai-generated-eucalyptus-leaves-background-on-white-marble_35463410.jpg') !important;
-  background-size: cover;
-  background-position: center;
-  background-attachment: fixed;
-  background-repeat: no-repeat;
-}
+    .travel-modal-content .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      width: auto;
+      min-width: 220px;
+      padding: 12px 18px;
+      margin: 22px auto 0;
+      text-align: center;
+    }
 
+    .travel-modal-content {
+      text-align: left;
+    }
+
+    .travel-modal-content .btn,
+    .travel-modal-content h2 {
+      display: flex;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .travel-modal-content p,
+    .travel-modal-content li {
+      line-height: 1.65;
+    }
   </style>
 </head>
 
@@ -1478,57 +1862,64 @@ body.bg-marble-active {
       window.visualViewport.addEventListener('resize', setVVH);
       window.visualViewport.addEventListener('scroll', setVVH);
     }
-    
+
   })();
 
-  
+
+
 </script>
 
-<body class="no-scroll">
-  <div id="fixed-bg-iphone"></div>
+<body>
 
   <div id="passportCover" class="passport-cover">
-  <div class="passport-names top">Anyela &amp; Ángel</div>
+    <div class="passport-names top">Anyela &amp; Ángel</div>
 
-  <div class="passport-central-content">
-    <img class="passport-cover-image" src="img/Brujula_portada3.png" alt="Wedding Passport" />
+    <div class="passport-central-content">
+      <img class="passport-cover-image" src="img/Brujula_portada3.png" alt="Wedding Passport" />
+    </div>
+
+    <div class="passport-open-hint">TOCA PARA ABORDAR</div>
   </div>
-
-  <div class="passport-open-hint">TOCA PARA ABORDAR</div>
-</div>
 
 
   <header class="site-header fixed">
     <div class="header-logo-wrapper">
-    <img src="img/Logo definitivo.png" alt="Logo A&A" class="header-logo">
+      <img src="img/Logo definitivo.png" alt="Logo A&A" class="header-logo">
     </div>
   </header>
 
   <div class="invitation-content has-florals">
     <main>
-      <img src="img/IMG_2975.jpg" alt="Anyela y Angel" class="hero-photo">
+      <img src="img/Book A&A 00045.jpg" alt="Anyela y Ángel" class="hero-photo">
 
       <section class="intro-text-section container">
         <p class="frase-1">El vuelo más importante de nuestras vidas está por comenzar</p>
         <h2 class="nuestros-nombres">Anyela & Ángel</h2>
-        <p class="frase-2">Con nuestro amor, la bendición de Dios y de nuestros padres, estamos felices de invitarte a que seas parte de nuestra historia.</p>
+        <p class="frase-2">Con nuestro amor, la bendición de Dios y de nuestros padres, estamos felices de invitarte a
+          que seas parte de nuestra historia.</p>
       </section>
 
       <div class="date-banner">
         <div class="date-inner">
           <div class="month-arc" aria-hidden="true">
             <svg viewBox="0 0 300 100" xmlns="http://www.w3.org/2000/svg">
-              <defs><path id="monthArcPath" d="M24,100 A160,160 0 0 1 276,100"></path></defs>
-              <text><textPath href="#monthArcPath" startOffset="51%" text-anchor="middle">JULIO</textPath></text>
+              <defs>
+                <path id="monthArcPath" d="M24,100 A160,160 0 0 1 276,100"></path>
+              </defs>
+              <text>
+                <textPath href="#monthArcPath" startOffset="51%" text-anchor="middle">JULIO</textPath>
+              </text>
             </svg>
           </div>
           <div class="center-row">
             <div class="side-label">
-              <div class="line"></div><span class="txt">VIERNES</span><div class="line"></div>
+              <div class="line"></div><span class="txt">VIERNES</span>
+              <div class="line"></div>
             </div>
             <div class="day">24</div>
             <div class="side-label">
-              <div class="line"></div><span class="txt">2026</span><div class="line"></div>
+              <div class="line"></div><span class="txt">2026</span>
+              <div class="line"></div>
             </div>
           </div>
         </div>
@@ -1561,9 +1952,13 @@ body.bg-marble-active {
             </div>
 
             <div class="bpv-names">
-              <div class="name-left"><h4>Anyela</h4><span>Jaimes</span></div>
+              <div class="name-left">
+                <h4>Anyela</h4><span>Jaimes</span>
+              </div>
               <div class="amp">&</div>
-              <div class="name-right"><h4>Angel</h4><span>Mendez</span></div>
+              <div class="name-right">
+                <h4>Ángel</h4><span>Mendez</span>
+              </div>
             </div>
 
             <div class="bpv-info">
@@ -1602,31 +1997,35 @@ body.bg-marble-active {
       </section>
 
       <section class="locations container">
-  <div class="location-card-icon con-adornos">
-    <div class="icon-wrapper">
-      <lord-icon src="https://cdn.lordicon.com/fshosubk.json" trigger="loop" delay="2000" colors="primary:#99BC85,secondary:#99BC85" aria-hidden="true"></lord-icon>
-    </div>
-    <h3>Ceremonia</h3>
-    <p class="location-time"><span class="time">17:00</span><span class="suffix">HS</span></p>
-    <p><strong>Parroquia Santiago Apóstol</strong></p>
-    <p>Tte. Gral. Pablo Ricchieri 3189, CABA</p>
-    <a href="https://www.google.com/maps?sca_esv=3c659fc7041cb947&rlz=1C1SQJL_esCL928CL931&sxsrf=AE3TifMWgZZCRCYX0tnA_kqeM3Bny1Yyfw:1763842563674&uact=5&gs_lp=Egxnd3Mtd2l6LXNlcnAiGXNhbnRpYWdvIGFwb3N0b2wgcGFycm9xdWEyBxAAGIAEGA0yBxAAGIAEGA0yBhAAGA0YHjIGEAAYDRgeMggQABgIGA0YHjIIEAAYCBgNGB4yCBAAGAgYDRgeMggQABgIGA0YHjIIEAAYCBgNGB4yCBAAGAgYDRgeSMoUUMkOWLoScAN4AZABAJgBowGgAYEGqgEDMC42uAEDyAEA-AEBmAIJoALDBsICChAAGLADGNYEGEfCAg0QABiABBiwAxhDGIoFwgIOEAAYsAMY5AIY1gTYAQHCAhMQLhiABBiwAxhDGMgDGIoF2AEBwgIKEAAYgAQYFBiHAsICBRAAGIAEwgIGEAAYFhgemAMAiAYBkAYTugYGCAEQARgJkgcDMy42oAfcLbIHAzAuNrgHpAbCBwUyLTcuMsgHMw&um=1&ie=UTF-8&fb=1&gl=ar&sa=X&geocode=KVPuX2IltLyVMVypLRi6opkS&daddr=Tte.+Gral.+Pablo+Ricchieri+3189,+C1428+Cdad.+Aut%C3%B3noma+de+Buenos+Aires" target="_blank" class="btn">
-      <i class="fa-solid fa-map-location-dot" aria-hidden="true"></i> Ver Ubicación
-    </a>
-  </div>
-  <div class="location-card-icon con-adornos-alt">
-    <div class="icon-wrapper">
-      <lord-icon src="https://cdn.lordicon.com/ohcuigqh.json" trigger="loop" delay="2000" colors="primary:#99BC85,secondary:#99BC85" aria-hidden="true"></lord-icon>
-    </div>
-    <h3>Celebración</h3>
-    <p class="location-time"><span class="time">21:00</span><span class="suffix">HS</span></p>
-    <p><strong>Quinta Benavidez</strong></p>
-    <p>Mendoza 3499, Benavidez, Provincia de Buenos Aires</p>
-    <a href="https://www.google.com/maps/dir//Quinta+de+Benavidez,+Mendoza,+Benavidez,+Buenos+Aires+Province/@-34.416624,-58.7556077,13z/data=!4m8!4m7!1m0!1m5!1m1!1s0x95bca1da3694ac17:0x3f846784fda25fdd!2m2!1d-58.7145527!2d-34.416706?entry=ttu&g_ep=EgoyMDI1MTExNy4wIKXMDSoASAFQAw%3D%3D" target="_blank" class="btn">
-      <i class="fa-solid fa-map-location-dot" aria-hidden="true"></i> Ver Ubicación
-    </a>
-  </div>
-</section>
+        <div class="location-card-icon con-adornos">
+          <div class="icon-wrapper">
+            <lord-icon src="https://cdn.lordicon.com/fshosubk.json" trigger="loop" delay="2000"
+              colors="primary:#99BC85,secondary:#99BC85" aria-hidden="true"></lord-icon>
+          </div>
+          <h3>Ceremonia</h3>
+          <p class="location-time"><span class="time">17:00</span><span class="suffix">HS</span></p>
+          <p><strong>Parroquia Santiago Apóstol</strong></p>
+          <p>Tte. Gral. Pablo Ricchieri 3189, CABA</p>
+          <a href="https://www.google.com/maps?sca_esv=3c659fc7041cb947&rlz=1C1SQJL_esCL928CL931&sxsrf=AE3TifMWgZZCRCYX0tnA_kqeM3Bny1Yyfw:1763842563674&uact=5&gs_lp=Egxnd3Mtd2l6LXNlcnAiGXNhbnRpYWdvIGFwb3N0b2wgcGFycm9xdWEyBxAAGIAEGA0yBxAAGIAEGA0yBhAAGA0YHjIGEAAYDRgeMggQABgIGA0YHjIIEAAYCBgNGB4yCBAAGAgYDRgeMggQABgIGA0YHjIIEAAYCBgNGB4yCBAAGAgYDRgeSMoUUMkOWLoScAN4AZABAJgBowGgAYEGqgEDMC42uAEDyAEA-AEBmAIJoALDBsICChAAGLADGNYEGEfCAg0QABiABBiwAxhDGIoFwgIOEAAYsAMY5AIY1gTYAQHCAhMQLhiABBiwAxhDGMgDGIoF2AEBwgIKEAAYgAQYFBiHAsICBRAAGIAEwgIGEAAYFhgemAMAiAYBkAYTugYGCAEQARgJkgcDMy42oAfcLbIHAzAuNrgHpAbCBwUyLTcuMsgHMw&um=1&ie=UTF-8&fb=1&gl=ar&sa=X&geocode=KVPuX2IltLyVMVypLRi6opkS&daddr=Tte.+Gral.+Pablo+Ricchieri+3189,+C1428+Cdad.+Aut%C3%B3noma+de+Buenos+Aires"
+            target="_blank" class="btn">
+            <i class="fa-solid fa-map-location-dot" aria-hidden="true"></i> Ver Ubicación
+          </a>
+        </div>
+        <div class="location-card-icon con-adornos-alt">
+          <div class="icon-wrapper">
+            <lord-icon src="https://cdn.lordicon.com/ohcuigqh.json" trigger="loop" delay="2000"
+              colors="primary:#99BC85,secondary:#99BC85" aria-hidden="true"></lord-icon>
+          </div>
+          <h3>Celebración</h3>
+          <p class="location-time"><span class="time">21:00</span><span class="suffix">HS</span></p>
+          <p><strong>Quinta Benavidez</strong></p>
+          <p>Mendoza 3499, Benavidez, Provincia de Buenos Aires</p>
+          <a href="https://www.google.com/maps/dir//Quinta+de+Benavidez,+Mendoza,+Benavidez,+Buenos+Aires+Province/@-34.416624,-58.7556077,13z/data=!4m8!4m7!1m0!1m5!1m1!1s0x95bca1da3694ac17:0x3f846784fda25fdd!2m2!1d-58.7145527!2d-34.416706?entry=ttu&g_ep=EgoyMDI1MTExNy4wIKXMDSoASAFQAw%3D%3D"
+            target="_blank" class="btn">
+            <i class="fa-solid fa-map-location-dot" aria-hidden="true"></i> Ver Ubicación
+          </a>
+        </div>
+      </section>
 
       <section class="itinerary-section with-image-background">
         <div class="container">
@@ -1634,61 +2033,64 @@ body.bg-marble-active {
           <div class="timeline" id="timeline">
             <div class="timeline-item">
               <span class="timeline-dot"><i class="fa-solid fa-church" aria-hidden="true"></i></span>
-              <div class="timeline-content"><h3>17:00 - Ceremonia</h3><p>Inicio del viaje</p></div>
+              <div class="timeline-content">
+                <h3>17:00 - Ceremonia</h3>
+                <p>Inicio del viaje</p>
+              </div>
             </div>
             <div class="timeline-item">
               <span class="timeline-dot"><i class="fa-solid fa-champagne-glasses" aria-hidden="true"></i></span>
-              <div class="timeline-content"><h3>21:00 - Recepción</h3><p>Primera escala</p></div>
+              <div class="timeline-content">
+                <h3>21:00 - Recepción</h3>
+                <p>Primera escala</p>
+              </div>
             </div>
             <div class="timeline-item">
               <span class="timeline-dot"><i class="fa-solid fa-music" aria-hidden="true"></i></span>
-              <div class="timeline-content"><h3>23:00 - Baile</h3><p>Arribo a destino</p></div>
+              <div class="timeline-content">
+                <h3>23:00 - Baile</h3>
+                <p>Arribo a destino</p>
+              </div>
             </div>
             <div class="timeline-item">
               <span class="timeline-dot"><i class="fa-solid fa-moon" aria-hidden="true"></i></span>
-              <div class="timeline-content"><h3>05:00 - Despedida</h3><p>Fin del vuelo.</p></div>
+              <div class="timeline-content">
+                <h3>05:00 - Despedida</h3>
+                <p>Fin del vuelo.</p>
+              </div>
             </div>
           </div>
           <p class="notice">(Horarios estimados, sujetos a condiciones de vuelo)</p>
         </div>
       </section>
 
-  <section class="info-section container">
-  <div class="info-card con-adornos">
-    
-    <div class="icon-wrapper">
-      <img 
-        width="64" 
-        height="64" 
-        src="img/image_dresscode.png" 
-        alt="Dress Code"
-      />
-    </div>
-    
-    <h2 class="info-title">Código de Vestimenta</h2>
+      <section class="info-section container">
+        <div class="info-card con-adornos">
 
-    <div class="info-kv">
-      <p style="font-size: 1.2rem; margin-bottom: 0;">Cóctel Elegante</p> 
-      <small>¡Prepara tu mejor atuendo!</small>
-    </div>
+          <div class="icon-wrapper">
+            <img width="64" height="64" src="img/image_dresscode.png" alt="Dress Code" />
+          </div>
 
-  </div>
-</section>
+          <h2 class="info-title">Código de Vestimenta</h2>
+
+          <div class="info-kv">
+            <p style="font-size: 1.2rem; margin-bottom: 0;">Cóctel Elegante</p>
+            <small>¡Prepara tu mejor atuendo!</small>
+          </div>
+
+        </div>
+      </section>
       <section class="rsvp-section">
         <div class="container">
           <div class="location-card-icon con-adornos-alt">
-           <div class="icon-wrapper">
-  <img 
-    width="64" 
-    height="64" 
-    src="img/rsvp-icon.png"  alt="Confirmar Asistencia"
-  />
-</div>
+            <div class="icon-wrapper">
+              <img width="64" height="64" src="img/rsvp-icon.png" alt="Confirmar Asistencia" />
+            </div>
             <h2>Confirmar Asistencia</h2>
             <p>Tu presencia es nuestro mejor regalo, pero necesitamos que nos confirmes tu asiento en este vuelo.</p>
-           <a href="rsvp.html" class="btn" id="btnRSVP">
-  <i class="fa-solid fa-check-circle" aria-hidden="true"></i> Confirmar aquí
-</a>
+            <a href="rsvp.html" class="btn" id="btnRSVP">
+              <i class="fa-solid fa-check-circle" aria-hidden="true"></i> Confirmar aquí
+            </a>
 
           </div>
         </div>
@@ -1696,14 +2098,16 @@ body.bg-marble-active {
 
       <section class="travel-info-section with-image-background">
         <div class="container">
-          <div class="location-card-icon"> <div class="icon-wrapper">
-              <lord-icon src="https://cdn.lordicon.com/rpviwvwn.json" trigger="loop" delay="2000" colors="primary:#99BC85,secondary:#99BC85" aria-hidden="true"></lord-icon>
+          <div class="location-card-icon">
+            <div class="icon-wrapper">
+              <lord-icon src="https://cdn.lordicon.com/rpviwvwn.json" trigger="loop" delay="2000"
+                colors="primary:#99BC85,secondary:#99BC85" aria-hidden="true"></lord-icon>
             </div>
             <h2>Si vienes del extranjero</h2>
             <p>Estos son los requisitos para ingresar al país. Puedes consultar la información oficial aquí</p>
-            <a href="https://www.argentina.gob.ar/interior/migraciones/documentacion-para-ingresar-al-pais-como-turista" target="_blank" class="btn">
-              <i class="fa-solid fa-plane-departure" aria-hidden="true"></i> Ver Requisitos
-            </a>
+            <button type="button" class="btn" id="openTravelModal">
+              <i class="fa-solid fa-plane-departure"></i> Ver Requisitos
+            </button>
           </div>
         </div>
       </section>
@@ -1711,45 +2115,163 @@ body.bg-marble-active {
       <section class="photo-gallery-section">
         <div class="container">
           <div class="icon-wrapper">
-            <lord-icon src="https://cdn.lordicon.com/ijsqrapz.json" trigger="loop" delay="2000" colors="primary:#99BC85,secondary:#99BC85" aria-hidden="true"></lord-icon>
+            <lord-icon src="https://cdn.lordicon.com/ijsqrapz.json" trigger="loop" delay="2000"
+              colors="primary:#99BC85,secondary:#99BC85" aria-hidden="true">
+            </lord-icon>
           </div>
+
           <h2>Bitácora de vuelo</h2>
-          <div class="gallery-scroll-container">
-            <img src="img/IMG_1939.JPG" alt="Foto 1" loading="lazy" decoding="async">
-            <img src="img/20250810_150700.jpg" alt="Foto 2" loading="lazy" decoding="async">
-            <img src="img/20251015_210918.jpg" alt="Foto 3" loading="lazy" decoding="async">
-            <img src="img/IMG_2975.jpg" alt="Foto 4" loading="lazy" decoding="async">
+
+          <div class="gallery-wrapper">
+            <button class="gallery-arrow gallery-arrow-left" aria-label="Foto anterior">‹</button>
+
+            <div class="gallery-scroll-container" id="photoGallery">
+              <div class="gallery-item">
+                <img src="img/Book A&A 00107.jpg" alt="Foto 1" loading="eager" fetchpriority="high" decoding="async"
+                  width="700" height="875">
+              </div>
+              <div class="gallery-item">
+                <img src="img/Book A&A 00050.jpg" alt="Foto 2" loading="eager" decoding="async" width="700"
+                  height="875">
+              </div>
+              <div class="gallery-item">
+                <img src="img/Book A&A 00037.jpg" alt="Foto 3" loading="eager" decoding="async" width="700"
+                  height="875">
+              </div>
+              <div class="gallery-item">
+                <img src="img/Book A&A 00046.jpg" alt="Foto 4" loading="lazy" decoding="async" width="700" height="875">
+              </div>
+              <div class="gallery-item">
+                <img src="img/Book A&A 00092.jpg" alt="Foto 5" loading="lazy" decoding="async" width="700" height="875">
+              </div>
+              <div class="gallery-item">
+                <img src="img/Book A&A 00118.jpg" alt="Foto 6" loading="lazy" decoding="async" width="700" height="875">
+              </div>
+              <div class="gallery-item">
+                <img src="img/Book A&A 00131.jpg" alt="Foto 7" loading="lazy" decoding="async" width="700" height="875">
+              </div>
+              <div class="gallery-item">
+                <img src="img/Book A&A 00122.jpg" alt="Foto 8" loading="lazy" decoding="async" width="700" height="875">
+              </div>
+              <div class="gallery-item">
+                <img src="img/Book A&A 00145.jpg" alt="Foto 9" loading="lazy" decoding="async" width="700" height="875">
+              </div>
+              <div class="gallery-item">
+                <img src="img/Book A&A 00169.jpg" alt="Foto 10" loading="lazy" decoding="async" width="700"
+                  height="875">
+              </div>
+              <div class="gallery-item">
+                <img src="img/Book A&A 00160.jpg" alt="Foto 11" loading="lazy" decoding="async" width="700"
+                  height="875">
+              </div>
+              <div class="gallery-item">
+                <img src="img/Book A&A 00174.jpg" alt="Foto 12" loading="lazy" decoding="async" width="700"
+                  height="875">
+              </div>
+              <div class="gallery-item">
+                <img src="img/Book A&A 00176.jpg" alt="Foto 13" loading="lazy" decoding="async" width="700"
+                  height="875">
+              </div>
+              <div class="gallery-item">
+                <img src="img/Book A&A 00178.jpg" alt="Foto 14" loading="lazy" decoding="async" width="700"
+                  height="875">
+              </div>
+              <div class="gallery-item">
+                <img src="img/Book A&A 00003.jpg" alt="Foto 15" loading="lazy" decoding="async" width="700"
+                  height="875">
+              </div>
+              <div class="gallery-item">
+                <img src="img/Book A&A 00059.jpg" alt="Foto 16" loading="lazy" decoding="async" width="700"
+                  height="875">
+              </div>
+              <div class="gallery-item">
+                <img src="img/Book A&A 00098.jpg" alt="Foto 17" loading="lazy" decoding="async" width="700"
+                  height="875">
+              </div>
+              <div class="gallery-item">
+                <img src="img/Book A&A 00082.jpg" alt="Foto 18" loading="lazy" decoding="async" width="700"
+                  height="875">
+              </div>
+              <div class="gallery-item">
+                <img src="img/Book A&A 00167.jpg" alt="Foto 19" loading="lazy" decoding="async" width="700"
+                  height="875">
+              </div>
+              <div class="gallery-item">
+                <img src="img/Book A&A 00172.jpg" alt="Foto 20" loading="lazy" decoding="async" width="700"
+                  height="875">
+              </div>
+            </div>
+
+            <button class="gallery-arrow gallery-arrow-right" aria-label="Foto siguiente">›</button>
           </div>
         </div>
       </section>
     </main>
 
     <footer class="footer-refined">
-  <div class="container">
-    <p class="footer-thanks">¡Gracias por ser parte de nuestro gran día!</p>
-    
-    <h2 class="footer-wait">Te esperamos</h2>
-    
-    <img src="img/Logo definitivo.png" alt="Logo A&A" class="footer-logo">
-    
-    <p style="margin-top: 25px; font-size: 0.75rem; opacity: 0.5; letter-spacing: 2px;">
-      24 . 07 . 2026
-    </p>
+      <div class="container">
+        <p class="footer-thanks">¡Gracias por ser parte de nuestro gran día!</p>
+
+        <h2 class="footer-wait">Te esperamos</h2>
+
+        <img src="img/Logo definitivo.png" alt="Logo A&A" class="footer-logo">
+
+        <p style="margin-top:25px; font-size:clamp(0.9rem, 1.2vw, 1rem); opacity:0.5; letter-spacing:3px;">
+          24 . 07 . 2026
+        </p>
+      </div>
+    </footer>
   </div>
-</footer>
+
+  <div class="travel-modal" id="travelModal">
+
+    <div class="travel-modal-backdrop"></div>
+
+    <div class="travel-modal-content">
+
+      <button type="button" class="travel-modal-close" id="closeTravelModal">&times;</button>
+
+      <h2>Requisitos de ingreso a Argentina</h2>
+
+      <p>Si viajas desde el extranjero te recomendamos ingresar con:</p>
+
+      <ul>
+        <li>Pasaporte vigente o documento habilitado (DNI/RUT para países limítrofes, según corresponda)</li>
+        <li>Pasaje de salida del país</li>
+        <li>Dirección o reserva de alojamiento</li>
+        <li>Seguro médico o de viaje</li>
+      </ul>
+
+      <p>
+        Las autoridades argentinas anunciaron cambios migratorios recientes.
+        Algunas medidas mencionadas en comunicados oficiales, como una declaración
+        jurada, aún no tienen implementación claramente reglamentada.
+      </p>
+
+      <p>
+        Recomendamos revisar la información oficial antes de viajar.
+      </p>
+
+      <a href="https://www.argentina.gob.ar/interior/migraciones/documentacion-para-ingresar-al-pais-como-turista"
+        target="_blank" class="btn">
+        Ver información oficial
+      </a>
+
+    </div>
+
   </div>
 
   <script>
 
-  // 1. Función de pintado única y robusta
-function paintBoardingPassFromSession() {
-    const guestElement = document.getElementById("guestNameBP");
-    const label = document.getElementById("passengerLabel");
-    const raw = sessionStorage.getItem("guestData");
-    
-    if (!raw) return false;
+    // 1. Función de pintado única y robusta
+    function paintBoardingPassFromSession() {
+      const guestElement = document.getElementById("guestNameBP");
+      const label = document.getElementById("passengerLabel");
+      const raw = sessionStorage.getItem("guestData");
 
-    try {
+      if (!raw) return false;
+
+      try {
         const gd = JSON.parse(raw);
         // Validamos que los datos correspondan al token actual en la URL (si lo hay)
         const qp = new URLSearchParams(location.search);
@@ -1758,75 +2280,75 @@ function paintBoardingPassFromSession() {
 
         const names = Array.isArray(gd.names) ? gd.names : [];
         if (guestElement && names.length) {
-            guestElement.innerHTML = names.join("<br>");
-            if (label) label.innerHTML = `Pasajero(s) <span class="count-badge">${names.length}</span>`;
-            return true;
+          guestElement.innerHTML = names.join("<br>");
+          if (label) label.innerHTML = `Pasajero(s) <span class="count-badge">${names.length}</span>`;
+          return true;
         }
-    } catch (e) { console.error("Error al pintar:", e); }
-    return false;
-}
-
-// 2. Control de carga inicial e inter-páginas
-(async function init() {
-    const qp = new URLSearchParams(location.search);
-    // UNIFICACIÓN: Usamos siempre 'invite_t' e 'invite_sig'
-    const t = (qp.get("t") || sessionStorage.getItem('invite_t') || "").trim();
-    const sig = (qp.get("sig") || sessionStorage.getItem('invite_sig') || "").trim();
-
-    if (t) sessionStorage.setItem('invite_t', t);
-    if (sig) sessionStorage.setItem('invite_sig', sig);
-
-    // Pintar inmediatamente desde cache
-    paintBoardingPassFromSession();
-
-    // Actualizar link del botón RSVP con los parámetros
-    const btn = document.getElementById("btnRSVP");
-    if (btn) btn.href = `rsvp.html?t=${encodeURIComponent(t)}&sig=${encodeURIComponent(sig)}`;
-
-    if (!t || !sig) return;
-
-    // Solo fetch si no hay datos o el token es distinto
-    const cached = sessionStorage.getItem('guestData');
-    if (cached) {
-        try { if (JSON.parse(cached).token === t) return; } catch(e){}
+      } catch (e) { console.error("Error al pintar:", e); }
+      return false;
     }
 
-    try {
+    // 2. Control de carga inicial e inter-páginas
+    (async function init() {
+      const qp = new URLSearchParams(location.search);
+      // UNIFICACIÓN: Usamos siempre 'invite_t' e 'invite_sig'
+      const t = (qp.get("t") || sessionStorage.getItem('invite_t') || "").trim();
+      const sig = (qp.get("sig") || sessionStorage.getItem('invite_sig') || "").trim();
+
+      if (t) sessionStorage.setItem('invite_t', t);
+      if (sig) sessionStorage.setItem('invite_sig', sig);
+
+      // Pintar inmediatamente desde cache
+      paintBoardingPassFromSession();
+
+      // Actualizar link del botón RSVP con los parámetros
+      const btn = document.getElementById("btnRSVP");
+      if (btn) btn.href = `rsvp.html?t=${encodeURIComponent(t)}&sig=${encodeURIComponent(sig)}`;
+
+      if (!t || !sig) return;
+
+      // Solo fetch si no hay datos o el token es distinto
+      const cached = sessionStorage.getItem('guestData');
+      if (cached) {
+        try { if (JSON.parse(cached).token === t) return; } catch (e) { }
+      }
+
+      try {
         const GUESTS_ENDPOINT = 'https://script.google.com/macros/s/AKfycbxwXGm1twFAyPz8C_FM3BH2sN40t85Ib7SnczDOo4hd3fTJveiifHOMrCmJPHXtFhh_Ng/exec';
         const res = await fetch(`${GUESTS_ENDPOINT}?t=${encodeURIComponent(t)}&sig=${encodeURIComponent(sig)}`);
         const data = await res.json();
         if (data.ok) {
-            sessionStorage.setItem("guestData", JSON.stringify({ token: t, names: data.names }));
-            paintBoardingPassFromSession();
+          sessionStorage.setItem("guestData", JSON.stringify({ token: t, names: data.names }));
+          paintBoardingPassFromSession();
         }
-    } catch (err) { console.error(err); }
-})();
+      } catch (err) { console.error(err); }
+    })();
 
-// Forzar repintado al volver con la "X" (Soluciona el problema 1)
-window.addEventListener('pageshow', (event) => {
-    // Si viene de caché (botón atrás), forzamos el pintado
-    paintBoardingPassFromSession();
-});
+    // Forzar repintado al volver con la "X" (Soluciona el problema 1)
+    window.addEventListener('pageshow', (event) => {
+      // Si viene de caché (botón atrás), forzamos el pintado
+      paintBoardingPassFromSession();
+    });
     /* ... (Todo el JavaScript permanece igual) ... */
-     /* ===== Cuenta regresiva (17:00) ===== */
-    (function(){
+    /* ===== Cuenta regresiva (17:00) ===== */
+    (function () {
       const weddingDate = new Date("July 24, 2026 17:00:00").getTime();
-      const pad = n => n<10 ? '0'+n : n;
+      const pad = n => n < 10 ? '0' + n : n;
       const tick = () => {
         const now = Date.now();
         const dist = weddingDate - now;
-        const d = Math.floor(dist/86400000);
-        const h = Math.floor((dist%86400000)/3600000);
-        const m = Math.floor((dist%3600000)/60000);
-        const s = Math.floor((dist%60000)/1000);
+        const d = Math.floor(dist / 86400000);
+        const h = Math.floor((dist % 86400000) / 3600000);
+        const m = Math.floor((dist % 3600000) / 60000);
+        const s = Math.floor((dist % 60000) / 1000);
         const el = id => document.getElementById(id);
-        if (el("days")){
+        if (el("days")) {
           el("days").innerText = pad(d);
           el("hours").innerText = pad(h);
           el("minutes").innerText = pad(m);
           el("seconds").innerText = pad(s);
         }
-        if (dist < 0){
+        if (dist < 0) {
           clearInterval(timer);
           const c = document.getElementById("countdown");
           if (c) c.innerHTML = "¡Llegó el día!";
@@ -1835,115 +2357,113 @@ window.addEventListener('pageshow', (event) => {
       const timer = setInterval(tick, 1000); tick();
     })();
 
-  document.addEventListener('DOMContentLoaded', () => {
-  const cover = document.getElementById('passportCover');
-  const content = document.querySelector('.invitation-content');
-  const siteHeader = document.querySelector('.site-header');
+    document.addEventListener('DOMContentLoaded', () => {
+      const cover = document.getElementById('passportCover');
+      const content = document.querySelector('.invitation-content');
+      const siteHeader = document.querySelector('.site-header');
 
-  // Pintar instantáneo si ya hay datos
-paintBoardingPassFromSession();
+      paintBoardingPassFromSession();
 
-  if (!cover) return;
+      if (!cover) return;
 
-  // Guardar scroll actual y bloquear
-  const savedY = window.scrollY || 0;
-  document.body.classList.add('no-scroll');
-  document.body.style.top = `-${savedY}px`;
-  window.scrollTo(0, 0);
+      if ('scrollRestoration' in history) {
+        history.scrollRestoration = 'manual';
+      }
 
-  const openPassport = () => {
-  if (cover.classList.contains('is-open')) return;
+      // siempre iniciar arriba y mostrando portada
+      window.scrollTo(0, 0);
 
-  paintBoardingPassFromSession();
+      document.documentElement.classList.add('no-scroll');
+      document.body.classList.add('no-scroll');
 
-  // AGREGAR ESTO: Cambia el fondo de verde a mármol/beige al instante
-  document.body.classList.add('bg-marble-active');
+      if (content) content.classList.add('is-visible');
+      if (siteHeader) siteHeader.classList.add('is-visible');
 
-  if (content) content.classList.add('has-florals');
-  if (content) content.classList.add('is-visible');
-  if (siteHeader) siteHeader.classList.add('is-visible');
+      let opened = false;
 
-  requestAnimationFrame(() => {
-    setTimeout(() => cover.classList.add('is-open'), 40);
-  });
+      function unlockPage() {
+        document.documentElement.classList.remove('no-scroll');
+        document.body.classList.remove('no-scroll');
+      }
 
-    // 3) Al terminar transición, ocultar cover y restaurar scroll
-    const onEnd = (e) => {
-      // Asegura que el evento sea del cover y que sea opacity/transform
-      if (e.target !== cover) return;
-      if (e.propertyName !== 'opacity' && e.propertyName !== 'transform') return;
+      function openPassport(e) {
+        if (e) {
+          e.preventDefault();
+          e.stopPropagation();
+        }
 
-      cover.removeEventListener('transitionend', onEnd);
-      cover.style.display = 'none';
+        if (opened) return;
+        opened = true;
 
-      const y = Math.abs(parseInt(document.body.style.top || '0', 10)) || 0;
-      document.body.classList.remove('no-scroll');
-      document.body.style.top = '';
-      window.scrollTo(0, y);
-    };
+        paintBoardingPassFromSession();
 
-    cover.addEventListener('transitionend', onEnd);
+        cover.style.pointerEvents = 'none';
+        cover.classList.add('is-open');
 
-    // Fallback por si transitionend no dispara (por bugs o cambios CSS)
-    setTimeout(() => {
-      if (cover.style.display === 'none') return;
+        const finish = () => {
+          cover.style.display = 'none';
+          unlockPage();
+          window.scrollTo(0, 0);
+        };
 
-      cover.style.display = 'none';
-      const y = Math.abs(parseInt(document.body.style.top || '0', 10)) || 0;
-      document.body.classList.remove('no-scroll');
-      document.body.style.top = '';
-      window.scrollTo(0, y);
-    }, 1100); // un poco más que tu transición (1s)
-  };
+        cover.addEventListener('transitionend', function onEnd(ev) {
+          if (ev.target !== cover || ev.propertyName !== 'transform') return;
+          cover.removeEventListener('transitionend', onEnd);
+          finish();
+        });
 
-  // ✅ ESTO FALTABA: click/tap para abrir
-  cover.addEventListener('click', openPassport);
+        setTimeout(finish, 1000);
+      }
 
-  // ✅ Accesibilidad: Enter/Espacio
-  cover.setAttribute('tabindex', '0');
-  cover.addEventListener('keydown', (e) => {
-    if (e.key === 'Enter' || e.key === ' ') {
-      e.preventDefault();
-      openPassport();
-    }
-  });
-});
+      cover.addEventListener('click', openPassport, { passive: false });
 
+      cover.setAttribute('tabindex', '0');
+      cover.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          openPassport(e);
+        }
+      });
+
+      // al volver desde bfcache o refresh raro, asegurar portada arriba
+      window.addEventListener('load', () => {
+        window.scrollTo(0, 0);
+      });
+    });
     /* ===== Timeline: progreso + reveal ===== */
-    (function(){
+    (function () {
       const timeline = document.getElementById('timeline');
-      if(!timeline) return;
+      if (!timeline) return;
 
       const items = Array.from(timeline.querySelectorAll('.timeline-item'));
       items.forEach((el, i) => el.style.setProperty('--i', i));
 
       let rafQueued = false;
-      const clamp = (n,min,max)=> Math.max(min, Math.min(max, n));
+      const clamp = (n, min, max) => Math.max(min, Math.min(max, n));
 
-      function update(){
+      function update() {
         const rect = timeline.getBoundingClientRect();
-        const vh   = window.innerHeight || document.documentElement.clientHeight;
+        const vh = window.innerHeight || document.documentElement.clientHeight;
 
         const viewportCenter = window.scrollY + vh * 0.6;
-        const docTop     = window.scrollY + rect.top;
+        const docTop = window.scrollY + rect.top;
 
         const filledPx = clamp(viewportCenter - docTop, 0, rect.height);
         const pct = (filledPx / rect.height) * 100;
 
         const last = items[items.length - 1];
-        if (last){
+        if (last) {
           const lr = last.getBoundingClientRect();
-          const lastCenter = window.scrollY + lr.top + lr.height/2;
+          const lastCenter = window.scrollY + lr.top + lr.height / 2;
           timeline.style.setProperty('--fill',
             viewportCenter >= lastCenter ? '100%' : pct.toFixed(2) + '%'
           );
-        }else{
+        } else {
           timeline.style.setProperty('--fill', pct.toFixed(2) + '%');
         }
 
-        const topThresh    = window.scrollY + vh * 0.25;
+        const topThresh = window.scrollY + vh * 0.25;
         const bottomThresh = window.scrollY + vh * 0.75;
-        items.forEach(el=>{
+        items.forEach(el => {
           const r = el.getBoundingClientRect();
           const top = window.scrollY + r.top;
           const bottom = top + r.height;
@@ -1954,16 +2474,16 @@ paintBoardingPassFromSession();
         rafQueued = false;
       }
 
-      function onScroll(){
-        if (!rafQueued){
+      function onScroll() {
+        if (!rafQueued) {
           rafQueued = true;
           requestAnimationFrame(update);
         }
       }
 
       update();
-      window.addEventListener('scroll', onScroll, { passive:true });
-      window.addEventListener('resize', onScroll, { passive:true });
+      window.addEventListener('scroll', onScroll, { passive: true });
+      window.addEventListener('resize', onScroll, { passive: true });
     })();
 
 
@@ -1988,7 +2508,7 @@ paintBoardingPassFromSession();
         startTyping();
       });
 
-      function startTyping(){
+      function startTyping() {
         let i = 0;
         el.classList.remove('done');
         el.classList.add('typing');
@@ -2013,113 +2533,240 @@ paintBoardingPassFromSession();
       }
     });
 
-    /* ===== Galería Scroll ===== */
     document.addEventListener('DOMContentLoaded', () => {
-      const galleries = Array.from(document.querySelectorAll('.gallery-scroll-container'));
-      if (!galleries.length) return;
+      const scroller = document.getElementById('photoGallery');
+      if (!scroller) return;
 
-      const PX_PER_FRAME = 0.7;    // velocidad (~42px/s)
-      const EDGE_PAUSE   = 1200;    // pausa en los extremos (ms)
-      const RESUME_MS    = 1200;    // retomar tras interacción (ms)
+      const btnPrev = document.querySelector('.gallery-arrow-left');
+      const btnNext = document.querySelector('.gallery-arrow-right');
 
-      galleries.forEach(setupGallery);
+      const originalItems = Array.from(scroller.querySelectorAll('.gallery-item'));
+      if (!originalItems.length) return;
 
-      function setupGallery(scroller){
-        scroller.addEventListener('wheel', onWheel, { passive:false });
+      const AUTO_MS = 2600;
+      const RESUME_MS = 3500;
+      const CLONES_PER_SIDE = Math.min(3, originalItems.length);
 
-        let isDown=false, startX=0, startLeft=0;
+      let autoPlay = null;
+      let resumeTimer = null;
+      let isRecentering = false;
 
-        scroller.addEventListener('mousedown', e=>{
-          isDown=true; startX=e.pageX; startLeft=scroller.scrollLeft;
-          scroller.classList.add('dragging'); stopAuto();
-        }, { passive:false });
+      const prependClones = originalItems.slice(-CLONES_PER_SIDE).map(item => item.cloneNode(true));
+      const appendClones = originalItems.slice(0, CLONES_PER_SIDE).map(item => item.cloneNode(true));
 
-        window.addEventListener('mousemove', e=>{
-          if(!isDown) return;
-          scroller.scrollLeft = startLeft - (e.pageX - startX);
-          e.preventDefault();
-        }, { passive:false });
+      prependClones.forEach(clone => {
+        clone.setAttribute('aria-hidden', 'true');
+        scroller.insertBefore(clone, scroller.firstChild);
+      });
 
-        window.addEventListener('mouseup', ()=>{
-          if(!isDown) return;
-          isDown=false; scroller.classList.remove('dragging'); resumeSoon();
+      appendClones.forEach(clone => {
+        clone.setAttribute('aria-hidden', 'true');
+        scroller.appendChild(clone);
+      });
+
+      const items = Array.from(scroller.querySelectorAll('.gallery-item'));
+
+      function getItemCenterOffset(item) {
+        return item.offsetLeft - (scroller.clientWidth - item.offsetWidth) / 2;
+      }
+
+      function getNearestIndex() {
+        const center = scroller.scrollLeft + scroller.clientWidth / 2;
+        let nearestIndex = 0;
+        let nearestDistance = Infinity;
+
+        items.forEach((item, i) => {
+          const itemCenter = item.offsetLeft + item.offsetWidth / 2;
+          const dist = Math.abs(center - itemCenter);
+          if (dist < nearestDistance) {
+            nearestDistance = dist;
+            nearestIndex = i;
+          }
         });
 
-        scroller.addEventListener('touchstart', e=>{
-          const t=e.touches[0]; isDown=true; startX=t.pageX; startLeft=scroller.scrollLeft;
-          scroller.classList.add('dragging'); stopAuto();
-        }, { passive:true });
-
-        scroller.addEventListener('touchmove', e=>{
-          if(!isDown) return;
-          const t=e.touches[0];
-          scroller.scrollLeft = startLeft - (t.pageX - startX);
-        }, { passive:true });
-
-        scroller.addEventListener('touchend', ()=>{ if(isDown){isDown=false; scroller.classList.remove('dragging'); resumeSoon(); } }, { passive:true });
-        scroller.addEventListener('touchcancel', ()=>{ if(isDown){isDown=false; scroller.classList.remove('dragging'); resumeSoon(); } }, { passive:true });
-
-        let raf=null, dir=1, pausedUntil=0, wheelTimer=null, resumeTimer=null;
-
-        function step(ts){
-          raf = requestAnimationFrame(step);
-          if (ts < pausedUntil) return;
-
-          const max = scroller.scrollWidth - scroller.clientWidth;
-          if (max <= 0) return; 
-
-          scroller.scrollLeft += dir * PX_PER_FRAME;
-
-          if (scroller.scrollLeft <= 0){
-            scroller.scrollLeft = 0; dir = 1; pausedUntil = ts + EDGE_PAUSE;
-          } else if (scroller.scrollLeft >= max){
-            scroller.scrollLeft = max; dir = -1; pausedUntil = ts + EDGE_PAUSE;
-          }
-        }
-
-        function startAuto(){ if(!raf) raf = requestAnimationFrame(step); }
-        function stopAuto(){ if(raf){ cancelAnimationFrame(raf); raf=null; } }
-        function resumeSoon(){
-          if (resumeTimer) clearTimeout(resumeTimer);
-          resumeTimer = setTimeout(startAuto, RESUME_MS);
-        }
-
-        function onWheel(e){
-          if (Math.abs(e.deltaY) >= Math.abs(e.deltaX)) {
-            scroller.scrollLeft += e.deltaY;
-            e.preventDefault();
-          }
-          stopAuto();
-          if (wheelTimer) clearTimeout(wheelTimer);
-          wheelTimer = setTimeout(startAuto, RESUME_MS);
-        }
-
-        startAuto();
-
-        if ('IntersectionObserver' in window){
-          const io = new IntersectionObserver(entries=>{
-            entries.forEach(en=>{
-              if (en.isIntersecting) startAuto(); else stopAuto();
-            });
-          }, { threshold: 0.01 });
-          io.observe(scroller);
-        }
-
-        scroller.__galDebug = {
-          startAuto, stopAuto,
-          get state(){ return { scrollLeft: scroller.scrollLeft, max: scroller.scrollWidth - scroller.clientWidth, dir, raf: !!raf }; }
-        };
+        return nearestIndex;
       }
+
+      function scrollToItem(index, smooth = true) {
+        const target = items[index];
+        if (!target) return;
+
+        scroller.scrollTo({
+          left: getItemCenterOffset(target),
+          behavior: smooth ? 'smooth' : 'auto'
+        });
+      }
+
+      function jumpToRealEquivalent(index) {
+        const realStart = CLONES_PER_SIDE;
+        const realEnd = CLONES_PER_SIDE + originalItems.length - 1;
+
+        if (index < realStart) {
+          const mapped = index + originalItems.length;
+          isRecentering = true;
+          scrollToItem(mapped, false);
+          requestAnimationFrame(() => { isRecentering = false; });
+          return mapped;
+        }
+
+        if (index > realEnd) {
+          const mapped = index - originalItems.length;
+          isRecentering = true;
+          scrollToItem(mapped, false);
+          requestAnimationFrame(() => { isRecentering = false; });
+          return mapped;
+        }
+
+        return index;
+      }
+
+      function nextSlide() {
+        let index = getNearestIndex();
+        index = jumpToRealEquivalent(index);
+        scrollToItem(index + 1, true);
+      }
+
+      function prevSlide() {
+        let index = getNearestIndex();
+        index = jumpToRealEquivalent(index);
+        scrollToItem(index - 1, true);
+      }
+
+      function stopAuto() {
+        if (autoPlay) {
+          clearInterval(autoPlay);
+          autoPlay = null;
+        }
+      }
+
+      function startAuto() {
+        stopAuto();
+        autoPlay = setInterval(nextSlide, AUTO_MS);
+      }
+
+      function resumeAutoSoon() {
+        stopAuto();
+        clearTimeout(resumeTimer);
+        resumeTimer = setTimeout(startAuto, RESUME_MS);
+      }
+
+      btnNext?.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        nextSlide();
+        resumeAutoSoon();
+      });
+
+      btnPrev?.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        prevSlide();
+        resumeAutoSoon();
+      });
+
+      scroller.addEventListener('scroll', () => {
+        if (isRecentering) return;
+        const index = getNearestIndex();
+        jumpToRealEquivalent(index);
+      }, { passive: true });
+
+      ['touchstart', 'pointerdown', 'mouseenter'].forEach(evt => {
+        scroller.addEventListener(evt, stopAuto, { passive: true });
+      });
+
+      ['touchend', 'pointerup', 'mouseleave'].forEach(evt => {
+        scroller.addEventListener(evt, resumeAutoSoon, { passive: true });
+      });
+
+      if ('IntersectionObserver' in window) {
+        const io = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) startAuto();
+            else stopAuto();
+          });
+        }, { threshold: 0.35 });
+
+        io.observe(scroller);
+      } else {
+        startAuto();
+      }
+
+      // iniciar centrado en la primera real SIN mover la página vertical
+      requestAnimationFrame(() => {
+        scrollToItem(CLONES_PER_SIDE, false);
+      });
+    });
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const header = document.querySelector('.site-header');
+      const footer = document.querySelector('footer');
+
+      if (!header || !footer || !('IntersectionObserver' in window)) return;
+
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            header.classList.remove('is-visible');
+            header.classList.add('is-hidden');
+          } else {
+            header.classList.remove('is-hidden');
+            header.classList.add('is-visible');
+          }
+        });
+      }, {
+        root: null,
+        threshold: 0.15
+      });
+
+      observer.observe(footer);
+    });
+
+    document.addEventListener("DOMContentLoaded", () => {
+      const openBtn = document.getElementById("openTravelModal");
+      const modal = document.getElementById("travelModal");
+      const closeBtn = document.getElementById("closeTravelModal");
+
+      if (!openBtn || !modal || !closeBtn) return;
+
+      let savedScrollY = 0;
+
+      function openModal(e) {
+        e.preventDefault();
+
+        savedScrollY = window.scrollY || window.pageYOffset;
+
+        modal.classList.add("active");
+
+        document.body.style.position = "fixed";
+        document.body.style.top = `-${savedScrollY}px`;
+        document.body.style.left = "0";
+        document.body.style.right = "0";
+        document.body.style.width = "100%";
+      }
+
+      function closeModal() {
+        modal.classList.remove("active");
+
+        document.body.style.position = "";
+        document.body.style.top = "";
+        document.body.style.left = "";
+        document.body.style.right = "";
+        document.body.style.width = "";
+
+        window.scrollTo(0, savedScrollY);
+      }
+
+      openBtn.addEventListener("click", openModal);
+      closeBtn.addEventListener("click", closeModal);
+
+      modal.addEventListener("click", (e) => {
+        if (e.target.classList.contains("travel-modal-backdrop")) {
+          closeModal();
+        }
+      });
     });
   </script>
 
-  <script>
-  if ('serviceWorker' in navigator) {
-    window.addEventListener('load', () => {
-      navigator.serviceWorker.register('/sw.js').catch(console.error);
-    });
-  }
-</script>
-
 </body>
+
 </html>
