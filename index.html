@@ -17,6 +17,14 @@
     rel="stylesheet" />
   <script src="https://cdn.lordicon.com/lordicon.js"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400&display=swap"
+    rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Alex+Brush&family=Caveat:wght@400&family=Sacramento&display=swap"
+    rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Parisienne&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Allura&family=Italianno&display=swap" rel="stylesheet">
 
   <meta property="og:title" content="Nuestra Boda - Anyela & Ángel" />
   <meta property="og:description"
@@ -268,12 +276,15 @@
       padding: 40px 20px;
     }
 
-    .intro-text-section .frase-1 {
-      font-size: 0.8rem;
-      font-style: italic;
-      color: var(--color-text-dark);
-      margin-bottom: 15px;
+    .intro-text-section .frase-2 {
+      font-size: 1.1rem;
+      /* Un poquito más grande para que sea legible */
+      max-width: 600px;
+      margin: 0 auto;
+      line-height: 1.6;
       font-family: var(--font-body);
+      color: var(--color-text-dark);
+      font-weight: 400;
     }
 
     .intro-text-section .nuestros-nombres {
@@ -281,18 +292,23 @@
       font-weight: 700;
       font-size: clamp(3rem, 7vw, 3.8rem);
       color: var(--color-olive);
-      margin-bottom: 15px;
+      /* Ajuste de espaciado: 40px arriba y abajo */
+      margin: 40px auto;
       letter-spacing: .01em;
       line-height: 1.15;
+      display: block;
     }
 
-    .intro-text-section .frase-2 {
-      font-size: 0.8rem;
-      max-width: 600px;
-      margin: 0 auto;
-      line-height: 1.7;
-      font-family: var(--font-body);
+    .intro-text-section .frase-1 {
+      font-size: 1rem;
+      font-style: italic;
       color: var(--color-text-dark);
+      font-family: var(--font-body);
+      font-weight: 400;
+      line-height: 1.5;
+      max-width: 85%;
+      /* Para que no se pegue a los bordes y haga líneas lindas */
+      margin: 0 auto;
     }
 
     /* ===== Banner de fecha ===== */
@@ -1892,11 +1908,22 @@
     <main>
       <img src="img/Book A&A 00045.jpg" alt="Anyela y Ángel" class="hero-photo">
 
-      <section class="intro-text-section container">
-        <p class="frase-1">El vuelo más importante de nuestras vidas está por comenzar</p>
-        <h2 class="nuestros-nombres">Anyela & Ángel</h2>
-        <p class="frase-2">Con nuestro amor, la bendición de Dios y de nuestros padres, estamos felices de invitarte a
-          que seas parte de nuestra historia.</p>
+      <section class="intro-text-section container" style="text-align: center; padding: 40px 15px;">
+
+        <p class="frase-2">
+          El amor solo toma sentido cuando tenemos a alguien con quien compartirlo, por eso Dios hizo coincidir nuestras
+          vidas guiados por el amor y la fe.
+        </p>
+
+        <h2 class="nuestros-nombres">
+          Anyela & Ángel
+        </h2>
+
+        <p class="frase-1">
+          ¡El vuelo más importante de nuestras vidas está por comenzar y estamos felices de invitarte a celebrarlo con
+          nosotros!
+        </p>
+
       </section>
 
       <div class="date-banner">
@@ -1998,8 +2025,6 @@
         </div>
       </section>
 
-      <img src="img/Book A&A 00055.jpg" alt="Anyela y Ángel" class="hero-photo">
-
       <section class="locations container">
         <div class="location-card-icon con-adornos">
           <div class="icon-wrapper">
@@ -2030,8 +2055,6 @@
           </a>
         </div>
       </section>
-
-      <img src="img/Book A&A 00080.jpg" alt="Anyela y Ángel" class="hero-photo">
 
       <section class="itinerary-section with-image-background">
         <div class="container">
@@ -2088,7 +2111,6 @@
 
         </div>
       </section>
-      <img src="img/Book A&A 00126.jpg" alt="Anyela y Ángel" class="hero-photo">
       <section class="rsvp-section">
         <div class="container">
           <div class="location-card-icon con-adornos-alt">
@@ -2105,8 +2127,6 @@
         </div>
       </section>
 
-      <img src="img/Book A&A 00175.jpg" alt="Anyela y Ángel" class="hero-photo">
-
       <section class="travel-info-section with-image-background">
         <div class="container">
           <div class="location-card-icon">
@@ -2122,8 +2142,6 @@
           </div>
         </div>
       </section>
-
-      <img src="img/Book A&A 00178.jpg" alt="Anyela y Ángel" class="hero-photo">
 
       <section class="photo-gallery-section">
         <div class="container">
