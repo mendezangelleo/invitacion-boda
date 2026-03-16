@@ -1,0 +1,7 @@
+[build]
+  functions = "netlify/functions"
+
+[[redirects]]
+  from = "/admin"
+  to = "/.netlify/functions/admin-redirect"
+  status = 200
