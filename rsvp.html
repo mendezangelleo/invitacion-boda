@@ -521,8 +521,7 @@
 
 <body>
   <main class="card">
-    <a href="javascript:void(0)" onclick="regresarAlIndex()" class="modal-close" id="modal-close-btn"
-      aria-label="Cerrar">
+    <a href="javascript:void(0)" onclick="handleClose()" class="modal-close" id="modal-close-btn" aria-label="Cerrar">
       <span>×</span>
     </a>
 
@@ -614,6 +613,13 @@
     const formEl = document.getElementById('form');
     const passengersBlock = document.getElementById('passengers-block');
 
+    listEl.addEventListener('change', (e) => {
+      if (e.target && e.target.matches('input[name="asist"]')) {
+        updateCountBadge();
+        clearMsg();
+      }
+    });
+
     const qp = new URLSearchParams(location.search);
     const token = (qp.get('t') || sessionStorage.getItem('invite_t') || '').trim();
     const sig = (qp.get('sig') || sessionStorage.getItem('invite_sig') || '').trim();
@@ -630,12 +636,12 @@
       window.location.href = `index.html?t=${encodeURIComponent(t)}&sig=${encodeURIComponent(s)}`;
     }
 
-    // ESTA FUNCIÓN AHORA LIMPIA TODO (Solución al problema de los campos)
     function goBackToDecision() {
       clearMsg();
 
       // Reiniciar el formulario (limpia inputs de texto y checkboxes)
       formEl.reset();
+      updateCountBadge();
 
       // Quitar campos de email extra si existen
       const emailContainer = document.getElementById('email-container');
@@ -683,11 +689,11 @@
       if (!listEl) return;
       totalInGroup = names.length;
       listEl.innerHTML = names.map(n => `
-            <label>
-                <input type="checkbox" name="asist" value="${String(n).replace(/"/g, '&quot;')}" checked />
-                <span>${n}</span>
-            </label>
-        `).join('');
+    <label>
+      <input type="checkbox" name="asist" value="${String(n).replace(/"/g, '&quot;')}" checked />
+      <span>${n}</span>
+    </label>
+  `).join('');
       updateCountBadge();
     }
 
@@ -803,6 +809,20 @@
     function clearMsg() {
       msgEl.textContent = '';
       if (passengersBlock) passengersBlock.classList.remove('error-block');
+    }
+
+    function handleClose() {
+      if (formDiv.style.display === 'block') {
+        goBackToDecision();
+        return;
+      }
+
+      if (successDiv.style.display === 'block') {
+        regresarAlIndex();
+        return;
+      }
+
+      regresarAlIndex();
     }
   </script>
 </body>
