@@ -548,6 +548,9 @@
   <div class="hero">
     <i class="fa-solid fa-camera-retro icon-cam"></i>
     <h1>Comparte tus fotos</h1>
+    <a href="galeria.html" style="display:inline-flex;align-items:center;gap:7px;margin-top:10px;padding:8px 18px;border-radius:999px;background:rgba(82,126,105,.1);border:1px solid rgba(82,126,105,.25);color:var(--color-olive);font-family:var(--font-body);font-size:.82rem;font-weight:700;text-decoration:none;transition:background .2s" onmouseover="this.style.background='rgba(82,126,105,.18)'" onmouseout="this.style.background='rgba(82,126,105,.1)'">
+      <i class="fa-solid fa-images"></i> Ver galería de fotos
+    </a>
     <p>Sube tus fotos y videos de nuestra boda y los atesoraremos para siempre.</p>
   </div>
 
@@ -593,6 +596,9 @@
         <button type="button" class="btn-select" id="btnSelect">Seleccionar archivos</button>
         <input type="file" id="fileInput" multiple accept="image/*,video/*" hidden>
         <p class="hint">Fotos sin límite · Videos hasta 40 MB (~1 min en 1080p)</p>
+        <p class="hint" style="margin-top:6px;opacity:.6">
+          ¿Video largo? <a href="https://drive.google.com/drive/folders/1MH5avzXoVzEpuv9a9OiljhY3jIE9dt_6?usp=sharing" target="_blank" rel="noopener" style="color:var(--color-olive);font-weight:700;text-decoration:underline">Subilo directo a Drive</a>
+        </p>
       </div>
 
       <div class="file-list" id="fileList"></div>
@@ -762,7 +768,7 @@
 
       const durHtml = duration ? `<span class="file-duration">${fmtDuration(duration)}</span>` : '';
 
-      item.innerHTML += `
+      item.insertAdjacentHTML('beforeend', `
         <div class="file-info">
           <div class="file-name">${escHtml(file.name)}</div>
           <div class="file-size">${fmtSize(file.size)}${durHtml}</div>
@@ -774,7 +780,7 @@
           <i class="fa-solid fa-xmark"></i>
         </button>
         <div class="progress-bar-bg"><div class="progress-bar-fill" data-bar></div></div>
-      `;
+      `);
 
       fileList.appendChild(item);
       item.querySelector('[data-remove]').addEventListener('click', () => removeFile(id));
