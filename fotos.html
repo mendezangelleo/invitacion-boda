@@ -575,6 +575,17 @@
         <input type="text" id="senderName" placeholder="Ej: María y Juan" maxlength="50" autocomplete="name">
       </div>
 
+      <div class="field-group">
+        <label for="uploadCategory">¿Qué momento es?</label>
+        <select id="uploadCategory" style="width:100%;padding:11px 14px;border-radius:10px;border:1px solid rgba(82,126,105,.2);background:rgba(250,241,228,.5);font-family:'Montserrat',sans-serif;font-size:.92rem;color:#344C3D;outline:none;cursor:pointer">
+          <option value="General">General 📷</option>
+          <option value="Pre-boda">Pre-boda 💍</option>
+          <option value="Ceremonia">Ceremonia 🌿</option>
+          <option value="Celebracion">Celebración 🎉</option>
+          <option value="Viaje">Viaje ✈️</option>
+        </select>
+      </div>
+
       <div class="drop-zone" id="dropZone">
         <i class="fa-solid fa-cloud-arrow-up dz-icon"></i>
         <p>Arrastrá tus fotos y videos acá</p>
@@ -825,6 +836,7 @@
             filename: entry.file.name,
             mimeType: entry.file.type,
             base64, sender,
+            category: document.getElementById('uploadCategory')?.value || 'General',
             secret: PHOTOS_SECRET,
           }),
         });
@@ -901,6 +913,7 @@
       uploadForm.style.display = '';
       successScreen.classList.remove('visible');
       document.getElementById('senderName').value = '';
+      const catEl = document.getElementById('uploadCategory'); if (catEl) catEl.value = 'General';
     });
 
     // ─── TOAST ───────────────────────────────────────────────────────────────────
