@@ -15,7 +15,6 @@
       --cream: #FAF1E4;
       --beige: #A9C4A4;
     }
-
     * { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
@@ -28,10 +27,9 @@
       justify-content: center;
       min-height: 100vh;
       padding: 32px 16px;
-      gap: 28px;
+      gap: 24px;
     }
 
-    /* ── Tarjeta QR ── */
     .qr-card {
       background: white;
       border: 1.5px solid rgba(82,126,105,.2);
@@ -39,165 +37,192 @@
       padding: 32px 36px;
       box-shadow: 0 8px 32px rgba(0,0,0,.08);
       text-align: center;
-      max-width: 320px;
+      max-width: 340px;
       width: 100%;
     }
-
-    .qr-card img.logo {
-      width: 64px;
-      height: 64px;
-      border-radius: 50%;
-      object-fit: cover;
+    .qr-card .logo-header {
+      width: 60px; height: 60px;
+      border-radius: 50%; object-fit: cover;
       border: 2px solid var(--beige);
-      margin-bottom: 14px;
+      margin-bottom: 12px;
     }
-
     .qr-card h1 {
       font-family: 'Dancing Script', cursive;
-      font-size: 1.9rem;
-      color: var(--olive);
-      line-height: 1.15;
-      margin-bottom: 4px;
+      font-size: 1.9rem; color: var(--olive);
+      line-height: 1.15; margin-bottom: 4px;
     }
-
     .qr-card .subtitle {
-      font-size: .78rem;
-      color: var(--text);
-      opacity: .65;
-      margin-bottom: 20px;
-      letter-spacing: .03em;
+      font-size: .78rem; color: var(--text);
+      opacity: .65; margin-bottom: 18px; letter-spacing: .03em;
+    }
+    .divider {
+      width: 50px; height: 2px;
+      background: linear-gradient(90deg, transparent, var(--beige), transparent);
+      margin: 0 auto 18px;
     }
 
-    #qrcode {
+    /* Contenedor del QR con logo */
+    .qr-wrap {
+      position: relative;
       display: inline-block;
-      padding: 10px;
-      background: white;
-      border: 1px solid rgba(82,126,105,.15);
-      border-radius: 10px;
-      margin-bottom: 18px;
+      margin-bottom: 14px;
     }
-    #qrcode img, #qrcode canvas { display: block; }
+    #qrCanvas {
+      display: block;
+      border-radius: 10px;
+      border: 1px solid rgba(82,126,105,.15);
+    }
 
     .qr-card .cta {
-      font-size: .82rem;
-      font-weight: 600;
-      color: var(--olive);
-      margin-bottom: 6px;
+      font-size: .82rem; font-weight: 600; color: var(--olive); margin-bottom: 6px;
     }
-
     .qr-card .url {
-      font-size: .72rem;
-      color: var(--text);
-      opacity: .5;
-      word-break: break-all;
+      font-size: .68rem; color: var(--text); opacity: .45; word-break: break-all;
     }
 
-    .divider {
-      width: 50px;
-      height: 2px;
-      background: linear-gradient(90deg, transparent, var(--beige), transparent);
-      margin: 0 auto 16px;
-    }
-
-    /* ── Botones de acción (ocultos al imprimir) ── */
+    /* Botones */
     .actions {
-      display: flex;
-      gap: 12px;
-      flex-wrap: wrap;
-      justify-content: center;
+      display: flex; gap: 10px; flex-wrap: wrap; justify-content: center;
     }
-
     .btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 11px 22px;
-      border-radius: 10px;
-      font-family: 'Montserrat', sans-serif;
-      font-weight: 700;
-      font-size: .88rem;
-      border: none;
-      cursor: pointer;
-      text-decoration: none;
+      display: inline-flex; align-items: center; gap: 7px;
+      padding: 11px 20px; border-radius: 10px;
+      font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: .85rem;
+      border: none; cursor: pointer; text-decoration: none;
       transition: filter .2s, transform .15s;
     }
     .btn:hover { filter: brightness(1.08); transform: translateY(-1px); }
     .btn.primary   { background: var(--olive); color: white; }
+    .btn.download  { background: #344C3D; color: white; }
     .btn.secondary { background: white; color: var(--olive); border: 1.5px solid var(--beige); }
     .btn.whatsapp  { background: #25D366; color: white; }
 
-    /* ── PRINT ── */
     @media print {
       body { background: white; padding: 0; justify-content: flex-start; }
       .actions { display: none; }
-      .qr-card {
-        box-shadow: none;
-        border: 1px solid #ddd;
-        border-radius: 12px;
-        margin: 0 auto;
-        page-break-inside: avoid;
-      }
-    }
-
-    /* ── Grilla para imprimir múltiples tarjetas ── */
-    @media print {
-      .print-grid {
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        gap: 20px;
-        padding: 20px;
-      }
+      .qr-card { box-shadow: none; border: 1px solid #ddd; margin: 0 auto; }
     }
   </style>
 </head>
-
 <body>
 
-  <div class="qr-card" id="mainCard">
-    <img src="img/Logo definitivo.png" alt="A&A" class="logo">
+  <div class="qr-card">
+    <img src="img/Logo definitivo.png" alt="A&A" class="logo-header">
     <h1>Compartí tus fotos</h1>
     <p class="subtitle">Boda de Anyela &amp; Ángel · 24.07.2026</p>
     <div class="divider"></div>
-    <div id="qrcode"></div>
+
+    <div class="qr-wrap">
+      <!-- QR se dibuja aquí como canvas con logo incrustado -->
+      <canvas id="qrCanvas"></canvas>
+    </div>
+
     <p class="cta">Escaneá y subí tus fotos</p>
     <p class="url" id="qrUrl"></p>
   </div>
 
   <div class="actions">
+    <button class="btn download" id="btnDownload">
+      <svg width="15" height="15" fill="currentColor" viewBox="0 0 16 16">
+        <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/>
+        <path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z"/>
+      </svg>
+      Descargar PNG
+    </button>
     <button class="btn primary" onclick="window.print()">
-      <svg width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+      <svg width="15" height="15" fill="currentColor" viewBox="0 0 16 16">
         <path d="M2.5 8a.5.5 0 1 0 0-1 .5.5 0 0 0 0 1z"/>
         <path d="M5 1a2 2 0 0 0-2 2v2H2a2 2 0 0 0-2 2v3a2 2 0 0 0 2 2h1v1a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2v-1h1a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-1V3a2 2 0 0 0-2-2H5zM4 3a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v2H4V3zm1 5a2 2 0 0 0-2 2v1H2a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1h-1v-1a2 2 0 0 0-2-2H5zm7 2v3a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-3a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1z"/>
       </svg>
       Imprimir
     </button>
     <a id="btnWa" class="btn whatsapp" target="_blank" rel="noopener">
-      <svg width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
-        <path d="M13.601 2.326A7.854 7.854 0 0 0 7.994 0C3.627 0 .068 3.558.064 7.926c0 1.399.366 2.76 1.057 3.965L0 16l4.204-1.102a7.933 7.933 0 0 0 3.79.965h.004c4.368 0 7.926-3.558 7.93-7.93A7.898 7.898 0 0 0 13.6 2.326zM7.994 14.521a6.573 6.573 0 0 1-3.356-.92l-.24-.144-2.494.654.666-2.433-.156-.251a6.56 6.56 0 0 1-1.007-3.505c0-3.626 2.957-6.584 6.591-6.584a6.56 6.56 0 0 1 4.66 1.931 6.557 6.557 0 0 1 1.928 4.66c-.004 3.639-2.961 6.592-6.592 6.592zm3.615-4.934c-.197-.099-1.17-.578-1.353-.646-.182-.065-.315-.099-.445.099-.133.197-.513.646-.627.775-.114.133-.232.148-.43.05-.197-.1-.836-.308-1.592-.985-.59-.525-.985-1.175-1.103-1.372-.114-.198-.011-.304.088-.403.087-.088.197-.232.296-.346.1-.114.133-.198.198-.33.065-.134.034-.248-.015-.347-.05-.099-.445-1.076-.612-1.47-.16-.389-.323-.335-.445-.34-.114-.007-.247-.007-.38-.007a.729.729 0 0 0-.529.247c-.182.198-.691.677-.691 1.654 0 .977.71 1.916.81 2.049.098.133 1.394 2.132 3.383 2.992.47.205.84.326 1.129.418.475.152.904.129 1.246.08.38-.058 1.171-.48 1.338-.943.164-.464.164-.86.114-.943-.049-.084-.182-.133-.38-.232z"/>
+      <svg width="15" height="15" fill="currentColor" viewBox="0 0 16 16">
+        <path d="M13.601 2.326A7.854 7.854 0 0 0 7.994 0C3.627 0 .068 3.558.064 7.926c0 1.399.366 2.76 1.057 3.965L0 16l4.204-1.102a7.933 7.933 0 0 0 3.79.965h.004c4.368 0 7.926-3.558 7.93-7.93A7.898 7.898 0 0 0 13.6 2.326zM7.994 14.521a6.573 6.573 0 0 1-3.356-.92l-.24-.144-2.494.654.666-2.433-.156-.251a6.56 6.56 0 0 1-1.007-3.505c0-3.626 2.957-6.584 6.591-6.584a6.56 6.56 0 0 1 4.66 1.931 6.557 6.557 0 0 1 1.928 4.66c-.004 3.639-2.961 6.592-6.592 6.592z"/>
       </svg>
       Compartir
     </a>
-    <a href="fotos.html" class="btn secondary">← Volver a subir fotos</a>
+    <a href="fotos.html" class="btn secondary">← Subir fotos</a>
   </div>
 
   <script>
     const FOTOS_URL = 'https://www.nuestraboda-anyela-angel.com/fotos.html';
+    const QR_SIZE   = 260;  // tamaño final del QR en px
+    const LOGO_RATIO = 0.22; // logo ocupa 22% del QR (nivel H tolera hasta 30%)
 
     document.getElementById('qrUrl').textContent = FOTOS_URL;
 
-    new QRCode(document.getElementById('qrcode'), {
+    // 1. Generar QR en un div temporal
+    const tempDiv = document.createElement('div');
+    document.body.appendChild(tempDiv);
+
+    new QRCode(tempDiv, {
       text: FOTOS_URL,
-      width: 200,
-      height: 200,
-      colorDark: '#344C3D',
+      width:  QR_SIZE,
+      height: QR_SIZE,
+      colorDark:  '#344C3D',
       colorLight: '#ffffff',
-      correctLevel: QRCode.CorrectLevel.H,  // máxima corrección para impresión
+      correctLevel: QRCode.CorrectLevel.H,
     });
 
+    // 2. Esperar que qrcodejs renderice, luego incrustar el logo
+    setTimeout(() => {
+      const srcCanvas = tempDiv.querySelector('canvas');
+      const srcImg    = tempDiv.querySelector('img');
+      document.body.removeChild(tempDiv);
+
+      const finalCanvas = document.getElementById('qrCanvas');
+      finalCanvas.width  = QR_SIZE;
+      finalCanvas.height = QR_SIZE;
+      const ctx = finalCanvas.getContext('2d');
+
+      // Dibujar QR base
+      if (srcCanvas) {
+        ctx.drawImage(srcCanvas, 0, 0, QR_SIZE, QR_SIZE);
+      } else if (srcImg) {
+        ctx.drawImage(srcImg, 0, 0, QR_SIZE, QR_SIZE);
+      }
+
+      // Incrustar logo centrado
+      const logoSize = Math.round(QR_SIZE * LOGO_RATIO);
+      const logoX    = Math.round((QR_SIZE - logoSize) / 2);
+      const logoY    = Math.round((QR_SIZE - logoSize) / 2);
+      const pad      = 5; // padding blanco alrededor del logo
+
+      const logo = new Image();
+      logo.onload = () => {
+        // Fondo blanco circular
+        ctx.beginPath();
+        ctx.arc(QR_SIZE / 2, QR_SIZE / 2, logoSize / 2 + pad, 0, Math.PI * 2);
+        ctx.fillStyle = '#ffffff';
+        ctx.fill();
+
+        // Logo circular recortado
+        ctx.save();
+        ctx.beginPath();
+        ctx.arc(QR_SIZE / 2, QR_SIZE / 2, logoSize / 2, 0, Math.PI * 2);
+        ctx.clip();
+        ctx.drawImage(logo, logoX, logoY, logoSize, logoSize);
+        ctx.restore();
+      };
+      logo.src = 'img/Logo definitivo.png';
+
+    }, 150);
+
+    // 3. WhatsApp
     document.getElementById('btnWa').href =
       'https://wa.me/?text=' + encodeURIComponent(
         '¡Subí tus fotos y videos de la boda de Anyela & Angel aca!\n' + FOTOS_URL
       );
+
+    // 4. Descargar PNG
+    document.getElementById('btnDownload').addEventListener('click', () => {
+      const canvas = document.getElementById('qrCanvas');
+      const link   = document.createElement('a');
+      link.download = 'QR-FotosBoda-AnyelaAngel.png';
+      link.href     = canvas.toDataURL('image/png');
+      link.click();
+    });
   </script>
 
 </body>
