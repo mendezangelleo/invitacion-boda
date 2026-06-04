@@ -62,7 +62,7 @@
     <p>Ingresá tu nombre para continuar a Google Drive donde podés subir videos de cualquier tamaño.</p>
 
     <label for="visitorName">Tu nombre <span class="name-status" id="nameStatus"></span></label>
-    <input type="text" id="visitorName" placeholder="Ej: María y Juan" maxlength="60" autocomplete="off">
+    <input type="text" id="visitorName" placeholder="Ingresá tu nombre para continuar" maxlength="60" autocomplete="off">
 
     <button id="btnGo" disabled>
       Continuar a Drive
@@ -100,7 +100,7 @@
         if (data.match) {
           nameVerified = true;
           btn.disabled = false;
-          statusEl.innerHTML = `<span style="color:#2e7d32">✓ Hola, ${escHtml(data.found || name)}</span>`;
+          statusEl.innerHTML = `<span style="color:#2e7d32">✓ Verificado</span>`;
         } else {
           nameVerified = false;
           btn.disabled = true;
