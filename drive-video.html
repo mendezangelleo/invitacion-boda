@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Subir video — Anyela & Ángel</title>
+  <meta name="theme-color" content="#527e69">
+  <link rel="icon" href="img/Logo_definitivo_redondo.png" type="image/png" />
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --olive: #527e69; --beige: #A9C4A4; --text: #344C3D;
+      --border: rgba(82,126,105,.2); --glass: rgba(255,255,255,.9);
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Montserrat', sans-serif; color: var(--text);
+      min-height: 100svh; display: flex; align-items: center; justify-content: center;
+      padding: 24px;
+      background: url('img/vecteezy_ai-generated-eucalyptus-leaves-background-on-white-marble_35463410.jpg') center/cover fixed;
+    }
+    .card {
+      width: min(460px, 100%);
+      background: var(--glass); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+      border: 1px solid var(--border); border-radius: 18px;
+      padding: 36px 32px; box-shadow: 0 10px 30px rgba(0,0,0,.12);
+      text-align: center;
+    }
+    .logo { width: 60px; height: 60px; border-radius: 50%; object-fit: cover; margin-bottom: 16px; }
+    h1 { font-family: 'Dancing Script', cursive; font-size: 2rem; color: var(--olive); margin-bottom: 8px; }
+    p  { font-size: .88rem; opacity: .75; line-height: 1.6; margin-bottom: 24px; }
+    label {
+      display: block; text-align: left; font-size: .78rem; font-weight: 700;
+      text-transform: uppercase; letter-spacing: .07em; color: var(--olive); margin-bottom: 8px;
+    }
+    input[type="text"] {
+      width: 100%; padding: 12px 14px; border-radius: 10px;
+      border: 1px solid var(--border); background: rgba(250,241,228,.5);
+      font-family: 'Montserrat', sans-serif; font-size: .92rem; color: var(--text);
+      outline: none; transition: border-color .2s, box-shadow .2s; margin-bottom: 20px;
+    }
+    input[type="text"]:focus { border-color: var(--olive); box-shadow: 0 0 0 3px rgba(82,126,105,.12); }
+    button {
+      width: 100%; padding: 14px; border-radius: 10px;
+      background: var(--olive); color: white; border: none;
+      font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: .95rem;
+      cursor: pointer; transition: filter .2s, transform .15s;
+    }
+    button:hover { filter: brightness(1.08); transform: translateY(-1px); }
+    button:disabled { opacity: .5; cursor: not-allowed; transform: none; }
+    .back { display: block; margin-top: 16px; font-size: .8rem; color: var(--olive); text-decoration: none; opacity: .7; }
+    .back:hover { opacity: 1; }
+    .spinner { display: inline-block; width: 16px; height: 16px; border: 2px solid rgba(255,255,255,.4); border-top-color: white; border-radius: 50%; animation: spin .7s linear infinite; vertical-align: middle; margin-right: 6px; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <img src="img/Logo definitivo.png" alt="A&A" class="logo">
+    <h1>Subir video largo</h1>
+    <p>Ingresá tu nombre para continuar a Google Drive donde podés subir videos de cualquier tamaño.</p>
+
+    <label for="visitorName">Tu nombre</label>
+    <input type="text" id="visitorName" placeholder="Ej: María y Juan" maxlength="60" autocomplete="name">
+
+    <button id="btnGo" onclick="goToDrive()">
+      Continuar a Drive
+    </button>
+    <a href="fotos.html" class="back">← Volver a subir fotos</a>
+  </div>
+
+  <script>
+    const ENDPOINT   = 'https://script.google.com/macros/s/AKfycbxwXGm1twFAyPz8C_FM3BH2sN40t85Ib7SnczDOo4hd3fTJveiifHOMrCmJPHXtFhh_Ng/exec';
+    const DRIVE_URL  = 'https://drive.google.com/drive/folders/1MH5avzXoVzEpuv9a9OiljhY3jIE9dt_6?usp=sharing';
+
+    async function goToDrive() {
+      const nameEl = document.getElementById('visitorName');
+      const btn    = document.getElementById('btnGo');
+      const name   = nameEl.value.trim() || 'Anónimo';
+
+      btn.disabled = true;
+      btn.innerHTML = '<span class="spinner"></span> Registrando…';
+
+      try {
+        await fetch(`${ENDPOINT}?action=log_drive&name=${encodeURIComponent(name)}`, { mode: 'no-cors' });
+      } catch(e) { /* silencioso — igual redirige */ }
+
+      window.location.href = DRIVE_URL;
+    }
+
+    // Permite continuar con Enter
+    document.getElementById('visitorName').addEventListener('keydown', e => {
+      if (e.key === 'Enter') goToDrive();
+    });
+  </script>
+</body>
+</html>

@@ -116,25 +116,29 @@
       background: linear-gradient(to right, rgba(82,126,105,.3), transparent);
     }
 
-    /* ── MASONRY GRID ── */
-    .gallery-grid { columns: 2; column-gap: 8px; }
-    @media (min-width:500px)  { .gallery-grid { columns: 3; } }
-    @media (min-width:780px)  { .gallery-grid { columns: 4; } }
-    @media (min-width:1060px) { .gallery-grid { columns: 5; } }
+    /* ── GRID UNIFORME ── */
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 6px;
+    }
+    @media (min-width:500px)  { .gallery-grid { grid-template-columns: repeat(3, 1fr); } }
+    @media (min-width:780px)  { .gallery-grid { grid-template-columns: repeat(4, 1fr); } }
+    @media (min-width:1060px) { .gallery-grid { grid-template-columns: repeat(5, 1fr); } }
 
     /* ── TILE ── */
     .tile {
-      break-inside: avoid; margin-bottom: 8px;
+      aspect-ratio: 1;
       border-radius: 10px; overflow: hidden;
       position: relative; cursor: pointer;
       background: var(--beige);
       box-shadow: 0 2px 8px rgba(0,0,0,.08);
       transition: transform .2s, box-shadow .2s;
     }
-    .tile:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(0,0,0,.14); }
-    .tile img   { display: block; width: 100%; height: auto; }
+    .tile:hover { transform: scale(1.02); box-shadow: 0 8px 20px rgba(0,0,0,.14); }
+    .tile img   { display: block; width: 100%; height: 100%; object-fit: cover; }
     .tile .video-bg {
-      width: 100%; aspect-ratio: 16/9;
+      width: 100%; height: 100%;
       background: #1a2a22;
       display: flex; align-items: center; justify-content: center; flex-direction: column; gap: 8px;
     }
@@ -153,6 +157,7 @@
     }
     .tile:hover .overlay { opacity: 1; }
     .tile .tile-sender { font-size: .72rem; color: white; font-weight: 600; }
+    .tile .tile-date   { font-size: .65rem; color: rgba(255,255,255,.7); margin-top: 1px; }
 
     /* ── SELECT MODE ── */
     .select-mode .tile { cursor: default; }
@@ -264,6 +269,10 @@
         <i class="fa-solid fa-camera"></i> Subir mis fotos
       </a>
       <div class="top-actions">
+        <a href="https://drive.google.com/drive/folders/1MH5avzXoVzEpuv9a9OiljhY3jIE9dt_6?usp=sharing"
+           target="_blank" rel="noopener" class="action-btn" title="Ver y descargar en Google Drive">
+          <i class="fa-brands fa-google-drive"></i> Drive
+        </a>
         <button class="action-btn" id="btnSelectMode" title="Seleccionar fotos">
           <i class="fa-regular fa-square-check"></i> Seleccionar
         </button>
@@ -445,7 +454,7 @@
         };
         img.src = item.thumbUrl;
         tile.appendChild(img);
-        tile.innerHTML += `<div class="overlay"><div class="tile-sender">${escHtml(item.sender || '')}</div></div>`;
+        tile.insertAdjacentHTML('beforeend', `<div class="overlay"><div class="tile-sender">${escHtml(item.sender || '')}</div><div class="tile-date">${fmtDate(item.created)}</div></div>`);
 
         tile.addEventListener('click', e => {
           if (selectMode) { toggleSelect(tile, item.fileId); return; }
@@ -615,6 +624,11 @@
     }
     function escHtml(s) {
       return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+    }
+    function fmtDate(ts) {
+      if (!ts) return '';
+      const d = new Date(ts);
+      return d.toLocaleDateString('es-AR', { day: 'numeric', month: 'short' });
     }
   </script>
 
