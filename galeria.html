@@ -356,17 +356,23 @@
         `;
       } else {
         const img = document.createElement('img');
-        img.className = 'loading';
+        // Sin clase .loading: el opacity:0 combinado con lazy loading impedía la carga
         img.alt = item.sender || '';
         img.loading = 'lazy';
-        img.onload  = () => img.classList.remove('loading');
+        img.decoding = 'async';
         img.onerror = () => {
-          // Fallback: mostrar inicial del invitado si la imagen no carga
+          // URL lh3 falló → abrir en Drive al clickear
           img.style.display = 'none';
-          const fb = document.createElement('div');
-          fb.style.cssText = 'aspect-ratio:1;display:flex;align-items:center;justify-content:center;background:var(--beige);font-size:1.8rem;font-weight:700;color:var(--olive);font-family:var(--font-title)';
-          fb.textContent = (item.sender || 'I').charAt(0).toUpperCase();
-          img.parentElement.insertBefore(fb, img);
+          const fb = document.createElement('a');
+          fb.href   = 'https://drive.google.com/file/d/' + item.fileId + '/view';
+          fb.target = '_blank';
+          fb.rel    = 'noopener';
+          fb.style.cssText = 'aspect-ratio:4/5;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;background:var(--beige);color:var(--olive);text-decoration:none;padding:12px;text-align:center';
+          fb.innerHTML = '<i class="fa-solid fa-image" style="font-size:2rem"></i><span style="font-size:.75rem;font-weight:700;font-family:var(--font-body)">' + escHtml(item.sender || 'Ver foto') + '</span>';
+          tile.insertBefore(fb, tile.firstChild);
+          // Evitar que el lightbox se abra si la imagen no cargó
+          tile.removeEventListener('click', tile._lbHandler);
+          tile.addEventListener('click', e => { e.stopPropagation(); });
         };
         img.src = item.thumbUrl;
         tile.appendChild(img);
