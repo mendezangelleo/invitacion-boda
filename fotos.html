@@ -716,10 +716,9 @@
           nameStatusEl.innerHTML = `<span style="color:#c0392b">⚠ Nombre no encontrado en la lista de invitados</span>`;
         }
       } catch(e) {
-        // Si falla la conexión, dejamos pasar (no bloqueamos por error de red)
-        nameVerified = true;
-        dropZone.classList.remove('locked');
-        nameStatusEl.textContent = '';
+        nameVerified = false;
+        dropZone.classList.add('locked');
+        nameStatusEl.innerHTML = '<span style="color:#c0392b">Error al verificar. Revisá tu conexión.</span>';
       }
     }
 
@@ -738,6 +737,10 @@
 
     // ─── AGREGAR ARCHIVOS ────────────────────────────────────────────────────────
     async function addFiles(newFiles) {
+      if (!nameVerified) {
+        showToast('Verificá tu nombre en la lista de invitados antes de subir fotos.');
+        return;
+      }
       for (const f of newFiles) {
         if (!f.type.startsWith('image/') && !f.type.startsWith('video/')) {
           showToast(`"${f.name}" no es una foto ni video.`);
