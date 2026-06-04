@@ -59,7 +59,10 @@
   <div class="card">
     <img src="img/Logo definitivo.png" alt="A&A" class="logo">
     <h1>Subir video largo</h1>
-    <p>Ingresá tu nombre para continuar a Google Drive donde podés subir videos de cualquier tamaño.</p>
+    <p>Ingresá tu nombre y te llevamos a la carpeta de Drive. Una vez ahí, hacé clic en <strong>+ Nuevo → Subir archivo</strong> para subir tu video.</p>
+    <p style="font-size:.8rem;background:rgba(230,81,0,.07);border:1px solid rgba(230,81,0,.25);border-radius:8px;padding:12px 14px;margin-bottom:8px;color:#b34700;font-weight:500">
+      ⚠️ Si usás una cuenta de <strong>trabajo o empresa</strong> (Gmail corporativo) y Drive no te deja subir, abrí esta página en <strong>modo incógnito</strong> — Ctrl+Shift+N (Windows) o ⌘+Shift+N (Mac).
+    </p>
 
     <label for="visitorName">Tu nombre <span class="name-status" id="nameStatus"></span></label>
     <input type="text" id="visitorName" placeholder="Ingresá tu nombre para continuar" maxlength="60" autocomplete="off">
@@ -72,7 +75,7 @@
 
   <script>
     const ENDPOINT  = 'https://script.google.com/macros/s/AKfycbxwXGm1twFAyPz8C_FM3BH2sN40t85Ib7SnczDOo4hd3fTJveiifHOMrCmJPHXtFhh_Ng/exec';
-    const DRIVE_URL = 'https://drive.google.com/drive/folders/1MH5avzXoVzEpuv9a9OiljhY3jIE9dt_6?usp=sharing';
+    const DRIVE_URL = 'https://drive.google.com/drive/folders/12SdxhSi9OSrIjYpye0owQfJS7GM09xAK?usp=sharing';
 
     const btn        = document.getElementById('btnGo');
     const nameEl     = document.getElementById('visitorName');
