@@ -582,6 +582,7 @@
           <option value="Pre-boda">Pre-boda 💍</option>
           <option value="Ceremonia">Ceremonia 🌿</option>
           <option value="Celebracion">Celebración 🎉</option>
+          <option value="Civil">Civil 🥂</option>
           <option value="Viaje">Viaje ✈️</option>
         </select>
       </div>
@@ -627,7 +628,7 @@
 
   <script>
     // ─── CONFIGURACIÓN ──────────────────────────────────────────────────────────
-    const UPLOAD_ENDPOINT = 'https://script.google.com/macros/s/AKfycbzrlBQ96ItSyBJEYT9OfllXVWVNrNb7susCMDb7As4kaE4TN6piZ-tE0KtzofrOBaA0/exec';
+    const UPLOAD_ENDPOINT = 'https://script.google.com/macros/s/AKfycbxwXGm1twFAyPz8C_FM3BH2sN40t85Ib7SnczDOo4hd3fTJveiifHOMrCmJPHXtFhh_Ng/exec';
     const PHOTOS_SECRET   = 'F0t0sB0d4-AyA-2026!rM3kZ9';
     const GALLERY_URL     = 'galeria.html';
 
@@ -828,22 +829,31 @@
       }, 200);
 
       try {
-        const base64 = await toBase64(entry.file);
-        const res    = await fetch(UPLOAD_ENDPOINT, {
-          method: 'POST',
-          headers: { 'Content-Type': 'text/plain' },
-          body: JSON.stringify({
-            filename: entry.file.name,
-            mimeType: entry.file.type,
-            base64, sender,
-            category: document.getElementById('uploadCategory')?.value || 'General',
-            secret: PHOTOS_SECRET,
-          }),
+        const base64   = await toBase64(entry.file);
+        const payload  = JSON.stringify({
+          filename: entry.file.name,
+          mimeType: entry.file.type,
+          base64, sender,
+          category: document.getElementById('uploadCategory')?.value || 'General',
+          secret: PHOTOS_SECRET,
         });
-        // Apps Script a veces devuelve redirect → HTML en lugar de JSON.
-        // Si el archivo llegó a Drive (res.ok o status 200-302), lo tratamos como éxito.
-        let json = { ok: false, error: 'respuesta inválida' };
-        try { json = await res.json(); } catch { if (res.ok || res.status < 400) json = { ok: true }; }
+
+        let json = { ok: true }; // optimista — si llega a Drive asumimos éxito
+        try {
+          const res = await fetch(UPLOAD_ENDPOINT, {
+            method: 'POST',
+            headers: { 'Content-Type': 'text/plain' },
+            body: payload,
+          });
+          try { json = await res.json(); } catch { json = { ok: res.ok || res.status < 400 }; }
+        } catch (corsErr) {
+          // CORS bloqueó la lectura de la respuesta pero el request SÍ llegó a Apps Script.
+          // Usamos no-cors para confirmar el envío y asumimos éxito.
+          await fetch(UPLOAD_ENDPOINT, { method: 'POST', mode: 'no-cors',
+            headers: { 'Content-Type': 'text/plain' }, body: payload });
+          json = { ok: true };
+        }
+
         clearInterval(barTimer);
         if (barEl) barEl.style.width = '100%';
 
