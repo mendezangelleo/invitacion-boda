@@ -1,0 +1,860 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="color-scheme" content="light">
+  <title>Comparte tus fotos — Anyela & Ángel</title>
+  <meta name="theme-color" content="#527e69">
+
+  <link rel="icon" href="img/Logo_definitivo_redondo.png" type="image/png" />
+  <link rel="apple-touch-icon" href="img/Logo_definitivo_redondo.png" />
+
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Montserrat:wght@400;500;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
+  <style>
+    :root {
+      --color-olive:      #527e69;
+      --color-beige:      #A9C4A4;
+      --color-cream:      #FAF1E4;
+      --color-text-dark:  #344C3D;
+      --border:           rgba(82, 126, 105, .2);
+      --shadow:           0 10px 30px rgba(0,0,0,.12);
+      --glass:            rgba(255,255,255,.88);
+      --font-titles:      'Dancing Script', cursive;
+      --font-body:        'Montserrat', sans-serif;
+      color-scheme: light;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html, body {
+      min-height: 100%;
+      font-family: var(--font-body);
+      color: var(--color-text-dark);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    body {
+      background-image: url('img/vecteezy_ai-generated-eucalyptus-leaves-background-on-white-marble_35463410.jpg');
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
+      padding: 24px 16px 60px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 28px;
+    }
+
+    /* ---- HEADER ---- */
+    .site-header {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      height: 72px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(250,241,228,.55);
+      backdrop-filter: blur(14px) saturate(140%);
+      -webkit-backdrop-filter: blur(14px) saturate(140%);
+      border-bottom: 1px solid rgba(82,126,105,.15);
+      box-shadow: 0 4px 20px rgba(0,0,0,.05);
+      z-index: 100;
+    }
+    .site-header img {
+      height: 52px; width: 52px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+
+    /* ---- SPACER ---- */
+    .header-spacer { height: 72px; width: 100%; flex-shrink: 0; }
+
+    /* ---- HERO ---- */
+    .hero {
+      text-align: center;
+      padding: 8px 0 4px;
+    }
+    .hero .icon-cam {
+      font-size: 3rem;
+      color: var(--color-olive);
+      margin-bottom: 10px;
+      display: block;
+    }
+    .hero h1 {
+      font-family: var(--font-titles);
+      font-size: clamp(2.2rem, 6vw, 3rem);
+      color: var(--color-olive);
+      line-height: 1.15;
+      margin-bottom: 10px;
+    }
+    .hero p {
+      font-size: .92rem;
+      max-width: 380px;
+      margin: 0 auto;
+      line-height: 1.65;
+      opacity: .85;
+    }
+
+    /* ---- CARD ---- */
+    .card {
+      width: min(560px, 100%);
+      background: var(--glass);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 28px 28px 32px;
+      box-shadow: var(--shadow);
+    }
+
+    /* ---- FORM ELEMENTS ---- */
+    .field-group {
+      margin-bottom: 20px;
+    }
+    .field-group label {
+      display: block;
+      font-size: .8rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .07em;
+      color: var(--color-olive);
+      margin-bottom: 8px;
+    }
+    .field-group input[type="text"] {
+      width: 100%;
+      padding: 11px 14px;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      background: rgba(250,241,228,.5);
+      font-family: var(--font-body);
+      font-size: .92rem;
+      color: var(--color-text-dark);
+      outline: none;
+      transition: border-color .2s, box-shadow .2s;
+    }
+    .field-group input[type="text"]:focus {
+      border-color: var(--color-olive);
+      box-shadow: 0 0 0 3px rgba(82,126,105,.12);
+    }
+
+    /* ---- DROP ZONE ---- */
+    .drop-zone {
+      border: 2px dashed var(--color-beige);
+      border-radius: 14px;
+      padding: 32px 20px;
+      text-align: center;
+      cursor: pointer;
+      transition: border-color .2s, background .2s;
+      background: rgba(169,196,164,.06);
+      position: relative;
+    }
+    .drop-zone.drag-over {
+      border-color: var(--color-olive);
+      background: rgba(82,126,105,.08);
+    }
+    .drop-zone .dz-icon {
+      font-size: 2.4rem;
+      color: var(--color-beige);
+      margin-bottom: 12px;
+      display: block;
+      transition: color .2s;
+    }
+    .drop-zone.drag-over .dz-icon { color: var(--color-olive); }
+    .drop-zone p {
+      font-size: .9rem;
+      color: var(--color-text-dark);
+      margin-bottom: 6px;
+      opacity: .8;
+    }
+    .drop-zone p.hint {
+      font-size: .75rem;
+      opacity: .5;
+      margin-top: 10px;
+      margin-bottom: 0;
+    }
+    .btn-select {
+      display: inline-block;
+      margin: 10px 0 6px;
+      padding: 9px 22px;
+      border-radius: 8px;
+      background: var(--color-olive);
+      color: #EBEAE4;
+      font-family: var(--font-body);
+      font-weight: 700;
+      font-size: .88rem;
+      border: none;
+      cursor: pointer;
+      transition: filter .2s, transform .15s;
+    }
+    .btn-select:hover { filter: brightness(1.08); transform: translateY(-1px); }
+    .btn-select:active { transform: none; }
+
+    /* ---- FILE LIST ---- */
+    .file-list {
+      margin-top: 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .file-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 12px;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      background: rgba(250,241,228,.5);
+      position: relative;
+      overflow: hidden;
+    }
+    .file-item .thumb {
+      width: 44px;
+      height: 44px;
+      border-radius: 8px;
+      object-fit: cover;
+      flex-shrink: 0;
+      background: var(--color-beige);
+    }
+    .file-item .thumb-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 8px;
+      background: rgba(82,126,105,.12);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      font-size: 1.4rem;
+      color: var(--color-olive);
+    }
+    .file-item .file-info {
+      flex: 1;
+      min-width: 0;
+    }
+    .file-item .file-name {
+      font-size: .85rem;
+      font-weight: 600;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      color: var(--color-text-dark);
+    }
+    .file-item .file-size {
+      font-size: .75rem;
+      opacity: .6;
+      margin-top: 2px;
+    }
+    .file-item .file-status {
+      font-size: .8rem;
+      font-weight: 600;
+      flex-shrink: 0;
+    }
+    .file-item .file-status.pending   { color: var(--color-beige); }
+    .file-item .file-status.uploading { color: var(--color-olive); }
+    .file-item .file-status.done      { color: #2e7d32; }
+    .file-item .file-status.error     { color: #c0392b; }
+    .file-item .btn-remove {
+      background: none;
+      border: none;
+      color: #c0392b;
+      cursor: pointer;
+      font-size: 1rem;
+      padding: 4px;
+      flex-shrink: 0;
+      opacity: .7;
+      transition: opacity .2s;
+    }
+    .file-item .btn-remove:hover { opacity: 1; }
+    .file-item .progress-bar-bg {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 3px;
+      background: rgba(82,126,105,.15);
+      display: none;
+    }
+    .file-item.uploading .progress-bar-bg { display: block; }
+    .file-item .progress-bar-fill {
+      height: 100%;
+      background: var(--color-olive);
+      width: 0%;
+      transition: width .4s ease;
+    }
+
+    /* ---- UPLOAD BUTTON ---- */
+    .btn-upload {
+      width: 100%;
+      margin-top: 22px;
+      padding: 14px;
+      border-radius: 10px;
+      background: var(--color-olive);
+      color: #EBEAE4;
+      font-family: var(--font-body);
+      font-weight: 700;
+      font-size: 1rem;
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      transition: filter .2s, transform .15s, opacity .2s;
+    }
+    .btn-upload:hover:not(:disabled) { filter: brightness(1.08); transform: translateY(-1px); }
+    .btn-upload:active:not(:disabled) { transform: none; }
+    .btn-upload:disabled {
+      opacity: .45;
+      cursor: not-allowed;
+    }
+    .btn-upload .spinner {
+      display: none;
+      width: 18px;
+      height: 18px;
+      border: 3px solid rgba(255,255,255,.35);
+      border-top-color: #fff;
+      border-radius: 50%;
+      animation: spin .7s linear infinite;
+    }
+    .btn-upload.uploading .spinner { display: block; }
+    .btn-upload.uploading .btn-icon { display: none; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* ---- SUCCESS SCREEN ---- */
+    .success-screen {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      padding: 12px 0 4px;
+      gap: 14px;
+    }
+    .success-screen.visible { display: flex; }
+    .success-screen .heart-icon {
+      font-size: 3.2rem;
+      color: #c0392b;
+      animation: heartbeat 1.2s ease-in-out infinite;
+    }
+    @keyframes heartbeat {
+      0%,100% { transform: scale(1); }
+      14%      { transform: scale(1.18); }
+      28%      { transform: scale(1); }
+      42%      { transform: scale(1.12); }
+      70%      { transform: scale(1); }
+    }
+    .success-screen h2 {
+      font-family: var(--font-titles);
+      font-size: clamp(2rem, 5vw, 2.8rem);
+      color: var(--color-olive);
+    }
+    .success-screen p {
+      font-size: .92rem;
+      opacity: .8;
+      max-width: 300px;
+      line-height: 1.6;
+    }
+    .btn-again {
+      margin-top: 6px;
+      padding: 11px 28px;
+      border-radius: 10px;
+      background: var(--color-olive);
+      color: #EBEAE4;
+      font-family: var(--font-body);
+      font-weight: 700;
+      font-size: .9rem;
+      border: none;
+      cursor: pointer;
+      transition: filter .2s, transform .15s;
+    }
+    .btn-again:hover { filter: brightness(1.08); transform: translateY(-1px); }
+
+    /* ---- SHARE / QR CARD ---- */
+    .share-card {
+      width: min(560px, 100%);
+      background: var(--glass);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 24px 28px;
+      box-shadow: var(--shadow);
+      text-align: center;
+    }
+    .share-card h3 {
+      font-family: var(--font-titles);
+      font-size: 1.6rem;
+      color: var(--color-olive);
+      margin-bottom: 6px;
+    }
+    .share-card p {
+      font-size: .82rem;
+      opacity: .7;
+      margin-bottom: 18px;
+    }
+    #qrcode {
+      display: inline-block;
+      padding: 10px;
+      background: white;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      margin-bottom: 14px;
+    }
+    #qrcode img, #qrcode canvas {
+      display: block;
+    }
+    .share-url {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(250,241,228,.6);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 10px 14px;
+      margin-bottom: 14px;
+    }
+    .share-url span {
+      flex: 1;
+      font-size: .8rem;
+      word-break: break-all;
+      color: var(--color-text-dark);
+      opacity: .8;
+    }
+    .btn-copy {
+      padding: 7px 14px;
+      border-radius: 8px;
+      background: var(--color-olive);
+      color: #EBEAE4;
+      font-family: var(--font-body);
+      font-weight: 700;
+      font-size: .8rem;
+      border: none;
+      cursor: pointer;
+      flex-shrink: 0;
+      transition: filter .2s;
+    }
+    .btn-copy:hover { filter: brightness(1.1); }
+    .share-actions {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .btn-share {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 18px;
+      border-radius: 10px;
+      font-family: var(--font-body);
+      font-weight: 700;
+      font-size: .85rem;
+      border: none;
+      cursor: pointer;
+      text-decoration: none;
+      transition: filter .2s, transform .15s;
+    }
+    .btn-share:hover { filter: brightness(1.08); transform: translateY(-1px); }
+    .btn-share.whatsapp { background: #25D366; color: white; }
+    .btn-share.print    { background: #344C3D; color: white; }
+
+    /* ---- FOOTER ---- */
+    .page-footer {
+      text-align: center;
+      font-family: var(--font-titles);
+      font-size: 1.4rem;
+      color: var(--color-olive);
+      padding: 10px 0 0;
+      opacity: .75;
+    }
+    .page-footer span {
+      display: block;
+      font-family: var(--font-body);
+      font-size: .72rem;
+      letter-spacing: .2em;
+      opacity: .6;
+      font-weight: 400;
+      margin-top: 4px;
+    }
+
+    @media (max-width: 400px) {
+      .card, .share-card { padding: 22px 18px 26px; }
+    }
+  </style>
+</head>
+
+<body>
+
+  <header class="site-header">
+    <img src="img/Logo definitivo.png" alt="A&A">
+  </header>
+
+  <div class="header-spacer"></div>
+
+  <!-- HERO -->
+  <div class="hero">
+    <i class="fa-solid fa-camera-retro icon-cam"></i>
+    <h1>Comparte tus fotos</h1>
+    <p>Sube tus fotos y videos de nuestra boda y los atesoraremos para siempre.</p>
+  </div>
+
+  <!-- UPLOAD CARD -->
+  <div class="card" id="uploadCard">
+
+    <!-- Success screen (oculto inicialmente) -->
+    <div class="success-screen" id="successScreen">
+      <i class="fa-solid fa-heart heart-icon"></i>
+      <h2>¡Gracias!</h2>
+      <p>Tus fotos ya están en nuestro corazón — y en nuestra carpeta de Drive.</p>
+      <button class="btn-again" id="btnAgain">
+        <i class="fa-solid fa-plus"></i> Subir más fotos
+      </button>
+    </div>
+
+    <!-- Upload form -->
+    <div id="uploadForm">
+
+      <div class="field-group">
+        <label for="senderName">Tu nombre (opcional)</label>
+        <input type="text" id="senderName" placeholder="Ej: María y Juan" maxlength="50" autocomplete="name">
+      </div>
+
+      <div class="drop-zone" id="dropZone">
+        <i class="fa-solid fa-cloud-arrow-up dz-icon"></i>
+        <p>Arrastrá tus fotos y videos acá</p>
+        <button type="button" class="btn-select" id="btnSelect">Seleccionar archivos</button>
+        <input type="file" id="fileInput" multiple accept="image/*,video/*" hidden>
+        <p class="hint">JPG, PNG, HEIC, MP4, MOV · Máx. 50 MB por archivo</p>
+      </div>
+
+      <div class="file-list" id="fileList"></div>
+
+      <button type="button" class="btn-upload" id="btnUpload" disabled>
+        <span class="spinner"></span>
+        <i class="fa-solid fa-paper-plane btn-icon"></i>
+        <span class="btn-label">Enviar fotos</span>
+      </button>
+
+    </div>
+  </div>
+
+  <!-- SHARE / QR CARD -->
+  <div class="share-card">
+    <h3>Compartí el enlace</h3>
+    <p>Enviá este código QR o el link a los invitados para que suban sus fotos.</p>
+    <div id="qrcode"></div>
+    <div class="share-url">
+      <span id="pageUrl"></span>
+      <button class="btn-copy" id="btnCopy">Copiar</button>
+    </div>
+    <div class="share-actions">
+      <a id="btnWhatsapp" class="btn-share whatsapp" target="_blank" rel="noopener">
+        <i class="fa-brands fa-whatsapp"></i> WhatsApp
+      </a>
+      <button class="btn-share print" id="btnPrint">
+        <i class="fa-solid fa-print"></i> Imprimir QR
+      </button>
+    </div>
+  </div>
+
+  <footer class="page-footer">
+    Anyela & Ángel
+    <span>24 · 07 · 2026</span>
+  </footer>
+
+  <script>
+    // ─── CONFIGURACIÓN ──────────────────────────────────────────────────────────
+    // Pegá aquí la URL de tu Google Apps Script después de desplegarlo:
+    const UPLOAD_ENDPOINT = 'https://script.google.com/macros/s/AKfycbzrlBQ96ItSyBJEYT9OfllXVWVNrNb7susCMDb7As4kaE4TN6piZ-tE0KtzofrOBaA0/exec';
+    const PHOTOS_SECRET   = 'F0t0sB0d4-AyA-2026!rM3kZ9';  // debe coincidir con PHOTOS_SECRET en Code.gs
+
+    const MAX_FILE_MB  = 50;
+    const MAX_FILE_BYTES = MAX_FILE_MB * 1024 * 1024;
+
+    // ─── ESTADO ─────────────────────────────────────────────────────────────────
+    let files = []; // { file, id, status: 'pending'|'uploading'|'done'|'error' }
+    let uploading = false;
+    let nextId = 0;
+
+    // ─── ELEMENTOS ──────────────────────────────────────────────────────────────
+    const dropZone   = document.getElementById('dropZone');
+    const fileInput  = document.getElementById('fileInput');
+    const btnSelect  = document.getElementById('btnSelect');
+    const fileList   = document.getElementById('fileList');
+    const btnUpload  = document.getElementById('btnUpload');
+    const btnAgain   = document.getElementById('btnAgain');
+    const uploadForm = document.getElementById('uploadForm');
+    const successScreen = document.getElementById('successScreen');
+
+    // ─── DROP ZONE ──────────────────────────────────────────────────────────────
+    btnSelect.addEventListener('click', () => fileInput.click());
+    dropZone.addEventListener('click', (e) => {
+      if (e.target === btnSelect || btnSelect.contains(e.target)) return;
+      fileInput.click();
+    });
+
+    fileInput.addEventListener('change', () => {
+      addFiles(Array.from(fileInput.files));
+      fileInput.value = '';
+    });
+
+    dropZone.addEventListener('dragover', (e) => {
+      e.preventDefault();
+      dropZone.classList.add('drag-over');
+    });
+    ['dragleave', 'dragend'].forEach(ev => {
+      dropZone.addEventListener(ev, () => dropZone.classList.remove('drag-over'));
+    });
+    dropZone.addEventListener('drop', (e) => {
+      e.preventDefault();
+      dropZone.classList.remove('drag-over');
+      addFiles(Array.from(e.dataTransfer.files));
+    });
+
+    // ─── AGREGAR ARCHIVOS ────────────────────────────────────────────────────────
+    function addFiles(newFiles) {
+      newFiles.forEach(f => {
+        if (f.size > MAX_FILE_BYTES) {
+          alert(`"${f.name}" supera los ${MAX_FILE_MB} MB y no se agregó.`);
+          return;
+        }
+        if (!f.type.startsWith('image/') && !f.type.startsWith('video/')) {
+          alert(`"${f.name}" no es una foto ni video.`);
+          return;
+        }
+        const id = nextId++;
+        files.push({ file: f, id, status: 'pending' });
+        renderItem({ file: f, id, status: 'pending' });
+      });
+      updateUploadBtn();
+    }
+
+    function fmtSize(bytes) {
+      if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(0) + ' KB';
+      return (bytes / 1024 / 1024).toFixed(1) + ' MB';
+    }
+
+    function renderItem({ file, id, status }) {
+      const item = document.createElement('div');
+      item.className = 'file-item';
+      item.dataset.id = id;
+
+      const isImage = file.type.startsWith('image/');
+
+      if (isImage) {
+        const thumb = document.createElement('img');
+        thumb.className = 'thumb';
+        thumb.alt = file.name;
+        const reader = new FileReader();
+        reader.onload = e => { thumb.src = e.target.result; };
+        reader.readAsDataURL(file);
+        item.appendChild(thumb);
+      } else {
+        const iconBox = document.createElement('div');
+        iconBox.className = 'thumb-icon';
+        iconBox.innerHTML = '<i class="fa-solid fa-video"></i>';
+        item.appendChild(iconBox);
+      }
+
+      item.innerHTML += `
+        <div class="file-info">
+          <div class="file-name">${escHtml(file.name)}</div>
+          <div class="file-size">${fmtSize(file.size)}</div>
+        </div>
+        <span class="file-status pending" data-status>
+          <i class="fa-regular fa-clock"></i>
+        </span>
+        <button class="btn-remove" data-remove="${id}" title="Quitar">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+        <div class="progress-bar-bg"><div class="progress-bar-fill" data-bar></div></div>
+      `;
+
+      fileList.appendChild(item);
+
+      item.querySelector('[data-remove]').addEventListener('click', () => removeFile(id));
+    }
+
+    function removeFile(id) {
+      if (uploading) return;
+      files = files.filter(f => f.id !== id);
+      const el = fileList.querySelector(`[data-id="${id}"]`);
+      if (el) el.remove();
+      updateUploadBtn();
+    }
+
+    function updateUploadBtn() {
+      const hasPending = files.some(f => f.status === 'pending');
+      btnUpload.disabled = !hasPending || uploading;
+    }
+
+    function escHtml(str) {
+      return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+    }
+
+    // ─── UPLOAD ──────────────────────────────────────────────────────────────────
+    btnUpload.addEventListener('click', startUpload);
+
+    async function startUpload() {
+      if (uploading || UPLOAD_ENDPOINT === 'APPS_SCRIPT_URL_AQUI') {
+        if (UPLOAD_ENDPOINT === 'APPS_SCRIPT_URL_AQUI') {
+          alert('Primero configurá la URL del Apps Script en fotos.html (línea con UPLOAD_ENDPOINT).');
+        }
+        return;
+      }
+
+      uploading = true;
+      btnUpload.disabled = true;
+      btnUpload.classList.add('uploading');
+      btnUpload.querySelector('.btn-label').textContent = 'Enviando…';
+
+      const sender = document.getElementById('senderName').value.trim() || 'Invitado';
+      const pending = files.filter(f => f.status === 'pending');
+
+      for (let i = 0; i < pending.length; i++) {
+        const entry = pending[i];
+        const item = fileList.querySelector(`[data-id="${entry.id}"]`);
+        const statusEl = item?.querySelector('[data-status]');
+        const barEl    = item?.querySelector('[data-bar]');
+
+        // Estado: subiendo
+        entry.status = 'uploading';
+        item?.classList.add('uploading');
+        if (statusEl) statusEl.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i>';
+        if (statusEl) statusEl.className = 'file-status uploading';
+        btnUpload.querySelector('.btn-label').textContent = `Enviando ${i + 1} de ${pending.length}…`;
+
+        // Animación de barra falsa (no hay progreso real con fetch)
+        let barPct = 0;
+        const barTimer = setInterval(() => {
+          barPct = Math.min(barPct + 4, 88);
+          if (barEl) barEl.style.width = barPct + '%';
+        }, 150);
+
+        try {
+          const base64 = await toBase64(entry.file);
+
+          const res = await fetch(UPLOAD_ENDPOINT, {
+            method: 'POST',
+            headers: { 'Content-Type': 'text/plain' },
+            body: JSON.stringify({
+              filename: entry.file.name,
+              mimeType: entry.file.type,
+              base64,
+              sender,
+              secret: PHOTOS_SECRET,
+            }),
+          });
+
+          const json = await res.json();
+
+          clearInterval(barTimer);
+          if (barEl) barEl.style.width = '100%';
+
+          if (json.ok) {
+            entry.status = 'done';
+            item?.classList.remove('uploading');
+            if (statusEl) statusEl.innerHTML = '<i class="fa-solid fa-check"></i>';
+            if (statusEl) statusEl.className = 'file-status done';
+          } else {
+            throw new Error(json.error || 'Error desconocido');
+          }
+        } catch (err) {
+          clearInterval(barTimer);
+          entry.status = 'error';
+          item?.classList.remove('uploading');
+          if (statusEl) statusEl.innerHTML = '<i class="fa-solid fa-triangle-exclamation"></i>';
+          if (statusEl) statusEl.className = 'file-status error';
+          console.error('Error subiendo', entry.file.name, err);
+        }
+      }
+
+      uploading = false;
+      btnUpload.classList.remove('uploading');
+
+      const anyError = files.some(f => f.status === 'error');
+      const allDone  = files.every(f => f.status === 'done' || f.status === 'error');
+
+      if (allDone && !anyError) {
+        // Todo ok → mostrar pantalla de éxito
+        setTimeout(showSuccess, 600);
+      } else {
+        // Algunos errores → actualizar botón para reintentar
+        btnUpload.querySelector('.btn-label').textContent = anyError ? 'Reintentar fallidos' : 'Enviar fotos';
+        updateUploadBtn();
+      }
+    }
+
+    function toBase64(file) {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload  = () => resolve(reader.result.split(',')[1]);
+        reader.onerror = reject;
+        reader.readAsDataURL(file);
+      });
+    }
+
+    function showSuccess() {
+      uploadForm.style.display = 'none';
+      successScreen.classList.add('visible');
+    }
+
+    btnAgain.addEventListener('click', () => {
+      files = [];
+      nextId = 0;
+      fileList.innerHTML = '';
+      uploadForm.style.display = '';
+      successScreen.classList.remove('visible');
+      document.getElementById('senderName').value = '';
+      updateUploadBtn();
+    });
+
+    // ─── QR + COMPARTIR ─────────────────────────────────────────────────────────
+    (function initShare() {
+      const url = window.location.href.split('?')[0];
+      document.getElementById('pageUrl').textContent = url;
+
+      // QR
+      new QRCode(document.getElementById('qrcode'), {
+        text: url,
+        width: 180,
+        height: 180,
+        colorDark: '#344C3D',
+        colorLight: '#ffffff',
+        correctLevel: QRCode.CorrectLevel.M,
+      });
+
+      // Copiar link
+      document.getElementById('btnCopy').addEventListener('click', function () {
+        navigator.clipboard.writeText(url).then(() => {
+          this.textContent = '¡Copiado!';
+          setTimeout(() => { this.textContent = 'Copiar'; }, 2000);
+        });
+      });
+
+      // WhatsApp
+      const waText = encodeURIComponent(
+        '¡Subí tus fotos y videos de la boda de Anyela & Ángel acá! 📸\n' + url
+      );
+      document.getElementById('btnWhatsapp').href =
+        'https://wa.me/?text=' + waText;
+
+      // Imprimir QR
+      document.getElementById('btnPrint').addEventListener('click', () => window.print());
+    })();
+
+    // ─── PRINT STYLES (inyectados vía JS para no contaminar pantalla) ────────────
+    const printStyle = document.createElement('style');
+    printStyle.media = 'print';
+    printStyle.textContent = `
+      body > *:not(.share-card) { display: none !important; }
+      .share-card { box-shadow: none; border: 1px solid #ccc; }
+      .share-actions { display: none; }
+    `;
+    document.head.appendChild(printStyle);
+  </script>
+
+</body>
+</html>
