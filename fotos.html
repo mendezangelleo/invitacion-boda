@@ -699,26 +699,39 @@
         return;
       }
       nameStatusEl.innerHTML = '<span style="color:#888">verificando…</span>';
-      nameCheckTimer = setTimeout(() => checkName(val), 700);
+      nameCheckTimer = setTimeout(() => checkName(val), 400);
     });
 
     async function checkName(name) {
+      // Cache en sessionStorage para no re-consultar el mismo nombre
+      const cacheKey = 'nameCheck_' + name.toLowerCase().trim();
+      const cached   = sessionStorage.getItem(cacheKey);
+      if (cached) {
+        const data = JSON.parse(cached);
+        applyNameResult(data);
+        return;
+      }
       try {
         const res  = await fetch(`${UPLOAD_ENDPOINT}?action=check_name&name=${encodeURIComponent(name)}`);
         const data = await res.json();
-        if (data.match) {
-          nameVerified = true;
-          dropZone.classList.remove('locked');
-          nameStatusEl.innerHTML = `<span style="color:#2e7d32">✓ Verificado</span>`;
-        } else {
-          nameVerified = false;
-          dropZone.classList.add('locked');
-          nameStatusEl.innerHTML = `<span style="color:#c0392b">⚠ Nombre no encontrado en la lista de invitados</span>`;
-        }
+        sessionStorage.setItem(cacheKey, JSON.stringify(data));
+        applyNameResult(data);
       } catch(e) {
         nameVerified = false;
         dropZone.classList.add('locked');
         nameStatusEl.innerHTML = '<span style="color:#c0392b">Error al verificar. Revisá tu conexión.</span>';
+      }
+    }
+
+    function applyNameResult(data) {
+      if (data.match) {
+        nameVerified = true;
+        dropZone.classList.remove('locked');
+        nameStatusEl.innerHTML = `<span style="color:#2e7d32">✓ Verificado</span>`;
+      } else {
+        nameVerified = false;
+        dropZone.classList.add('locked');
+        nameStatusEl.innerHTML = `<span style="color:#c0392b">⚠ Nombre no encontrado en la lista de invitados</span>`;
       }
     }
 
@@ -1015,13 +1028,17 @@
         await Promise.all([document.fonts.load('700 20px "Dancing Script"'), document.fonts.load('600 7px "Montserrat"')]).catch(()=>{});
         const r = Math.round(QR_S * 0.22 / 2);
         const cx = QR_S / 2, cy = QR_S / 2;
-        ctx.beginPath(); ctx.arc(cx, cy, r+4, 0, Math.PI*2); ctx.fillStyle='#fff'; ctx.fill();
-        ctx.beginPath(); ctx.arc(cx, cy, r, 0, Math.PI*2); ctx.fillStyle='#527e69'; ctx.fill();
-        ctx.beginPath(); ctx.arc(cx, cy, r-3, 0, Math.PI*2); ctx.fillStyle='#FAF1E4'; ctx.fill();
-        ctx.textAlign='center'; ctx.textBaseline='alphabetic'; ctx.fillStyle='#344C3D';
-        ctx.font=`700 ${Math.round(r*.72)}px "Dancing Script",cursive`; ctx.fillText('A & A', cx, cy+r*.28);
-        ctx.font=`600 ${Math.max(6,Math.round(r*.25))}px "Montserrat",sans-serif`; ctx.fillStyle='#527e69';
-        ctx.fillText('24·07·26', cx, cy+r*.7);
+        const brd=3, inn=r-brd;
+        ctx.beginPath(); ctx.arc(cx,cy,r+5,0,Math.PI*2); ctx.fillStyle='#fff'; ctx.fill();
+        ctx.beginPath(); ctx.arc(cx,cy,r,0,Math.PI*2); ctx.fillStyle='#527e69'; ctx.fill();
+        ctx.beginPath(); ctx.arc(cx,cy,inn,0,Math.PI*2); ctx.fillStyle='#FAF1E4'; ctx.fill();
+        ctx.textAlign='center'; ctx.textBaseline='middle'; ctx.fillStyle='#344C3D';
+        ctx.font=`700 ${Math.round(inn*.58)}px "Dancing Script",cursive`;
+        ctx.fillText('A & A', cx, cy-inn*.14);
+        ctx.strokeStyle='rgba(82,126,105,.4)'; ctx.lineWidth=.8;
+        ctx.beginPath(); ctx.moveTo(cx-inn*.55,cy+inn*.22); ctx.lineTo(cx+inn*.55,cy+inn*.22); ctx.stroke();
+        ctx.font=`600 ${Math.max(6,Math.round(inn*.23))}px "Montserrat",sans-serif`; ctx.fillStyle='#527e69';
+        ctx.fillText('24·07·26', cx, cy+inn*.52);
         qrDiv.innerHTML = ''; qrDiv.appendChild(cv);
       }, 200);
 

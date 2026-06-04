@@ -194,37 +194,44 @@
     }, 200);
 
     function drawInitials(ctx, cx, cy, r) {
-      // Halo blanco exterior
-      ctx.beginPath();
-      ctx.arc(cx, cy, r + 5, 0, Math.PI * 2);
-      ctx.fillStyle = '#ffffff';
-      ctx.fill();
+      const border = 3;
+      const inner  = r - border; // radio del área cream disponible para texto
 
-      // Círculo relleno oliva
-      ctx.beginPath();
-      ctx.arc(cx, cy, r, 0, Math.PI * 2);
-      ctx.fillStyle = '#527e69';
-      ctx.fill();
+      // Halo blanco exterior
+      ctx.beginPath(); ctx.arc(cx, cy, r + 5, 0, Math.PI*2);
+      ctx.fillStyle = '#ffffff'; ctx.fill();
+
+      // Círculo oliva
+      ctx.beginPath(); ctx.arc(cx, cy, r, 0, Math.PI*2);
+      ctx.fillStyle = '#527e69'; ctx.fill();
 
       // Círculo interior crema
-      ctx.beginPath();
-      ctx.arc(cx, cy, r - 4, 0, Math.PI * 2);
-      ctx.fillStyle = '#FAF1E4';
-      ctx.fill();
+      ctx.beginPath(); ctx.arc(cx, cy, inner, 0, Math.PI*2);
+      ctx.fillStyle = '#FAF1E4'; ctx.fill();
 
-      // "A & A" en Dancing Script
+      // Texto con textBaseline=middle para posicionamiento exacto
       ctx.textAlign    = 'center';
-      ctx.textBaseline = 'alphabetic';
-      ctx.fillStyle    = '#344C3D';
-      const fontSize   = Math.round(r * 0.72);
-      ctx.font         = `700 ${fontSize}px "Dancing Script", cursive`;
-      ctx.fillText('A & A', cx, cy + r * 0.28);
+      ctx.textBaseline = 'middle';
 
-      // Fecha pequeña debajo
-      const dateSz = Math.max(7, Math.round(r * 0.25));
+      // "A & A" — ligeramente arriba del centro
+      ctx.fillStyle = '#344C3D';
+      const fontSize = Math.round(inner * 0.58);
+      ctx.font = `700 ${fontSize}px "Dancing Script", cursive`;
+      ctx.fillText('A & A', cx, cy - inner * 0.14);
+
+      // Separador fino
+      const lineY = cy + inner * 0.22;
+      ctx.strokeStyle = 'rgba(82,126,105,.4)';
+      ctx.lineWidth   = 0.8;
+      const lineW = inner * 0.55;
+      ctx.beginPath(); ctx.moveTo(cx - lineW, lineY); ctx.lineTo(cx + lineW, lineY);
+      ctx.stroke();
+
+      // Fecha — debajo del separador
+      const dateSz = Math.max(6, Math.round(inner * 0.23));
       ctx.font      = `600 ${dateSz}px "Montserrat", sans-serif`;
       ctx.fillStyle = '#527e69';
-      ctx.fillText('24 · 07 · 26', cx, cy + r * 0.7);
+      ctx.fillText('24 · 07 · 26', cx, cy + inner * 0.52);
     }
 
     // 3. WhatsApp

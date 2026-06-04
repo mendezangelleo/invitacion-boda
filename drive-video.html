@@ -90,26 +90,31 @@
         return;
       }
       statusEl.innerHTML = '<span style="color:#888">verificando…</span>';
-      checkTimer = setTimeout(() => checkName(val), 700);
+      checkTimer = setTimeout(() => checkName(val), 400);
     });
 
     async function checkName(name) {
+      const cacheKey = 'nameCheck_' + name.toLowerCase().trim();
+      const cached   = sessionStorage.getItem(cacheKey);
+      if (cached) { applyResult(JSON.parse(cached)); return; }
       try {
         const res  = await fetch(`${ENDPOINT}?action=check_name&name=${encodeURIComponent(name)}`);
         const data = await res.json();
-        if (data.match) {
-          nameVerified = true;
-          btn.disabled = false;
-          statusEl.innerHTML = `<span style="color:#2e7d32">✓ Verificado</span>`;
-        } else {
-          nameVerified = false;
-          btn.disabled = true;
-          statusEl.innerHTML = `<span style="color:#c0392b">⚠ Nombre no encontrado en la lista</span>`;
-        }
+        sessionStorage.setItem(cacheKey, JSON.stringify(data));
+        applyResult(data);
       } catch(e) {
-        nameVerified = false;
-        btn.disabled = true;
+        nameVerified = false; btn.disabled = true;
         statusEl.innerHTML = '<span style="color:#c0392b">Error al verificar. Revisá tu conexión.</span>';
+      }
+    }
+
+    function applyResult(data) {
+      if (data.match) {
+        nameVerified = true; btn.disabled = false;
+        statusEl.innerHTML = `<span style="color:#2e7d32">✓ Verificado</span>`;
+      } else {
+        nameVerified = false; btn.disabled = true;
+        statusEl.innerHTML = `<span style="color:#c0392b">⚠ Nombre no encontrado en la lista</span>`;
       }
     }
 
