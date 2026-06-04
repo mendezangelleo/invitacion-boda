@@ -596,10 +596,10 @@
         <button type="button" class="btn-select" id="btnSelect">Seleccionar archivos</button>
         <input type="file" id="fileInput" multiple accept="image/*,video/*" hidden>
         <p class="hint">Fotos sin límite · Videos hasta 40 MB (~1 min en 1080p)</p>
-        <p class="hint" style="margin-top:6px;opacity:.6">
-          ¿Video largo? <a href="https://drive.google.com/drive/folders/1MH5avzXoVzEpuv9a9OiljhY3jIE9dt_6?usp=sharing" target="_blank" rel="noopener" style="color:var(--color-olive);font-weight:700;text-decoration:underline">Subilo directo a Drive</a>
-        </p>
       </div>
+      <p style="margin-top:10px;font-size:.75rem;text-align:center;opacity:.6;font-family:var(--font-body)">
+        ¿Video largo? <a href="https://drive.google.com/drive/folders/1MH5avzXoVzEpuv9a9OiljhY3jIE9dt_6?usp=sharing" target="_blank" rel="noopener" style="color:var(--color-olive);font-weight:700;text-decoration:underline" onclick="event.stopPropagation()">Subilo directo a Drive</a>
+      </p>
 
       <div class="file-list" id="fileList"></div>
 
