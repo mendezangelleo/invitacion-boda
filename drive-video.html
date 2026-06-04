@@ -29,6 +29,7 @@
     .logo { width: 60px; height: 60px; border-radius: 50%; object-fit: cover; margin-bottom: 16px; }
     h1 { font-family: 'Dancing Script', cursive; font-size: 2rem; color: var(--olive); margin-bottom: 8px; }
     p  { font-size: .88rem; opacity: .75; line-height: 1.6; margin-bottom: 24px; }
+    .name-status { font-size: .78rem; margin-left: 6px; font-weight: 400; text-transform: none; letter-spacing: 0; }
     label {
       display: block; text-align: left; font-size: .78rem; font-weight: 700;
       text-transform: uppercase; letter-spacing: .07em; color: var(--olive); margin-bottom: 8px;
@@ -60,38 +61,76 @@
     <h1>Subir video largo</h1>
     <p>Ingresá tu nombre para continuar a Google Drive donde podés subir videos de cualquier tamaño.</p>
 
-    <label for="visitorName">Tu nombre</label>
+    <label for="visitorName">Tu nombre <span class="name-status" id="nameStatus"></span></label>
     <input type="text" id="visitorName" placeholder="Ej: María y Juan" maxlength="60" autocomplete="off">
 
-    <button id="btnGo" onclick="goToDrive()">
+    <button id="btnGo" disabled>
       Continuar a Drive
     </button>
     <a href="fotos.html" class="back">← Volver a subir fotos</a>
   </div>
 
   <script>
-    const ENDPOINT   = 'https://script.google.com/macros/s/AKfycbxwXGm1twFAyPz8C_FM3BH2sN40t85Ib7SnczDOo4hd3fTJveiifHOMrCmJPHXtFhh_Ng/exec';
-    const DRIVE_URL  = 'https://drive.google.com/drive/folders/1MH5avzXoVzEpuv9a9OiljhY3jIE9dt_6?usp=sharing';
+    const ENDPOINT  = 'https://script.google.com/macros/s/AKfycbxwXGm1twFAyPz8C_FM3BH2sN40t85Ib7SnczDOo4hd3fTJveiifHOMrCmJPHXtFhh_Ng/exec';
+    const DRIVE_URL = 'https://drive.google.com/drive/folders/1MH5avzXoVzEpuv9a9OiljhY3jIE9dt_6?usp=sharing';
+
+    const btn        = document.getElementById('btnGo');
+    const nameEl     = document.getElementById('visitorName');
+    const statusEl   = document.getElementById('nameStatus');
+    let nameVerified = false;
+    let checkTimer   = null;
+
+    nameEl.addEventListener('input', function() {
+      clearTimeout(checkTimer);
+      const val = this.value.trim();
+      if (val.length < 3) {
+        statusEl.textContent = '';
+        nameVerified = false;
+        btn.disabled = true;
+        return;
+      }
+      statusEl.innerHTML = '<span style="color:#888">verificando…</span>';
+      checkTimer = setTimeout(() => checkName(val), 700);
+    });
+
+    async function checkName(name) {
+      try {
+        const res  = await fetch(`${ENDPOINT}?action=check_name&name=${encodeURIComponent(name)}`);
+        const data = await res.json();
+        if (data.match) {
+          nameVerified = true;
+          btn.disabled = false;
+          statusEl.innerHTML = `<span style="color:#2e7d32">✓ Hola, ${escHtml(data.found || name)}</span>`;
+        } else {
+          nameVerified = false;
+          btn.disabled = true;
+          statusEl.innerHTML = `<span style="color:#c0392b">⚠ Nombre no encontrado en la lista</span>`;
+        }
+      } catch(e) {
+        nameVerified = false;
+        btn.disabled = true;
+        statusEl.innerHTML = '<span style="color:#c0392b">Error al verificar. Revisá tu conexión.</span>';
+      }
+    }
+
+    btn.addEventListener('click', goToDrive);
 
     async function goToDrive() {
-      const nameEl = document.getElementById('visitorName');
-      const btn    = document.getElementById('btnGo');
-      const name   = nameEl.value.trim() || 'Anónimo';
-
+      if (!nameVerified) return;
+      const name = nameEl.value.trim();
       btn.disabled = true;
       btn.innerHTML = '<span class="spinner"></span> Registrando…';
-
       try {
         await fetch(`${ENDPOINT}?action=log_drive&name=${encodeURIComponent(name)}`, { mode: 'no-cors' });
-      } catch(e) { /* silencioso — igual redirige */ }
-
+      } catch(e) {}
       window.location.href = DRIVE_URL;
     }
 
-    // Permite continuar con Enter
-    document.getElementById('visitorName').addEventListener('keydown', e => {
-      if (e.key === 'Enter') goToDrive();
-    });
+    nameEl.addEventListener('keydown', e => { if (e.key === 'Enter' && nameVerified) goToDrive(); });
+
+    function escHtml(s) {
+      return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+    }
   </script>
 </body>
 </html>
