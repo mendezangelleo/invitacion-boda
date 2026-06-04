@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="color-scheme" content="light">
+  <title>Galería — Anyela & Ángel</title>
+  <meta name="theme-color" content="#527e69">
+  <meta name="robots" content="noindex">
+
+  <link rel="icon" href="img/Logo_definitivo_redondo.png" type="image/png" />
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Montserrat:wght@400;500;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+
+  <style>
+    :root {
+      --olive:     #527e69;
+      --beige:     #A9C4A4;
+      --cream:     #FAF1E4;
+      --text:      #344C3D;
+      --border:    rgba(82,126,105,.18);
+      --glass:     rgba(255,255,255,.85);
+      --shadow:    0 8px 28px rgba(0,0,0,.1);
+      --font-title: 'Dancing Script', cursive;
+      --font-body:  'Montserrat', sans-serif;
+      color-scheme: light;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { min-height: 100%; -webkit-font-smoothing: antialiased; }
+
+    body {
+      font-family: var(--font-body);
+      color: var(--text);
+      background-image: url('img/vecteezy_ai-generated-eucalyptus-leaves-background-on-white-marble_35463410.jpg');
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
+    }
+
+    /* ---- HEADER ---- */
+    .site-header {
+      position: fixed; top: 0; left: 0; right: 0;
+      height: 68px;
+      display: flex; align-items: center; justify-content: center; gap: 12px;
+      background: rgba(250,241,228,.6);
+      backdrop-filter: blur(14px) saturate(140%);
+      -webkit-backdrop-filter: blur(14px) saturate(140%);
+      border-bottom: 1px solid rgba(82,126,105,.15);
+      box-shadow: 0 4px 16px rgba(0,0,0,.05);
+      z-index: 100;
+    }
+    .site-header img { height: 46px; width: 46px; border-radius: 50%; object-fit: cover; }
+    .site-header .header-title {
+      font-family: var(--font-title); font-size: 1.4rem; color: var(--olive); line-height: 1;
+    }
+
+    /* ---- MAIN ---- */
+    .main { padding: 88px 16px 60px; max-width: 1100px; margin: 0 auto; }
+
+    /* ---- HERO ---- */
+    .hero { text-align: center; padding: 20px 0 28px; }
+    .hero h1 { font-family: var(--font-title); font-size: clamp(2.4rem,6vw,3.2rem); color: var(--olive); margin-bottom: 8px; }
+    .hero p  { font-size: .9rem; opacity: .75; max-width: 360px; margin: 0 auto 20px; }
+
+    /* ---- FILTER BAR ---- */
+    .filter-bar {
+      display: flex; justify-content: center; gap: 8px;
+      margin-bottom: 24px; flex-wrap: wrap;
+    }
+    .filter-btn {
+      padding: 8px 18px; border-radius: 999px;
+      font-family: var(--font-body); font-size: .82rem; font-weight: 700;
+      border: 1.5px solid var(--border);
+      background: var(--glass); color: var(--text);
+      cursor: pointer; transition: all .2s;
+    }
+    .filter-btn.active, .filter-btn:hover {
+      background: var(--olive); color: white; border-color: var(--olive);
+    }
+
+    /* ---- GRID ---- */
+    .gallery-grid {
+      columns: 2;
+      column-gap: 10px;
+    }
+    @media (min-width: 540px)  { .gallery-grid { columns: 3; } }
+    @media (min-width: 860px)  { .gallery-grid { columns: 4; } }
+    @media (min-width: 1100px) { .gallery-grid { columns: 5; } }
+
+    .gallery-tile {
+      break-inside: avoid;
+      margin-bottom: 10px;
+      border-radius: 12px;
+      overflow: hidden;
+      position: relative;
+      cursor: pointer;
+      background: var(--beige);
+      box-shadow: 0 2px 8px rgba(0,0,0,.08);
+      transition: transform .2s, box-shadow .2s;
+    }
+    .gallery-tile:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(0,0,0,.14); }
+
+    .gallery-tile img {
+      display: block; width: 100%; height: auto;
+      object-fit: cover;
+      transition: opacity .3s;
+    }
+    .gallery-tile img.loading { opacity: 0; }
+
+    /* Video tile */
+    .gallery-tile .video-thumb {
+      width: 100%; aspect-ratio: 16/9;
+      background: #1a2a22;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .gallery-tile .play-icon {
+      width: 48px; height: 48px; border-radius: 50%;
+      background: rgba(255,255,255,.85);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.2rem; color: var(--olive);
+    }
+    .gallery-tile .tile-overlay {
+      position: absolute; bottom: 0; left: 0; right: 0;
+      background: linear-gradient(transparent, rgba(0,0,0,.5));
+      padding: 24px 8px 8px;
+      opacity: 0; transition: opacity .2s;
+    }
+    .gallery-tile:hover .tile-overlay { opacity: 1; }
+    .tile-sender { font-size: .72rem; color: white; font-weight: 600; }
+
+    /* ---- EMPTY / LOADING ---- */
+    .state-msg {
+      text-align: center; padding: 60px 20px;
+      color: var(--text); opacity: .6; font-size: .9rem;
+    }
+    .state-msg i { font-size: 2.5rem; display: block; margin-bottom: 12px; color: var(--beige); }
+
+    /* ---- LOAD MORE ---- */
+    .load-more-wrap { text-align: center; padding: 24px 0; }
+    .btn-load {
+      padding: 12px 32px; border-radius: 10px;
+      background: var(--glass); color: var(--olive);
+      border: 1.5px solid var(--border);
+      font-family: var(--font-body); font-weight: 700; font-size: .88rem;
+      cursor: pointer; transition: all .2s;
+    }
+    .btn-load:hover { background: var(--olive); color: white; border-color: var(--olive); }
+
+    /* ---- UPLOAD LINK ---- */
+    .upload-link-bar {
+      text-align: center; margin-bottom: 20px;
+    }
+    .btn-upload-link {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 10px 22px; border-radius: 10px;
+      background: var(--olive); color: white;
+      font-family: var(--font-body); font-weight: 700; font-size: .88rem;
+      text-decoration: none; transition: filter .2s, transform .15s;
+    }
+    .btn-upload-link:hover { filter: brightness(1.08); transform: translateY(-1px); }
+
+    /* ---- LIGHTBOX ---- */
+    .lightbox {
+      position: fixed; inset: 0; z-index: 9000;
+      background: rgba(0,0,0,.92);
+      display: none; flex-direction: column;
+      align-items: center; justify-content: center;
+    }
+    .lightbox.open { display: flex; }
+
+    .lightbox-close {
+      position: absolute; top: 14px; right: 18px;
+      font-size: 2rem; color: white; background: none; border: none;
+      cursor: pointer; opacity: .7; transition: opacity .2s; z-index: 10;
+    }
+    .lightbox-close:hover { opacity: 1; }
+
+    .lightbox-media {
+      max-width: min(95vw, 1100px);
+      max-height: 85vh;
+      object-fit: contain;
+      border-radius: 8px;
+    }
+    .lightbox-iframe {
+      width: min(95vw, 900px);
+      height: min(85vh, 506px);
+      border: none;
+      border-radius: 8px;
+    }
+
+    .lightbox-nav {
+      position: absolute; top: 50%; transform: translateY(-50%);
+      background: rgba(255,255,255,.15); border: none; color: white;
+      font-size: 2rem; padding: 8px 14px; cursor: pointer;
+      border-radius: 8px; transition: background .2s;
+    }
+    .lightbox-nav:hover { background: rgba(255,255,255,.28); }
+    .lightbox-nav.prev { left: 8px; }
+    .lightbox-nav.next { right: 8px; }
+
+    .lightbox-info {
+      position: absolute; bottom: 14px;
+      left: 50%; transform: translateX(-50%);
+      color: rgba(255,255,255,.7); font-size: .8rem;
+      text-align: center; pointer-events: none;
+    }
+    .lightbox-info span { font-weight: 600; color: white; }
+  </style>
+</head>
+<body>
+
+  <header class="site-header">
+    <img src="img/Logo definitivo.png" alt="A&A">
+    <span class="header-title">Anyela &amp; Ángel</span>
+  </header>
+
+  <main class="main">
+
+    <div class="hero">
+      <h1>Galería de la boda</h1>
+      <p>Todas las fotos y videos que compartieron los invitados.</p>
+    </div>
+
+    <div class="upload-link-bar">
+      <a href="fotos.html" class="btn-upload-link">
+        <i class="fa-solid fa-camera"></i> Subir mis fotos
+      </a>
+    </div>
+
+    <div class="filter-bar">
+      <button class="filter-btn active" data-filter="all">Todos</button>
+      <button class="filter-btn" data-filter="image">Fotos</button>
+      <button class="filter-btn" data-filter="video">Videos</button>
+    </div>
+
+    <div class="gallery-grid" id="grid"></div>
+
+    <div class="state-msg" id="stateMsg" style="display:none"></div>
+
+    <div class="load-more-wrap" id="loadMoreWrap" style="display:none">
+      <button class="btn-load" id="btnLoadMore">Ver más fotos</button>
+    </div>
+
+  </main>
+
+  <!-- Lightbox -->
+  <div class="lightbox" id="lightbox">
+    <button class="lightbox-close" id="lbClose"><i class="fa-solid fa-xmark"></i></button>
+    <button class="lightbox-nav prev" id="lbPrev"><i class="fa-solid fa-chevron-left"></i></button>
+    <div id="lbContent"></div>
+    <button class="lightbox-nav next" id="lbNext"><i class="fa-solid fa-chevron-right"></i></button>
+    <div class="lightbox-info" id="lbInfo"></div>
+  </div>
+
+  <script>
+    // ─── CONFIG ──────────────────────────────────────────────────────────────────
+    // Misma URL que usás para subir fotos
+    const GALLERY_ENDPOINT = 'https://script.google.com/macros/s/AKfycbzrlBQ96ItSyBJEYT9OfllXVWVNrNb7susCMDb7As4kaE4TN6piZ-tE0KtzofrOBaA0/exec';
+    const PAGE_SIZE = 24;
+
+    // ─── ESTADO ──────────────────────────────────────────────────────────────────
+    let allItems   = [];
+    let filtered   = [];
+    let shown      = 0;
+    let currentFilter = 'all';
+    let lbIndex    = 0;
+
+    const grid         = document.getElementById('grid');
+    const stateMsg     = document.getElementById('stateMsg');
+    const loadMoreWrap = document.getElementById('loadMoreWrap');
+    const btnLoadMore  = document.getElementById('btnLoadMore');
+    const lightbox     = document.getElementById('lightbox');
+    const lbContent    = document.getElementById('lbContent');
+    const lbInfo       = document.getElementById('lbInfo');
+
+    // ─── CARGA ───────────────────────────────────────────────────────────────────
+    showState('<i class="fa-solid fa-spinner fa-spin"></i>', 'Cargando fotos…');
+
+    fetch(`${GALLERY_ENDPOINT}?action=gallery`)
+      .then(r => r.json())
+      .then(data => {
+        if (!data.ok) throw new Error(data.error || 'Error del servidor');
+        allItems = data.files || [];
+        if (!allItems.length) {
+          showState('<i class="fa-solid fa-images"></i>', 'Todavía no hay fotos. ¡Sé el primero en subir!');
+          return;
+        }
+        applyFilter('all');
+      })
+      .catch(err => {
+        console.error(err);
+        showState('<i class="fa-solid fa-triangle-exclamation"></i>', 'No se pudieron cargar las fotos. Intentá de nuevo más tarde.');
+      });
+
+    // ─── FILTROS ─────────────────────────────────────────────────────────────────
+    document.querySelectorAll('.filter-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        applyFilter(btn.dataset.filter);
+      });
+    });
+
+    function applyFilter(f) {
+      currentFilter = f;
+      filtered = allItems.filter(item => {
+        if (f === 'all')   return true;
+        if (f === 'image') return !item.isVideo;
+        if (f === 'video') return item.isVideo;
+        return true;
+      });
+      grid.innerHTML = '';
+      shown = 0;
+      stateMsg.style.display = 'none';
+      loadMoreWrap.style.display = 'none';
+      if (!filtered.length) {
+        showState('<i class="fa-solid fa-face-sad-cry"></i>', 'No hay contenido en esta categoría todavía.');
+        return;
+      }
+      renderBatch();
+    }
+
+    // ─── RENDER ──────────────────────────────────────────────────────────────────
+    function renderBatch() {
+      const batch = filtered.slice(shown, shown + PAGE_SIZE);
+      batch.forEach((item, i) => {
+        grid.appendChild(buildTile(item, shown + i));
+      });
+      shown += batch.length;
+      loadMoreWrap.style.display = shown < filtered.length ? 'block' : 'none';
+    }
+
+    btnLoadMore.addEventListener('click', renderBatch);
+
+    function buildTile(item, index) {
+      const tile = document.createElement('div');
+      tile.className = 'gallery-tile';
+      tile.dataset.index = index;
+
+      if (item.isVideo) {
+        tile.innerHTML = `
+          <div class="video-thumb">
+            <div class="play-icon"><i class="fa-solid fa-play"></i></div>
+          </div>
+          <div class="tile-overlay"><div class="tile-sender">${escHtml(item.sender || '')}</div></div>
+        `;
+      } else {
+        const img = document.createElement('img');
+        img.className = 'loading';
+        img.alt = item.sender || '';
+        img.loading = 'lazy';
+        img.onload  = () => img.classList.remove('loading');
+        img.onerror = () => { img.src = ''; img.style.display = 'none'; };
+        img.src = item.thumbUrl;
+        tile.appendChild(img);
+        tile.innerHTML += `<div class="tile-overlay"><div class="tile-sender">${escHtml(item.sender || '')}</div></div>`;
+      }
+
+      tile.addEventListener('click', () => openLightbox(index));
+      return tile;
+    }
+
+    // ─── LIGHTBOX ────────────────────────────────────────────────────────────────
+    function openLightbox(index) {
+      lbIndex = index;
+      renderLbContent();
+      lightbox.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeLightbox() {
+      lightbox.classList.remove('open');
+      document.body.style.overflow = '';
+      lbContent.innerHTML = '';
+    }
+
+    function renderLbContent() {
+      lbContent.innerHTML = '';
+      const item = filtered[lbIndex];
+      if (!item) return;
+
+      if (item.isVideo) {
+        const iframe = document.createElement('iframe');
+        iframe.className = 'lightbox-iframe';
+        iframe.src = item.previewUrl;
+        iframe.allow = 'autoplay';
+        iframe.allowFullscreen = true;
+        lbContent.appendChild(iframe);
+      } else {
+        const img = document.createElement('img');
+        img.className = 'lightbox-media';
+        img.src = item.previewUrl;
+        img.alt = item.sender || '';
+        lbContent.appendChild(img);
+      }
+
+      lbInfo.innerHTML = `<span>${item.sender || 'Invitado'}</span> · ${lbIndex + 1} / ${filtered.length}`;
+      document.getElementById('lbPrev').style.visibility = lbIndex > 0 ? 'visible' : 'hidden';
+      document.getElementById('lbNext').style.visibility = lbIndex < filtered.length - 1 ? 'visible' : 'hidden';
+    }
+
+    document.getElementById('lbClose').addEventListener('click', closeLightbox);
+    document.getElementById('lbPrev').addEventListener('click', () => { if (lbIndex > 0) { lbIndex--; renderLbContent(); } });
+    document.getElementById('lbNext').addEventListener('click', () => { if (lbIndex < filtered.length - 1) { lbIndex++; renderLbContent(); } });
+
+    lightbox.addEventListener('click', e => {
+      if (e.target === lightbox) closeLightbox();
+    });
+
+    document.addEventListener('keydown', e => {
+      if (!lightbox.classList.contains('open')) return;
+      if (e.key === 'Escape')      closeLightbox();
+      if (e.key === 'ArrowLeft')   { if (lbIndex > 0) { lbIndex--; renderLbContent(); } }
+      if (e.key === 'ArrowRight')  { if (lbIndex < filtered.length - 1) { lbIndex++; renderLbContent(); } }
+    });
+
+    // ─── HELPERS ─────────────────────────────────────────────────────────────────
+    function showState(iconHtml, text) {
+      stateMsg.innerHTML = `${iconHtml}<br>${text}`;
+      stateMsg.style.display = 'block';
+    }
+
+    function escHtml(str) {
+      return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+    }
+  </script>
+
+</body>
+</html>

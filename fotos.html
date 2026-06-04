@@ -482,6 +482,57 @@
     @media (max-width: 400px) {
       .card, .share-card { padding: 22px 18px 26px; }
     }
+
+    /* ---- UPLOAD STATUS ---- */
+    .upload-status {
+      margin-top: 18px;
+      min-height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      font-size: .88rem;
+      font-weight: 600;
+      border-radius: 10px;
+      padding: 8px 14px;
+      transition: all .3s;
+    }
+    .upload-status.active  { background: rgba(82,126,105,.1);  color: var(--color-olive); }
+    .upload-status.done    { background: rgba(46,125,50,.1);   color: #2e7d32; }
+    .upload-status.error   { background: rgba(192,57,43,.1);   color: #c0392b; }
+    .upload-status.partial { background: rgba(255,167,38,.1);  color: #e65100; }
+    .upload-status .err-count { color: #c0392b; }
+    .file-duration {
+      display: inline-block;
+      margin-left: 6px;
+      background: rgba(82,126,105,.15);
+      color: var(--color-olive);
+      border-radius: 4px;
+      padding: 1px 5px;
+      font-size: .72rem;
+      font-weight: 600;
+    }
+    /* ---- TOAST ---- */
+    .toast {
+      position: fixed;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%) translateY(20px);
+      background: #344C3D;
+      color: white;
+      padding: 12px 20px;
+      border-radius: 10px;
+      font-size: .85rem;
+      font-weight: 600;
+      max-width: min(90vw, 420px);
+      text-align: center;
+      z-index: 9999;
+      opacity: 0;
+      transition: opacity .25s, transform .25s;
+      pointer-events: none;
+    }
+    .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+    .toast.warning { background: #e65100; }
   </style>
 </head>
 
@@ -526,16 +577,12 @@
         <p>Arrastrá tus fotos y videos acá</p>
         <button type="button" class="btn-select" id="btnSelect">Seleccionar archivos</button>
         <input type="file" id="fileInput" multiple accept="image/*,video/*" hidden>
-        <p class="hint">JPG, PNG, HEIC, MP4, MOV · Máx. 50 MB por archivo</p>
+        <p class="hint">Fotos sin límite · Videos hasta 40 MB (~1 min en 1080p)</p>
       </div>
 
       <div class="file-list" id="fileList"></div>
 
-      <button type="button" class="btn-upload" id="btnUpload" disabled>
-        <span class="spinner"></span>
-        <i class="fa-solid fa-paper-plane btn-icon"></i>
-        <span class="btn-label">Enviar fotos</span>
-      </button>
+      <div class="upload-status" id="uploadStatus"></div>
 
     </div>
   </div>
@@ -566,26 +613,28 @@
 
   <script>
     // ─── CONFIGURACIÓN ──────────────────────────────────────────────────────────
-    // Pegá aquí la URL de tu Google Apps Script después de desplegarlo:
     const UPLOAD_ENDPOINT = 'https://script.google.com/macros/s/AKfycbzrlBQ96ItSyBJEYT9OfllXVWVNrNb7susCMDb7As4kaE4TN6piZ-tE0KtzofrOBaA0/exec';
-    const PHOTOS_SECRET   = 'F0t0sB0d4-AyA-2026!rM3kZ9';  // debe coincidir con PHOTOS_SECRET en Code.gs
+    const PHOTOS_SECRET   = 'F0t0sB0d4-AyA-2026!rM3kZ9';
+    const GALLERY_URL     = 'galeria.html';
 
-    const MAX_FILE_MB  = 50;
-    const MAX_FILE_BYTES = MAX_FILE_MB * 1024 * 1024;
+    const MAX_MB           = 40;         // límite efectivo con base64 (~37 MB real → 40 MB nominal)
+    const MAX_BYTES        = MAX_MB * 1024 * 1024;
+    const MAX_VIDEO_SEC    = 90;         // advertencia si supera 1:30 (suele implicar > 40 MB)
+    const CONCURRENCY      = 3;
 
     // ─── ESTADO ─────────────────────────────────────────────────────────────────
-    let files = []; // { file, id, status: 'pending'|'uploading'|'done'|'error' }
-    let uploading = false;
-    let nextId = 0;
+    let files         = [];
+    let nextId        = 0;
+    let activeUploads = 0;
 
     // ─── ELEMENTOS ──────────────────────────────────────────────────────────────
-    const dropZone   = document.getElementById('dropZone');
-    const fileInput  = document.getElementById('fileInput');
-    const btnSelect  = document.getElementById('btnSelect');
-    const fileList   = document.getElementById('fileList');
-    const btnUpload  = document.getElementById('btnUpload');
-    const btnAgain   = document.getElementById('btnAgain');
-    const uploadForm = document.getElementById('uploadForm');
+    const dropZone      = document.getElementById('dropZone');
+    let   fileInput     = document.getElementById('fileInput');
+    const btnSelect     = document.getElementById('btnSelect');
+    const fileList      = document.getElementById('fileList');
+    const statusBar     = document.getElementById('uploadStatus');
+    const btnAgain      = document.getElementById('btnAgain');
+    const uploadForm    = document.getElementById('uploadForm');
     const successScreen = document.getElementById('successScreen');
 
     // ─── DROP ZONE ──────────────────────────────────────────────────────────────
@@ -595,10 +644,18 @@
       fileInput.click();
     });
 
-    fileInput.addEventListener('change', () => {
-      addFiles(Array.from(fileInput.files));
-      fileInput.value = '';
-    });
+    // Fix móvil: reemplazamos el <input> por uno nuevo cada vez para que el
+    // evento change dispare correctamente en iOS/Android en usos sucesivos.
+    function attachFileInput() {
+      fileInput.addEventListener('change', function onFileChange() {
+        if (this.files.length) addFiles(Array.from(this.files));
+        const fresh = this.cloneNode(false);
+        this.replaceWith(fresh);
+        fileInput = fresh;
+        attachFileInput();
+      });
+    }
+    attachFileInput();
 
     dropZone.addEventListener('dragover', (e) => {
       e.preventDefault();
@@ -614,21 +671,50 @@
     });
 
     // ─── AGREGAR ARCHIVOS ────────────────────────────────────────────────────────
-    function addFiles(newFiles) {
-      newFiles.forEach(f => {
-        if (f.size > MAX_FILE_BYTES) {
-          alert(`"${f.name}" supera los ${MAX_FILE_MB} MB y no se agregó.`);
-          return;
-        }
+    async function addFiles(newFiles) {
+      for (const f of newFiles) {
         if (!f.type.startsWith('image/') && !f.type.startsWith('video/')) {
-          alert(`"${f.name}" no es una foto ni video.`);
-          return;
+          showToast(`"${f.name}" no es una foto ni video.`);
+          continue;
         }
+        if (f.size > MAX_BYTES) {
+          showToast(`"${f.name}" supera los ${MAX_MB} MB. Enviá clips más cortos para los videos.`);
+          continue;
+        }
+
+        // Verificar duración en videos
+        let duration = null;
+        if (f.type.startsWith('video/')) {
+          duration = await getVideoDuration(f);
+          if (duration && duration > MAX_VIDEO_SEC) {
+            showToast(`"${f.name}" dura ${fmtDuration(duration)} — los videos muy largos pueden fallar. Preferí clips cortos.`, 'warning');
+          }
+        }
+
         const id = nextId++;
-        files.push({ file: f, id, status: 'pending' });
-        renderItem({ file: f, id, status: 'pending' });
+        files.push({ file: f, id, status: 'pending', duration });
+        renderItem({ file: f, id, duration });
+      }
+      triggerUpload();
+    }
+
+    // ─── VIDEO HELPERS ───────────────────────────────────────────────────────────
+    function getVideoDuration(file) {
+      return new Promise(resolve => {
+        const v   = document.createElement('video');
+        v.preload = 'metadata';
+        const url = URL.createObjectURL(file);
+        v.onloadedmetadata = () => { URL.revokeObjectURL(url); resolve(v.duration); };
+        v.onerror          = () => { URL.revokeObjectURL(url); resolve(null); };
+        v.src = url;
       });
-      updateUploadBtn();
+    }
+
+    function fmtDuration(s) {
+      if (!s || !isFinite(s)) return '';
+      const m   = Math.floor(s / 60);
+      const sec = Math.floor(s % 60);
+      return `${m}:${sec.toString().padStart(2, '0')}`;
     }
 
     function fmtSize(bytes) {
@@ -636,8 +722,9 @@
       return (bytes / 1024 / 1024).toFixed(1) + ' MB';
     }
 
-    function renderItem({ file, id, status }) {
-      const item = document.createElement('div');
+    // ─── RENDER ITEM ─────────────────────────────────────────────────────────────
+    function renderItem({ file, id, duration }) {
+      const item    = document.createElement('div');
       item.className = 'file-item';
       item.dataset.id = id;
 
@@ -658,10 +745,12 @@
         item.appendChild(iconBox);
       }
 
+      const durHtml = duration ? `<span class="file-duration">${fmtDuration(duration)}</span>` : '';
+
       item.innerHTML += `
         <div class="file-info">
           <div class="file-name">${escHtml(file.name)}</div>
-          <div class="file-size">${fmtSize(file.size)}</div>
+          <div class="file-size">${fmtSize(file.size)}${durHtml}</div>
         </div>
         <span class="file-status pending" data-status>
           <i class="fa-regular fa-clock"></i>
@@ -673,160 +762,163 @@
       `;
 
       fileList.appendChild(item);
-
       item.querySelector('[data-remove]').addEventListener('click', () => removeFile(id));
     }
 
     function removeFile(id) {
-      if (uploading) return;
+      const entry = files.find(f => f.id === id);
+      if (entry && (entry.status === 'uploading' || entry.status === 'queued')) return;
       files = files.filter(f => f.id !== id);
       const el = fileList.querySelector(`[data-id="${id}"]`);
       if (el) el.remove();
-      updateUploadBtn();
-    }
-
-    function updateUploadBtn() {
-      const hasPending = files.some(f => f.status === 'pending');
-      btnUpload.disabled = !hasPending || uploading;
+      updateStatusBar();
     }
 
     function escHtml(str) {
       return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
     }
 
-    // ─── UPLOAD ──────────────────────────────────────────────────────────────────
-    btnUpload.addEventListener('click', startUpload);
+    // ─── UPLOAD AUTOMÁTICO ───────────────────────────────────────────────────────
+    function triggerUpload() {
+      while (activeUploads < CONCURRENCY) {
+        const entry = files.find(f => f.status === 'pending');
+        if (!entry) break;
 
-    async function startUpload() {
-      if (uploading || UPLOAD_ENDPOINT === 'APPS_SCRIPT_URL_AQUI') {
-        if (UPLOAD_ENDPOINT === 'APPS_SCRIPT_URL_AQUI') {
-          alert('Primero configurá la URL del Apps Script en fotos.html (línea con UPLOAD_ENDPOINT).');
-        }
-        return;
+        entry.status = 'queued';
+        activeUploads++;
+        updateStatusBar();
+
+        const sender = document.getElementById('senderName').value.trim() || 'Invitado';
+        uploadOne(entry, sender).finally(() => {
+          activeUploads--;
+          updateStatusBar();
+          triggerUpload(); // toma el siguiente archivo cuando se libera un slot
+        });
       }
+      updateStatusBar();
+    }
 
-      uploading = true;
-      btnUpload.disabled = true;
-      btnUpload.classList.add('uploading');
-      btnUpload.querySelector('.btn-label').textContent = 'Enviando…';
+    async function uploadOne(entry, sender) {
+      const item     = fileList.querySelector(`[data-id="${entry.id}"]`);
+      const statusEl = item?.querySelector('[data-status]');
+      const barEl    = item?.querySelector('[data-bar]');
 
-      const sender = document.getElementById('senderName').value.trim() || 'Invitado';
-      const pending = files.filter(f => f.status === 'pending');
+      entry.status = 'uploading';
+      item?.classList.add('uploading');
+      if (statusEl) { statusEl.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i>'; statusEl.className = 'file-status uploading'; }
 
-      for (let i = 0; i < pending.length; i++) {
-        const entry = pending[i];
-        const item = fileList.querySelector(`[data-id="${entry.id}"]`);
-        const statusEl = item?.querySelector('[data-status]');
-        const barEl    = item?.querySelector('[data-bar]');
+      let barPct    = 0;
+      const barTimer = setInterval(() => {
+        barPct = Math.min(barPct + 2, 88);
+        if (barEl) barEl.style.width = barPct + '%';
+      }, 200);
 
-        // Estado: subiendo
-        entry.status = 'uploading';
-        item?.classList.add('uploading');
-        if (statusEl) statusEl.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i>';
-        if (statusEl) statusEl.className = 'file-status uploading';
-        btnUpload.querySelector('.btn-label').textContent = `Enviando ${i + 1} de ${pending.length}…`;
+      try {
+        const base64 = await toBase64(entry.file);
+        const res    = await fetch(UPLOAD_ENDPOINT, {
+          method: 'POST',
+          headers: { 'Content-Type': 'text/plain' },
+          body: JSON.stringify({
+            filename: entry.file.name,
+            mimeType: entry.file.type,
+            base64, sender,
+            secret: PHOTOS_SECRET,
+          }),
+        });
+        const json = await res.json();
+        clearInterval(barTimer);
+        if (barEl) barEl.style.width = '100%';
 
-        // Animación de barra falsa (no hay progreso real con fetch)
-        let barPct = 0;
-        const barTimer = setInterval(() => {
-          barPct = Math.min(barPct + 4, 88);
-          if (barEl) barEl.style.width = barPct + '%';
-        }, 150);
-
-        try {
-          const base64 = await toBase64(entry.file);
-
-          const res = await fetch(UPLOAD_ENDPOINT, {
-            method: 'POST',
-            headers: { 'Content-Type': 'text/plain' },
-            body: JSON.stringify({
-              filename: entry.file.name,
-              mimeType: entry.file.type,
-              base64,
-              sender,
-              secret: PHOTOS_SECRET,
-            }),
-          });
-
-          const json = await res.json();
-
-          clearInterval(barTimer);
-          if (barEl) barEl.style.width = '100%';
-
-          if (json.ok) {
-            entry.status = 'done';
-            item?.classList.remove('uploading');
-            if (statusEl) statusEl.innerHTML = '<i class="fa-solid fa-check"></i>';
-            if (statusEl) statusEl.className = 'file-status done';
-          } else {
-            throw new Error(json.error || 'Error desconocido');
-          }
-        } catch (err) {
-          clearInterval(barTimer);
-          entry.status = 'error';
+        if (json.ok) {
+          entry.status = 'done';
           item?.classList.remove('uploading');
-          if (statusEl) statusEl.innerHTML = '<i class="fa-solid fa-triangle-exclamation"></i>';
-          if (statusEl) statusEl.className = 'file-status error';
-          console.error('Error subiendo', entry.file.name, err);
+          if (statusEl) { statusEl.innerHTML = '<i class="fa-solid fa-check"></i>'; statusEl.className = 'file-status done'; }
+        } else {
+          throw new Error(json.error || 'Error desconocido');
         }
-      }
-
-      uploading = false;
-      btnUpload.classList.remove('uploading');
-
-      const anyError = files.some(f => f.status === 'error');
-      const allDone  = files.every(f => f.status === 'done' || f.status === 'error');
-
-      if (allDone && !anyError) {
-        // Todo ok → mostrar pantalla de éxito
-        setTimeout(showSuccess, 600);
-      } else {
-        // Algunos errores → actualizar botón para reintentar
-        btnUpload.querySelector('.btn-label').textContent = anyError ? 'Reintentar fallidos' : 'Enviar fotos';
-        updateUploadBtn();
+      } catch (err) {
+        clearInterval(barTimer);
+        entry.status = 'error';
+        item?.classList.remove('uploading');
+        if (statusEl) { statusEl.innerHTML = '<i class="fa-solid fa-triangle-exclamation"></i>'; statusEl.className = 'file-status error'; }
+        console.error('Error subiendo', entry.file.name, err);
       }
     }
 
     function toBase64(file) {
       return new Promise((resolve, reject) => {
-        const reader = new FileReader();
+        const reader   = new FileReader();
         reader.onload  = () => resolve(reader.result.split(',')[1]);
         reader.onerror = reject;
         reader.readAsDataURL(file);
       });
     }
 
+    // ─── STATUS BAR ──────────────────────────────────────────────────────────────
+    function updateStatusBar() {
+      if (!files.length) { statusBar.textContent = ''; statusBar.className = 'upload-status'; return; }
+
+      const total      = files.length;
+      const done       = files.filter(f => f.status === 'done').length;
+      const errors     = files.filter(f => f.status === 'error').length;
+      const inProgress = files.filter(f => f.status === 'uploading' || f.status === 'queued').length;
+
+      if (inProgress > 0) {
+        statusBar.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> Subiendo ${done + errors + inProgress} de ${total}…`;
+        statusBar.className = 'upload-status active';
+      } else if (errors > 0 && done === 0) {
+        statusBar.innerHTML = `<i class="fa-solid fa-triangle-exclamation"></i> No se pudo subir. Revisá tu conexión.`;
+        statusBar.className = 'upload-status error';
+      } else if (errors > 0) {
+        statusBar.innerHTML = `<i class="fa-solid fa-check"></i> ${done} subidas · <span class="err-count">${errors} fallaron</span>`;
+        statusBar.className = 'upload-status partial';
+      } else if (done === total) {
+        statusBar.innerHTML = `<i class="fa-solid fa-check-circle"></i> ${done} ${done === 1 ? 'archivo subido' : 'archivos subidos'}`;
+        statusBar.className = 'upload-status done';
+        setTimeout(showSuccess, 900);
+      }
+    }
+
+    // ─── SUCCESS ─────────────────────────────────────────────────────────────────
     function showSuccess() {
+      if (files.some(f => ['pending','queued','uploading'].includes(f.status))) return;
+      if (files.some(f => f.status === 'error')) return;
       uploadForm.style.display = 'none';
       successScreen.classList.add('visible');
     }
 
     btnAgain.addEventListener('click', () => {
-      files = [];
-      nextId = 0;
+      files = []; nextId = 0; activeUploads = 0;
       fileList.innerHTML = '';
+      statusBar.textContent = '';
+      statusBar.className = 'upload-status';
       uploadForm.style.display = '';
       successScreen.classList.remove('visible');
       document.getElementById('senderName').value = '';
-      updateUploadBtn();
     });
+
+    // ─── TOAST ───────────────────────────────────────────────────────────────────
+    function showToast(msg, type = 'error') {
+      const t = document.createElement('div');
+      t.className = `toast ${type}`;
+      t.textContent = msg;
+      document.body.appendChild(t);
+      requestAnimationFrame(() => t.classList.add('show'));
+      setTimeout(() => { t.classList.remove('show'); setTimeout(() => t.remove(), 300); }, 4500);
+    }
 
     // ─── QR + COMPARTIR ─────────────────────────────────────────────────────────
     (function initShare() {
       const url = window.location.href.split('?')[0];
       document.getElementById('pageUrl').textContent = url;
 
-      // QR
       new QRCode(document.getElementById('qrcode'), {
         text: url,
-        width: 180,
-        height: 180,
-        colorDark: '#344C3D',
-        colorLight: '#ffffff',
+        width: 180, height: 180,
+        colorDark: '#344C3D', colorLight: '#ffffff',
         correctLevel: QRCode.CorrectLevel.M,
       });
 
-      // Copiar link
       document.getElementById('btnCopy').addEventListener('click', function () {
         navigator.clipboard.writeText(url).then(() => {
           this.textContent = '¡Copiado!';
@@ -834,18 +926,14 @@
         });
       });
 
-      // WhatsApp
-      const waText = encodeURIComponent(
-        '¡Subí tus fotos y videos de la boda de Anyela & Ángel acá! 📸\n' + url
-      );
       document.getElementById('btnWhatsapp').href =
-        'https://wa.me/?text=' + waText;
+        'https://wa.me/?text=' + encodeURIComponent(
+          '¡Subi tus fotos y videos de la boda de Anyela & Angel aca!\n' + url
+        );
 
-      // Imprimir QR
       document.getElementById('btnPrint').addEventListener('click', () => window.print());
     })();
 
-    // ─── PRINT STYLES (inyectados vía JS para no contaminar pantalla) ────────────
     const printStyle = document.createElement('style');
     printStyle.media = 'print';
     printStyle.textContent = `
