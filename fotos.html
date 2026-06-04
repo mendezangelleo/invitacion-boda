@@ -574,7 +574,7 @@
     <div id="uploadForm">
 
       <div class="field-group">
-        <label for="senderName">Tu nombre (opcional)</label>
+        <label for="senderName">Tu nombre <span id="nameStatus" style="font-weight:400;text-transform:none;letter-spacing:0;font-size:.75rem;margin-left:6px"></span></label>
         <input type="text" id="senderName" placeholder="Ej: María y Juan" maxlength="50" autocomplete="name">
       </div>
 
@@ -677,6 +677,32 @@
       });
     }
     attachFileInput();
+
+    // ─── VALIDACIÓN DE NOMBRE CONTRA LISTA DE INVITADOS ──────────────────────
+    let nameCheckTimer = null;
+    const nameStatusEl = document.getElementById('nameStatus');
+
+    document.getElementById('senderName').addEventListener('input', function() {
+      clearTimeout(nameCheckTimer);
+      const val = this.value.trim();
+      if (val.length < 3) { nameStatusEl.textContent = ''; return; }
+      nameStatusEl.innerHTML = '<span style="color:#888">verificando…</span>';
+      nameCheckTimer = setTimeout(() => checkName(val), 700);
+    });
+
+    async function checkName(name) {
+      try {
+        const res  = await fetch(`${UPLOAD_ENDPOINT}?action=check_name&name=${encodeURIComponent(name)}`);
+        const data = await res.json();
+        if (data.match) {
+          nameStatusEl.innerHTML = `<span style="color:#2e7d32">✓ Hola, ${escHtml(data.found || name)}</span>`;
+        } else {
+          nameStatusEl.innerHTML = `<span style="color:#e65100">No encontrado en la lista — igual podés subir fotos</span>`;
+        }
+      } catch(e) {
+        nameStatusEl.textContent = '';
+      }
+    }
 
     dropZone.addEventListener('dragover', (e) => {
       e.preventDefault();

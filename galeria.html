@@ -34,6 +34,10 @@
       color: var(--text);
       background: url('img/vecteezy_ai-generated-eucalyptus-leaves-background-on-white-marble_35463410.jpg') center/cover fixed;
     }
+    /* iOS Safari no soporta background-attachment: fixed */
+    @supports (-webkit-touch-callout: none) {
+      body { background-attachment: scroll; }
+    }
 
     /* ── HEADER ── */
     .hdr {
@@ -276,7 +280,7 @@
         <button class="action-btn" id="btnSelectMode" title="Seleccionar fotos">
           <i class="fa-regular fa-square-check"></i> Seleccionar
         </button>
-        <button class="action-btn" id="btnDownload" style="display:none" disabled>
+        <button class="action-btn" id="btnDownload" style="visibility:hidden" disabled>
           <i class="fa-solid fa-download"></i> <span id="dlCount">Descargar</span>
         </button>
       </div>
@@ -284,7 +288,7 @@
 
     <div class="cat-tabs" id="catTabs"></div>
 
-    <div id="galleryArea"></div>
+    <div id="galleryArea" class="gallery-grid"></div>
 
     <div class="load-more" id="loadMoreWrap" style="display:none">
       <button class="btn-more" id="btnMore">Ver más</button>
@@ -475,7 +479,7 @@
       btnSelectMode.innerHTML = selectMode
         ? '<i class="fa-solid fa-xmark"></i> Cancelar'
         : '<i class="fa-regular fa-square-check"></i> Seleccionar';
-      btnDownload.style.display = selectMode ? '' : 'none';
+      btnDownload.style.visibility = selectMode ? 'visible' : 'hidden';
       updateSelBar();
     });
 
@@ -486,7 +490,7 @@
       galleryArea.classList.remove('select-mode');
       btnSelectMode.classList.remove('active');
       btnSelectMode.innerHTML = '<i class="fa-regular fa-square-check"></i> Seleccionar';
-      btnDownload.style.display = 'none';
+      btnDownload.style.visibility = 'hidden';
       updateSelBar();
     });
 
