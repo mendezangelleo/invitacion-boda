@@ -351,7 +351,14 @@
         img.alt = item.sender || '';
         img.loading = 'lazy';
         img.onload  = () => img.classList.remove('loading');
-        img.onerror = () => { img.src = ''; img.style.display = 'none'; };
+        img.onerror = () => {
+          // Fallback: mostrar inicial del invitado si la imagen no carga
+          img.style.display = 'none';
+          const fb = document.createElement('div');
+          fb.style.cssText = 'aspect-ratio:1;display:flex;align-items:center;justify-content:center;background:var(--beige);font-size:1.8rem;font-weight:700;color:var(--olive);font-family:var(--font-title)';
+          fb.textContent = (item.sender || 'I').charAt(0).toUpperCase();
+          img.parentElement.insertBefore(fb, img);
+        };
         img.src = item.thumbUrl;
         tile.appendChild(img);
         tile.innerHTML += `<div class="tile-overlay"><div class="tile-sender">${escHtml(item.sender || '')}</div></div>`;
