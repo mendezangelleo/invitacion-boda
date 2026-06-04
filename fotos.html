@@ -995,12 +995,35 @@
       const url = window.location.href.split('?')[0];
       document.getElementById('pageUrl').textContent = url;
 
-      new QRCode(document.getElementById('qrcode'), {
-        text: url,
-        width: 180, height: 180,
+      const qrDiv = document.getElementById('qrcode');
+      const QR_S  = 180;
+      const tempD = document.createElement('div');
+      document.body.appendChild(tempD);
+      new QRCode(tempD, {
+        text: url, width: QR_S, height: QR_S,
         colorDark: '#344C3D', colorLight: '#ffffff',
-        correctLevel: QRCode.CorrectLevel.M,
+        correctLevel: QRCode.CorrectLevel.H,
       });
+      setTimeout(async () => {
+        const src = tempD.querySelector('canvas') || tempD.querySelector('img');
+        document.body.removeChild(tempD);
+        const cv = document.createElement('canvas');
+        cv.width = cv.height = QR_S;
+        cv.style.display = 'block';
+        const ctx = cv.getContext('2d');
+        if (src) ctx.drawImage(src, 0, 0, QR_S, QR_S);
+        await Promise.all([document.fonts.load('700 20px "Dancing Script"'), document.fonts.load('600 7px "Montserrat"')]).catch(()=>{});
+        const r = Math.round(QR_S * 0.22 / 2);
+        const cx = QR_S / 2, cy = QR_S / 2;
+        ctx.beginPath(); ctx.arc(cx, cy, r+4, 0, Math.PI*2); ctx.fillStyle='#fff'; ctx.fill();
+        ctx.beginPath(); ctx.arc(cx, cy, r, 0, Math.PI*2); ctx.fillStyle='#527e69'; ctx.fill();
+        ctx.beginPath(); ctx.arc(cx, cy, r-3, 0, Math.PI*2); ctx.fillStyle='#FAF1E4'; ctx.fill();
+        ctx.textAlign='center'; ctx.textBaseline='alphabetic'; ctx.fillStyle='#344C3D';
+        ctx.font=`700 ${Math.round(r*.72)}px "Dancing Script",cursive`; ctx.fillText('A & A', cx, cy+r*.28);
+        ctx.font=`600 ${Math.max(6,Math.round(r*.25))}px "Montserrat",sans-serif`; ctx.fillStyle='#527e69';
+        ctx.fillText('24·07·26', cx, cy+r*.7);
+        qrDiv.innerHTML = ''; qrDiv.appendChild(cv);
+      }, 200);
 
       document.getElementById('btnCopy').addEventListener('click', function () {
         navigator.clipboard.writeText(url).then(() => {

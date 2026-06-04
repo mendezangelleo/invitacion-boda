@@ -165,8 +165,8 @@
       correctLevel: QRCode.CorrectLevel.H,
     });
 
-    // 2. Esperar que qrcodejs renderice, luego incrustar el logo
-    setTimeout(() => {
+    // 2. Esperar que qrcodejs renderice, luego incrustar iniciales
+    setTimeout(async () => {
       const srcCanvas = tempDiv.querySelector('canvas');
       const srcImg    = tempDiv.querySelector('img');
       document.body.removeChild(tempDiv);
@@ -183,31 +183,49 @@
         ctx.drawImage(srcImg, 0, 0, QR_SIZE, QR_SIZE);
       }
 
-      // Incrustar logo centrado
-      const logoSize = Math.round(QR_SIZE * LOGO_RATIO);
-      const logoX    = Math.round((QR_SIZE - logoSize) / 2);
-      const logoY    = Math.round((QR_SIZE - logoSize) / 2);
-      const pad      = 5; // padding blanco alrededor del logo
+      // Asegurar que las fuentes están cargadas
+      await Promise.all([
+        document.fonts.load('700 28px "Dancing Script"'),
+        document.fonts.load('600 9px "Montserrat"'),
+      ]).catch(() => {});
 
-      const logo = new Image();
-      logo.onload = () => {
-        // Fondo blanco circular
-        ctx.beginPath();
-        ctx.arc(QR_SIZE / 2, QR_SIZE / 2, logoSize / 2 + pad, 0, Math.PI * 2);
-        ctx.fillStyle = '#ffffff';
-        ctx.fill();
+      drawInitials(ctx, QR_SIZE / 2, QR_SIZE / 2, Math.round(QR_SIZE * LOGO_RATIO / 2));
 
-        // Logo circular recortado
-        ctx.save();
-        ctx.beginPath();
-        ctx.arc(QR_SIZE / 2, QR_SIZE / 2, logoSize / 2, 0, Math.PI * 2);
-        ctx.clip();
-        ctx.drawImage(logo, logoX, logoY, logoSize, logoSize);
-        ctx.restore();
-      };
-      logo.src = 'img/Logo definitivo.png';
+    }, 200);
 
-    }, 150);
+    function drawInitials(ctx, cx, cy, r) {
+      // Halo blanco exterior
+      ctx.beginPath();
+      ctx.arc(cx, cy, r + 5, 0, Math.PI * 2);
+      ctx.fillStyle = '#ffffff';
+      ctx.fill();
+
+      // Círculo relleno oliva
+      ctx.beginPath();
+      ctx.arc(cx, cy, r, 0, Math.PI * 2);
+      ctx.fillStyle = '#527e69';
+      ctx.fill();
+
+      // Círculo interior crema
+      ctx.beginPath();
+      ctx.arc(cx, cy, r - 4, 0, Math.PI * 2);
+      ctx.fillStyle = '#FAF1E4';
+      ctx.fill();
+
+      // "A & A" en Dancing Script
+      ctx.textAlign    = 'center';
+      ctx.textBaseline = 'alphabetic';
+      ctx.fillStyle    = '#344C3D';
+      const fontSize   = Math.round(r * 0.72);
+      ctx.font         = `700 ${fontSize}px "Dancing Script", cursive`;
+      ctx.fillText('A & A', cx, cy + r * 0.28);
+
+      // Fecha pequeña debajo
+      const dateSz = Math.max(7, Math.round(r * 0.25));
+      ctx.font      = `600 ${dateSz}px "Montserrat", sans-serif`;
+      ctx.fillStyle = '#527e69';
+      ctx.fillText('24 · 07 · 26', cx, cy + r * 0.7);
+    }
 
     // 3. WhatsApp
     document.getElementById('btnWa').href =
