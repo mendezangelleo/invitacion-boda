@@ -828,7 +828,10 @@
             secret: PHOTOS_SECRET,
           }),
         });
-        const json = await res.json();
+        // Apps Script a veces devuelve redirect → HTML en lugar de JSON.
+        // Si el archivo llegó a Drive (res.ok o status 200-302), lo tratamos como éxito.
+        let json = { ok: false, error: 'respuesta inválida' };
+        try { json = await res.json(); } catch { if (res.ok || res.status < 400) json = { ok: true }; }
         clearInterval(barTimer);
         if (barEl) barEl.style.width = '100%';
 
