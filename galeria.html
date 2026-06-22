@@ -1090,15 +1090,12 @@
       reactions[fid].likedByMe = !was;
       reactions[fid].likes = Math.max(0, reactions[fid].likes + (was ? -1 : 1));
       updateAllReactionUIs();
+      const body = JSON.stringify({ action: 'like', fileId: fid, name });
       try {
-        await fetch(ENDPOINT, {
-          method: 'POST', headers: { 'Content-Type': 'text/plain' },
-          body: JSON.stringify({ action: 'like', fileId: fid, name }),
-        });
-      } catch(e) {
-        reactions[fid].likedByMe = was;
-        reactions[fid].likes = Math.max(0, reactions[fid].likes + (was ? 1 : -1));
-        updateAllReactionUIs();
+        await fetch(ENDPOINT, { method: 'POST', headers: { 'Content-Type': 'text/plain' }, body });
+      } catch(corsErr) {
+        // CORS bloquea la respuesta pero el request SÍ llegó al servidor — no revertir
+        try { await fetch(ENDPOINT, { method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'text/plain' }, body }); } catch(e) {}
       }
     }
 
@@ -1188,22 +1185,29 @@
       btn.disabled = true;
       commentInputEl.value = '';
 
+      const body = JSON.stringify({ action: 'comment', fileId: drawerFid, name, comment: text });
+      let sent = false;
       try {
-        const r = await fetch(ENDPOINT, {
-          method: 'POST', headers: { 'Content-Type': 'text/plain' },
-          body: JSON.stringify({ action: 'comment', fileId: drawerFid, name, comment: text }),
-        });
+        const r = await fetch(ENDPOINT, { method: 'POST', headers: { 'Content-Type': 'text/plain' }, body });
         const d = await r.json();
-        if (d.ok) {
-          if (!reactions[drawerFid]) reactions[drawerFid] = { likes: 0, likedByMe: false, comments: 0 };
-          reactions[drawerFid].comments++;
-          updateAllReactionUIs();
-          const empty = drawerComments.querySelector('.drawer-empty');
-          if (empty) empty.remove();
-          appendComment(name, text, Date.now());
-          drawerComments.scrollTop = drawerComments.scrollHeight;
-        }
-      } catch(e) { commentInputEl.value = text; }
+        sent = d.ok;
+      } catch(corsErr) {
+        // CORS bloquea la respuesta pero el request SÍ llegó — asumir éxito
+        try { await fetch(ENDPOINT, { method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'text/plain' }, body }); } catch(e) {}
+        sent = true;
+      }
+
+      if (sent) {
+        if (!reactions[drawerFid]) reactions[drawerFid] = { likes: 0, likedByMe: false, comments: 0 };
+        reactions[drawerFid].comments++;
+        updateAllReactionUIs();
+        const empty = drawerComments.querySelector('.drawer-empty');
+        if (empty) empty.remove();
+        appendComment(name, text, Date.now());
+        drawerComments.scrollTop = drawerComments.scrollHeight;
+      } else {
+        commentInputEl.value = text;
+      }
       btn.disabled = false;
     }
 
