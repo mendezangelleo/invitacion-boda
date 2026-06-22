@@ -516,6 +516,33 @@
     <div class="lb-info" id="lbInfo"></div>
   </div>
 
+  <!-- Name prompt -->
+  <div class="name-prompt" id="namePrompt">
+    <div class="name-card">
+      <h3>Hola 👋</h3>
+      <p>¿Cómo te llamás? Así aparecés en los comentarios y likes.</p>
+      <input type="text" id="namePromptInput" placeholder="Tu nombre" maxlength="30" autocomplete="off">
+      <button class="btn-name-ok" id="namePromptOk">Listo</button>
+    </div>
+  </div>
+
+  <!-- Comment drawer -->
+  <div class="drawer-wrap" id="drawerWrap">
+    <div class="drawer-backdrop" id="drawerBackdrop"></div>
+    <div class="drawer-panel">
+      <div class="drawer-handle"></div>
+      <div class="drawer-header">
+        <span class="drawer-title" id="drawerTitle">Comentarios</span>
+        <button class="drawer-close" id="drawerClose">×</button>
+      </div>
+      <div class="drawer-comments" id="drawerComments"></div>
+      <div class="drawer-input-row">
+        <input type="text" id="commentInput" placeholder="Escribí un comentario…" maxlength="300" autocomplete="off">
+        <button class="drawer-send" id="commentSend"><i class="fa-solid fa-arrow-up"></i></button>
+      </div>
+    </div>
+  </div>
+
   <script>
     // ─── CONFIG ─────────────────────────────────────────────────────────────
     const ENDPOINT  = 'https://script.google.com/macros/s/AKfycbxwXGm1twFAyPz8C_FM3BH2sN40t85Ib7SnczDOo4hd3fTJveiifHOMrCmJPHXtFhh_Ng/exec';
@@ -1228,32 +1255,6 @@
     }
   </script>
 
-  <!-- Name prompt -->
-  <div class="name-prompt" id="namePrompt">
-    <div class="name-card">
-      <h3>Hola 👋</h3>
-      <p>¿Cómo te llamás? Así aparecés en los comentarios y likes.</p>
-      <input type="text" id="namePromptInput" placeholder="Tu nombre" maxlength="30" autocomplete="off">
-      <button class="btn-name-ok" id="namePromptOk">Listo</button>
-    </div>
-  </div>
-
-  <!-- Comment drawer -->
-  <div class="drawer-wrap" id="drawerWrap">
-    <div class="drawer-backdrop" id="drawerBackdrop"></div>
-    <div class="drawer-panel">
-      <div class="drawer-handle"></div>
-      <div class="drawer-header">
-        <span class="drawer-title" id="drawerTitle">Comentarios</span>
-        <button class="drawer-close" id="drawerClose">×</button>
-      </div>
-      <div class="drawer-comments" id="drawerComments"></div>
-      <div class="drawer-input-row">
-        <input type="text" id="commentInput" placeholder="Escribí un comentario…" maxlength="300" autocomplete="off">
-        <button class="drawer-send" id="commentSend"><i class="fa-solid fa-arrow-up"></i></button>
-      </div>
-    </div>
-  </div>
 
 </body>
 </html>
