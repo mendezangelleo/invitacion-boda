@@ -1163,12 +1163,16 @@
     const drawerComments = document.getElementById('drawerComments');
     const commentInputEl = document.getElementById('commentInput');
 
+    // Prevenir scroll del body cuando el drawer está abierto (sin overflow:hidden que causa zoom en iOS)
+    drawerWrapEl.addEventListener('touchmove', e => {
+      if (!e.target.closest('.drawer-comments')) e.preventDefault();
+    }, { passive: false });
+
     async function openDrawer(fid) {
       drawerFid = fid;
       drawerComments.innerHTML = '<div class="drawer-empty">Cargando…</div>';
       document.getElementById('drawerTitle').textContent = 'Comentarios';
       drawerWrapEl.classList.add('open');
-      document.body.style.overflow = 'hidden';
       try {
         const r = await fetch(`${ENDPOINT}?action=comments&fileId=${encodeURIComponent(fid)}&_t=${Date.now()}`);
         const d = await r.json();
@@ -1206,7 +1210,6 @@
     function closeDrawer() {
       drawerWrapEl.classList.remove('open');
       drawerWrapEl.style.paddingBottom = '';
-      document.body.style.overflow = '';
       drawerFid = null;
       commentInputEl.value = '';
     }
