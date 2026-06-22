@@ -137,7 +137,8 @@
       outline: none;
       transition: border-color .2s, box-shadow .2s;
     }
-    .field-group input[type="text"]:focus {
+    .field-group input[type="text"]:focus,
+    .field-group textarea:focus {
       border-color: var(--color-olive);
       box-shadow: 0 0 0 3px rgba(82,126,105,.12);
     }
@@ -584,13 +585,23 @@
       <div class="field-group">
         <label for="uploadCategory">¿Qué momento es?</label>
         <select id="uploadCategory" style="width:100%;padding:11px 14px;border-radius:10px;border:1px solid rgba(82,126,105,.2);background:rgba(250,241,228,.5);font-family:'Montserrat',sans-serif;font-size:.92rem;color:#344C3D;outline:none;cursor:pointer">
-          <option value="General">General 📷</option>
+          <option value="Viaje">En camino ✈️</option>
+          <option value="Llegamos">Llegamos 🛬</option>
+          <option value="Hotel">Hotel 🏨</option>
+          <option value="Explorando">Explorando BA 🏙️</option>
+          <option value="Preparativos">Preparativos 💄</option>
           <option value="Pre-boda">Pre-boda 💍</option>
+          <option value="Civil">Civil 🥂</option>
           <option value="Ceremonia">Ceremonia 🌿</option>
           <option value="Celebracion">Celebración 🎉</option>
-          <option value="Civil">Civil 🥂</option>
-          <option value="Viaje">Viaje ✈️</option>
+          <option value="General">General 📷</option>
         </select>
+      </div>
+
+      <div class="field-group">
+        <label for="photoCaption">Tu mensaje <span style="font-weight:400;text-transform:none;letter-spacing:0;opacity:.6">(opcional)</span></label>
+        <textarea id="photoCaption" maxlength="200" rows="2" placeholder="¿Dónde estás? ¿Qué vivís? Contalo…" style="width:100%;padding:11px 14px;border-radius:10px;border:1px solid rgba(82,126,105,.2);background:rgba(250,241,228,.5);font-family:'Montserrat',sans-serif;font-size:.92rem;color:#344C3D;outline:none;resize:none;transition:border-color .2s,box-shadow .2s;line-height:1.5"></textarea>
+        <div style="text-align:right;font-size:.72rem;opacity:.45;margin-top:4px;font-family:'Montserrat',sans-serif"><span id="captionCount">0</span>/200</div>
       </div>
 
       <div class="drop-zone" id="dropZone">
@@ -660,6 +671,11 @@
     const btnAgain      = document.getElementById('btnAgain');
     const uploadForm    = document.getElementById('uploadForm');
     const successScreen = document.getElementById('successScreen');
+
+    // ─── CAPTION COUNTER ────────────────────────────────────────────────────────
+    document.getElementById('photoCaption').addEventListener('input', function() {
+      document.getElementById('captionCount').textContent = this.value.length;
+    });
 
     // ─── DROP ZONE ──────────────────────────────────────────────────────────────
     btnSelect.addEventListener('click', () => fileInput.click());
@@ -902,6 +918,7 @@
           mimeType: entry.file.type,
           base64, sender,
           category: document.getElementById('uploadCategory')?.value || 'General',
+          caption:  document.getElementById('photoCaption')?.value?.trim() || '',
           secret: PHOTOS_SECRET,
         });
 
@@ -990,7 +1007,9 @@
       uploadForm.style.display = '';
       successScreen.classList.remove('visible');
       document.getElementById('senderName').value = '';
-      const catEl = document.getElementById('uploadCategory'); if (catEl) catEl.value = 'General';
+      const catEl = document.getElementById('uploadCategory'); if (catEl) catEl.value = 'Viaje';
+      const capEl = document.getElementById('photoCaption'); if (capEl) capEl.value = '';
+      const capCt = document.getElementById('captionCount'); if (capCt) capCt.textContent = '0';
     });
 
     // ─── TOAST ───────────────────────────────────────────────────────────────────

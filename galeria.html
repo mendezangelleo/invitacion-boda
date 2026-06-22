@@ -251,6 +251,66 @@
       text-decoration: none; pointer-events: auto; transition: background .2s;
     }
     .lb-dl:hover { background: rgba(255,255,255,.28); }
+
+    /* ── VIEW TOGGLE ── */
+    .view-toggle {
+      display: flex; border: 1.5px solid var(--border); border-radius: 10px; overflow: hidden;
+    }
+    .view-toggle .action-btn { border: none; border-radius: 0; padding: 9px 13px; }
+    .view-toggle .action-btn:first-child { border-right: 1px solid var(--border); }
+
+    /* ── UPDATE PILL ── */
+    .update-pill {
+      display: none; align-items: center; gap: 8px;
+      background: var(--olive); color: white;
+      padding: 10px 18px; border-radius: 10px;
+      font-family: var(--font-b); font-size: .85rem; font-weight: 700;
+      cursor: pointer; margin-bottom: 14px;
+      transition: filter .2s; width: 100%; justify-content: center; border: none;
+    }
+    .update-pill:hover { filter: brightness(1.1); }
+    .update-pill.visible { display: flex; }
+
+    /* ── FEED LIST ── */
+    .feed-list { display: flex; flex-direction: column; gap: 16px; max-width: 600px; margin: 0 auto; }
+
+    /* ── FEED CARD ── */
+    .feed-card {
+      background: var(--glass); border: 1px solid var(--border);
+      border-radius: 16px; overflow: hidden; box-shadow: var(--shadow);
+    }
+    .feed-header { display: flex; align-items: center; gap: 12px; padding: 14px 16px; }
+    .feed-avatar {
+      width: 40px; height: 40px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: .82rem; font-weight: 700; color: white;
+      flex-shrink: 0; letter-spacing: .02em;
+    }
+    .feed-name { font-weight: 700; font-size: .9rem; color: var(--text); line-height: 1.2; }
+    .feed-time { font-size: .72rem; opacity: .55; margin-top: 2px; }
+    .feed-cat {
+      margin-left: auto; flex-shrink: 0;
+      padding: 4px 10px; border-radius: 999px;
+      background: rgba(82,126,105,.1); color: var(--olive);
+      font-size: .7rem; font-weight: 700; white-space: nowrap;
+    }
+    .feed-media { width: 100%; line-height: 0; }
+    .feed-media > img { display: block; width: 100%; max-height: 480px; object-fit: cover; cursor: pointer; }
+    .feed-video {
+      background: #1a2a22; height: 180px;
+      display: flex; align-items: center; justify-content: center;
+      flex-direction: column; gap: 8px; cursor: pointer; text-decoration: none;
+    }
+    .feed-video .fv-play {
+      width: 54px; height: 54px; border-radius: 50%;
+      background: rgba(255,255,255,.9);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.3rem; color: var(--olive);
+    }
+    .feed-video .fv-label { font-size: .75rem; color: rgba(255,255,255,.65); font-weight: 600; }
+    .feed-body { padding: 12px 16px 16px; }
+    .feed-caption { font-size: .88rem; line-height: 1.55; color: var(--text); margin-bottom: 8px; }
+    .feed-date { font-size: .72rem; opacity: .45; }
   </style>
 </head>
 <body>
@@ -273,8 +333,16 @@
         <i class="fa-solid fa-camera"></i> Subir mis fotos
       </a>
       <div class="top-actions">
+        <div class="view-toggle">
+          <button class="action-btn active" id="btnViewGrid" title="Cuadrícula">
+            <i class="fa-solid fa-grip"></i>
+          </button>
+          <button class="action-btn" id="btnViewFeed" title="Feed">
+            <i class="fa-solid fa-bars-staggered"></i>
+          </button>
+        </div>
         <a href="drive-video.html" class="action-btn" title="Acceder a Google Drive">
-          <i class="fa-brands fa-google-drive"></i> Drive
+          <i class="fa-brands fa-google-drive"></i>
         </a>
         <button class="action-btn" id="btnSelectMode" title="Seleccionar fotos">
           <i class="fa-regular fa-square-check"></i> Seleccionar
@@ -286,6 +354,11 @@
     </div>
 
     <div class="cat-tabs" id="catTabs"></div>
+
+    <button class="update-pill" id="updatePill">
+      <i class="fa-solid fa-arrow-up"></i>
+      <span id="updateCount">0</span> nuevas fotos — actualizar
+    </button>
 
     <div id="galleryArea" class="gallery-grid"></div>
 
@@ -316,13 +389,17 @@
     const PAGE_SIZE = 24;
 
     const CATEGORIES = [
-      { key: 'all',         label: 'Todos',        icon: '📸' },
-      { key: 'General',     label: 'General',       icon: '📷' },
-      { key: 'Pre-boda',    label: 'Pre-boda',      icon: '💍' },
-      { key: 'Ceremonia',   label: 'Ceremonia',     icon: '🌿' },
-      { key: 'Celebracion', label: 'Celebración',   icon: '🎉' },
-      { key: 'Civil',        label: 'Civil',          icon: '🥂' },
-      { key: 'Viaje',       label: 'Viaje',         icon: '✈️' },
+      { key: 'all',          label: 'Todos',         icon: '📸' },
+      { key: 'Viaje',        label: 'En camino',     icon: '✈️' },
+      { key: 'Llegamos',     label: 'Llegamos',      icon: '🛬' },
+      { key: 'Hotel',        label: 'Hotel',         icon: '🏨' },
+      { key: 'Explorando',   label: 'Explorando BA', icon: '🏙️' },
+      { key: 'Preparativos', label: 'Preparativos',  icon: '💄' },
+      { key: 'Pre-boda',     label: 'Pre-boda',      icon: '💍' },
+      { key: 'Civil',        label: 'Civil',         icon: '🥂' },
+      { key: 'Ceremonia',    label: 'Ceremonia',     icon: '🌿' },
+      { key: 'Celebracion',  label: 'Celebración',   icon: '🎉' },
+      { key: 'General',      label: 'General',       icon: '📷' },
     ];
 
     // ─── STATE ──────────────────────────────────────────────────────────────
@@ -334,6 +411,8 @@
     let selectMode  = false;
     let selectedIds = new Set();
     let touchStartX = 0;
+    let viewMode    = 'grid';
+    let pendingData = null;
 
     // ─── ELEMENTS ───────────────────────────────────────────────────────────
     const galleryArea  = document.getElementById('galleryArea');
@@ -361,6 +440,7 @@
         buildStats();
         buildTabs();
         applyFilter('all');
+        startAutoRefresh();
       })
       .catch(err => {
         console.error(err);
@@ -369,11 +449,13 @@
 
     // ─── STATS ───────────────────────────────────────────────────────────────
     function buildStats() {
-      const photos = allItems.filter(f => !f.isVideo).length;
-      const videos = allItems.filter(f => f.isVideo).length;
+      const photos   = allItems.filter(f => !f.isVideo).length;
+      const videos   = allItems.filter(f => f.isVideo).length;
+      const senders  = new Set(allItems.map(f => f.sender).filter(Boolean)).size;
       statsBar.innerHTML = `
         <span class="stat-chip"><i class="fa-solid fa-image"></i> ${photos} fotos</span>
         <span class="stat-chip"><i class="fa-solid fa-video"></i> ${videos} videos</span>
+        <span class="stat-chip"><i class="fa-solid fa-users"></i> ${senders} invitados</span>
       `;
     }
 
@@ -403,6 +485,7 @@
       filtered   = key === 'all' ? [...allItems] : allItems.filter(f => f.category === key);
       shown      = 0;
       galleryArea.innerHTML = '';
+      galleryArea.className = viewMode === 'feed' ? 'feed-list' : 'gallery-grid';
       if (!filtered.length) { showMsg('<i class="fa-solid fa-face-sad-cry"></i>', 'No hay fotos en esta categoría.'); return; }
       renderBatch();
     }
@@ -410,7 +493,10 @@
     // ─── RENDER BATCH ────────────────────────────────────────────────────────
     function renderBatch() {
       const batch = filtered.slice(shown, shown + PAGE_SIZE);
-      batch.forEach((item, i) => galleryArea.appendChild(buildTile(item, shown + i)));
+      batch.forEach((item, i) => {
+        const el = viewMode === 'feed' ? buildFeedCard(item, shown + i) : buildTile(item, shown + i);
+        galleryArea.appendChild(el);
+      });
       shown += batch.length;
       loadMoreWrap.style.display = shown < filtered.length ? 'block' : 'none';
     }
@@ -466,6 +552,105 @@
       }
 
       return tile;
+    }
+
+    // ─── FEED HELPERS ────────────────────────────────────────────────────────
+    function avatarBg(name) {
+      const palette = ['#527e69','#7a8e6a','#9e7b5a','#6a7a9e','#8e6a7a'];
+      let h = 0;
+      for (let i = 0; i < (name || '').length; i++) h = (h * 31 + name.charCodeAt(i)) | 0;
+      return palette[Math.abs(h) % palette.length];
+    }
+    function getInitials(name) {
+      return (name || '?').split(/\s+/).slice(0, 2).map(w => (w[0] || '').toUpperCase()).join('') || '?';
+    }
+    function timeAgo(ts) {
+      if (!ts) return '';
+      const diff = Date.now() - ts;
+      const min  = Math.floor(diff / 60000);
+      if (min < 1)   return 'ahora mismo';
+      if (min < 60)  return `hace ${min} min`;
+      const hr = Math.floor(min / 60);
+      if (hr < 24)   return `hace ${hr} h`;
+      const d = Math.floor(hr / 24);
+      if (d < 7)     return `hace ${d} día${d > 1 ? 's' : ''}`;
+      return new Date(ts).toLocaleDateString('es-AR', { day: 'numeric', month: 'short' });
+    }
+
+    // ─── BUILD FEED CARD ─────────────────────────────────────────────────────
+    function buildFeedCard(item, index) {
+      const card = document.createElement('div');
+      card.className = 'feed-card';
+
+      const catInfo = CATEGORIES.find(c => c.key === item.category) || { label: item.category || 'General', icon: '📷' };
+      const bg  = avatarBg(item.sender || '');
+      const ini = getInitials(item.sender || 'Inv');
+
+      // Header
+      const hdr = document.createElement('div');
+      hdr.className = 'feed-header';
+      const av = document.createElement('div');
+      av.className = 'feed-avatar';
+      av.style.background = bg;
+      av.textContent = ini;
+      const meta = document.createElement('div');
+      const nameEl = document.createElement('div');
+      nameEl.className = 'feed-name';
+      nameEl.textContent = item.sender || 'Invitado';
+      const timeEl = document.createElement('div');
+      timeEl.className = 'feed-time';
+      timeEl.textContent = timeAgo(item.created);
+      meta.appendChild(nameEl);
+      meta.appendChild(timeEl);
+      const catEl = document.createElement('span');
+      catEl.className = 'feed-cat';
+      catEl.textContent = catInfo.icon + ' ' + catInfo.label;
+      hdr.appendChild(av);
+      hdr.appendChild(meta);
+      hdr.appendChild(catEl);
+      card.appendChild(hdr);
+
+      // Media
+      const media = document.createElement('div');
+      media.className = 'feed-media';
+      if (item.isVideo) {
+        const vLink = document.createElement('a');
+        vLink.href = item.previewUrl; vLink.target = '_blank'; vLink.rel = 'noopener';
+        vLink.className = 'feed-video';
+        vLink.innerHTML = '<div class="fv-play"><i class="fa-solid fa-play"></i></div><span class="fv-label">▶ Ver video</span>';
+        media.appendChild(vLink);
+      } else {
+        const img = document.createElement('img');
+        img.src = item.thumbUrl; img.alt = item.sender || ''; img.loading = 'lazy'; img.decoding = 'async';
+        img.addEventListener('click', () => openLb(index));
+        img.onerror = () => {
+          img.style.display = 'none';
+          const fb = document.createElement('a');
+          fb.href = item.previewUrl; fb.target = '_blank'; fb.rel = 'noopener';
+          fb.className = 'feed-video';
+          fb.innerHTML = '<div class="fv-play"><i class="fa-solid fa-image"></i></div><span class="fv-label">Ver foto</span>';
+          media.insertBefore(fb, img);
+        };
+        media.appendChild(img);
+      }
+      card.appendChild(media);
+
+      // Body: caption + date
+      const body = document.createElement('div');
+      body.className = 'feed-body';
+      if (item.caption) {
+        const cap = document.createElement('div');
+        cap.className = 'feed-caption';
+        cap.textContent = item.caption;
+        body.appendChild(cap);
+      }
+      const dateEl2 = document.createElement('div');
+      dateEl2.className = 'feed-date';
+      dateEl2.textContent = fmtDate(item.created);
+      body.appendChild(dateEl2);
+      card.appendChild(body);
+
+      return card;
     }
 
     // ─── SELECT MODE ─────────────────────────────────────────────────────────
@@ -588,8 +773,12 @@
       if (!item) return;
       lbImg.src = item.previewUrl;
       lbImg.alt = item.sender || '';
+      const captionHtml = item.caption
+        ? `<span style="font-size:.8rem;opacity:.75;max-width:340px;line-height:1.4;font-style:italic">"${escHtml(item.caption)}"</span>`
+        : '';
       lbInfo.innerHTML = `
-        <span>${item.sender || 'Invitado'}</span> · ${lbIndex + 1} / ${filtered.length}
+        <span>${escHtml(item.sender || 'Invitado')}</span> · ${lbIndex + 1} / ${filtered.length}
+        ${captionHtml}
         <a class="lb-dl" href="${item.downloadUrl}" download target="_blank" rel="noopener">
           <i class="fa-solid fa-download"></i> Descargar
         </a>
@@ -620,6 +809,55 @@
       if (e.key === 'ArrowLeft'  && lbIndex > 0)                   { lbIndex--; renderLb(); }
       if (e.key === 'ArrowRight' && lbIndex < filtered.length - 1) { lbIndex++; renderLb(); }
     });
+
+    // ─── VIEW TOGGLE ─────────────────────────────────────────────────────────
+    document.getElementById('btnViewGrid').addEventListener('click', () => {
+      if (viewMode === 'grid') return;
+      viewMode = 'grid';
+      document.getElementById('btnViewGrid').classList.add('active');
+      document.getElementById('btnViewFeed').classList.remove('active');
+      shown = 0; galleryArea.innerHTML = '';
+      galleryArea.className = 'gallery-grid';
+      if (filtered.length) renderBatch();
+    });
+    document.getElementById('btnViewFeed').addEventListener('click', () => {
+      if (viewMode === 'feed') return;
+      viewMode = 'feed';
+      document.getElementById('btnViewFeed').classList.add('active');
+      document.getElementById('btnViewGrid').classList.remove('active');
+      shown = 0; galleryArea.innerHTML = '';
+      galleryArea.className = 'feed-list';
+      if (filtered.length) renderBatch();
+    });
+
+    // ─── AUTO-REFRESH ─────────────────────────────────────────────────────────
+    const updatePill = document.getElementById('updatePill');
+    updatePill.addEventListener('click', () => {
+      if (!pendingData) return;
+      allItems = pendingData;
+      pendingData = null;
+      updatePill.classList.remove('visible');
+      buildStats(); buildTabs(); applyFilter(activeKey);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
+    function startAutoRefresh() {
+      setInterval(() => {
+        fetch(`${ENDPOINT}?action=gallery&_t=${Date.now()}`)
+          .then(r => r.json())
+          .then(data => {
+            if (!data.ok) return;
+            const fresh = data.files || [];
+            if (fresh.length > allItems.length) {
+              const diff = fresh.length - allItems.length;
+              pendingData = fresh;
+              document.getElementById('updateCount').textContent = diff;
+              updatePill.classList.add('visible');
+            }
+          })
+          .catch(() => {});
+      }, 60000);
+    }
 
     // ─── HELPERS ─────────────────────────────────────────────────────────────
     function showMsg(icon, text) {
