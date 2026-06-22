@@ -345,20 +345,40 @@
     .feed-date { font-size: .72rem; opacity: .45; }
 
     /* ── REACTION BAR ── */
-    .reaction-bar {
-      display: flex; gap: 10px; padding: 10px 16px 6px;
-    }
+    .reaction-bar { display: flex; gap: 8px; padding: 10px 16px 6px; align-items: center; }
+    .like-wrap { position: relative; }
     .react-btn {
       display: inline-flex; align-items: center; gap: 5px;
       background: none; border: 1.5px solid var(--border);
-      border-radius: 999px; padding: 5px 13px;
-      font-size: .82rem; font-weight: 700; cursor: pointer;
-      font-family: var(--font-b); color: var(--text);
+      border-radius: 999px; padding: 6px 14px;
+      font-size: .82rem; color: var(--text); cursor: pointer;
       transition: all .18s;
     }
     .react-btn:hover { border-color: var(--olive); color: var(--olive); }
     .react-btn.liked { background: rgba(192,57,43,.08); border-color: #c0392b; color: #c0392b; }
     .react-btn .rcount { min-width: 8px; }
+    .react-btn.share-btn { margin-left: auto; padding: 6px 12px; color: var(--olive); border-color: var(--border); }
+    /* Emoji picker popup */
+    .rx-picker {
+      position: absolute; bottom: calc(100% + 10px); left: 0;
+      background: #fff; border-radius: 999px;
+      padding: 8px 10px; display: flex; gap: 2px;
+      box-shadow: 0 6px 28px rgba(0,0,0,.18), 0 1px 6px rgba(0,0,0,.08);
+      transform: scale(0); transform-origin: bottom left;
+      transition: transform .18s cubic-bezier(.34,1.56,.64,1);
+      pointer-events: none; z-index: 200; white-space: nowrap;
+    }
+    .rx-picker.open { transform: scale(1); pointer-events: auto; }
+    .rx-emoji-btn {
+      background: none; border: none; font-size: 1.5rem; cursor: pointer;
+      padding: 3px 5px; border-radius: 50%;
+      transition: transform .12s; transform-origin: bottom center;
+      line-height: 1;
+    }
+    .rx-emoji-btn:hover { transform: scale(1.4) translateY(-5px); }
+    .rx-emoji-btn.active { background: rgba(82,126,105,.12); }
+    @keyframes rx-pop { 0%,100% { transform: scale(1) } 40% { transform: scale(1.3) } }
+    .react-btn.rx-pop { animation: rx-pop .22s ease; }
 
     /* ── COMMENT DRAWER (Instagram style) ── */
     .drawer-wrap {
@@ -1126,6 +1146,7 @@
       namePromptEl.classList.remove('open');
       updateSelfAvatar();
       if (nameResolve) { nameResolve(myName); nameResolve = null; }
+      fetchReactions();
     }
     async function ensureName() {
       if (myName) return myName;
@@ -1145,12 +1166,35 @@
       try {
         const r = await fetch(`${ENDPOINT}?action=reactions&name=${encodeURIComponent(myName)}&_t=${Date.now()}`);
         const d = await r.json();
-        if (d.ok) { reactions = d.reactions || {}; updateAllReactionUIs(); }
+        if (d.ok) {
+          const raw = d.reactions || {};
+          // Normalize: handle old format { likes, likedByMe } → new format { totals, myReaction }
+          Object.keys(raw).forEach(fid => {
+            const r = raw[fid];
+            if ('likes' in r && !('totals' in r)) {
+              raw[fid] = { totals: r.likes > 0 ? { '❤️': r.likes } : {}, myReaction: r.likedByMe ? '❤️' : null, comments: r.comments || 0 };
+            }
+          });
+          reactions = raw;
+          updateAllReactionUIs();
+        }
       } catch(e) {}
     }
 
+    const EMOJI_OPTS = ['❤️','😍','🎉','😮','😂'];
+
     function getRx(fid) {
-      return reactions[fid] || { likes: 0, likedByMe: false, comments: 0 };
+      return reactions[fid] || { totals: {}, myReaction: null, comments: 0 };
+    }
+
+    function rxTotal(rx) {
+      return Object.values(rx.totals || {}).reduce((a, b) => a + b, 0);
+    }
+
+    function buildLikeBtnHtml(rx) {
+      const total = rxTotal(rx);
+      const top = Object.entries(rx.totals || {}).sort((a, b) => b[1] - a[1]).slice(0, 2).map(([e]) => e).join('');
+      return `<span class="lb-icon">${top || '❤️'}</span> <span class="rcount">${total || ''}</span>`;
     }
 
     function updateAllReactionUIs() {
@@ -1159,28 +1203,70 @@
         const rx  = getRx(fid);
         const lb  = bar.querySelector('.like-btn');
         const cb  = bar.querySelector('.comment-btn');
-        if (lb) { lb.classList.toggle('liked', !!rx.likedByMe); lb.querySelector('.rcount').textContent = rx.likes || ''; }
-        if (cb) { cb.querySelector('.rcount').textContent = rx.comments || ''; }
+        if (lb) { lb.classList.toggle('liked', !!rx.myReaction); lb.innerHTML = buildLikeBtnHtml(rx); }
+        if (cb) cb.querySelector('.rcount').textContent = rx.comments || '';
+        bar.querySelectorAll('.rx-emoji-btn').forEach(btn => btn.classList.toggle('active', rx.myReaction === btn.textContent));
       });
     }
 
-    // ─── LIKE TOGGLE ─────────────────────────────────────────────────────────
-    async function toggleLike(fid) {
+    // ─── SET REACTION ─────────────────────────────────────────────────────────
+    async function setReaction(fid, emoji) {
       const name = await ensureName();
       if (!name) return;
-      if (!reactions[fid]) reactions[fid] = { likes: 0, likedByMe: false, comments: 0 };
-      const was = reactions[fid].likedByMe;
-      reactions[fid].likedByMe = !was;
-      reactions[fid].likes = Math.max(0, reactions[fid].likes + (was ? -1 : 1));
+      if (!reactions[fid]) reactions[fid] = { totals: {}, myReaction: null, comments: 0 };
+      const rx = reactions[fid];
+      const prev = rx.myReaction;
+      // Optimistic update
+      if (prev) {
+        rx.totals[prev] = Math.max(0, (rx.totals[prev] || 1) - 1);
+        if (rx.totals[prev] === 0) delete rx.totals[prev];
+      }
+      if (prev === emoji) {
+        rx.myReaction = null;
+      } else {
+        rx.myReaction = emoji;
+        rx.totals[emoji] = (rx.totals[emoji] || 0) + 1;
+      }
       updateAllReactionUIs();
-      const body = JSON.stringify({ action: 'like', fileId: fid, name });
+      closeAllPickers();
+      // Animate the button for immediate feedback
+      const barEl = document.querySelector(`[data-rxfid="${fid}"]`);
+      if (barEl) { const lb = barEl.querySelector('.like-btn'); if (lb) { lb.classList.remove('rx-pop'); void lb.offsetWidth; lb.classList.add('rx-pop'); } }
+      const body = JSON.stringify({ action: 'like', fileId: fid, name, emoji });
       try {
-        await fetch(ENDPOINT, { method: 'POST', headers: { 'Content-Type': 'text/plain' }, body });
+        const resp = await fetch(ENDPOINT, { method: 'POST', headers: { 'Content-Type': 'text/plain' }, body });
+        try {
+          const d = await resp.json();
+          if (d.ok) {
+            // Reconcile optimistic state with server truth
+            const curRx = reactions[fid];
+            if (curRx) {
+              if (d.liked) {
+                if (!curRx.myReaction) {
+                  curRx.myReaction = d.emoji || emoji;
+                  curRx.totals[curRx.myReaction] = (curRx.totals[curRx.myReaction] || 0) + 1;
+                }
+              } else {
+                if (curRx.myReaction) {
+                  const e = curRx.myReaction;
+                  curRx.totals[e] = Math.max(0, (curRx.totals[e] || 1) - 1);
+                  if (!curRx.totals[e]) delete curRx.totals[e];
+                  curRx.myReaction = null;
+                }
+              }
+              updateAllReactionUIs();
+            }
+          }
+        } catch(jsonErr) {}
       } catch(corsErr) {
-        // CORS bloquea la respuesta pero el request SÍ llegó al servidor — no revertir
         try { await fetch(ENDPOINT, { method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'text/plain' }, body }); } catch(e) {}
       }
     }
+
+    function closeAllPickers() {
+      document.querySelectorAll('.rx-picker.open').forEach(p => p.classList.remove('open'));
+    }
+    document.addEventListener('click', closeAllPickers);
 
     // ─── REACTION BAR BUILDER ─────────────────────────────────────────────────
     function buildReactionBar(fid) {
@@ -1189,17 +1275,68 @@
       bar.dataset.rxfid = fid;
       const rx = getRx(fid);
 
-      const lb = document.createElement('button');
-      lb.className = 'react-btn like-btn' + (rx.likedByMe ? ' liked' : '');
-      lb.innerHTML = `❤️ <span class="rcount">${rx.likes || ''}</span>`;
-      lb.addEventListener('click', e => { e.stopPropagation(); toggleLike(fid); });
+      // Like + picker wrapper
+      const likeWrap = document.createElement('div');
+      likeWrap.className = 'like-wrap';
 
+      const lb = document.createElement('button');
+      lb.className = 'react-btn like-btn' + (rx.myReaction ? ' liked' : '');
+      lb.innerHTML = buildLikeBtnHtml(rx);
+      lb.addEventListener('click', e => { e.stopPropagation(); setReaction(fid, '❤️'); });
+
+      // Long press → open picker
+      let pressTimer;
+      const startPress = e => { pressTimer = setTimeout(() => { const p = likeWrap.querySelector('.rx-picker'); if(p){ closeAllPickers(); p.classList.add('open'); } }, 400); };
+      const endPress   = () => clearTimeout(pressTimer);
+      lb.addEventListener('touchstart', startPress, { passive: true });
+      lb.addEventListener('touchend',   endPress,   { passive: true });
+      lb.addEventListener('mousedown',  startPress);
+      lb.addEventListener('mouseup',    endPress);
+      lb.addEventListener('mouseleave', endPress);
+
+      // Emoji picker
+      const picker = document.createElement('div');
+      picker.className = 'rx-picker';
+      EMOJI_OPTS.forEach(em => {
+        const btn = document.createElement('button');
+        btn.className = 'rx-emoji-btn' + (rx.myReaction === em ? ' active' : '');
+        btn.textContent = em;
+        btn.title = em;
+        btn.addEventListener('click', e => { e.stopPropagation(); setReaction(fid, em); });
+        picker.appendChild(btn);
+      });
+
+      likeWrap.appendChild(lb);
+      likeWrap.appendChild(picker);
+      bar.appendChild(likeWrap);
+
+      // Comment button
       const cb = document.createElement('button');
       cb.className = 'react-btn comment-btn';
       cb.innerHTML = `💬 <span class="rcount">${rx.comments || ''}</span>`;
       cb.addEventListener('click', e => { e.stopPropagation(); openDrawer(fid); });
+      bar.appendChild(cb);
 
-      bar.appendChild(lb); bar.appendChild(cb);
+      // Native share button
+      if (navigator.share) {
+        const sb = document.createElement('button');
+        sb.className = 'react-btn share-btn';
+        sb.innerHTML = '<i class="fa-solid fa-arrow-up-from-bracket"></i>';
+        sb.title = 'Compartir';
+        sb.addEventListener('click', async e => {
+          e.stopPropagation();
+          try {
+            const item = allItems.find(f => f.fileId === fid);
+            await navigator.share({
+              title: 'Boda Anyela & Ángel 💍',
+              text: item ? `${item.sender} compartió una foto de la boda ✨` : 'Mirá esta foto de la boda',
+              url: item ? item.previewUrl : window.location.href,
+            });
+          } catch(e) {}
+        });
+        bar.appendChild(sb);
+      }
+
       return bar;
     }
 
