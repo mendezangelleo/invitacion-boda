@@ -60,7 +60,7 @@
     .hdr .hdr-title { font-family: var(--font-t); font-size: 1.35rem; color: var(--olive); }
 
     /* ── MAIN ── */
-    .main { padding: 80px 12px 32px; max-width: 1200px; margin: 0 auto; }
+    .main { padding: 80px 12px 16px; max-width: 1200px; margin: 0 auto; }
 
     /* ── HERO ── */
     .hero { text-align: center; padding: 20px 0 14px; }
@@ -291,7 +291,7 @@
     .update-pill.visible { display: flex; }
 
     /* ── FEED LIST ── */
-    .feed-list { display: flex; flex-direction: column; gap: 16px; max-width: 600px; margin: 0 auto; }
+    .feed-list { display: flex; flex-direction: column; gap: 16px; max-width: 600px; margin: 0 auto; padding-bottom: 32px; }
 
     /* ── FEED CARD ── */
     .feed-card {
@@ -468,10 +468,10 @@
       </a>
       <div class="top-actions">
         <div class="view-toggle">
-          <button class="action-btn active" id="btnViewGrid" title="Cuadrícula">
+          <button class="action-btn" id="btnViewGrid" title="Cuadrícula">
             <i class="fa-solid fa-grip"></i>
           </button>
-          <button class="action-btn" id="btnViewFeed" title="Feed">
+          <button class="action-btn active" id="btnViewFeed" title="Feed">
             <i class="fa-solid fa-bars-staggered"></i>
           </button>
         </div>
@@ -571,7 +571,7 @@
     let selectMode  = false;
     let selectedIds = new Set();
     let touchStartX = 0;
-    let viewMode    = 'grid';
+    let viewMode    = 'feed';
     let pendingData = null;
 
     // ─── ELEMENTS ───────────────────────────────────────────────────────────
@@ -584,6 +584,7 @@
     const selCount     = document.getElementById('selCount');
     const btnSelectMode = document.getElementById('btnSelectMode');
     const btnDownload  = document.getElementById('btnDownload');
+    btnSelectMode.style.display = 'none'; // default feed mode
     const dlCount      = document.getElementById('dlCount');
     const lb           = document.getElementById('lb');
     const lbImg        = document.getElementById('lbImg');
@@ -788,6 +789,16 @@
         vLink.href = item.previewUrl; vLink.target = '_blank'; vLink.rel = 'noopener';
         vLink.className = 'feed-video';
         vLink.innerHTML = '<div class="fv-play"><i class="fa-solid fa-play"></i></div><span class="fv-label">▶ Ver video</span>';
+        // Drive genera thumbnail de video en lh3 — intentar usarlo como fondo
+        const thumbUrl = `https://lh3.googleusercontent.com/d/${item.fileId}`;
+        const probe = new Image();
+        probe.onload = () => {
+          vLink.style.backgroundImage = `url('${thumbUrl}')`;
+          vLink.style.backgroundSize = 'cover';
+          vLink.style.backgroundPosition = 'center';
+          vLink.style.background = `linear-gradient(rgba(0,0,0,.35),rgba(0,0,0,.35)), url('${thumbUrl}') center/cover`;
+        };
+        probe.src = thumbUrl;
         media.appendChild(vLink);
       } else {
         const img = document.createElement('img');
@@ -1194,6 +1205,7 @@
 
     function closeDrawer() {
       drawerWrapEl.classList.remove('open');
+      drawerWrapEl.style.paddingBottom = '';
       document.body.style.overflow = '';
       drawerFid = null;
       commentInputEl.value = '';
@@ -1241,22 +1253,19 @@
     document.getElementById('commentSend').addEventListener('click', sendComment);
     commentInputEl.addEventListener('keydown', e => { if (e.key === 'Enter') sendComment(); });
 
-    // Cuando el teclado aparece en mobile, ajustar el drawer al viewport visible
+    // Keyboard-aware drawer: sube el panel sobre el teclado en iOS/Android
     commentInputEl.addEventListener('focus', () => {
-      setTimeout(() => drawerComments.scrollTop = drawerComments.scrollHeight, 300);
+      setTimeout(() => drawerComments.scrollTop = drawerComments.scrollHeight, 350);
     });
     if (window.visualViewport) {
-      window.visualViewport.addEventListener('resize', () => {
-        const panel = document.querySelector('.drawer-panel');
-        if (!panel || !drawerWrapEl.classList.contains('open')) return;
-        const vvh = window.visualViewport.height;
-        panel.style.maxHeight = Math.round(vvh * 0.9) + 'px';
-      });
-      window.visualViewport.addEventListener('scroll', () => {
-        const panel = document.querySelector('.drawer-panel');
-        if (!panel || !drawerWrapEl.classList.contains('open')) return;
-        panel.style.bottom = Math.round(window.visualViewport.offsetTop) + 'px';
-      });
+      const syncKeyboard = () => {
+        if (!drawerWrapEl.classList.contains('open')) return;
+        const keyboardH = Math.max(0, window.innerHeight - window.visualViewport.height - window.visualViewport.offsetTop);
+        drawerWrapEl.style.paddingBottom = keyboardH + 'px';
+        if (keyboardH > 0) setTimeout(() => drawerComments.scrollTop = drawerComments.scrollHeight, 50);
+      };
+      window.visualViewport.addEventListener('resize', syncKeyboard);
+      window.visualViewport.addEventListener('scroll', syncKeyboard);
     }
 
     // ─── HELPERS ─────────────────────────────────────────────────────────────
