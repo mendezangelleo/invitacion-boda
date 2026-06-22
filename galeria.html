@@ -362,7 +362,7 @@
     .drawer-wrap.open .drawer-panel { transform: translateY(0); pointer-events: auto; }
     .drawer-panel {
       position: relative; z-index: 1;
-      width: min(600px, 100%); max-height: 75vh;
+      width: min(600px, 100%); max-height: min(75vh, 75dvh);
       background: var(--cream); border-radius: 20px 20px 0 0;
       display: flex; flex-direction: column;
       transform: translateY(100%);
@@ -396,7 +396,7 @@
     .comment-text { font-size: .85rem; line-height: 1.45; margin-top: 2px; word-break: break-word; }
     .comment-time { font-size: .68rem; opacity: .4; margin-top: 3px; }
     .drawer-input-row {
-      display: flex; gap: 8px; padding: 10px 14px 14px;
+      display: flex; gap: 8px; padding: 10px 14px max(14px, env(safe-area-inset-bottom));
       border-top: 1px solid var(--border); background: white;
     }
     .drawer-input-row input {
@@ -1240,6 +1240,24 @@
 
     document.getElementById('commentSend').addEventListener('click', sendComment);
     commentInputEl.addEventListener('keydown', e => { if (e.key === 'Enter') sendComment(); });
+
+    // Cuando el teclado aparece en mobile, ajustar el drawer al viewport visible
+    commentInputEl.addEventListener('focus', () => {
+      setTimeout(() => drawerComments.scrollTop = drawerComments.scrollHeight, 300);
+    });
+    if (window.visualViewport) {
+      window.visualViewport.addEventListener('resize', () => {
+        const panel = document.querySelector('.drawer-panel');
+        if (!panel || !drawerWrapEl.classList.contains('open')) return;
+        const vvh = window.visualViewport.height;
+        panel.style.maxHeight = Math.round(vvh * 0.9) + 'px';
+      });
+      window.visualViewport.addEventListener('scroll', () => {
+        const panel = document.querySelector('.drawer-panel');
+        if (!panel || !drawerWrapEl.classList.contains('open')) return;
+        panel.style.bottom = Math.round(window.visualViewport.offsetTop) + 'px';
+      });
+    }
 
     // ─── HELPERS ─────────────────────────────────────────────────────────────
     function showMsg(icon, text) {

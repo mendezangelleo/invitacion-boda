@@ -868,10 +868,15 @@
         reader.readAsDataURL(file);
         item.appendChild(thumb);
       } else {
-        const iconBox = document.createElement('div');
-        iconBox.className = 'thumb-icon';
-        iconBox.innerHTML = '<i class="fa-solid fa-video"></i>';
-        item.appendChild(iconBox);
+        const thumb = document.createElement('video');
+        thumb.className = 'thumb';
+        thumb.muted = true;
+        thumb.playsInline = true;
+        thumb.preload = 'metadata';
+        const url = URL.createObjectURL(file);
+        thumb.src = url;
+        thumb.addEventListener('loadedmetadata', () => { thumb.currentTime = 1; }, { once: true });
+        item.appendChild(thumb);
       }
 
       const durHtml = duration ? `<span class="file-duration">${fmtDuration(duration)}</span>` : '';
