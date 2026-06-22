@@ -605,6 +605,7 @@
           <option value="Celebracion">Celebración 🎉</option>
           <option value="General">General 📷</option>
         </select>
+        <p id="catDesc" style="margin-top:7px;font-size:.78rem;color:var(--color-olive);opacity:.8;line-height:1.4;font-family:var(--font-body)"></p>
       </div>
 
       <div class="field-group">
@@ -680,6 +681,27 @@
     const btnAgain      = document.getElementById('btnAgain');
     const uploadForm    = document.getElementById('uploadForm');
     const successScreen = document.getElementById('successScreen');
+
+    // ─── CATEGORY DESCRIPTIONS ──────────────────────────────────────────────────
+    const CAT_DESC = {
+      'Viaje':        'Fotos desde que salís de tu casa hasta llegar a Argentina',
+      'Llegamos':     'El aeropuerto, el primer momento en suelo argentino',
+      'Hotel':        'El check-in, la habitación, la vista — todo el backstage',
+      'Explorando':   'Paseos, comidas, turismo y descubriendo Buenos Aires',
+      'Preparativos': 'Peluquería, barbería, maquillaje — el before de la boda',
+      'Pre-boda':     'Los momentos íntimos antes de que empiece la ceremonia',
+      'Civil':        'El casamiento civil',
+      'Ceremonia':    'La ceremonia principal — el gran momento',
+      'Celebracion':  'La fiesta, el baile y todo el after',
+      'General':      'Cualquier otro momento especial que quieras compartir',
+    };
+    const catDescEl = document.getElementById('catDesc');
+    const catSelect = document.getElementById('uploadCategory');
+    function updateCatDesc() {
+      catDescEl.textContent = CAT_DESC[catSelect.value] || '';
+    }
+    catSelect.addEventListener('change', updateCatDesc);
+    updateCatDesc();
 
     // ─── CAPTION COUNTER ────────────────────────────────────────────────────────
     document.getElementById('photoCaption').addEventListener('input', function() {
