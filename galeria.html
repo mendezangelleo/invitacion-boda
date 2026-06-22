@@ -32,11 +32,19 @@
     body {
       font-family: var(--font-b);
       color: var(--text);
-      background: url('img/vecteezy_ai-generated-eucalyptus-leaves-background-on-white-marble_35463410.jpg') center/cover fixed;
+      background: transparent;
+      position: relative;
     }
-    /* iOS Safari no soporta background-attachment: fixed */
-    @supports (-webkit-touch-callout: none) {
-      body { background-attachment: scroll; }
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      background-image: url('img/vecteezy_ai-generated-eucalyptus-leaves-background-on-white-marble_35463410.jpg');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      pointer-events: none;
     }
 
     /* ── HEADER ── */
@@ -651,29 +659,38 @@
     }
 
     // ─── SELECT MODE ─────────────────────────────────────────────────────────
-    btnSelectMode.addEventListener('click', () => {
-      selectMode = !selectMode;
-      selectedIds.clear();
-      document.querySelectorAll('.tile').forEach(t => t.classList.remove('selected'));
-      galleryArea.classList.toggle('select-mode', selectMode);
-      btnSelectMode.classList.toggle('active', selectMode);
-      btnSelectMode.innerHTML = selectMode
-        ? '<i class="fa-solid fa-xmark"></i> Cancelar'
-        : '<i class="fa-regular fa-square-check"></i>';
-      btnDownload.style.display = selectMode ? 'inline-flex' : 'none';
-      updateSelBar();
-    });
+    const viewToggle = document.querySelector('.view-toggle');
 
-    document.getElementById('btnCancelSel').addEventListener('click', () => {
+    function enterSelectMode() {
+      selectMode = true;
+      selectedIds.clear();
+      galleryArea.classList.add('select-mode');
+      btnSelectMode.classList.add('active');
+      btnSelectMode.innerHTML = '<i class="fa-solid fa-xmark"></i> Cancelar';
+      btnSelectMode.style.display = '';
+      btnDownload.style.display = 'inline-flex';
+      viewToggle.style.display = 'none';
+      updateSelBar();
+    }
+
+    function exitSelectMode() {
       selectMode = false;
       selectedIds.clear();
       document.querySelectorAll('.tile').forEach(t => t.classList.remove('selected'));
       galleryArea.classList.remove('select-mode');
       btnSelectMode.classList.remove('active');
       btnSelectMode.innerHTML = '<i class="fa-regular fa-square-check"></i>';
+      btnSelectMode.style.display = viewMode === 'feed' ? 'none' : '';
       btnDownload.style.display = 'none';
+      viewToggle.style.display = '';
       updateSelBar();
+    }
+
+    btnSelectMode.addEventListener('click', () => {
+      if (selectMode) exitSelectMode(); else enterSelectMode();
     });
+
+    document.getElementById('btnCancelSel').addEventListener('click', exitSelectMode);
 
     function toggleSelect(tile, id) {
       if (selectedIds.has(id)) { selectedIds.delete(id); tile.classList.remove('selected'); }
@@ -810,18 +827,22 @@
     // ─── VIEW TOGGLE ─────────────────────────────────────────────────────────
     document.getElementById('btnViewGrid').addEventListener('click', () => {
       if (viewMode === 'grid') return;
+      if (selectMode) exitSelectMode();
       viewMode = 'grid';
       document.getElementById('btnViewGrid').classList.add('active');
       document.getElementById('btnViewFeed').classList.remove('active');
+      btnSelectMode.style.display = '';
       shown = 0; galleryArea.innerHTML = '';
       galleryArea.className = 'gallery-grid';
       if (filtered.length) renderBatch();
     });
     document.getElementById('btnViewFeed').addEventListener('click', () => {
       if (viewMode === 'feed') return;
+      if (selectMode) exitSelectMode();
       viewMode = 'feed';
       document.getElementById('btnViewFeed').classList.add('active');
       document.getElementById('btnViewGrid').classList.remove('active');
+      btnSelectMode.style.display = 'none';
       shown = 0; galleryArea.innerHTML = '';
       galleryArea.className = 'feed-list';
       if (filtered.length) renderBatch();
