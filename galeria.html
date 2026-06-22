@@ -52,7 +52,7 @@
     .hdr .hdr-title { font-family: var(--font-t); font-size: 1.35rem; color: var(--olive); }
 
     /* ── MAIN ── */
-    .main { padding: 80px 12px 80px; max-width: 1200px; margin: 0 auto; }
+    .main { padding: 80px 12px 32px; max-width: 1200px; margin: 0 auto; }
 
     /* ── HERO ── */
     .hero { text-align: center; padding: 20px 0 14px; }
@@ -341,13 +341,10 @@
             <i class="fa-solid fa-bars-staggered"></i>
           </button>
         </div>
-        <a href="drive-video.html" class="action-btn" title="Acceder a Google Drive">
-          <i class="fa-brands fa-google-drive"></i>
-        </a>
-        <button class="action-btn" id="btnSelectMode" title="Seleccionar fotos">
-          <i class="fa-regular fa-square-check"></i> Seleccionar
+        <button class="action-btn" id="btnSelectMode" title="Seleccionar">
+          <i class="fa-regular fa-square-check"></i>
         </button>
-        <button class="action-btn" id="btnDownload" style="visibility:hidden" disabled>
+        <button class="action-btn" id="btnDownload" style="display:none" disabled>
           <i class="fa-solid fa-download"></i> <span id="dlCount">Descargar</span>
         </button>
       </div>
@@ -662,8 +659,8 @@
       btnSelectMode.classList.toggle('active', selectMode);
       btnSelectMode.innerHTML = selectMode
         ? '<i class="fa-solid fa-xmark"></i> Cancelar'
-        : '<i class="fa-regular fa-square-check"></i> Seleccionar';
-      btnDownload.style.visibility = selectMode ? 'visible' : 'hidden';
+        : '<i class="fa-regular fa-square-check"></i>';
+      btnDownload.style.display = selectMode ? 'inline-flex' : 'none';
       updateSelBar();
     });
 
@@ -673,8 +670,8 @@
       document.querySelectorAll('.tile').forEach(t => t.classList.remove('selected'));
       galleryArea.classList.remove('select-mode');
       btnSelectMode.classList.remove('active');
-      btnSelectMode.innerHTML = '<i class="fa-regular fa-square-check"></i> Seleccionar';
-      btnDownload.style.visibility = 'hidden';
+      btnSelectMode.innerHTML = '<i class="fa-regular fa-square-check"></i>';
+      btnDownload.style.display = 'none';
       updateSelBar();
     });
 
