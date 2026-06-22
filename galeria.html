@@ -103,9 +103,20 @@
     .action-btn:disabled { opacity: .45; cursor: not-allowed; }
 
     /* ── CATEGORY TABS ── */
+    .cat-wrap { position: relative; margin-bottom: 18px; }
+    .cat-wrap::after {
+      content: '';
+      position: absolute;
+      right: 0; top: 0; bottom: 0;
+      width: 52px;
+      background: linear-gradient(to right, transparent, rgba(250,241,228,.96));
+      pointer-events: none;
+      transition: opacity .25s;
+    }
+    .cat-wrap.at-end::after { opacity: 0; }
     .cat-tabs {
       display: flex; gap: 6px; overflow-x: auto; padding-bottom: 4px;
-      scrollbar-width: none; margin-bottom: 18px;
+      scrollbar-width: none;
     }
     .cat-tabs::-webkit-scrollbar { display: none; }
     .cat-tab {
@@ -207,7 +218,7 @@
     .sel-bar .sel-cancel { background: transparent; border: 1px solid rgba(255,255,255,.4); }
 
     /* ── STATE MSG ── */
-    .state-msg { text-align: center; padding: 60px 20px; color: var(--text); opacity: .6; font-size: .9rem; }
+    .state-msg { text-align: center; padding: 60px 20px; color: var(--text); opacity: .6; font-size: .9rem; grid-column: 1 / -1; width: 100%; }
     .state-msg i { font-size: 2.4rem; display: block; margin-bottom: 12px; color: var(--beige); }
 
     /* ── LOAD MORE ── */
@@ -358,7 +369,9 @@
       </div>
     </div>
 
-    <div class="cat-tabs" id="catTabs"></div>
+    <div class="cat-wrap" id="catWrap">
+      <div class="cat-tabs" id="catTabs"></div>
+    </div>
 
     <button class="update-pill" id="updatePill">
       <i class="fa-solid fa-arrow-up"></i>
@@ -465,6 +478,14 @@
     }
 
     // ─── TABS ────────────────────────────────────────────────────────────────
+    const catWrap = document.getElementById('catWrap');
+
+    function checkTabsScroll() {
+      const atEnd = catTabs.scrollLeft + catTabs.clientWidth >= catTabs.scrollWidth - 2;
+      catWrap.classList.toggle('at-end', atEnd);
+    }
+    catTabs.addEventListener('scroll', checkTabsScroll, { passive: true });
+
     function buildTabs() {
       const usedKeys = new Set(allItems.map(f => f.category));
       catTabs.innerHTML = '';
@@ -482,6 +503,7 @@
         });
         catTabs.appendChild(btn);
       });
+      setTimeout(checkTabsScroll, 50);
     }
 
     // ─── FILTER ──────────────────────────────────────────────────────────────
