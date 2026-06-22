@@ -107,13 +107,26 @@
     .cat-wrap::after {
       content: '';
       position: absolute;
-      right: 0; top: 0; bottom: 0;
-      width: 52px;
+      right: 36px; top: 0; bottom: 0;
+      width: 40px;
       background: linear-gradient(to right, transparent, rgba(250,241,228,.96));
       pointer-events: none;
       transition: opacity .25s;
     }
     .cat-wrap.at-end::after { opacity: 0; }
+    .cat-arrow-btn {
+      position: absolute; right: 0; top: 50%; transform: translateY(-55%);
+      width: 28px; height: 28px; border-radius: 50%;
+      background: white; border: 1px solid var(--border);
+      box-shadow: 0 2px 8px rgba(0,0,0,.12);
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; z-index: 2; padding: 0;
+      font-size: 1rem; color: var(--olive);
+      transition: opacity .25s, transform .25s;
+    }
+    .cat-wrap.at-end .cat-arrow-btn {
+      opacity: 0; pointer-events: none; transform: translateY(-55%) scale(0.7);
+    }
     .cat-tabs {
       display: flex; gap: 6px; overflow-x: auto; padding-bottom: 4px;
       scrollbar-width: none;
@@ -511,6 +524,7 @@
 
     <div class="cat-wrap" id="catWrap">
       <div class="cat-tabs" id="catTabs"></div>
+      <button class="cat-arrow-btn" id="catArrowBtn" title="Más categorías">›</button>
     </div>
 
     <button class="update-pill" id="updatePill">
@@ -656,6 +670,9 @@
       catWrap.classList.toggle('at-end', atEnd);
     }
     catTabs.addEventListener('scroll', checkTabsScroll, { passive: true });
+    document.getElementById('catArrowBtn').addEventListener('click', () => {
+      catTabs.scrollBy({ left: 160, behavior: 'smooth' });
+    });
 
     function buildTabs() {
       const usedKeys = new Set(allItems.map(f => f.category));
