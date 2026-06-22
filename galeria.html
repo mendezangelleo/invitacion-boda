@@ -356,6 +356,7 @@
     }
     .react-btn:hover { border-color: var(--olive); color: var(--olive); }
     .react-btn.liked { background: rgba(192,57,43,.08); border-color: #c0392b; color: #c0392b; }
+    .like-wrap, .like-wrap * { user-select: none; -webkit-user-select: none; -webkit-touch-callout: none; }
     .react-btn .rcount { min-width: 8px; }
     .react-btn.share-btn { margin-left: auto; padding: 6px 12px; color: var(--olive); border-color: var(--border); }
     /* Emoji picker popup */
@@ -1282,17 +1283,31 @@
       const lb = document.createElement('button');
       lb.className = 'react-btn like-btn' + (rx.myReaction ? ' liked' : '');
       lb.innerHTML = buildLikeBtnHtml(rx);
-      lb.addEventListener('click', e => { e.stopPropagation(); setReaction(fid, '❤️'); });
 
-      // Long press → open picker
-      let pressTimer;
-      const startPress = e => { pressTimer = setTimeout(() => { const p = likeWrap.querySelector('.rx-picker'); if(p){ closeAllPickers(); p.classList.add('open'); } }, 400); };
-      const endPress   = () => clearTimeout(pressTimer);
-      lb.addEventListener('touchstart', startPress, { passive: true });
-      lb.addEventListener('touchend',   endPress,   { passive: true });
-      lb.addEventListener('mousedown',  startPress);
-      lb.addEventListener('mouseup',    endPress);
-      lb.addEventListener('mouseleave', endPress);
+      // Long press → open picker; short press → toggle ❤️
+      let pressTimer, didLongPress = false;
+      const openPicker = () => { didLongPress = true; const p = likeWrap.querySelector('.rx-picker'); if(p){ closeAllPickers(); p.classList.add('open'); } };
+
+      // Touch: handle manually so we can prevent text-selection & click synthesis
+      lb.addEventListener('touchstart', e => {
+        e.preventDefault();
+        didLongPress = false;
+        pressTimer = setTimeout(openPicker, 500);
+      }, { passive: false });
+      lb.addEventListener('touchend', e => {
+        e.preventDefault();
+        clearTimeout(pressTimer);
+        if (!didLongPress) setReaction(fid, '❤️');
+        didLongPress = false;
+      }, { passive: false });
+      lb.addEventListener('touchcancel', () => { clearTimeout(pressTimer); didLongPress = false; });
+
+      // Desktop mouse
+      lb.addEventListener('mousedown', () => { didLongPress = false; pressTimer = setTimeout(openPicker, 500); });
+      lb.addEventListener('mouseup',   () => clearTimeout(pressTimer));
+      lb.addEventListener('mouseleave',() => clearTimeout(pressTimer));
+      lb.addEventListener('click', e => { e.stopPropagation(); if (!didLongPress) setReaction(fid, '❤️'); didLongPress = false; });
+      lb.addEventListener('contextmenu', e => e.preventDefault());
 
       // Emoji picker
       const picker = document.createElement('div');
