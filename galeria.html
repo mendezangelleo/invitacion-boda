@@ -132,10 +132,13 @@
     }
     .cat-tabs {
       display: flex; gap: 6px; overflow-x: auto; padding-bottom: 4px;
-      scrollbar-width: none; outline: none;
+      scrollbar-width: none; outline: none !important;
       -webkit-tap-highlight-color: rgba(0,0,0,0) !important;
       touch-action: pan-x;
+      overscroll-behavior-x: contain;
+      user-select: none; -webkit-user-select: none;
     }
+    .cat-tabs:focus, .cat-tabs:focus-visible { outline: none !important; }
     .cat-tabs::-webkit-scrollbar { display: none; }
     .cat-tab {
       flex-shrink: 0;
@@ -646,7 +649,7 @@
     </div>
 
     <div class="cat-wrap" id="catWrap">
-      <div class="cat-tabs" id="catTabs"></div>
+      <div class="cat-tabs" id="catTabs" tabindex="-1"></div>
       <button class="cat-arrow-btn" id="catArrowBtn" title="Más categorías">›</button>
     </div>
 
