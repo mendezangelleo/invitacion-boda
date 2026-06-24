@@ -1287,9 +1287,7 @@
       document.getElementById('btnViewGrid').classList.add('active');
       document.getElementById('btnViewFeed').classList.remove('active');
       btnSelectMode.style.display = '';
-      shown = 0; galleryArea.innerHTML = '';
-      galleryArea.className = 'gallery-grid';
-      if (filtered.length) renderBatch();
+      applyFilter(activeKey);
     });
     document.getElementById('btnViewFeed').addEventListener('click', () => {
       if (viewMode === 'feed') return;
@@ -1298,9 +1296,7 @@
       document.getElementById('btnViewFeed').classList.add('active');
       document.getElementById('btnViewGrid').classList.remove('active');
       btnSelectMode.style.display = 'none';
-      shown = 0; galleryArea.innerHTML = '';
-      galleryArea.className = 'feed-list';
-      if (filtered.length) renderBatch();
+      applyFilter(activeKey);
     });
 
     // ─── AUTO-REFRESH ─────────────────────────────────────────────────────────
