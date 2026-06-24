@@ -27,7 +27,14 @@
       color-scheme: light;
     }
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    html, body { min-height: 100%; -webkit-font-smoothing: antialiased; }
+    html {
+      min-height: 100%; -webkit-font-smoothing: antialiased;
+      background-color: #FAF1E4; /* evita barra negra en Android al scrollear */
+    }
+    body { min-height: 100%; -webkit-font-smoothing: antialiased; }
+    /* Eliminar outline/highlight en todos los navegadores mobile */
+    * { -webkit-tap-highlight-color: rgba(0,0,0,0) !important; }
+    *:focus, *:focus-visible { outline: none !important; }
 
     body {
       font-family: var(--font-b);
@@ -92,8 +99,6 @@
     .upload-btn:hover { filter: brightness(1.08); transform: translateY(-1px); }
 
     .top-actions { display: flex; gap: 8px; }
-    /* Remove tap highlight on mobile */
-    * { -webkit-tap-highlight-color: rgba(0,0,0,0) !important; }
     .action-btn {
       display: inline-flex; align-items: center; gap: 6px;
       padding: 9px 16px; border-radius: 10px;
