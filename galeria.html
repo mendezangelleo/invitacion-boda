@@ -780,19 +780,24 @@
     const lbInfo       = document.getElementById('lbInfo');
 
     // ─── LOAD ────────────────────────────────────────────────────────────────
-    showMsg('<i class="fa-solid fa-spinner fa-spin"></i>', 'Cargando fotos…');
+    showMsg('<i class="fa-solid fa-spinner fa-spin"></i>', 'Cargando…');
 
-    fetch(`${ENDPOINT}?action=gallery`)
-      .then(r => r.json())
-      .then(data => {
-        if (!data.ok) throw new Error(data.error || 'Error');
-        allItems = data.files || [];
+    Promise.all([
+      fetch(`${ENDPOINT}?action=gallery`).then(r => r.json()),
+      fetch(`${ENDPOINT}?action=messages&_t=${Date.now()}`).then(r => r.json()).catch(() => ({ ok: false }))
+    ])
+      .then(([galleryData, msgData]) => {
+        if (!galleryData.ok) throw new Error(galleryData.error || 'Error');
+        allItems    = galleryData.files    || [];
+        allMessages = msgData.ok ? (msgData.messages || []) : [];
+        messagesLoading = false;
+        const banner = document.getElementById('msgLoadingBanner');
+        if (banner) banner.style.display = 'none';
         buildStats();
         buildTabs();
         applyFilter('all');
         startAutoRefresh();
         fetchReactions();
-        fetchMessages();
         updateSelfAvatar();
       })
       .catch(err => {
@@ -868,9 +873,8 @@
       } else {
         const photos = key === 'all' ? [...allItems] : allItems.filter(f => f.category === key);
         if (viewMode === 'feed' && key === 'all') {
-          // Photos sorted by date; messages appended after — no layout shift on load
-          const msgs = allMessages.map(m => ({ ...m, type: 'message' })).sort((a, b) => b.created - a.created);
-          filtered = [...photos, ...msgs];
+          const msgs = allMessages.map(m => ({ ...m, type: 'message' }));
+          filtered = [...photos, ...msgs].sort((a, b) => b.created - a.created);
         } else {
           filtered = photos;
         }
@@ -1458,24 +1462,14 @@
     }
 
     async function fetchMessages() {
-      messagesLoading = true;
-      const msgBanner = document.getElementById('msgLoadingBanner');
-      if (msgBanner) msgBanner.style.display = 'flex';
-      // Append skeletons to existing feed without clearing it
-      [1, 2].forEach(() => galleryArea.appendChild(buildMessageSkeleton()));
-      // Double rAF: guarantees browser paints skeletons before fetch starts,
-      // regardless of network speed.
-      await new Promise(r => requestAnimationFrame(() => requestAnimationFrame(r)));
       try {
         const r = await fetch(`${ENDPOINT}?action=messages&_t=${Date.now()}`);
         const d = await r.json();
         if (d.ok) allMessages = d.messages || [];
       } catch(e) {}
-      messagesLoading = false;
-      if (msgBanner) msgBanner.style.display = 'none';
       const tabMsg = document.getElementById('tabMessages');
       if (tabMsg) tabMsg.innerHTML = `💌 Mensajes <small style="opacity:.6">(${allMessages.length})</small>`;
-      applyFilter(activeKey);
+      if (activeKey === 'messages') applyFilter('messages');
     }
 
     const EMOJI_OPTS = ['❤️','😍','🎉','😮','😂'];
