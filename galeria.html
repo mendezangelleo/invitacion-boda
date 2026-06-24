@@ -838,8 +838,8 @@
     function applyFilter(key) {
       activeKey = key;
       const photos = key === 'all' ? [...allItems] : allItems.filter(f => f.category === key);
-      if (viewMode === 'feed') {
-        // Merge photos + messages sorted by date descending
+      if (viewMode === 'feed' && key === 'all') {
+        // Messages only mixed into the global feed, not per-category
         const msgs = allMessages.map(m => ({ ...m, type: 'message' }));
         filtered = [...photos, ...msgs].sort((a, b) => b.created - a.created);
       } else {
@@ -848,8 +848,12 @@
       shown = 0;
       galleryArea.innerHTML = '';
       galleryArea.className = viewMode === 'feed' ? 'feed-list' : 'gallery-grid';
-      if (!filtered.length) { showMsg('<i class="fa-solid fa-face-sad-cry"></i>', 'No hay fotos en esta categoría.'); return; }
+      if (!filtered.length && !messagesLoading) { showMsg('<i class="fa-solid fa-face-sad-cry"></i>', 'No hay fotos en esta categoría.'); return; }
       renderBatch();
+      // Append skeletons at bottom while messages are loading (feed + all only)
+      if (viewMode === 'feed' && key === 'all' && messagesLoading) {
+        [1, 2].forEach(() => galleryArea.appendChild(buildMessageSkeleton()));
+      }
     }
 
     // ─── RENDER BATCH ────────────────────────────────────────────────────────
@@ -1424,7 +1428,7 @@
 
     async function fetchMessages() {
       messagesLoading = true;
-      if (viewMode === 'feed') {
+      if (viewMode === 'feed' && activeKey === 'all') {
         [1, 2].forEach(() => galleryArea.appendChild(buildMessageSkeleton()));
       }
       try {
