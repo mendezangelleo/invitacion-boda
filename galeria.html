@@ -405,8 +405,10 @@
     .feed-meta { display: flex; flex-direction: column; }
     .feed-sender { font-weight: 700; font-size: .9rem; color: var(--text); line-height: 1.2; }
     .msg-body { padding: 4px 20px 14px; }
-    .msg-quote-mark { font-size: 3rem; line-height: .7; color: var(--olive); opacity: .45; display: block; margin-bottom: 4px; font-family: Georgia, serif; }
+    .msg-quote-mark { display: none; }
     .msg-text { font-size: 1rem; line-height: 1.6; color: var(--text); font-style: italic; margin: 0; }
+    .msg-text::before { content: '\201C'; font-size: 1.2em; color: var(--olive); font-style: normal; margin-right: 2px; }
+    .msg-text::after  { content: '\201D'; font-size: 1.2em; color: var(--olive); font-style: normal; margin-left: 2px; }
     .msg-cat-chip {
       display: inline-block; font-size: .72rem; font-weight: 700;
       background: rgba(82,126,105,.1); color: var(--olive);
@@ -953,7 +955,7 @@
       const body = document.createElement('div');
       body.className = 'msg-body';
       body.innerHTML = `
-        <span class="msg-quote-mark">"</span>
+        <span class="msg-quote-mark">“</span>
         <p class="msg-text">${escHtml(msg.message)}</p>
         ${msg.category ? `<span class="msg-cat-chip">${escHtml(msg.category)}</span>` : ''}
       `;
