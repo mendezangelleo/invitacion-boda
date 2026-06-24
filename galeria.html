@@ -1350,7 +1350,7 @@
               const ext  = blob.type.includes('png') ? '.png' : '.jpg';
               const file = new File([blob], `boda-anyela-angel${ext}`, { type: blob.type });
               if (navigator.canShare({ files: [file] })) {
-                await navigator.share({ title: 'Boda Anyela & Ángel 💍', text: `${item.sender || ''} en la boda ✨`, files: [file] });
+                await navigator.share({ title: 'Anyela & Ángel 💍', text: item.sender ? `${item.sender} en la boda de Anyela & Ángel 💍` : 'Anyela & Ángel 💍', files: [file] });
                 return;
               }
             } catch(fetchErr) {}
@@ -1359,7 +1359,7 @@
           try {
             await navigator.share({
               title: 'Boda Anyela & Ángel 💍',
-              text: item ? `${item.sender} compartió en la galería de la boda ✨` : 'Mirá esta foto de la boda',
+              text: item?.sender ? `${item.sender} en la boda de Anyela & Ángel 💍` : 'Anyela & Ángel 💍',
               url: item ? item.previewUrl : window.location.href,
             });
           } catch(e) {}
