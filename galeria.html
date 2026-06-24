@@ -646,6 +646,9 @@
     </button>
 
     <div id="galleryArea" class="gallery-grid"></div>
+    <div id="msgLoadingBanner" style="display:none;text-align:center;padding:20px 16px;color:var(--olive);font-size:.9rem;gap:8px;align-items:center;justify-content:center;">
+      <i class="fa-solid fa-spinner fa-spin"></i> Cargando mensajes…
+    </div>
 
     <div class="load-more" id="loadMoreWrap" style="display:none">
       <button class="btn-more" id="btnMore">Ver más</button>
@@ -863,7 +866,10 @@
       shown = 0;
       galleryArea.innerHTML = '';
       galleryArea.className = (key === 'messages' || viewMode === 'feed') ? 'feed-list' : 'gallery-grid';
-      const showSkel = messagesLoading && (key === 'messages' || (viewMode === 'feed' && key === 'all'));
+      // Banner sólo visible en feed/all; ocultarlo en otros tabs
+      const msgBanner = document.getElementById('msgLoadingBanner');
+      if (msgBanner) msgBanner.style.display = (messagesLoading && key !== 'messages') ? 'flex' : 'none';
+      const showSkel = messagesLoading && key === 'messages';
       if (!filtered.length && !showSkel) { showMsg('<i class="fa-solid fa-face-sad-cry"></i>', key === 'messages' ? 'Todavía no hay mensajes.' : 'No hay fotos en esta categoría.'); return; }
       renderBatch();
       if (showSkel) [1, 2].forEach(() => galleryArea.appendChild(buildMessageSkeleton()));
@@ -1441,15 +1447,15 @@
 
     async function fetchMessages() {
       messagesLoading = true;
-      if (viewMode === 'feed' && activeKey === 'all') {
-        [1, 2].forEach(() => galleryArea.appendChild(buildMessageSkeleton()));
-      }
+      const msgBanner = document.getElementById('msgLoadingBanner');
+      if (msgBanner) msgBanner.style.display = 'flex';
       try {
         const r = await fetch(`${ENDPOINT}?action=messages&_t=${Date.now()}`);
         const d = await r.json();
         if (d.ok) allMessages = d.messages || [];
       } catch(e) {}
       messagesLoading = false;
+      if (msgBanner) msgBanner.style.display = 'none';
       const tabMsg = document.getElementById('tabMessages');
       if (tabMsg) tabMsg.innerHTML = `💌 Mensajes <small style="opacity:.6">(${allMessages.length})</small>`;
       applyFilter(activeKey);
