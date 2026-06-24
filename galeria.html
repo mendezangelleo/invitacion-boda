@@ -831,29 +831,42 @@
         });
         catTabs.appendChild(btn);
       });
+      // Messages-only tab at the end
+      const msgBtn = document.createElement('button');
+      msgBtn.className = 'cat-tab';
+      msgBtn.dataset.key = 'messages';
+      msgBtn.id = 'tabMessages';
+      msgBtn.innerHTML = `💌 Mensajes`;
+      msgBtn.addEventListener('click', () => {
+        catTabs.querySelectorAll('.cat-tab').forEach(b => b.classList.remove('active'));
+        msgBtn.classList.add('active');
+        applyFilter('messages');
+      });
+      catTabs.appendChild(msgBtn);
       setTimeout(checkTabsScroll, 50);
     }
 
     // ─── FILTER ──────────────────────────────────────────────────────────────
     function applyFilter(key) {
       activeKey = key;
-      const photos = key === 'all' ? [...allItems] : allItems.filter(f => f.category === key);
-      if (viewMode === 'feed' && key === 'all') {
-        // Messages only mixed into the global feed, not per-category
-        const msgs = allMessages.map(m => ({ ...m, type: 'message' }));
-        filtered = [...photos, ...msgs].sort((a, b) => b.created - a.created);
+      if (key === 'messages') {
+        filtered = allMessages.map(m => ({ ...m, type: 'message' }));
       } else {
-        filtered = photos;
+        const photos = key === 'all' ? [...allItems] : allItems.filter(f => f.category === key);
+        if (viewMode === 'feed' && key === 'all') {
+          const msgs = allMessages.map(m => ({ ...m, type: 'message' }));
+          filtered = [...photos, ...msgs].sort((a, b) => b.created - a.created);
+        } else {
+          filtered = photos;
+        }
       }
       shown = 0;
       galleryArea.innerHTML = '';
-      galleryArea.className = viewMode === 'feed' ? 'feed-list' : 'gallery-grid';
-      if (!filtered.length && !messagesLoading) { showMsg('<i class="fa-solid fa-face-sad-cry"></i>', 'No hay fotos en esta categoría.'); return; }
+      galleryArea.className = (key === 'messages' || viewMode === 'feed') ? 'feed-list' : 'gallery-grid';
+      const showSkel = messagesLoading && (key === 'messages' || (viewMode === 'feed' && key === 'all'));
+      if (!filtered.length && !showSkel) { showMsg('<i class="fa-solid fa-face-sad-cry"></i>', key === 'messages' ? 'Todavía no hay mensajes.' : 'No hay fotos en esta categoría.'); return; }
       renderBatch();
-      // Append skeletons at bottom while messages are loading (feed + all only)
-      if (viewMode === 'feed' && key === 'all' && messagesLoading) {
-        [1, 2].forEach(() => galleryArea.appendChild(buildMessageSkeleton()));
-      }
+      if (showSkel) [1, 2].forEach(() => galleryArea.appendChild(buildMessageSkeleton()));
     }
 
     // ─── RENDER BATCH ────────────────────────────────────────────────────────
@@ -1437,6 +1450,8 @@
         if (d.ok) allMessages = d.messages || [];
       } catch(e) {}
       messagesLoading = false;
+      const tabMsg = document.getElementById('tabMessages');
+      if (tabMsg) tabMsg.innerHTML = `💌 Mensajes <small style="opacity:.6">(${allMessages.length})</small>`;
       applyFilter(activeKey);
     }
 
