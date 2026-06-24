@@ -82,6 +82,7 @@
       display: flex; align-items: center; justify-content: space-between;
       flex-wrap: wrap; gap: 10px; margin: 10px 0 16px;
     }
+    .top-bar-left { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
     .upload-btn {
       display: inline-flex; align-items: center; gap: 8px;
       padding: 10px 20px; border-radius: 10px; background: var(--olive); color: white;
@@ -91,6 +92,8 @@
     .upload-btn:hover { filter: brightness(1.08); transform: translateY(-1px); }
 
     .top-actions { display: flex; gap: 8px; }
+    /* Remove tap highlight on mobile */
+    * { -webkit-tap-highlight-color: transparent; }
     .action-btn {
       display: inline-flex; align-items: center; gap: 6px;
       padding: 9px 16px; border-radius: 10px;
@@ -613,12 +616,14 @@
     <div class="stats" id="statsBar"></div>
 
     <div class="top-bar">
-      <a href="fotos.html" class="upload-btn">
-        <i class="fa-solid fa-camera"></i> Subir mis fotos
-      </a>
-      <button class="msg-compose-btn" id="btnCompose">
-        <i class="fa-solid fa-pen-nib"></i> Mensaje
-      </button>
+      <div class="top-bar-left">
+        <a href="fotos.html" class="upload-btn">
+          <i class="fa-solid fa-camera"></i> Subir mis fotos
+        </a>
+        <button class="msg-compose-btn" id="btnCompose">
+          <i class="fa-solid fa-pen-nib"></i> Mensaje
+        </button>
+      </div>
       <div class="top-actions">
         <div class="view-toggle">
           <button class="action-btn" id="btnViewGrid" title="Cuadrícula">
@@ -819,6 +824,20 @@
       catTabs.scrollBy({ left: 160, behavior: 'smooth' });
     });
 
+    function buildMsgTab() {
+      const msgBtn = document.createElement('button');
+      msgBtn.className = 'cat-tab';
+      msgBtn.dataset.key = 'messages';
+      msgBtn.id = 'tabMessages';
+      msgBtn.innerHTML = `💌 Mensajes`;
+      msgBtn.addEventListener('click', () => {
+        catTabs.querySelectorAll('.cat-tab').forEach(b => b.classList.remove('active'));
+        msgBtn.classList.add('active');
+        applyFilter('messages');
+      });
+      return msgBtn;
+    }
+
     function buildTabs() {
       const usedKeys = new Set(allItems.map(f => f.category));
       catTabs.innerHTML = '';
@@ -835,19 +854,9 @@
           applyFilter(c.key);
         });
         catTabs.appendChild(btn);
+        // Messages tab right after "Todos"
+        if (c.key === 'all') catTabs.appendChild(buildMsgTab());
       });
-      // Messages-only tab at the end
-      const msgBtn = document.createElement('button');
-      msgBtn.className = 'cat-tab';
-      msgBtn.dataset.key = 'messages';
-      msgBtn.id = 'tabMessages';
-      msgBtn.innerHTML = `💌 Mensajes`;
-      msgBtn.addEventListener('click', () => {
-        catTabs.querySelectorAll('.cat-tab').forEach(b => b.classList.remove('active'));
-        msgBtn.classList.add('active');
-        applyFilter('messages');
-      });
-      catTabs.appendChild(msgBtn);
       setTimeout(checkTabsScroll, 50);
     }
 
@@ -859,8 +868,9 @@
       } else {
         const photos = key === 'all' ? [...allItems] : allItems.filter(f => f.category === key);
         if (viewMode === 'feed' && key === 'all') {
-          const msgs = allMessages.map(m => ({ ...m, type: 'message' }));
-          filtered = [...photos, ...msgs].sort((a, b) => b.created - a.created);
+          // Photos sorted by date; messages appended after — no layout shift on load
+          const msgs = allMessages.map(m => ({ ...m, type: 'message' })).sort((a, b) => b.created - a.created);
+          filtered = [...photos, ...msgs];
         } else {
           filtered = photos;
         }
