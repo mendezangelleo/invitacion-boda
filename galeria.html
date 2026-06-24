@@ -752,13 +752,14 @@
       tile.appendChild(chk);
 
       if (item.isVideo) {
-        tile.innerHTML += `
-          <div class="video-bg">
-            <div class="play-btn"><i class="fa-solid fa-play"></i></div>
-            <span class="video-label">${escHtml(item.sender || '')}</span>
-          </div>
-          <div class="overlay"><div class="tile-sender">${escHtml(item.sender || '')}</div></div>
-        `;
+        const videoBg = document.createElement('div');
+        videoBg.className = 'video-bg';
+        videoBg.innerHTML = `<div class="play-btn"><i class="fa-solid fa-play"></i></div><span class="video-label">${escHtml(item.sender || '')}</span>`;
+        const tProbe = new Image();
+        tProbe.onload = () => { videoBg.style.background = `linear-gradient(rgba(0,0,0,.4),rgba(0,0,0,.4)), url('${tProbe.src}') center/cover`; };
+        tProbe.src = `https://lh3.googleusercontent.com/d/${item.fileId}`;
+        tile.appendChild(videoBg);
+        tile.insertAdjacentHTML('beforeend', `<div class="overlay"><div class="tile-sender">${escHtml(item.sender || '')}</div></div>`);
         tile.addEventListener('click', e => {
           if (selectMode) { toggleSelect(tile, item.fileId); return; }
           window.open(item.previewUrl, '_blank', 'noopener');
