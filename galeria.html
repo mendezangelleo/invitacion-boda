@@ -132,11 +132,12 @@
     }
     .cat-tabs {
       display: flex; gap: 6px; overflow-x: auto; padding-bottom: 4px;
-      scrollbar-width: none;
+      scrollbar-width: none; -webkit-tap-highlight-color: transparent; outline: none;
     }
     .cat-tabs::-webkit-scrollbar { display: none; }
     .cat-tab {
       flex-shrink: 0;
+      -webkit-tap-highlight-color: transparent; outline: none;
       padding: 8px 16px; border-radius: 999px;
       font-family: var(--font-b); font-size: .82rem; font-weight: 700;
       border: 1.5px solid var(--border); background: var(--glass); color: var(--text);
