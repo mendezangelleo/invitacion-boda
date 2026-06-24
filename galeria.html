@@ -93,7 +93,7 @@
 
     .top-actions { display: flex; gap: 8px; }
     /* Remove tap highlight on mobile */
-    * { -webkit-tap-highlight-color: transparent; }
+    * { -webkit-tap-highlight-color: rgba(0,0,0,0) !important; }
     .action-btn {
       display: inline-flex; align-items: center; gap: 6px;
       padding: 9px 16px; border-radius: 10px;
@@ -132,7 +132,9 @@
     }
     .cat-tabs {
       display: flex; gap: 6px; overflow-x: auto; padding-bottom: 4px;
-      scrollbar-width: none; -webkit-tap-highlight-color: transparent; outline: none;
+      scrollbar-width: none; outline: none;
+      -webkit-tap-highlight-color: rgba(0,0,0,0) !important;
+      touch-action: pan-x;
     }
     .cat-tabs::-webkit-scrollbar { display: none; }
     .cat-tab {
