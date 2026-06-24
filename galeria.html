@@ -116,12 +116,12 @@
     .cat-wrap.at-end::after { opacity: 0; }
     .cat-arrow-btn {
       position: absolute; right: 0; top: 50%; transform: translateY(-55%);
-      width: 28px; height: 28px; border-radius: 50%;
-      background: white; border: 1px solid var(--border);
-      box-shadow: 0 2px 8px rgba(0,0,0,.12);
+      width: 24px; height: 24px; border-radius: 50%;
+      background: rgba(255,255,255,.85); border: none;
+      box-shadow: none;
       display: flex; align-items: center; justify-content: center;
       cursor: pointer; z-index: 2; padding: 0;
-      font-size: 1rem; color: var(--olive);
+      font-size: .8rem; color: var(--olive); opacity: .65;
       transition: opacity .25s, transform .25s;
     }
     .cat-wrap.at-end .cat-arrow-btn {
@@ -1337,15 +1337,29 @@
       if (navigator.share) {
         const sb = document.createElement('button');
         sb.className = 'react-btn share-btn';
-        sb.innerHTML = '<i class="fa-solid fa-arrow-up-from-bracket"></i>';
+        sb.innerHTML = '<i class="fa-solid fa-share-nodes"></i>';
         sb.title = 'Compartir';
         sb.addEventListener('click', async e => {
           e.stopPropagation();
+          const item = allItems.find(f => f.fileId === fid);
+          // Intentar compartir la foto/video como archivo real
+          if (item && !item.isVideo && navigator.canShare) {
+            try {
+              const resp = await fetch(item.thumbUrl || item.previewUrl);
+              const blob = await resp.blob();
+              const ext  = blob.type.includes('png') ? '.png' : '.jpg';
+              const file = new File([blob], `boda-anyela-angel${ext}`, { type: blob.type });
+              if (navigator.canShare({ files: [file] })) {
+                await navigator.share({ title: 'Boda Anyela & Ángel 💍', text: `${item.sender || ''} en la boda ✨`, files: [file] });
+                return;
+              }
+            } catch(fetchErr) {}
+          }
+          // Fallback: compartir link
           try {
-            const item = allItems.find(f => f.fileId === fid);
             await navigator.share({
               title: 'Boda Anyela & Ángel 💍',
-              text: item ? `${item.sender} compartió una foto de la boda ✨` : 'Mirá esta foto de la boda',
+              text: item ? `${item.sender} compartió en la galería de la boda ✨` : 'Mirá esta foto de la boda',
               url: item ? item.previewUrl : window.location.href,
             });
           } catch(e) {}
