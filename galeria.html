@@ -444,6 +444,15 @@
       display: inline-flex; align-items: center; gap: 4px;
       margin-left: 8px;
     }
+    .msg-desde-lejos-badge {
+      display: inline-block; font-size: .7rem; font-weight: 700;
+      background: rgba(146,133,17,.12); color: #7a6c10;
+      border-radius: 999px; padding: 3px 10px;
+      margin-left: 6px;
+    }
+    .msg-origin {
+      font-size: .75rem; color: var(--olive); opacity: .7; margin-top: 2px;
+    }
 
     /* ── MESSAGE SKELETONS ── */
     @keyframes shimmer { 0% { background-position: -200% 0 } 100% { background-position: 200% 0 } }
@@ -1015,12 +1024,13 @@
       const hdr = document.createElement('div');
       hdr.className = 'feed-header';
       hdr.innerHTML = `
-        <div class="feed-avatar" style="background:${bg}">${ini}</div>
-        <div class="feed-meta">
-          <div class="feed-sender">${escHtml(msg.sender || 'Invitado')}</div>
-          <div class="feed-time">${timeAgo(msg.created)}</div>
+        <div class=”feed-avatar” style=”background:${bg}”>${ini}</div>
+        <div class=”feed-meta”>
+          <div class=”feed-sender”>${escHtml(msg.sender || 'Invitado')}${msg.source === 'desde-lejos' ? '<span class=”msg-desde-lejos-badge”>Desde lejos</span>' : ''}</div>
+          ${msg.origin ? '<div class=”msg-origin”>desde ' + escHtml(msg.origin) + '</div>' : ''}
+          <div class=”feed-time”>${timeAgo(msg.created)}</div>
         </div>
-        ${msg.isPrivate ? '<span class="msg-private-badge"><i class="fa-solid fa-lock"></i> privado</span>' : ''}
+        ${msg.isPrivate ? '<span class=”msg-private-badge”><i class=”fa-solid fa-lock”></i> privado</span>' : ''}
       `;
       card.appendChild(hdr);
 
@@ -1028,9 +1038,9 @@
       const body = document.createElement('div');
       body.className = 'msg-body';
       body.innerHTML = `
-        <span class="msg-quote-mark">“</span>
-        <p class="msg-text">${escHtml(msg.message)}</p>
-        ${msg.category ? `<span class="msg-cat-chip">${escHtml(msg.category)}</span>` : ''}
+        <span class=”msg-quote-mark”>”</span>
+        <p class=”msg-text”>${escHtml(msg.message)}</p>
+        ${msg.category && msg.source !== 'desde-lejos' ? `<span class=”msg-cat-chip”>${escHtml(msg.category)}</span>` : ''}
       `;
       card.appendChild(body);
 

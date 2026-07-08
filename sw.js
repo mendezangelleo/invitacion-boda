@@ -1,10 +1,11 @@
 /* CONTENIDO PARA sw.js */
 
-const CACHE = 'invitacion-v3';
+const CACHE = 'invitacion-v4';
 const ASSETS = [
   '/',
   '/index.html',
   '/rsvp.html',
+  '/desde-lejos.html',
   '/offline.html',
   '/manifest.webmanifest',
 

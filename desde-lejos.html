@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="color-scheme" content="light">
+  <title>Desde Lejos — Anyela & Angel</title>
+  <meta name="theme-color" content="#527e69">
+  <meta name="robots" content="noindex">
+
+  <meta property="og:title" content="Anyela & Angel — Mensaje desde lejos" />
+  <meta property="og:description" content="Aunque no puedas estar, tus palabras nos abrazan. Dejanos tu mensaje." />
+  <meta property="og:image" content="https://www.nuestraboda-anyela-angel.com/img/portada.png" />
+  <meta property="og:url" content="https://www.nuestraboda-anyela-angel.com/desde-lejos.html" />
+  <meta property="og:type" content="website" />
+
+  <link rel="icon" href="img/Logo_definitivo_redondo.png" type="image/png" />
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Montserrat:wght@400;500;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+
+  <style>
+    :root {
+      --olive:   #527e69;
+      --beige:   #A9C4A4;
+      --cream:   #FAF1E4;
+      --text:    #344C3D;
+      --border:  rgba(82,126,105,.18);
+      --glass:   rgba(255,255,255,.88);
+      --shadow:  0 8px 28px rgba(0,0,0,.1);
+      --font-t:  'Dancing Script', cursive;
+      --font-b:  'Montserrat', sans-serif;
+      color-scheme: light;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html {
+      min-height: 100%; -webkit-font-smoothing: antialiased;
+      background-color: #FAF1E4;
+    }
+    body { min-height: 100%; -webkit-font-smoothing: antialiased; }
+    * { -webkit-tap-highlight-color: rgba(0,0,0,0) !important; }
+
+    body {
+      font-family: var(--font-b);
+      color: var(--text);
+      background: transparent;
+      position: relative;
+    }
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      background-image: url('img/vecteezy_ai-generated-eucalyptus-leaves-background-on-white-marble_35463410.jpg');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      pointer-events: none;
+    }
+
+    /* ── HEADER ── */
+    .hdr {
+      position: fixed; inset: 0 0 auto; height: 64px;
+      display: flex; align-items: center; justify-content: center; gap: 10px;
+      background: rgba(250,241,228,.6);
+      backdrop-filter: blur(14px) saturate(140%); -webkit-backdrop-filter: blur(14px) saturate(140%);
+      border-bottom: 1px solid rgba(82,126,105,.15);
+      box-shadow: 0 4px 16px rgba(0,0,0,.05); z-index: 200;
+    }
+    .hdr img { height: 44px; width: 44px; border-radius: 50%; object-fit: cover; }
+    .hdr .hdr-title { font-family: var(--font-t); font-size: 1.35rem; color: var(--olive); }
+
+    /* ── MAIN ── */
+    .dl-main {
+      padding: 80px 16px 40px;
+      max-width: 540px;
+      margin: 0 auto;
+    }
+
+    /* ── HERO ── */
+    .dl-hero {
+      text-align: center;
+      padding: 20px 0 24px;
+    }
+    .dl-hero-icon {
+      font-size: 2.4rem;
+      margin-bottom: 8px;
+      display: block;
+    }
+    .dl-hero h1 {
+      font-family: var(--font-t);
+      font-size: clamp(2.4rem, 6vw, 3.2rem);
+      color: var(--olive);
+      margin-bottom: 10px;
+    }
+    .dl-hero p {
+      font-size: .95rem;
+      line-height: 1.6;
+      opacity: .8;
+      font-style: italic;
+      max-width: 420px;
+      margin: 0 auto;
+    }
+    .dl-divider {
+      width: 60px;
+      height: 2px;
+      background: var(--beige);
+      margin: 18px auto 0;
+      border: none;
+    }
+
+    /* ── FORM CARD ── */
+    .dl-card {
+      background: var(--glass);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 28px 22px 32px;
+      box-shadow: var(--shadow);
+    }
+    .dl-form-title {
+      font-family: var(--font-t);
+      font-size: 1.35rem;
+      color: var(--olive);
+      text-align: center;
+      margin-bottom: 22px;
+    }
+
+    /* ── FORM FIELDS ── */
+    .dl-field {
+      margin-bottom: 18px;
+    }
+    .dl-label {
+      display: block;
+      font-size: .82rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 6px;
+    }
+    .dl-input,
+    .dl-select,
+    .dl-textarea {
+      width: 100%;
+      border: 1.5px solid var(--border);
+      border-radius: 12px;
+      padding: 12px 14px;
+      font-size: 16px;
+      font-family: var(--font-b);
+      color: var(--text);
+      background: #fff;
+      outline: none;
+      transition: border-color .15s;
+      -webkit-appearance: none;
+    }
+    .dl-input:focus,
+    .dl-select:focus,
+    .dl-textarea:focus {
+      border-color: var(--olive);
+    }
+    .dl-input:focus-visible,
+    .dl-select:focus-visible,
+    .dl-textarea:focus-visible,
+    .dl-submit:focus-visible,
+    .dl-another:focus-visible,
+    .dl-back-link:focus-visible {
+      outline: 2px solid var(--olive);
+      outline-offset: 2px;
+    }
+    .dl-input.dl-error,
+    .dl-select.dl-error,
+    .dl-textarea.dl-error {
+      border-color: #c0392b;
+      background: rgba(192,57,43,.04);
+    }
+
+    /* Custom select arrow */
+    .dl-select {
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23344C3D' stroke-width='1.5' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 14px center;
+      padding-right: 38px;
+      cursor: pointer;
+    }
+
+    .dl-textarea {
+      resize: none;
+      min-height: 130px;
+      line-height: 1.6;
+    }
+    .dl-char-count {
+      text-align: right;
+      font-size: .75rem;
+      color: #888;
+      margin-top: 4px;
+    }
+
+    /* ── PRIVATE CHECKBOX ── */
+    .dl-private {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      margin: 20px 0 6px;
+      cursor: pointer;
+    }
+    .dl-private input[type=checkbox] {
+      width: 18px;
+      height: 18px;
+      accent-color: var(--olive);
+      cursor: pointer;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+    .dl-private-label {
+      font-size: .85rem;
+      font-weight: 600;
+      color: var(--text);
+    }
+    .dl-private-note {
+      font-size: .76rem;
+      color: #888;
+      margin-top: 2px;
+      line-height: 1.4;
+    }
+
+    /* ── SUBMIT BUTTON ── */
+    .dl-submit {
+      margin-top: 22px;
+      width: 100%;
+      background: var(--olive);
+      color: #fff;
+      border: none;
+      border-radius: 999px;
+      padding: 14px;
+      font-size: .95rem;
+      font-family: var(--font-b);
+      font-weight: 700;
+      cursor: pointer;
+      transition: opacity .15s, filter .15s;
+    }
+    .dl-submit:hover { filter: brightness(1.08); }
+    .dl-submit:disabled { opacity: .5; cursor: not-allowed; }
+
+    /* ── ERROR MESSAGE ── */
+    .dl-error-msg {
+      margin-top: 14px;
+      padding: 10px 14px;
+      border-radius: 10px;
+      background: rgba(192,57,43,.08);
+      color: #c0392b;
+      font-size: .84rem;
+      font-weight: 600;
+      text-align: center;
+    }
+
+    /* ── SUCCESS STATE ── */
+    @keyframes dlFadeIn {
+      from { opacity: 0; transform: translateY(16px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .dl-success {
+      text-align: center;
+      padding: 40px 20px;
+      animation: dlFadeIn .5s ease both;
+    }
+    .dl-success-icon {
+      font-size: 3rem;
+      display: block;
+      margin-bottom: 14px;
+    }
+    .dl-success h2 {
+      font-family: var(--font-t);
+      font-size: 1.8rem;
+      color: var(--olive);
+      margin-bottom: 10px;
+    }
+    .dl-success p {
+      font-size: .92rem;
+      line-height: 1.6;
+      opacity: .8;
+      max-width: 360px;
+      margin: 0 auto 24px;
+    }
+    .dl-another {
+      display: inline-block;
+      background: var(--olive);
+      color: #fff;
+      border: none;
+      border-radius: 999px;
+      padding: 12px 28px;
+      font-size: .9rem;
+      font-family: var(--font-b);
+      font-weight: 700;
+      cursor: pointer;
+      transition: filter .15s;
+      margin-bottom: 12px;
+    }
+    .dl-another:hover { filter: brightness(1.08); }
+    .dl-back-link {
+      display: block;
+      color: var(--olive);
+      font-size: .85rem;
+      text-decoration: underline;
+      text-underline-offset: 3px;
+      margin-top: 8px;
+    }
+
+    /* ── FOOTER ── */
+    .dl-footer {
+      text-align: center;
+      padding: 30px 16px 24px;
+      font-size: .82rem;
+      opacity: .6;
+    }
+    .dl-footer a {
+      color: var(--olive);
+      text-decoration: underline;
+      text-underline-offset: 3px;
+      margin: 0 8px;
+    }
+    .dl-footer a:focus-visible {
+      outline: 2px solid var(--olive);
+      outline-offset: 2px;
+    }
+  </style>
+</head>
+<body>
+
+  <header class="hdr">
+    <img src="img/Logo definitivo.png" alt="A&A">
+    <span class="hdr-title">Anyela &amp; Angel</span>
+  </header>
+
+  <main class="dl-main">
+
+    <!-- Hero -->
+    <section class="dl-hero" aria-label="Mensaje desde lejos">
+      <span class="dl-hero-icon" aria-hidden="true">🍃</span>
+      <h1>Desde lejos</h1>
+      <p>Aunque no puedas estar, tus palabras nos abrazan. Dejanos un mensaje que guardaremos por siempre en el corazon.</p>
+      <hr class="dl-divider" aria-hidden="true">
+    </section>
+
+    <!-- Form -->
+    <div class="dl-card" id="dlFormCard">
+      <form class="dl-form" id="dlForm" novalidate>
+        <div class="dl-form-title">✉️ Tu mensaje para los novios</div>
+
+        <div class="dl-field">
+          <label class="dl-label" for="dlName">Tu nombre</label>
+          <input class="dl-input" type="text" id="dlName" name="name"
+                 required maxlength="50" autocomplete="name"
+                 placeholder="Nombre y apellido">
+        </div>
+
+        <div class="dl-field">
+          <label class="dl-label" for="dlOrigin">De donde escribes</label>
+          <input class="dl-input" type="text" id="dlOrigin" name="origin"
+                 required maxlength="100"
+                 placeholder="Ciudad, pais...">
+        </div>
+
+        <div class="dl-field">
+          <label class="dl-label" for="dlRelation">Relacion con la pareja</label>
+          <select class="dl-select" id="dlRelation" name="relationship" required>
+            <option value="" disabled selected>Selecciona...</option>
+            <option value="Amigo/a">Amigo/a</option>
+            <option value="Familiar">Familiar</option>
+            <option value="Colega">Colega</option>
+          </select>
+        </div>
+
+        <div class="dl-field">
+          <label class="dl-label" for="dlMessage">Tu mensaje</label>
+          <textarea class="dl-textarea" id="dlMessage" name="message"
+                    required maxlength="1000"
+                    placeholder="Escribi tu mensaje para Anyela & Angel..."></textarea>
+          <div class="dl-char-count" id="dlCharCount" aria-live="polite">0 / 1000</div>
+        </div>
+
+        <label class="dl-private">
+          <input type="checkbox" id="dlPrivate">
+          <div>
+            <div class="dl-private-label">🔒 Solo para los novios</div>
+            <div class="dl-private-note">Solo Anyela & Angel podran ver este mensaje, no aparece en el feed publico.</div>
+          </div>
+        </label>
+
+        <button class="dl-submit" type="submit" id="dlSubmit">Enviar mi mensaje 💛</button>
+
+        <div class="dl-error-msg" id="dlError" role="alert" hidden></div>
+      </form>
+    </div>
+
+    <!-- Success -->
+    <div class="dl-success" id="dlSuccess" role="status" tabindex="-1" hidden>
+      <span class="dl-success-icon" aria-hidden="true">💌</span>
+      <h2>Tu mensaje llego al corazon</h2>
+      <p>Gracias por acompanarnos desde donde estes. Tus palabras significan mucho para nosotros.</p>
+      <button class="dl-another" id="dlAnother">Enviar otro mensaje</button>
+      <a class="dl-back-link" href="index.html">Ver la invitacion</a>
+    </div>
+
+  </main>
+
+  <footer class="dl-footer">
+    <a href="galeria.html">Ver galeria</a>
+    <a href="index.html">Ir a la invitacion</a>
+  </footer>
+
+  <script>
+    var ENDPOINT = 'https://script.google.com/macros/s/AKfycbxwXGm1twFAyPz8C_FM3BH2sN40t85Ib7SnczDOo4hd3fTJveiifHOMrCmJPHXtFhh_Ng/exec';
+
+    var form      = document.getElementById('dlForm');
+    var formCard  = document.getElementById('dlFormCard');
+    var successEl = document.getElementById('dlSuccess');
+    var submitBtn = document.getElementById('dlSubmit');
+    var errorEl   = document.getElementById('dlError');
+    var nameIn    = document.getElementById('dlName');
+    var originIn  = document.getElementById('dlOrigin');
+    var relIn     = document.getElementById('dlRelation');
+    var msgIn     = document.getElementById('dlMessage');
+    var privateIn = document.getElementById('dlPrivate');
+    var charCount = document.getElementById('dlCharCount');
+    var anotherBtn = document.getElementById('dlAnother');
+
+    // Character counter
+    msgIn.addEventListener('input', function() {
+      var len = msgIn.value.length;
+      charCount.textContent = len + ' / 1000';
+    });
+
+    // Form submit
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      // Clear previous errors
+      errorEl.hidden = true;
+      errorEl.textContent = '';
+      var fields = [nameIn, originIn, relIn, msgIn];
+      for (var i = 0; i < fields.length; i++) {
+        fields[i].classList.remove('dl-error');
+      }
+
+      // Validate
+      var valid = true;
+      if (!nameIn.value.trim()) { nameIn.classList.add('dl-error'); valid = false; }
+      if (!originIn.value.trim()) { originIn.classList.add('dl-error'); valid = false; }
+      if (!relIn.value) { relIn.classList.add('dl-error'); valid = false; }
+      if (!msgIn.value.trim()) { msgIn.classList.add('dl-error'); valid = false; }
+
+      if (!valid) {
+        errorEl.textContent = 'Por favor completa todos los campos.';
+        errorEl.hidden = false;
+        // Focus first error field
+        for (var j = 0; j < fields.length; j++) {
+          if (fields[j].classList.contains('dl-error')) { fields[j].focus(); break; }
+        }
+        return;
+      }
+
+      // Disable and send
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Enviando...';
+
+      var payload = JSON.stringify({
+        action: 'message',
+        name: nameIn.value.trim(),
+        message: msgIn.value.trim(),
+        category: '',
+        private: privateIn.checked,
+        origin: originIn.value.trim(),
+        relationship: relIn.value,
+        source: 'desde-lejos'
+      });
+
+      sendMessage(payload);
+    });
+
+    function sendMessage(payload) {
+      fetch(ENDPOINT, {
+        method: 'POST',
+        headers: { 'Content-Type': 'text/plain' },
+        body: payload
+      })
+      .then(function(resp) { return resp.json(); })
+      .then(function() {
+        showSuccess();
+      })
+      .catch(function() {
+        // CORS fallback: request still reaches the server
+        fetch(ENDPOINT, {
+          method: 'POST',
+          mode: 'no-cors',
+          headers: { 'Content-Type': 'text/plain' },
+          body: payload
+        }).then(function() {
+          showSuccess();
+        }).catch(function() {
+          showSuccess(); // Assume success (same pattern as galeria.html)
+        });
+      });
+    }
+
+    function showSuccess() {
+      formCard.hidden = true;
+      successEl.hidden = false;
+      successEl.focus();
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Enviar mi mensaje 💛';
+    }
+
+    function showError(msg) {
+      errorEl.textContent = msg;
+      errorEl.hidden = false;
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Enviar mi mensaje 💛';
+    }
+
+    // Send another
+    anotherBtn.addEventListener('click', function() {
+      form.reset();
+      charCount.textContent = '0 / 1000';
+      var fields = [nameIn, originIn, relIn, msgIn];
+      for (var i = 0; i < fields.length; i++) {
+        fields[i].classList.remove('dl-error');
+      }
+      errorEl.hidden = true;
+      successEl.hidden = true;
+      formCard.hidden = false;
+      nameIn.focus();
+    });
+  </script>
+
+</body>
+</html>
