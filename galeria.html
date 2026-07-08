@@ -111,7 +111,7 @@
     .action-btn:disabled { opacity: .45; cursor: not-allowed; }
 
     /* ── CATEGORY TABS ── */
-    .cat-wrap { position: relative; margin-bottom: 18px; }
+    .cat-wrap { position: relative; margin-bottom: 18px; -webkit-tap-highlight-color: transparent !important; }
     .cat-wrap::after {
       content: '';
       position: absolute;
@@ -131,9 +131,18 @@
       cursor: pointer; z-index: 2; padding: 0;
       font-size: .8rem; color: var(--olive); opacity: .65;
       transition: opacity .25s, transform .25s;
+      -webkit-tap-highlight-color: transparent !important;
+      -webkit-appearance: none; -moz-appearance: none; appearance: none;
+      outline: none !important;
+      user-select: none; -webkit-user-select: none;
     }
     .cat-wrap.at-end .cat-arrow-btn {
       opacity: 0; pointer-events: none; transform: translateY(-55%) scale(0.7);
+    }
+    .cat-arrow-btn:focus, .cat-arrow-btn:focus-visible, .cat-arrow-btn:active {
+      outline: none !important;
+      box-shadow: none !important;
+      -webkit-tap-highlight-color: transparent !important;
     }
     .cat-tabs {
       display: flex; gap: 6px; overflow-x: auto; padding-bottom: 4px;
