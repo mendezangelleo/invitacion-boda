@@ -1024,13 +1024,13 @@
       const hdr = document.createElement('div');
       hdr.className = 'feed-header';
       hdr.innerHTML = `
-        <div class=”feed-avatar” style=”background:${bg}”>${ini}</div>
-        <div class=”feed-meta”>
-          <div class=”feed-sender”>${escHtml(msg.sender || 'Invitado')}${msg.source === 'desde-lejos' ? '<span class=”msg-desde-lejos-badge”>Desde lejos</span>' : ''}</div>
-          ${msg.origin ? '<div class=”msg-origin”>desde ' + escHtml(msg.origin) + '</div>' : ''}
-          <div class=”feed-time”>${timeAgo(msg.created)}</div>
+        <div class="feed-avatar" style="background:${bg}">${ini}</div>
+        <div class="feed-meta">
+          <div class="feed-sender">${escHtml(msg.sender || 'Invitado')}${msg.source === 'desde-lejos' ? '<span class="msg-desde-lejos-badge">Desde lejos</span>' : ''}</div>
+          ${msg.origin ? '<div class="msg-origin">desde ' + escHtml(msg.origin) + '</div>' : ''}
+          <div class="feed-time">${timeAgo(msg.created)}</div>
         </div>
-        ${msg.isPrivate ? '<span class=”msg-private-badge”><i class=”fa-solid fa-lock”></i> privado</span>' : ''}
+        ${msg.isPrivate ? '<span class="msg-private-badge"><i class="fa-solid fa-lock"></i> privado</span>' : ''}
       `;
       card.appendChild(hdr);
 
@@ -1038,9 +1038,9 @@
       const body = document.createElement('div');
       body.className = 'msg-body';
       body.innerHTML = `
-        <span class=”msg-quote-mark”>”</span>
-        <p class=”msg-text”>${escHtml(msg.message)}</p>
-        ${msg.category && msg.source !== 'desde-lejos' ? `<span class=”msg-cat-chip”>${escHtml(msg.category)}</span>` : ''}
+        <span class="msg-quote-mark">“</span>
+        <p class="msg-text">${escHtml(msg.message)}</p>
+        ${msg.category && msg.source !== 'desde-lejos' ? `<span class="msg-cat-chip">${escHtml(msg.category)}</span>` : ''}
       `;
       card.appendChild(body);
 
