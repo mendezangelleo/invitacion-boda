@@ -159,8 +159,7 @@
     .dl-select:focus-visible,
     .dl-textarea:focus-visible,
     .dl-submit:focus-visible,
-    .dl-another:focus-visible,
-    .dl-back-link:focus-visible {
+    .dl-another:focus-visible {
       outline: 2px solid var(--olive);
       outline-offset: 2px;
     }
@@ -293,32 +292,6 @@
       margin-bottom: 12px;
     }
     .dl-another:hover { filter: brightness(1.08); }
-    .dl-back-link {
-      display: block;
-      color: var(--olive);
-      font-size: .85rem;
-      text-decoration: underline;
-      text-underline-offset: 3px;
-      margin-top: 8px;
-    }
-
-    /* ── FOOTER ── */
-    .dl-footer {
-      text-align: center;
-      padding: 30px 16px 24px;
-      font-size: .82rem;
-      opacity: .6;
-    }
-    .dl-footer a {
-      color: var(--olive);
-      text-decoration: underline;
-      text-underline-offset: 3px;
-      margin: 0 8px;
-    }
-    .dl-footer a:focus-visible {
-      outline: 2px solid var(--olive);
-      outline-offset: 2px;
-    }
   </style>
 </head>
 <body>
@@ -395,15 +368,9 @@
       <h2>Tu mensaje llego al corazon</h2>
       <p>Gracias por regalarnos tus palabras. Significan mucho para nosotros.</p>
       <button class="dl-another" id="dlAnother">Enviar otro mensaje</button>
-      <a class="dl-back-link" href="index.html">Ver la invitacion</a>
     </div>
 
   </main>
-
-  <footer class="dl-footer">
-    <a href="galeria.html">Ver galeria</a>
-    <a href="index.html">Ir a la invitacion</a>
-  </footer>
 
   <script>
     var ENDPOINT = 'https://script.google.com/macros/s/AKfycbxwXGm1twFAyPz8C_FM3BH2sN40t85Ib7SnczDOo4hd3fTJveiifHOMrCmJPHXtFhh_Ng/exec';
