@@ -136,7 +136,6 @@
       margin-bottom: 6px;
     }
     .dl-input,
-    .dl-select,
     .dl-textarea {
       width: 100%;
       border: 1.5px solid var(--border);
@@ -151,12 +150,10 @@
       -webkit-appearance: none;
     }
     .dl-input:focus,
-    .dl-select:focus,
     .dl-textarea:focus {
       border-color: var(--olive);
     }
     .dl-input:focus-visible,
-    .dl-select:focus-visible,
     .dl-textarea:focus-visible,
     .dl-submit:focus-visible,
     .dl-another:focus-visible {
@@ -164,19 +161,9 @@
       outline-offset: 2px;
     }
     .dl-input.dl-error,
-    .dl-select.dl-error,
     .dl-textarea.dl-error {
       border-color: #c0392b;
       background: rgba(192,57,43,.04);
-    }
-
-    /* Custom select arrow */
-    .dl-select {
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23344C3D' stroke-width='1.5' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
-      background-repeat: no-repeat;
-      background-position: right 14px center;
-      padding-right: 38px;
-      cursor: pointer;
     }
 
     .dl-textarea {
@@ -332,12 +319,9 @@
 
         <div class="dl-field">
           <label class="dl-label" for="dlRelation">Relacion con la pareja</label>
-          <select class="dl-select" id="dlRelation" name="relationship" required>
-            <option value="" disabled selected>Selecciona...</option>
-            <option value="Amigo/a">Amigo/a</option>
-            <option value="Familiar">Familiar</option>
-            <option value="Colega">Colega</option>
-          </select>
+          <input class="dl-input" type="text" id="dlRelation" name="relationship"
+                 required maxlength="50"
+                 placeholder="Ej: amiga de la infancia, prima, companero de trabajo...">
         </div>
 
         <div class="dl-field">
@@ -410,7 +394,7 @@
       var valid = true;
       if (!nameIn.value.trim()) { nameIn.classList.add('dl-error'); valid = false; }
       if (!originIn.value.trim()) { originIn.classList.add('dl-error'); valid = false; }
-      if (!relIn.value) { relIn.classList.add('dl-error'); valid = false; }
+      if (!relIn.value.trim()) { relIn.classList.add('dl-error'); valid = false; }
       if (!msgIn.value.trim()) { msgIn.classList.add('dl-error'); valid = false; }
 
       if (!valid) {
@@ -434,7 +418,7 @@
         category: '',
         private: privateIn.checked,
         origin: originIn.value.trim(),
-        relationship: relIn.value,
+        relationship: relIn.value.trim(),
         source: 'desde-lejos'
       });
 
