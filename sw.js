@@ -1,6 +1,6 @@
 /* CONTENIDO PARA sw.js */
 
-const CACHE = 'invitacion-v5';
+const CACHE = 'invitacion-v6';
 const ASSETS = [
   '/',
   '/index.html',
@@ -15,7 +15,7 @@ const ASSETS = [
   'img/20251015_210918.jpg',
   'img/IMG_1939.JPG',
   'img/Logo definitivo.png',
-  'img/Logo-mini.png',
+  'img/Logo_definitivo_redondo.png',
 
   '/assets/Invitacion.ics'
 ];
